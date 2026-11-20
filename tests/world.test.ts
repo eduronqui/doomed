@@ -342,6 +342,18 @@ describe('World', () => {
       expect(make().stats.totalKills).toBe(2);
     });
 
+    it('lets a group that wakes at once give a single cry', () => {
+      const w = make(DIFFICULTIES[2]);
+      w.player.health = 10000;
+      const log: string[] = [];
+      for (let t = 0; t < 0.4; t += 1 / 60) {
+        w.update(1 / 60, { ...IDLE_INPUT, moveX: 1 });
+        log.push(...events(w));
+      }
+      expect(w.monsters.filter((m) => m.state !== 'idle')).toHaveLength(2);
+      expect(log.filter((e) => e.startsWith('sound:alert'))).toHaveLength(1);
+    });
+
     it('rejects a trap door narrower than its closet', () => {
       const narrow = '#########\n#P.k....#\n#####T###\n    #..#\n    ####';
       expect(() => new World(parseLevel('t', narrow), 1, DIFFICULTIES[1], undefined, { ambush })).toThrow(/as wide as its closet/);
@@ -370,6 +382,20 @@ describe('World', () => {
       expect(w.monsters.length - plain).toBe(info.ambush!.groups[d.id].length);
       expect(w.monsters.slice(plain).every((m) => !w.isRevealedAt(m.x, m.y))).toBe(true);
     }
+  });
+
+  it('lets an enemy cry only the first time it becomes alert', () => {
+    const w = new World(parseLevel('t', '#######\n#P..f.#\n#######'));
+    const fiend = w.monsters[0];
+    const wake = (): string[] => {
+      (w as unknown as { wake(m: typeof fiend): void }).wake(fiend);
+      return events(w).filter((e) => e.startsWith('sound:alert'));
+    };
+    expect(wake()).toHaveLength(1);
+    fiend.state = 'hold';
+    w.time += 2;
+    expect(wake()).toHaveLength(0);
+    expect(fiend.state).toBe('chase');
   });
 
   describe('spotting the player', () => {

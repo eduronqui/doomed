@@ -199,6 +199,7 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 - It sees you.
 - It hears a loud weapon or a barrel explosion within 13 tiles. Walls do not stop the sound.
 - Another enemy within 10 tiles sees you. The one that sees you gives its alert cry, and that wakes the others. Walls do not stop the cry. Only an enemy that sees you cries out, so a woken enemy does not pass the alarm on.
+- Each enemy cries only the first time it becomes alert. If it loses you and finds you again, it still alerts the enemies near it, but silently. You hear at most one cry every half second, so a group that wakes at once gives one cry.
 - You hit it.
 
 **Attacks**

@@ -100,6 +100,7 @@ export interface Monster {
   pathTimer: number;
   lookTimer: number;
   seesPlayer: boolean;
+  cried: boolean;
   moving: boolean;
   walkTime: number;
   deathTime: number;
@@ -182,6 +183,7 @@ interface HitResult {
 const PICKUP_RADIUS = 0.6;
 const NOISE_RANGE = 13;
 const SHOUT_RANGE = 10;
+const CRY_GAP = 0.5;
 const EXPLOSION_RADIUS = 2.6;
 const EXPLOSION_DAMAGE = 110;
 const FIREBALL_SPEED = 7.5;
@@ -759,6 +761,7 @@ export class World {
       pathTimer: 0,
       lookTimer: this.rng.range(0, 0.3),
       seesPlayer: false,
+      cried: false,
       moving: false,
       walkTime: 0,
       deathTime: 0,
@@ -785,7 +788,9 @@ export class World {
     m.lostTime = 0;
     m.goal = null;
     m.pathTimer = 0;
-    if (this.throttled(`alert-${m.kind}`, 0.6)) this.sound(m.def.alertSound, m.x, m.y);
+    if (m.cried) return;
+    m.cried = true;
+    if (this.throttled('alert-cry', CRY_GAP)) this.sound(m.def.alertSound, m.x, m.y);
   }
 
   private spot(m: Monster): void {
