@@ -1,12 +1,14 @@
 import { ALL_LEVELS } from '../../levels';
-import { ITEM_NAMES, WEAPON_ORDER, type ItemKind } from '../../sim/defs';
+import { ITEM_NAMES, type ItemKind } from '../../sim/defs';
+import { WEAPON_ORDER } from '../../weapons';
+import { WEAPON_ART } from '../../weapons/art';
 import { Grid } from '../../sim/grid';
 import type { FloorKind } from '../../sim/level';
 import type { Pix } from '../pixel';
 import { packSheet, type Sheet } from '../sheet';
 import { CHARACTERS, CHARACTER_ART, DIRS, FRAMES } from '../../characters/art';
 import { FLOOR_VARIANTS, WALL_VARIANTS, key } from '../atlas';
-import { barrelTexture, bloodFx, decoTexture, explosion, fireball, itemTexture, muzzle, puff, scorch, weaponIcon } from './items';
+import { barrelTexture, bloodFx, decoTexture, explosion, fireball, itemTexture, muzzle, puff, scorch } from './items';
 import { doorPiece, exitTexture, floorTexture, secretPiece, wallTexture } from './tiles';
 
 function addDoorPieces(art: Map<string, Pix>): void {
@@ -54,7 +56,7 @@ export function buildArt(): Map<string, Pix> {
   }
   art.set(key.fx('scorch', 0), scorch());
   art.set(key.fx('muzzle', 0), muzzle());
-  for (const w of WEAPON_ORDER) art.set(key.weaponIcon(w), weaponIcon(w));
+  for (const w of WEAPON_ORDER) art.set(key.weaponIcon(w), WEAPON_ART[w].icon());
   return art;
 }
 

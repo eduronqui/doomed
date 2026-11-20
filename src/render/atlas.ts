@@ -1,5 +1,6 @@
 import type Phaser from 'phaser';
-import type { DecoKind, ItemKind, WeaponId } from '../sim/defs';
+import type { DecoKind, ItemKind } from '../sim/defs';
+import type { WeaponId } from '../weapons';
 import type { DoorKind, FloorKind } from '../sim/level';
 import type { CharacterKind } from '../characters/art';
 

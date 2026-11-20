@@ -1,7 +1,7 @@
 import type { Dir } from '../sim/types';
-import { Pix, shade } from '../render/pixel';
+import { Pix, shade, shadedRect } from '../render/pixel';
 import type { CharacterArt } from './art';
-import { OUTLINE, bloodPool, shadedRect, type Frame } from './humanoid.art';
+import { OUTLINE, bloodPool, type Frame } from './humanoid.art';
 
 export const BRUTE_PALETTE = {
   skin: 0x8e3a2c,

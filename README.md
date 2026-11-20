@@ -50,7 +50,7 @@ src/
   main.ts             Creates the Phaser game, the boot scene and the shared services
   style.css           Interface styles (stone panels, bars, slots, screens)
   sim/                Game rules. Pure TypeScript, no Phaser, fully testable
-    defs.ts           Weapons, items, keycards, sounds, difficulties: tuning values
+    defs.ts           Items, keycards, sounds, difficulties: tuning values
     level.ts          ASCII map parser, tile types, hazard damage
     grid.ts           Tiles, doors and door groups, rooms, collision, raycasts
     pathfind.ts       A* path search (8 directions, no corner cutting)
@@ -61,7 +61,7 @@ src/
     index.ts          MONSTERS and MARINE (data only, used by the simulation)
     types.ts          MonsterKind, MonsterDef, MarineDef and their trait types
     art.ts            CHARACTER_ART registry and CharacterKind (used by the sprite sheet)
-    humanoid.art.ts   Shared humanoid body: legs, torso, head, held weapons, corpse
+    humanoid.art.ts   Shared humanoid body: legs, torso, head, forearms, corpse (calls the weapon art)
     marine.ts         MARINE: speed, size, starting loadout
     marine.art.ts     MARINE_ART: one sprite set per weapon, corpse
     husk.ts           HUSK: stats and traits      husk.art.ts    HUSK_ART
@@ -69,6 +69,15 @@ src/
     fiend.ts          FIEND                       fiend.art.ts   FIEND_ART
     brute.ts          BRUTE                       brute.art.ts   BRUTE_ART (and BRUTE_PALETTE)
     shade.ts          SHADE                       shade.art.ts   SHADE_ART (a ghostly Brute)
+  weapons/            Everything about each weapon, one name per weapon
+    index.ts          WEAPONS, WEAPON_ORDER, FALLBACK_ORDER, MAX_AMMO (data only, used by the simulation)
+    types.ts          WeaponId, AmmoType, WeaponDef
+    art.ts            WEAPON_ART registry (used by the sprite sheet)
+    held.art.ts       WeaponArt and HeldPose types, shared gun colors
+    knife.ts          KNIFE: stats                 knife.art.ts    KNIFE_ART: held poses, icon
+    pistol.ts         PISTOL                       pistol.art.ts   PISTOL_ART
+    shotgun.ts        SHOTGUN                      shotgun.art.ts  SHOTGUN_ART
+    rotary.ts         ROTARY                       rotary.art.ts   ROTARY_ART
   levels/
     index.ts          LEVELS (play order), TRAINING, ALL_LEVELS, levelInfo()
     types.ts          LevelInfo and Tip types
@@ -88,7 +97,7 @@ src/
     art/catalog.ts    The list of every sprite in the sheet (including door pieces for all levels)
     pixel.ts          Small pixel canvas with outline, mirror and shading helpers
     art/tiles.ts      Floors, walls, doors, exit switch
-    art/items.ts      Items, decorations, barrels, effects, weapon icons
+    art/items.ts      Items, decorations, barrels, effects
     sfx.ts            WebAudio sound effects (class Sfx)
     music.ts          Music engine: look-ahead step sequencer, guitar, bass, lead and drum voices
     tracks.ts         Track type, pattern parser and validation

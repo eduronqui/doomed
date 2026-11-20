@@ -1,19 +1,6 @@
-import {
-  ITEM_NAMES,
-  MAX_AMMO,
-  SOLID_DECOS,
-  WEAPONS,
-  WEAPON_ORDER,
-  type AmmoType,
-  DEFAULT_DIFFICULTY,
-  type DecoKind,
-  type Difficulty,
-  type KeyColor,
-  type ItemKind,
-  type SoundId,
-  type WeaponId,
-} from './defs';
+import { ITEM_NAMES, SOLID_DECOS, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
+import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
 import { Grid, type Door } from './grid';
 import { FLOOR_HAZARD, type DoorKind, type LevelData } from './level';
 import { findPath } from './pathfind';
@@ -438,8 +425,7 @@ export class World {
   }
 
   private bestWeapon(): WeaponId {
-    const prefs: WeaponId[] = ['shotgun', 'rotary', 'pistol', 'knife'];
-    return prefs.find((w) => this.player.weapons.has(w) && this.hasAmmoFor(w)) ?? 'knife';
+    return FALLBACK_ORDER.find((w) => this.player.weapons.has(w) && this.hasAmmoFor(w)) ?? 'knife';
   }
 
   private playerFire(): void {

@@ -1,4 +1,5 @@
-import type { DecoKind, ItemKind, WeaponId } from '../../sim/defs';
+import type { DecoKind, ItemKind } from '../../sim/defs';
+import { WEAPON_ART } from '../../weapons/art';
 import { Pix, mix, seeded, shade } from '../pixel';
 
 const OUTLINE = 0x140d0a;
@@ -15,53 +16,6 @@ function box(p: Pix, x: number, y: number, w: number, h: number, c: number): voi
 
 function cross(p: Pix, cx: number, cy: number, s: number, c: number): void {
   p.rect(cx - s, cy, s * 2 + 1, 1, c).rect(cx, cy - s, 1, s * 2 + 1, c);
-}
-
-function shotgunIcon(): Pix {
-  const p = new Pix(32, 32);
-  p.rect(4, 17, 9, 3, 0x6a4424).rect(4, 17, 9, 1, 0x8a5c34).rect(4, 20, 4, 2, 0x5a381c);
-  p.rect(12, 16, 16, 2, 0x34363c).rect(12, 16, 16, 1, 0x5c606a);
-  p.rect(14, 18, 8, 2, 0x7a5030).rect(14, 18, 8, 1, 0x9a6a40);
-  p.rect(12, 18, 2, 3, 0x2a2c30);
-  return p.outline(OUTLINE);
-}
-
-function rotaryIcon(): Pix {
-  const p = new Pix(32, 32);
-  p.rect(5, 15, 10, 6, 0x4a4d54).rect(5, 15, 10, 1, 0x7a7e88);
-  p.rect(15, 14, 13, 1, 0x5c606a).rect(15, 16, 13, 1, 0x50535a).rect(15, 18, 13, 1, 0x5c606a).rect(15, 20, 12, 1, 0x50535a);
-  p.rect(15, 15, 13, 1, 0x2a2c30).rect(15, 17, 13, 1, 0x2a2c30).rect(15, 19, 13, 1, 0x2a2c30);
-  p.rect(15, 13, 2, 9, 0x3a3c42).rect(25, 13, 2, 9, 0x3a3c42);
-  p.rect(8, 21, 3, 4, 0x2c2e33).rect(11, 12, 3, 3, 0x2c2e33);
-  return p.outline(OUTLINE);
-}
-
-function pistolIcon(): Pix {
-  const p = new Pix(32, 32);
-  p.rect(10, 13, 13, 4, 0x3a3c42).rect(10, 13, 13, 1, 0x6a6e78).rect(22, 14, 1, 1, 0x18191c);
-  p.rect(11, 17, 4, 7, 0x5a3e24).rect(11, 17, 1, 7, 0x7a5430).rect(15, 17, 3, 2, 0x2a2c30);
-  return p.outline(OUTLINE);
-}
-
-function knifeIcon(): Pix {
-  const p = new Pix(32, 32);
-  p.line(9, 23, 13, 19, 0x3a2a1c).line(10, 23, 14, 19, 0x5a3e24);
-  p.rect(12, 18, 4, 2, 0x50535a);
-  for (let i = 0; i < 9; i++) p.set(15 + i, 17 - i, 0xc8ced8).set(16 + i, 17 - i, 0x8a909a);
-  return p.outline(OUTLINE);
-}
-
-export function weaponIcon(id: WeaponId): Pix {
-  switch (id) {
-    case 'knife':
-      return knifeIcon();
-    case 'pistol':
-      return pistolIcon();
-    case 'shotgun':
-      return shotgunIcon();
-    case 'rotary':
-      return rotaryIcon();
-  }
 }
 
 export function itemTexture(kind: ItemKind): Pix {
@@ -99,9 +53,9 @@ export function itemTexture(kind: ItemKind): Pix {
       for (let x = 10; x < 22; x += 3) p.set(x, 18, 0xf0d070);
       break;
     case 'shotgun':
-      return shotgunIcon();
+      return WEAPON_ART.shotgun.icon();
     case 'rotary':
-      return rotaryIcon();
+      return WEAPON_ART.rotary.icon();
     case 'redkey':
     case 'bluekey':
     case 'yellowkey':

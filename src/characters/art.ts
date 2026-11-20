@@ -1,4 +1,4 @@
-import type { WeaponId } from '../sim/defs';
+import type { WeaponId } from '../weapons';
 import type { Dir } from '../sim/types';
 import type { Pix } from '../render/pixel';
 import { BRUTE_ART } from './brute.art';

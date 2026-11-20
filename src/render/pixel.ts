@@ -134,6 +134,15 @@ export class Pix {
 
 }
 
+export function shadedRect(p: Pix, x: number, y: number, w: number, h: number, c: number): void {
+  for (let j = 0; j < h; j++) {
+    for (let i = 0; i < w; i++) {
+      const f = i === 0 ? 0.14 : i === w - 1 ? -0.3 : j === 0 ? 0.08 : 0;
+      p.set(x + i, y + j, shade(c, f));
+    }
+  }
+}
+
 export function seeded(key: string): Rng {
   let h = 2166136261;
   for (let i = 0; i < key.length; i++) h = Math.imul(h ^ key.charCodeAt(i), 16777619);

@@ -1,4 +1,5 @@
-import type { ItemKind, SoundId, WeaponId } from '../sim/defs';
+import type { ItemKind, SoundId } from '../sim/defs';
+import type { WeaponId } from '../weapons';
 import type { Carry } from '../sim/world';
 
 export type MonsterKind = 'husk' | 'shotgunner' | 'fiend' | 'brute' | 'shade';

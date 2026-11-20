@@ -1,9 +1,10 @@
-import type { WeaponId } from '../sim/defs';
 import type { Dir } from '../sim/types';
-import { Pix, seeded, shade } from '../render/pixel';
+import { Pix, seeded, shade, shadedRect } from '../render/pixel';
+import type { WeaponId } from '../weapons';
+import { WEAPON_ART } from '../weapons/art';
 
 export type Frame = 0 | 1 | 2 | 3;
-export type HeldWeapon = 'rifle' | 'none' | WeaponId;
+export type HeldWeapon = WeaponId | 'none';
 export const FRAMES: Frame[] = [0, 1, 2, 3];
 export const DIRS: Dir[] = ['n', 'e', 's', 'w'];
 
@@ -25,15 +26,6 @@ export interface Outfit {
 }
 
 export const OUTLINE = 0x140d0a;
-
-export function shadedRect(p: Pix, x: number, y: number, w: number, h: number, c: number): void {
-  for (let j = 0; j < h; j++) {
-    for (let i = 0; i < w; i++) {
-      const f = i === 0 ? 0.14 : i === w - 1 ? -0.3 : j === 0 ? 0.08 : 0;
-      p.set(x + i, y + j, shade(c, f));
-    }
-  }
-}
 
 function legs(p: Pix, o: Outfit, dir: Dir, frame: Frame): void {
   const lift = (leg: 0 | 1): number => (frame === 1 && leg === 0) || (frame === 2 && leg === 1) ? 1 : 0;
@@ -69,7 +61,7 @@ function torso(p: Pix, o: Outfit, dir: Dir, frame: Frame, rngKey: string): void 
     for (let i = 0; i < 6; i++) p.set(x0 + rng.int(1, w - 2), 14 + rng.int(0, 6), rng.chance(0.5) ? 0x7a0e0e : 0x9a1a14);
   }
   const swing = frame === 1 ? 1 : frame === 2 ? -1 : 0;
-  if (!side && aimsForward(o)) {
+  if (!side && o.weapon !== 'none') {
     shadedRect(p, 9, 14, 2, 4, o.body);
     shadedRect(p, 21, 14, 2, 4, o.body);
     if (o.pad >= 0) p.rect(8, 13, 4, 2, o.pad).rect(20, 13, 4, 2, shade(o.pad, -0.2));
@@ -135,122 +127,27 @@ function head(p: Pix, o: Outfit, dir: Dir): void {
   }
 }
 
-function aimsForward(o: Outfit): boolean {
-  return o.weapon !== 'rifle' && o.weapon !== 'none';
-}
-
-const MUZZLE = 0x0a0a0c;
-const GUN = 0x2c2e33;
-const GUN_HI = 0x50535a;
-const WOOD = 0x6a4424;
-const WOOD_HI = 0x8a5c34;
-const STEEL = 0xc8ced8;
-
 function forearmsSouth(p: Pix, o: Outfit): void {
   shadedRect(p, 10, 17, 4, 2, o.body);
   shadedRect(p, 18, 17, 4, 2, o.body);
 }
 
-function weaponSouth(p: Pix, o: Outfit, kick: number, attack: boolean): void {
-  if (aimsForward(o)) forearmsSouth(p, o);
-  switch (o.weapon) {
-    case 'rifle':
-      p.rect(20, 17, 3, 8, GUN).rect(20, 17, 1, 8, 0x4a4d54).rect(21, 25 + kick, 1, 2, 0x18191c);
-      p.rect(19, 19, 2, 2, o.skin);
-      break;
-    case 'pistol':
-      p.rect(14, 17 + kick, 4, 4, GUN).rect(14, 17 + kick, 4, 1, GUN_HI).rect(15, 19 + kick, 2, 2, MUZZLE);
-      p.rect(13, 18, 1, 3, o.skin).rect(18, 18, 1, 3, o.skin);
-      break;
-    case 'knife': {
-      p.rect(13, 18, 2, 2, o.skin).rect(17, 18, 2, 2, o.skin).rect(17, 17, 2, 1, WOOD);
-      const len = attack ? 6 : 3;
-      for (let i = 0; i < len; i++) p.set(18, 20 + i, STEEL).set(17, 20 + i, i < len - 1 ? 0x8a909a : STEEL);
-      break;
-    }
-    case 'shotgun':
-      p.rect(14, 14 + kick, 2, 11, GUN).rect(16, 14 + kick, 2, 11, GUN).rect(14, 14 + kick, 1, 11, GUN_HI).rect(16, 14 + kick, 1, 11, GUN_HI);
-      p.rect(13, 19 + kick, 6, 2, WOOD).rect(13, 19 + kick, 6, 1, WOOD_HI);
-      p.set(15, 24 + kick, MUZZLE).set(16, 24 + kick, MUZZLE).set(14, 24 + kick, 0x18191c).set(17, 24 + kick, 0x18191c);
-      p.rect(12, 19, 1, 2, o.skin).rect(19, 19, 1, 2, o.skin).rect(18, 15, 2, 2, o.skin);
-      break;
-    case 'rotary':
-      p.rect(11, 17 + kick, 10, 5, 0x4a4d54).rect(11, 17 + kick, 10, 1, 0x7a7e88).rect(11, 21 + kick, 10, 1, 0x2a2c30);
-      for (const x of [12, 15, 18]) p.rect(x, 22 + kick, 2, 3, GUN).set(x, 22 + kick, GUN_HI).set(x + 1, 24 + kick, MUZZLE);
-      p.rect(10, 18, 1, 3, o.skin).rect(21, 18, 1, 3, o.skin);
-      break;
-    case 'none':
-      break;
-  }
-}
-
-function weaponNorth(p: Pix, o: Outfit, kick: number): void {
-  if (aimsForward(o)) p.rect(10, 15, 3, 2, shade(o.body, -0.2)).rect(19, 15, 3, 2, shade(o.body, -0.3));
-  switch (o.weapon) {
-    case 'rifle':
-      p.rect(21, 8, 2, 8, GUN).rect(21, 8, 1, 8, GUN_HI);
-      break;
-    case 'shotgun':
-      p.rect(14, kick + 1, 2, 5, GUN).rect(16, kick + 1, 2, 5, GUN).rect(14, kick + 1, 1, 5, GUN_HI).rect(16, kick + 1, 1, 5, GUN_HI);
-      p.rect(18, 12, 2, 3, WOOD).rect(18, 12, 1, 3, WOOD_HI);
-      break;
-    case 'rotary':
-      p.rect(12, 2 + kick, 8, 4, 0x4a4d54).rect(12, 2 + kick, 8, 1, 0x7a7e88);
-      for (const x of [13, 15, 17]) p.rect(x, kick + 0, 1, 2, GUN);
-      break;
-    case 'pistol':
-      p.rect(15, 2 + kick, 2, 3, GUN).rect(15, 2 + kick, 1, 3, GUN_HI);
-      break;
-    case 'knife':
-      p.rect(19, 3, 1, 3, STEEL).set(20, 4, 0x8a909a);
-      break;
-    case 'none':
-      break;
-  }
-}
-
-function weaponEast(p: Pix, o: Outfit, kick: number, attack: boolean): void {
-  switch (o.weapon) {
-    case 'rifle':
-      p.rect(14 + kick, 16, 13, 2, GUN).rect(14 + kick, 16, 13, 1, GUN_HI).rect(12 + kick, 17, 4, 3, 0x5a3e24);
-      p.rect(26 + kick, 16, 2, 1, 0x18191c);
-      p.rect(16 + kick, 18, 2, 2, o.skin).rect(20 + kick, 18, 2, 1, shade(o.skin, -0.2));
-      break;
-    case 'pistol':
-      shadedRect(p, 15, 15, 5, 2, o.body);
-      p.rect(20, 15, 2, 2, o.skin);
-      p.rect(21 + kick, 14, 5, 2, GUN).rect(21 + kick, 14, 5, 1, GUN_HI).rect(22 + kick, 16, 2, 2, WOOD);
-      break;
-    case 'knife': {
-      const reach = attack ? 4 : 0;
-      shadedRect(p, 15, 16, 3 + reach, 2, o.body);
-      p.rect(18 + reach, 16, 2, 2, o.skin).rect(19 + reach, 17, 1, 1, WOOD);
-      p.rect(20 + reach, 16, 5, 1, STEEL).rect(20 + reach, 17, 4, 1, 0x8a909a);
-      break;
-    }
-    case 'shotgun':
-      p.rect(10 + kick, 17, 6, 3, WOOD).rect(10 + kick, 17, 6, 1, WOOD_HI);
-      p.rect(15 + kick, 15, 15, 2, GUN).rect(15 + kick, 15, 15, 1, GUN_HI).rect(29 + kick, 15, 1, 1, 0x18191c);
-      p.rect(20 + kick, 17, 5, 2, WOOD).rect(20 + kick, 17, 5, 1, WOOD_HI);
-      p.rect(15 + kick, 17, 2, 2, o.skin).rect(22 + kick, 19, 2, 1, shade(o.skin, -0.2));
-      break;
-    case 'rotary':
-      p.rect(11 + kick, 15, 10, 6, 0x4a4d54).rect(11 + kick, 15, 10, 1, 0x7a7e88).rect(11 + kick, 20, 10, 1, 0x2a2c30);
-      for (const y of [15, 17, 19]) p.rect(21 + kick, y, 9, 1, GUN).set(21 + kick, y, GUN_HI);
-      p.rect(21 + kick, 14, 2, 7, 0x3a3c42).rect(27 + kick, 14, 2, 7, 0x3a3c42);
-      p.rect(13 + kick, 21, 3, 2, o.skin).rect(17 + kick, 13, 3, 2, o.skin);
-      break;
-    case 'none':
-      break;
-  }
+function forearmsNorth(p: Pix, o: Outfit): void {
+  p.rect(10, 15, 3, 2, shade(o.body, -0.2)).rect(19, 15, 3, 2, shade(o.body, -0.3));
 }
 
 function weapon(p: Pix, o: Outfit, dir: Dir, frame: Frame): void {
+  if (o.weapon === 'none') return;
+  const art = WEAPON_ART[o.weapon];
   const attack = frame === 3;
-  const kick = attack && o.weapon !== 'knife' ? -1 : 0;
-  if (dir === 's') weaponSouth(p, o, kick, attack);
-  else if (dir === 'n') weaponNorth(p, o, kick);
-  else weaponEast(p, o, kick, attack);
+  const pose = { attack, kick: attack && art.recoil ? -1 : 0 };
+  if (dir === 's') {
+    forearmsSouth(p, o);
+    art.south(p, o, pose);
+  } else if (dir === 'n') {
+    forearmsNorth(p, o);
+    art.north(p, o, pose);
+  } else art.east(p, o, pose);
 }
 
 export function humanoid(o: Outfit, dir: Dir, frame: Frame, key: string): Pix {

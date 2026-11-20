@@ -11,7 +11,7 @@ const MARINE_OUTFIT: Outfit = {
   visor: 0xffb040,
   eyes: 0,
   belt: 0x5a4630,
-  weapon: 'rifle',
+  weapon: 'pistol',
   spikes: -1,
   blood: false,
   claws: false,

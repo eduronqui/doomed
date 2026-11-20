@@ -58,6 +58,7 @@ Things that belong together share one name. The name starts every file and every
 | Training | `src/levels/training.ts`, `training.map.ts`, `training.music.ts` | `TRAINING`, `TRAINING_MAP`, `TRAINING_MUSIC` |
 | Husk | `src/characters/husk.ts`, `husk.art.ts` | `HUSK`, `HUSK_ART` |
 | Marine | `src/characters/marine.ts`, `marine.art.ts` | `MARINE`, `MARINE_ART` |
+| Pump shotgun | `src/weapons/shotgun.ts`, `shotgun.art.ts` | `SHOTGUN`, `SHOTGUN_ART` |
 
 Other rules:
 
@@ -260,7 +261,7 @@ The simulation, sight cones, names, health bars and corpses work for the new kin
 | `radius` | Body radius in tiles |
 | `start` | Loadout at the start of level 1 or after "Play the episode again": health, armor, ammo, weapons, selected weapon |
 
-`src/characters/marine.art.ts` draws the marine. It draws one sprite set per weapon, because the marine holds the selected weapon. The held weapon shapes are in `weaponSouth`, `weaponNorth` and `weaponEast` in `src/characters/humanoid.art.ts`.
+`src/characters/marine.art.ts` draws the marine. It draws one sprite set per weapon, because the marine holds the selected weapon. The held weapon shapes are in the weapon art files (`src/weapons/<name>.art.ts`). `humanoid.art.ts` draws the forearms and calls the weapon art.
 
 ## 7. Sprites
 
@@ -390,23 +391,34 @@ To use the track, set `music: LEVEL4_MUSIC` in the level settings. `tests/music.
 
 ### Steps
 
-1. **Id:** add the name to `WeaponId` in `src/sim/defs.ts`.
-2. **Stats:** add an entry to `WEAPONS` in `src/sim/defs.ts`:
+Each weapon has a data file and an art file in `src/weapons/`, like the characters. The example adds a plasma rifle named `plasma`.
+
+1. **Id:** add `'plasma'` to `WeaponId` in `src/weapons/types.ts`.
+2. **Stats:** create `src/weapons/plasma.ts` and export `PLASMA: WeaponDef`:
 
    | Field | Meaning |
    | --- | --- |
+   | `id` | The weapon id, `'plasma'` |
    | `name`, `slot` | Display name and number key. Keys 1 to 4 are bound. For slot 5 or more, also add the key in `setupInput()` in `src/render/GameScene.ts`. |
-   | `ammo` | `'bullets'`, `'shells'` or `null` (melee). For a new ammo type, add it to `AmmoType`, `MAX_AMMO` and the marine's `start.ammo`. |
+   | `ammo` | `'bullets'`, `'shells'` or `null` (melee). For a new ammo type, add it to `AmmoType` in `src/weapons/types.ts`, to `MAX_AMMO` in `src/weapons/index.ts` and to the marine's `start.ammo`. |
    | `cooldown` | Seconds between shots |
    | `pellets`, `spread` | Projectiles per shot and their spread (radians) |
    | `damage`, `range` | Damage per pellet [min, max] and range in tiles |
    | `sound`, `noise` | Firing sound, and whether shots wake monsters |
 
-3. **Order:** add it to `WEAPON_ORDER`. This order sets the side-panel slots and the marine sprite sets.
-4. **Auto-switch:** if it should be picked when ammo runs out, add it to the list in `bestWeapon()` in `src/sim/world.ts`.
-5. **Held art:** add a case to `weaponSouth`, `weaponNorth` and `weaponEast` in `src/characters/humanoid.art.ts`.
-6. **Icon:** add a case to `weaponIcon()` in `src/render/art/items.ts`. The side panel loads the icon in `src/main.ts`.
-7. **Pickup:** add a weapon item (see [Items](#11-items)), and handle it like `'shotgun'` and `'rotary'` in `tryPickup()` in `src/sim/world.ts`.
+3. **Register:** in `src/weapons/index.ts`, add `plasma: PLASMA` to `WEAPONS` and add `'plasma'` to `WEAPON_ORDER`. This order sets the side-panel slots and the marine sprite sets.
+4. **Auto-switch:** if it should be picked when ammo runs out, add it to `FALLBACK_ORDER` in `src/weapons/index.ts`. The first owned weapon with ammo wins.
+5. **Art:** create `src/weapons/plasma.art.ts` and export `PLASMA_ART: WeaponArt` (types and shared gun colors are in `src/weapons/held.art.ts`):
+
+   | Field | Meaning |
+   | --- | --- |
+   | `recoil` | `true` if the weapon kicks back 1 pixel in the attack frame |
+   | `south`, `north`, `east` | Draw the held weapon for that facing (west is mirrored). `hands` gives the skin and sleeve colors. `pose` gives `kick` and `attack`. |
+   | `icon` | The 32 x 32 side-panel icon. A weapon pickup item can return it too, see `itemTexture()` in `src/render/art/items.ts`. |
+
+   Then add `plasma: PLASMA_ART` to `WEAPON_ART` in `src/weapons/art.ts`.
+6. **Pickup:** add a weapon item (see [Items](#11-items)), and handle it like `'shotgun'` and `'rotary'` in `tryPickup()` in `src/sim/world.ts`.
+7. **Enemies (optional):** a monster with `ranged: 'hitscan'` and `weapon: 'plasma'` fires it (see [Monsters](#5-monsters)).
 8. Run `npm run sprites`.
 
 ## 11. Items

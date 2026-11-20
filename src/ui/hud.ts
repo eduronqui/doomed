@@ -1,4 +1,5 @@
-import { MAX_AMMO, WEAPONS, WEAPON_ORDER, type KeyColor, type WeaponId } from '../sim/defs';
+import type { KeyColor } from '../sim/defs';
+import { MAX_AMMO, WEAPONS, WEAPON_ORDER, type WeaponId } from '../weapons';
 import type { MessageTone, World } from '../sim/world';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string): T => {

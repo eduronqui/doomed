@@ -1,5 +1,3 @@
-export type WeaponId = 'knife' | 'pistol' | 'shotgun' | 'rotary';
-export type AmmoType = 'bullets' | 'shells';
 export type KeyColor = 'red' | 'blue' | 'yellow';
 export type ItemKind =
   | 'stimpack'
@@ -40,78 +38,6 @@ export type SoundId =
   | 'claw'
   | 'empty';
 
-export interface WeaponDef {
-  id: WeaponId;
-  name: string;
-  slot: number;
-  ammo: AmmoType | null;
-  cooldown: number;
-  pellets: number;
-  spread: number;
-  damage: [number, number];
-  range: number;
-  sound: SoundId;
-  noise: boolean;
-}
-
-export const WEAPONS: Record<WeaponId, WeaponDef> = {
-  knife: {
-    id: 'knife',
-    name: 'Combat Knife',
-    slot: 1,
-    ammo: null,
-    cooldown: 0.4,
-    pellets: 1,
-    spread: 0,
-    damage: [6, 20],
-    range: 1.25,
-    sound: 'knife',
-    noise: false,
-  },
-  pistol: {
-    id: 'pistol',
-    name: 'Sidearm',
-    slot: 2,
-    ammo: 'bullets',
-    cooldown: 0.38,
-    pellets: 1,
-    spread: 0.035,
-    damage: [5, 15],
-    range: 22,
-    sound: 'pistol',
-    noise: true,
-  },
-  shotgun: {
-    id: 'shotgun',
-    name: 'Pump Shotgun',
-    slot: 3,
-    ammo: 'shells',
-    cooldown: 0.95,
-    pellets: 7,
-    spread: 0.11,
-    damage: [5, 15],
-    range: 18,
-    sound: 'shotgun',
-    noise: true,
-  },
-  rotary: {
-    id: 'rotary',
-    name: 'Rotary Gun',
-    slot: 4,
-    ammo: 'bullets',
-    cooldown: 0.11,
-    pellets: 1,
-    spread: 0.06,
-    damage: [5, 15],
-    range: 22,
-    sound: 'rotary',
-    noise: true,
-  },
-};
-
-export const WEAPON_ORDER: WeaponId[] = ['knife', 'pistol', 'shotgun', 'rotary'];
-
-export const MAX_AMMO: Record<AmmoType, number> = { bullets: 200, shells: 50 };
 
 export const KEY_ITEMS: Record<KeyColor, ItemKind> = { red: 'redkey', blue: 'bluekey', yellow: 'yellowkey' };
 

@@ -3,7 +3,7 @@ import { Sfx } from './render/sfx';
 import { Music } from './render/music';
 import { GameScene, VIEW_H, VIEW_W, type GameDeps } from './render/GameScene';
 import { ATLAS, ATLAS_DATA, ATLAS_IMAGE, frameCanvas, key } from './render/atlas';
-import { WEAPON_ORDER } from './sim/defs';
+import { WEAPON_ORDER } from './weapons';
 import { Hud } from './ui/hud';
 import { Screens } from './ui/screens';
 
