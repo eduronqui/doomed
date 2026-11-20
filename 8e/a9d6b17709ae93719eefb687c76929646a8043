@@ -1,0 +1,25 @@
+README.md
+  s_e549dc79ddcbfe::t_3dd910ed8c034e 98,157
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_813f713dd77f1c 17,133-134,173-184
+src/render/devParams.ts
+  s_e549dc79ddcbfe::t_aa2fb7ba20f620 1-21
+tests/devParams.test.ts
+  s_e549dc79ddcbfe::t_416f3c5d314e87 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8ea9d6b17709ae93719eefb687c76929646a8043",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
