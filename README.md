@@ -6,6 +6,7 @@ All sprites are drawn in code and baked into one sprite sheet (`public/assets/sp
 
 - Game rules, enemies, weapons, items and walkthroughs of all three levels: [docs/gameplay.md](docs/gameplay.md)
 - How to add levels, characters, sprites, sounds, music and more: [docs/extending.md](docs/extending.md)
+- Ideas and plans under discussion (not built yet): [docs/ideas.md](docs/ideas.md)
 
 ## Requirements
 
