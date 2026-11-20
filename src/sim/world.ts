@@ -778,7 +778,7 @@ export class World {
       this.startAttack(m, 'melee');
       return;
     }
-    if (m.def.ranged && m.def.ranged !== 'melee' && d < m.def.rangedRange && m.cooldown <= 0 && gap > 0.4 && this.grid.lineOfFire(m.x, m.y, p.x, p.y)) {
+    if (m.def.ranged && m.def.ranged !== 'melee' && d < m.def.rangedRange && m.cooldown <= 0 && (gap > 0.4 || !m.def.meleeDamage) && this.grid.lineOfFire(m.x, m.y, p.x, p.y)) {
       if (this.rng.chance(m.def.rangedChance)) {
         this.startAttack(m, 'ranged');
         return;

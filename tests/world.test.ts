@@ -330,6 +330,22 @@ describe('World', () => {
     expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7 });
   });
 
+  it('lets a husk next to the player shoot at point-blank range', () => {
+    const w = new World(parseLevel('t', '#######\n#P.h..#\n#######'), 3);
+    w.player.health = 10000;
+    const husk = w.monsters[0];
+    husk.x = w.player.x + 0.65;
+    husk.y = w.player.y;
+    w.damageMonster(husk, 1);
+    const log: string[] = [];
+    for (let t = 0; t < 4; t += 1 / 60) {
+      w.update(1 / 60, IDLE_INPUT);
+      log.push(...events(w));
+    }
+    expect(Math.hypot(husk.x - w.player.x, husk.y - w.player.y)).toBeLessThan(1);
+    expect(log).toContain('sound:pistol');
+  });
+
   describe('husk guns', () => {
     const fireOnce = (kind: string): string[] => {
       const w = new World(parseLevel('t', `##########\n#P....${kind}..#\n##########`), 4);

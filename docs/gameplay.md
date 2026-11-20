@@ -204,6 +204,7 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 - Each attack has a short wind-up. During the wind-up the enemy faces you and shows its attack pose.
 - A melee strike hits only if you are still close at the end of the wind-up. Step back during the wind-up to dodge it.
 - A ranged enemy fires only when it has a clear line of fire. Crates and walls block that line.
+- An enemy with a melee attack (the Fiend) uses it when it touches you. Husks and Shotgun Husks have no melee attack, so they fire their gun at point-blank range.
 - A hit can stagger an enemy for a moment. Its current wind-up is not interrupted.
 
 **Movement**
