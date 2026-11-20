@@ -13,6 +13,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
 | [Positional enemy footsteps](#positional-enemy-footsteps) | Under discussion, not built |
+| [Co-op multiplayer over WebRTC](#co-op-multiplayer-over-webrtc) | Under discussion, not built |
 
 ### Discarded
 
@@ -135,3 +136,57 @@ Goal: hear an enemy before you see it.
 
 - Nearby enemies make footstep sounds, panned left or right and quieter with distance.
 - Each kind can have its own step sound, so you know a Brute from a Husk.
+
+## Co-op multiplayer over WebRTC
+
+Goal: play the episode together, 2 to 4 Marines against the same demons. Co-op only, no versus mode.
+
+### Network model
+
+- **Host-authoritative.** One browser (the host) runs the real `World`. The simulation in `src/sim/` is pure TypeScript and steps only through `World.update(dt, input)`, so it can run unchanged on the host.
+- **Clients send inputs** to the host about 30 times per second: movement, aim, fire, use, weapon. Never state.
+- **The host sends snapshots** about 20 times per second: players, monsters, projectiles, doors, items, events.
+- **Clients interpolate** between snapshots, and predict their own Marine's movement so that walking feels instant.
+- **Not lockstep.** The game steps with a variable `dt`, and every browser would have to compute exactly the same results. One mismatch makes the games drift apart.
+- **Transport:** a WebRTC data channel. Unreliable and unordered for snapshots, reliable for events (pickups, messages, level changes).
+
+### Connecting the players
+
+- **Signaling** (exchange of the connection offer and answer). Vercel cannot hold the open WebSocket connections that signaling usually uses. Options:
+  1. Copy and paste codes between players. No server, free, fine for friends. **First step.**
+  2. A small WebSocket service (Cloudflare Workers, Fly.io or similar).
+  3. A hosted service (PeerJS, Firebase). This adds a dependency, so ask before installing.
+- **STUN:** free public servers.
+- **TURN:** needed for roughly 10 to 20% of connections. It costs money (Cloudflare, Twilio) or a self-hosted server.
+
+### Game changes
+
+- `World` holds a list of players instead of one `player`. This touches monster sight and targeting, backstabs, alert cries, noise, damage, pickups, keys, resting, death and room reveal.
+- Rules to decide:
+  - Friendly fire: on or off?
+  - Keycards: shared by the team, or per player?
+  - Death: respawn, spectate, or restart only when all are dead?
+  - Ammo and stats: per player?
+  - Ambushes: which player's pickup triggers them?
+  - Difficulty: do enemy groups scale with the player count?
+- Rendering: several Marines with name labels and colors. Each camera, minimap and HUD follows its local player.
+- Screens: a lobby to host or join, a ready check, and synced level changes.
+
+### Security and privacy
+
+- **The host validates every client message** (type, size, value ranges, for example weapon slot 1 to 4 and a bounded aim). A client sends only inputs. This protects against cheating and against crashing the host with malformed data.
+- **WebRTC shows each player's IP address to the other players.** Tell players. A TURN-only mode hides it, at the cost of more TURN traffic.
+- **Content Security Policy:** extend `connect-src` only to the signaling, STUN and TURN hosts.
+
+### Size and first step
+
+| Step | Size |
+| --- | --- |
+| A list of players in `World`, co-op rules | Large, about 30 to 40% of the work, with tests |
+| Snapshots, interpolation, prediction | Large |
+| WebRTC with copy-paste signaling | Medium |
+| Lobby, multiplayer HUD and cameras, synced level changes | Medium |
+| Signaling server and TURN (optional) | Small to medium, plus hosting |
+
+First step: **2-player co-op with copy-paste signaling**. No server and no new packages, and it tests the hardest part, the multi-player `World`, before any money goes into servers.
+
