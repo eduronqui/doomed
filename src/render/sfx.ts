@@ -116,6 +116,10 @@ export class Sfx {
       case 'monsterPain':
         o('sawtooth', 320, 170, 0.22, 0.28);
         break;
+      case 'backstab':
+        n(0.12, 'lowpass', 1400, 300, 0.7);
+        o('sine', 110, 45, 0.18, 0.4);
+        break;
       case 'monsterDeath':
         o('sawtooth', 220, 40, 0.75, 0.35);
         n(0.7, 'lowpass', 900, 120, 0.45);

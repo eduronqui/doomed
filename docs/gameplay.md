@@ -117,7 +117,9 @@ When your health reaches 0, you die. The death screen shows your kills and time.
 
 - Guns hit instantly along the line of aim (hitscan). Each pellet spreads a little. The rotary gun spreads more than the sidearm. The shotgun spreads the most.
 - The knife hits the nearest enemy or barrel in front of you, inside a wide arc.
-- **Loud** weapons wake all enemies within 13 tiles, even through walls. The knife is silent.
+- **Backstab.** A knife hit kills a calm enemy at once if you stand in its back arc (120° wide) and it does not see you. Calm means idle, wandering, holding or walking home, not hunting you. It works on every enemy kind, also the Brute and the Shade. The kill makes only a soft thud instead of the death scream, and no other enemy wakes up. The message "Silent kill." shows.
+- Any other knife kill is loud: the enemy screams, and the scream wakes all enemies within 13 tiles, like a gunshot.
+- **Loud** weapons wake all enemies within 13 tiles, even through walls. The knife swing is silent, but a knife kill that is not a backstab is loud.
 - When a gun is empty, you switch to your best weapon that has ammo. The order is shotgun, rotary gun, sidearm, knife.
 - When you pick up a new weapon, you switch to it at once.
 - The marine sprite shows the selected weapon from all four directions.
@@ -179,7 +181,7 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 
 **Sight**
 - A calm enemy sees only inside its view cone, up to its calm sight range.
-- It also senses you within 1.5 tiles in any direction.
+- It also senses you within 1.5 tiles, except from behind. Its back arc is 120° wide (60° each side of straight back).
 - A hunting enemy sees in all directions, up to 1.5 times its calm range.
 - Walls and closed doors block sight. Crates block sight for Fiends only.
 - A calm enemy turns its head from time to time, so its cone sweeps the room. Husks, Brutes and Shades turn every 2 to 5 seconds, by up to 108° each way, at about 90° per second. Fiends are restless: they turn every 0.7 to 1.6 seconds, by up to 180° each way, at about 180° per second.

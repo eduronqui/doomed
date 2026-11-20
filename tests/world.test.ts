@@ -109,6 +109,62 @@ describe('World', () => {
     expect(front.monsters[0].state).not.toBe('idle');
   });
 
+  describe('knife backstab', () => {
+    const setup = (rows: string[]): World => {
+      const w = new World(parseLevel('t', ['#########', ...rows, '#########'].join('\n')), 5);
+      w.player.weapon = 'knife';
+      for (const m of w.monsters) {
+        m.angle = Math.PI / 2;
+        m.turnTo = Math.PI / 2;
+        m.lookAround = 99;
+      }
+      return w;
+    };
+
+    it('kills a calm enemy from behind at once without waking the others', () => {
+      const w = setup(['#...P...#', '#...b...#', '#.......#', '#.b.....#']);
+      const [target, other] = w.monsters;
+      run(w, 1, { aimX: target.x, aimY: target.y });
+      expect(target.state).toBe('idle');
+      run(w, 0.1, { fire: true, aimX: target.x, aimY: target.y });
+      const log = events(w);
+      expect(target.state).toBe('dead');
+      expect(other.state).toBe('idle');
+      expect(log).toContain('Silent kill.');
+      expect(log).toContain('sound:backstab');
+      expect(log).not.toContain('sound:monsterDeath');
+    });
+
+    it('does normal knife damage from the front', () => {
+      const w = setup(['#...b...#', '#...P...#', '#.......#']);
+      const brute = w.monsters[0];
+      run(w, 0.1, { fire: true, aimX: brute.x, aimY: brute.y });
+      expect(brute.state).not.toBe('dead');
+      expect(brute.hp).toBeLessThan(brute.def.hp);
+    });
+
+    it('wakes the others when a knife kill is not a backstab', () => {
+      const w = setup(['#...b...#', '#...P...#', '#.......#', '#.......#', '#.....b.#']);
+      const [target, other] = w.monsters;
+      target.hp = 1;
+      run(w, 0.1, { fire: true, aimX: target.x, aimY: target.y });
+      const log = events(w);
+      expect(target.state).toBe('dead');
+      expect(log).toContain('sound:monsterDeath');
+      expect(log).not.toContain('Silent kill.');
+      expect(other.state).toBe('chase');
+    });
+
+    it('does normal knife damage to an enemy that is already hunting', () => {
+      const w = setup(['#...P...#', '#...b...#', '#.......#']);
+      const brute = w.monsters[0];
+      w.damageMonster(brute, 1);
+      brute.angle = Math.PI / 2;
+      run(w, 0.1, { fire: true, aimX: brute.x, aimY: brute.y });
+      expect(brute.state).not.toBe('dead');
+    });
+  });
+
   describe('when the player is out of sight', () => {
     const SEALED = '##############\n#P..#........#\n#...#....X...#\n#...#........#\n##############';
     const setup = (kind: string): { w: World; m: World['monsters'][number] } => {

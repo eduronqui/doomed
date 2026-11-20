@@ -141,7 +141,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
 - `sprites.test.mjs`: the committed sprite sheet matches the art code, and no frames overlap.
-- `world.test.ts`: pickups, weapons, ammo fallback, combat, armor, hazards, barrels, doors and keys, secrets, death, exit, resting, view cones, crate cover, the lost-sight behavior of each enemy kind, monsters and doors, difficulty scaling, room reveal, colored keycards, carry-over between levels and the Shade.
+- `world.test.ts`: pickups, weapons, ammo fallback, combat, armor, hazards, barrels, doors and keys, secrets, death, exit, resting, view cones, crate cover, knife backstabs, the lost-sight behavior of each enemy kind, monsters and doors, difficulty scaling, room reveal, colored keycards, carry-over between levels and the Shade.
 
 ## Security notes
 

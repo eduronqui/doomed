@@ -193,6 +193,7 @@ const FIREBALL_SPEED = 7.5;
 const MAX_STEP = 1 / 30;
 export const REST_DELAY = 10;
 const CLOSE_SENSE = 1.5;
+const BACK_ARC = (120 * Math.PI) / 180;
 export const ALERT_SIGHT = 1.5;
 
 function angleDiff(a: number, b: number): number {
@@ -500,11 +501,33 @@ export class World {
       bestD = d;
     }
     if (!best) return;
-    const dmg = this.rng.int(w.damage[0], w.damage[1]);
-    if ('def' in best) {
-      this.effect('blood', best.x, best.y);
-      this.damageMonster(best, dmg);
-    } else this.damageBarrel(best, dmg);
+    if (!('def' in best)) {
+      this.damageBarrel(best, this.rng.int(w.damage[0], w.damage[1]));
+      return;
+    }
+    this.effect('blood', best.x, best.y);
+    if (this.canBackstab(best)) {
+      this.backstab(best);
+      return;
+    }
+    this.damageMonster(best, this.rng.int(w.damage[0], w.damage[1]));
+    if (best.state === 'dead') this.alertNearby(best.x, best.y, NOISE_RANGE);
+  }
+
+  private canBackstab(m: Monster): boolean {
+    const calm = m.state === 'idle' || m.state === 'wander' || m.state === 'return' || m.state === 'hold';
+    return calm && !m.seesPlayer && this.isBehind(m);
+  }
+
+  private backstab(m: Monster): void {
+    this.events.push({ type: 'damage', x: m.x, y: m.y, amount: m.hp, toPlayer: false });
+    this.killMonster(m, true);
+    this.message('Silent kill.', 'info');
+  }
+
+  private isBehind(m: Monster): boolean {
+    const toPlayer = Math.atan2(this.player.y - m.y, this.player.x - m.x);
+    return Math.abs(angleDiff(toPlayer, m.angle)) > Math.PI - BACK_ARC / 2;
   }
 
   private playerUse(): void {
@@ -804,7 +827,7 @@ export class World {
     const p = this.player;
     const alert = m.state === 'chase' || m.state === 'windup' || m.state === 'pain';
     if (d >= this.sightRange(m, alert)) return false;
-    if (!alert && d > CLOSE_SENSE) {
+    if (!alert && (d > CLOSE_SENSE || this.isBehind(m))) {
       const toPlayer = Math.atan2(p.y - m.y, p.x - m.x);
       if (Math.abs(angleDiff(toPlayer, m.angle)) > m.def.fov / 2) return false;
     }
@@ -1006,13 +1029,13 @@ export class World {
     }
   }
 
-  private killMonster(m: Monster): void {
+  private killMonster(m: Monster, silent = false): void {
     m.state = 'dead';
     m.hp = 0;
     m.deathTime = this.time;
     m.path = [];
     this.stats.kills++;
-    this.sound('monsterDeath', m.x, m.y);
+    this.sound(silent ? 'backstab' : 'monsterDeath', m.x, m.y);
     if (m.def.drop) this.items.push({ id: this.nextId++, kind: m.def.drop, x: m.x, y: m.y, taken: false, dropped: true });
   }
 
