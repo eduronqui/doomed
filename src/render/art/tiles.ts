@@ -299,11 +299,9 @@ const GLYPHS: Record<string, string[]> = {
   T: ['111', '010', '010', '010', '010'],
 };
 
-export function exitTexture(on: boolean): Pix {
-  const rng = seeded('exit');
-  const p = new Pix(32, 32 + WALL_HEIGHT);
-  techTop(p, rng);
-  techFront(p, 0, rng);
+export function exitTexture(wall: 'tech' | 'stone', on: boolean): Pix {
+  const p = wallTexture(wall, 0);
+  if (wall === 'stone') p.rect(6, 33, 20, 19, 0x1f110d);
   p.rect(7, 34, 18, 7, 0x1a0606);
   let x = 9;
   for (const ch of 'EXIT') {

@@ -94,6 +94,8 @@ export class GameScene extends Phaser.Scene {
   private liquids: { img: Phaser.GameObjects.Image; kind: 'slime' | 'lava' }[] = [];
   private braziers: Phaser.GameObjects.Image[] = [];
   private exitView: Phaser.GameObjects.Image | null = null;
+  private exitWall: 'tech' | 'stone' = 'tech';
+  private exitRooms: number[] = [];
   private fx: Fx[] = [];
   private floaters: Floater[] = [];
   private tracers: Tracer[] = [];
@@ -283,7 +285,9 @@ export class GameScene extends Phaser.Scene {
           if (t.wall === 'tech' && variant === 2 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 1.8, a: 0.35, color: [80, 255, 120], glow: 0.1 });
           if (t.wall === 'stone' && variant === 2 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 1.6, a: 0.35, color: [255, 100, 30], glow: 0.15 });
         } else if (t.type === 'exit') {
-          this.exitView = this.add.image(px, py, ATLAS, key.exit(false)).setOrigin(0).setDepth(depth);
+          this.exitWall = t.wall;
+          this.exitRooms = this.roomsAround(x, y);
+          this.exitView = this.add.image(px, py, ATLAS, key.exit(t.wall, false)).setOrigin(0).setDepth(depth);
         }
       }
     }
@@ -333,7 +337,7 @@ export class GameScene extends Phaser.Scene {
   private wallVariant(t: Tile, x: number, y: number): number {
     const h = hash(x, y);
     const below = this.world.grid.tile(x, y + 1);
-    if (!below || below.type === 'wall' || below.type === 'void') return 0;
+    if (!below || below.type === 'wall' || below.type === 'exit' || below.type === 'void') return 0;
     const n = WALL_VARIANTS[t.wall];
     if (t.wall === 'tech') return h < 620 ? 0 : 1 + (h % (n - 1));
     return h < 600 ? 0 : 1 + (h % (n - 1));
@@ -753,7 +757,7 @@ export class GameScene extends Phaser.Scene {
       v.img.y = v.top + (v.height - visible);
     }
 
-    if (this.exitView && w.exitActivated) this.exitView.setFrame(key.exit(true));
+    if (this.exitView && w.exitActivated) this.exitView.setFrame(key.exit(this.exitWall, true));
 
     for (const l of this.liquids) l.img.setFrame(key.floor(l.kind, frame3));
     const bf = Math.floor(this.animClock / 0.12) % 3;
@@ -858,6 +862,7 @@ export class GameScene extends Phaser.Scene {
     if (w.revealedRooms.size === this.revealCount) return;
     this.revealCount = w.revealedRooms.size;
     for (const v of this.walls) v.img.setVisible(v.rooms.length === 0 || v.rooms.some((r) => w.revealedRooms.has(r)));
+    this.exitView?.setVisible(this.exitRooms.some((r) => w.revealedRooms.has(r)));
     for (const v of this.decoViews) v.img.setVisible(w.isRevealedAt(v.x, v.y));
   }
 

@@ -32,8 +32,10 @@ export function buildArt(): Map<string, Pix> {
   for (const f of floors) for (let v = 0; v < FLOOR_VARIANTS; v++) art.set(key.floor(f, v), floorTexture(f, v));
   for (const w of ['tech', 'stone'] as const) for (let v = 0; v < WALL_VARIANTS[w]; v++) art.set(key.wall(w, v), wallTexture(w, v));
   addDoorPieces(art);
-  art.set(key.exit(false), exitTexture(false));
-  art.set(key.exit(true), exitTexture(true));
+  for (const wall of ['tech', 'stone'] as const) {
+    art.set(key.exit(wall, false), exitTexture(wall, false));
+    art.set(key.exit(wall, true), exitTexture(wall, true));
+  }
   for (const c of CHARACTERS) {
     const look = CHARACTER_ART[c];
     if (c === 'marine') {

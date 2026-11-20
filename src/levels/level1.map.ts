@@ -32,7 +32,7 @@ export const LEVEL1_MAP = String.raw`
     #?W?????l?#,,,,,,,,,,,,,,,h,,,# %rrr=====rr======rrrrrrrHrr%
     #?????????X,,,,,,,,,,,oo,,,,,+# %rhr=====rr======rrrrrrrrrr%
     #???cc????X,,,,,,,,,,,,,,,,,,,# %rrrrrrrrrrrrrrrrrrr=====rr%
-    #?????????X,,,,,CC,,,,,,,,,,,,# %rrrrrrrrrrrxbrrrrrr=====rr%
+    #?????????X,,,,,CC,,,,,,,,,,,,# %%%%%%%%%%%rxbrrrrrr=====rr%
     #?v?????l?#,,,,,C,,,,,,,,,,f,,# %%%%%E%%%%%rrrrrrrrr=====rr%
     #?????????#,,,,,,,,,,,,,,,,,,,# %::t:::t::%rrrrrrrrr=====rr%
     ###########,,,b,,,,,f,,,,,,,,,# %:::::::::Drrrrrzrrrrrrrrrr%
