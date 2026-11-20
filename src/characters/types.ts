@@ -1,7 +1,7 @@
-import type { ItemKind, SoundId } from '../sim/defs';
+import type { ItemKind, SoundId, WeaponId } from '../sim/defs';
 import type { Carry } from '../sim/world';
 
-export type MonsterKind = 'husk' | 'fiend' | 'brute' | 'shade';
+export type MonsterKind = 'husk' | 'shotgunner' | 'fiend' | 'brute' | 'shade';
 
 export type AttackStyle = 'hitscan' | 'fireball' | 'melee';
 
@@ -16,6 +16,7 @@ export interface MonsterDef {
   painChance: number;
   painTime: number;
   ranged: AttackStyle | null;
+  weapon: WeaponId | null;
   rangedRange: number;
   rangedChance: number;
   meleeDamage: [number, number] | null;

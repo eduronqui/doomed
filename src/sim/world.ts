@@ -194,6 +194,8 @@ const MAX_STEP = 1 / 30;
 export const REST_DELAY = 10;
 const CLOSE_SENSE = 1.5;
 const BACK_ARC = (120 * Math.PI) / 180;
+const ENEMY_AIM_ERROR = 0.14;
+const DROPPED_AMMO = 5;
 export const ALERT_SIGHT = 1.5;
 
 function angleDiff(a: number, b: number): number {
@@ -599,10 +601,10 @@ export class World {
         p.armor = 100;
         break;
       case 'clip':
-        if (!this.giveAmmo('bullets', this.scaledAmmo(item.dropped ? 5 : 10))) return;
+        if (!this.giveAmmo('bullets', item.dropped ? DROPPED_AMMO : this.scaledAmmo(10))) return;
         break;
       case 'shells':
-        if (!this.giveAmmo('shells', this.scaledAmmo(8))) return;
+        if (!this.giveAmmo('shells', item.dropped ? DROPPED_AMMO : this.scaledAmmo(8))) return;
         break;
       case 'shotgun':
       case 'rotary': {
@@ -986,17 +988,7 @@ export class World {
       return;
     }
     if (m.def.ranged === 'hitscan') {
-      const shot = a + this.rng.range(-0.14, 0.14);
-      this.sound('huskShot', m.x, m.y);
-      const hit = this.hitscan(m.x, m.y, shot, 22, m);
-      const ex = m.x + Math.cos(shot) * hit.dist;
-      const ey = m.y + Math.sin(shot) * hit.dist;
-      this.events.push({ type: 'tracer', x1: m.x + Math.cos(shot) * 0.4, y1: m.y + Math.sin(shot) * 0.4, x2: ex, y2: ey, hostile: true });
-      const dmg = this.rng.int(m.def.rangedDamage[0], m.def.rangedDamage[1]);
-      if (hit.target === p) this.hurtPlayerByEnemy(dmg);
-      else if (isMonster(hit.target)) this.damageMonster(hit.target, dmg);
-      else if (isBarrel(hit.target)) this.damageBarrel(hit.target, dmg);
-      else if (hit.wall) this.effect('puff', ex, ey);
+      this.enemyGunfire(m, a);
     } else if (m.def.ranged === 'fireball') {
       this.sound('fireball', m.x, m.y);
       this.projectiles.push({
@@ -1009,6 +1001,27 @@ export class World {
         ownerId: m.id,
         alive: true,
       });
+    }
+  }
+
+  private enemyGunfire(m: Monster, aim: number): void {
+    const w = WEAPONS[m.def.weapon ?? 'pistol'];
+    const shot = aim + this.rng.range(-ENEMY_AIM_ERROR, ENEMY_AIM_ERROR);
+    this.sound(w.sound, m.x, m.y);
+    const totals = new Map<Player | Monster | Barrel, number>();
+    for (let i = 0; i < w.pellets; i++) {
+      const a = shot + this.rng.range(-w.spread, w.spread);
+      const hit = this.hitscan(m.x, m.y, a, w.range, m);
+      const ex = m.x + Math.cos(a) * hit.dist;
+      const ey = m.y + Math.sin(a) * hit.dist;
+      this.events.push({ type: 'tracer', x1: m.x + Math.cos(a) * 0.4, y1: m.y + Math.sin(a) * 0.4, x2: ex, y2: ey, hostile: true });
+      if (hit.target) totals.set(hit.target, (totals.get(hit.target) ?? 0) + this.rng.int(m.def.rangedDamage[0], m.def.rangedDamage[1]));
+      else if (hit.wall) this.effect('puff', ex, ey);
+    }
+    for (const [target, dmg] of totals) {
+      if (target === this.player) this.hurtPlayerByEnemy(dmg);
+      else if (isMonster(target)) this.damageMonster(target, dmg);
+      else if (isBarrel(target)) this.damageBarrel(target, dmg);
     }
   }
 

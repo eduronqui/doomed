@@ -9,6 +9,7 @@ export const SHADE: MonsterDef = {
   painChance: 0.6,
   painTime: 0.35,
   ranged: null,
+  weapon: null,
   rangedRange: 0,
   rangedChance: 0,
   meleeDamage: [4, 32],

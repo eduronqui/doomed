@@ -44,6 +44,7 @@ const FLOORS: Record<string, FloorKind> = {
 const SPAWNS: Record<string, SpawnKind> = {
   P: 'player',
   h: 'husk',
+  H: 'shotgunner',
   f: 'fiend',
   b: 'brute',
   '+': 'stimpack',
@@ -144,7 +145,7 @@ export function parseLevel(name: string, map: string): LevelData {
 }
 
 export const EXIT_GUARD_RADIUS = 5;
-const MONSTER_KINDS: ReadonlySet<SpawnKind> = new Set<SpawnKind>(['husk', 'fiend', 'brute', 'shade']);
+const MONSTER_KINDS: ReadonlySet<SpawnKind> = new Set<SpawnKind>(['husk', 'shotgunner', 'fiend', 'brute', 'shade']);
 
 function hasGuard(tiles: Tile[], spawns: Spawn[], width: number, height: number, fx: number, fy: number): boolean {
   const room = new Set<number>([fy * width + fx]);

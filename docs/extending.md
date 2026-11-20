@@ -161,6 +161,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | --- | --- | --- | --- |
 | `P` | Player start | `+` | Stimpack |
 | `h` | Husk | `m` | Medikit |
+| `H` | Shotgun Husk | | |
 | `f` | Fiend | `a` | Combat vest |
 | `b` | Brute | `v` | Vital sphere |
 | `g` | Shade | `c` | Clip of bullets |
@@ -196,7 +197,7 @@ A monster is a data file, an art file and a map character.
 1. **Kind:** add the name to `MonsterKind` in `src/characters/types.ts`:
 
    ```ts
-   export type MonsterKind = 'husk' | 'fiend' | 'brute' | 'shade' | 'wraith';
+   export type MonsterKind = 'husk' | 'shotgunner' | 'fiend' | 'brute' | 'shade' | 'wraith';
    ```
 
 2. **Stats:** create `src/characters/wraith.ts` that exports `WRAITH: MonsterDef`. Copy the closest existing monster and change the values. See the field table below.
@@ -235,11 +236,12 @@ The simulation, sight cones, names, health bars and corpses work for the new kin
 | `hp`, `speed`, `radius` | Health, tiles per second, body radius in tiles (0.3 to 0.4) |
 | `painChance`, `painTime` | Chance to stagger on a hit, and how long |
 | `ranged` | `'hitscan'`, `'fireball'` or `null` (melee only) |
-| `rangedRange`, `rangedChance`, `rangedDamage` | Ranged attack range, chance to fire when ready, damage [min, max] |
+| `weapon` | For `'hitscan'`: the Marine weapon it fires (`'pistol'`, `'shotgun'`, ...). The shot uses that weapon's pellets, spread, range and sound from `WEAPONS`. `null` for other attack styles. Draw the same weapon in its outfit (`weapon` in the `Outfit`). |
+| `rangedRange`, `rangedChance`, `rangedDamage` | Ranged attack range, chance to fire when ready, damage [min, max] (per pellet for `'hitscan'`) |
 | `meleeDamage` | Claw damage [min, max], or `null` |
 | `windup`, `cooldown` | Delay before an attack lands, and time between attacks |
 | `alertSound` | Sound when it wakes up |
-| `drop` | Item it drops when it dies, or `null` |
+| `drop` | Item it drops when it dies, or `null`. A dropped `clip` or `shells` always gives 5 rounds (`DROPPED_AMMO` in `src/sim/world.ts`), on every difficulty. |
 | `lost` | What it does when it loses sight of the player: `'wander'`, `'hold'` or `'track'` |
 | `trackTime` | Seconds it searches (`'wander'`) or tracks (`'track'`) before it gives up |
 | `fov`, `sightRange` | View cone angle (radians) and calm sight range (tiles) |

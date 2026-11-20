@@ -11,7 +11,7 @@ const HUSK_OUTFIT: Outfit = {
   visor: 0,
   eyes: 0xff2a14,
   belt: 0x3a3226,
-  weapon: 'rifle',
+  weapon: 'pistol',
   spikes: -1,
   blood: true,
   claws: false,

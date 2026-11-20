@@ -305,6 +305,44 @@ describe('World', () => {
     expect(hits.map((h) => h.bullets)).toEqual([70, 60, 60]);
   });
 
+  describe('husk guns', () => {
+    const fireOnce = (kind: string): string[] => {
+      const w = new World(parseLevel('t', `##########\n#P....${kind}..#\n##########`), 4);
+      w.player.health = 10000;
+      w.damageMonster(w.monsters[0], 1);
+      const log: string[] = [];
+      for (let t = 0; t < 6 && !log.some((e) => e.startsWith('sound:pistol') || e.startsWith('sound:shotgun')); t += 1 / 60) {
+        w.update(1 / 60, { ...IDLE_INPUT, aimX: w.player.x + 1, aimY: w.player.y });
+        log.push(...events(w));
+      }
+      return log;
+    };
+
+    it('lets a husk fire the sidearm: one shot with the sidearm sound', () => {
+      const log = fireOnce('h');
+      expect(log).toContain('sound:pistol');
+      expect(log.filter((e) => e === 'tracer')).toHaveLength(1);
+    });
+
+    it('lets a shotgun husk fire the pump shotgun: seven pellets with the shotgun sound', () => {
+      const log = fireOnce('H');
+      expect(log).toContain('sound:shotgun');
+      expect(log.filter((e) => e === 'tracer')).toHaveLength(7);
+    });
+
+    it('drops 5 rounds of the held gun ammo on every difficulty', () => {
+      const [recruit] = DIFFICULTIES;
+      const loot = (kind: string): { bullets: number; shells: number } => {
+        const w = new World(parseLevel('t', `########\n#P.${kind}...#\n########`), 1, recruit);
+        w.damageMonster(w.monsters[0], 999);
+        run(w, 0.8, { moveX: 1 });
+        return { bullets: w.player.ammo.bullets, shells: w.player.ammo.shells };
+      };
+      expect(loot('h')).toEqual({ bullets: 55, shells: 0 });
+      expect(loot('H')).toEqual({ bullets: 50, shells: 5 });
+    });
+  });
+
   it('hides rooms behind closed doors until a door opens into them', () => {
     const w = new World(parseLevel('t', '###########\n#P...D...h#\n###########'));
     const husk = w.monsters[0];

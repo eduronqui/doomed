@@ -44,7 +44,7 @@ describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_tit
 
   it('has one player start, monsters, a secret and one exit', () => {
     expect(level.spawns.filter((s) => s.kind === 'player')).toHaveLength(1);
-    const monsters = level.spawns.filter((s) => ['husk', 'fiend', 'brute', 'shade'].includes(s.kind)).length;
+    const monsters = level.spawns.filter((s) => ['husk', 'shotgunner', 'fiend', 'brute', 'shade'].includes(s.kind)).length;
     if (info.training) expect(monsters).toBeGreaterThan(0);
     else {
       expect(monsters).toBeGreaterThan(15);

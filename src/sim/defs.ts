@@ -38,7 +38,6 @@ export type SoundId =
   | 'noway'
   | 'secret'
   | 'claw'
-  | 'huskShot'
   | 'empty';
 
 export interface WeaponDef {

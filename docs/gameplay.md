@@ -141,13 +141,13 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Medikit | +25 health, up to 100 |
 | Vital sphere | +100 health, up to 200 |
 | Combat vest | Sets armor to 100 |
-| Clip of bullets | +10 bullets (+5 if a Husk dropped it) |
-| Box of shells | +8 shells |
+| Clip of bullets | +10 bullets (always +5 if a Husk dropped it) |
+| Box of shells | +8 shells (always +5 if a Shotgun Husk dropped it) |
 | Pump shotgun | Gives the shotgun and 8 shells |
 | Rotary gun | Gives the rotary gun and 20 bullets |
 | Red, blue or yellow keycard | Opens doors of the same color in this level |
 
-The "Items" stat counts the items placed in the map. Clips dropped by Husks do not count.
+The "Items" stat counts the items placed in the map. Ammo dropped by Husks and Shotgun Husks does not count.
 
 ## Enemies
 
@@ -155,25 +155,25 @@ All enemies show their name and a health bar above them. The name color changes 
 
 ### Overview
 
-| | Husk | Fiend | Brute | Shade |
-| --- | --- | --- | --- | --- |
-| Health | 20 | 60 | 150 | 150 |
-| Speed (tiles/s) | 2.2 | 2.5 | 3.8 | 3.5 |
-| Attack | Hitscan rifle shot | Fireball, or claw at close range | Claw (melee only) | Claw (melee only) |
-| Damage | 3 to 12 | Fireball 3 to 20, claw 3 to 24 | 4 to 32 | 4 to 32 |
-| Attack range | 12 tiles | Fireball 14 tiles | Contact | Contact |
-| Wind-up before the attack | 0.45 s | 0.5 s (claw 0.35 s) | 0.3 s | 0.3 s |
-| Time between attacks | about 1.5 s | about 1.6 s | about 0.9 s | about 0.9 s |
-| Chance to fire when ready | 55% | 45% | always (when in contact) | always (when in contact) |
-| Chance to stagger on hit | 80% | 70% | 60% | 60% |
-| Stagger time | 0.25 s | 0.25 s | 0.35 s | 0.35 s |
-| View angle | 100° | 130° | 90° | 100° |
-| Sight range, calm | 6 tiles | 8 tiles | 5 tiles | 6 tiles |
-| Sight range, hunting | 9 tiles | 12 tiles | 7.5 tiles | 9 tiles |
-| Crates block its sight | no | **yes** | no | no |
-| After it loses sight of you | Goes to where it last saw you, then wanders | Stops and holds | Tracks you for 6 s, then goes home | Tracks you for 8 s, then goes home |
-| Drops | Clip (+5 bullets) | nothing | nothing | nothing |
-| First appears in | Level 1 | Level 1 | Level 1 | Level 2 |
+| | Husk | Shotgun Husk | Fiend | Brute | Shade |
+| --- | --- | --- | --- | --- | --- |
+| Health | 20 | 30 | 60 | 150 | 150 |
+| Speed (tiles/s) | 2.2 | 2.1 | 2.5 | 3.8 | 3.5 |
+| Attack | Sidearm (1 bullet) | Pump shotgun (7 pellets) | Fireball, or claw at close range | Claw (melee only) | Claw (melee only) |
+| Damage | 3 to 12 | 2 to 5 per pellet | Fireball 3 to 20, claw 3 to 24 | 4 to 32 | 4 to 32 |
+| Attack range | 12 tiles | 9 tiles | Fireball 14 tiles | Contact | Contact |
+| Wind-up before the attack | 0.45 s | 0.6 s | 0.5 s (claw 0.35 s) | 0.3 s | 0.3 s |
+| Time between attacks | about 1.5 s | about 2.2 s | about 1.6 s | about 0.9 s | about 0.9 s |
+| Chance to fire when ready | 55% | 60% | 45% | always (when in contact) | always (when in contact) |
+| Chance to stagger on hit | 80% | 70% | 70% | 60% | 60% |
+| Stagger time | 0.25 s | 0.3 s | 0.25 s | 0.35 s | 0.35 s |
+| View angle | 100° | 100° | 130° | 90° | 100° |
+| Sight range, calm | 6 tiles | 6 tiles | 8 tiles | 5 tiles | 6 tiles |
+| Sight range, hunting | 9 tiles | 9 tiles | 12 tiles | 7.5 tiles | 9 tiles |
+| Crates block its sight | no | no | **yes** | no | no |
+| After it loses sight of you | Goes to where it last saw you, then wanders | Same as the Husk | Stops and holds | Tracks you for 6 s, then goes home | Tracks you for 8 s, then goes home |
+| Drops | Clip (5 bullets) | Shells (5 shells) | nothing | nothing | nothing |
+| First appears in | Level 1 | Level 1 | Level 1 | Level 1 | Level 2 |
 
 The time between attacks varies at random from 70% to 130% of the value in the table.
 
@@ -204,14 +204,25 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 - Enemies push each other apart and do not walk through you.
 
 **Friendly fire**
-- Husk bullets and Fiend fireballs can hit other enemies and barrels. A hit enemy does not turn on its attacker.
+- Husk bullets, Shotgun Husk pellets and Fiend fireballs can hit other enemies and barrels. A hit enemy does not turn on its attacker.
 
 ### Husk
 
-A dead soldier with a rifle. It is weak, but it shoots from range.
+A dead soldier with a sidearm. It is weak, but it shoots from range.
+
+- **It uses the Marine's guns.** Its shot has the sidearm sound and the sidearm spread, plus some aim error. You know what fires at you from the sound.
 
 - **Trait: it searches, then wanders.** When it loses sight of you, it walks to the place where it last saw you. When it gets there, or after 5 seconds, it gives up. Then it walks around at random, at half speed, with short stops. If it sees you again, it hunts you again.
-- When it dies, it drops a clip with 5 bullets.
+- When it dies, it drops a clip with 5 bullets. You always get exactly 5, on every difficulty.
+
+### Shotgun Husk
+
+A dead soldier with a pump shotgun. Its uniform is darker green, and you see the shotgun in its hands.
+
+- It fires the Marine's pump shotgun: 7 pellets with the shotgun sound and spread. Up close, most pellets hit, so it hurts. From far away, most pellets miss.
+- It has a longer wind-up and a longer time between shots than the Husk. Close in or take cover between its shots.
+- It searches and wanders like the Husk when it loses sight of you.
+- When it dies, it drops 5 shells. You always get exactly 5, on every difficulty.
 
 ### Fiend
 
@@ -333,7 +344,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 | Totals | |
 | --- | --- |
-| Enemies | 29: 12 Husks, 11 Fiends, 6 Brutes |
+| Enemies | 29: 11 Husks, 1 Shotgun Husk, 11 Fiends, 6 Brutes |
 | Map items | 26 |
 | Barrels | 8 |
 | Secrets | 1 |
@@ -349,7 +360,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Lab (east of the courtyard) | 2 Husks, 3 Fiends, 1 Brute | **Red keycard** (north-east, on a grate platform), medikit, box of shells, clip, 2 barrels |
 | Storage room and its corridor (south of the courtyard) | 3 Husks, 2 Fiends, 1 Brute | **Pump shotgun** and 2 boxes of shells (south-west corner), medikit, stimpack, clip, 2 barrels, crates for cover |
 | Secret room (west of the storage room) | none | **Rotary gun**, **vital sphere**, 2 clips |
-| Hell vault (behind the red door, south of the lab) | 2 Husks, 3 Fiends, 3 Brutes | Medikit, 2 stimpacks, box of shells, clip, lava pools |
+| Hell vault (behind the red door, south of the lab) | 1 Husk, 1 Shotgun Husk, 3 Fiends, 3 Brutes | Medikit, 2 stimpacks, box of shells, clip, lava pools |
 | Exit chamber (south-west corner of the hell vault) | 1 Fiend, 1 Brute | **Exit switch** on the north wall |
 
 ### Route
@@ -367,7 +378,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 | Totals | |
 | --- | --- |
-| Enemies | 29: 11 Husks, 10 Fiends, 5 Brutes, 3 Shades |
+| Enemies | 29: 8 Husks, 3 Shotgun Husks, 10 Fiends, 5 Brutes, 3 Shades |
 | Map items | 22 |
 | Barrels | 5 |
 | Secrets | 1 |
@@ -382,7 +393,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Refinery tanks (center, big slime pool) | 2 Husks, 3 Fiends, 1 Shade | **Blue keycard** on the island in the pool, 2 boxes of shells, medikit, barrel |
 | Control room (west) | 2 Husks, 1 Fiend, 1 Shade | **Pump shotgun**, combat vest, clip, crates |
 | Secret storage (north of the control room) | none | **Vital sphere**, combat vest, 2 boxes of shells |
-| Settling basins (east, behind the blue door) | 3 Husks, 2 Fiends, 3 Brutes, 1 Shade | 2 medikits, box of shells, clip, 2 barrels, slime basins |
+| Settling basins (east, behind the blue door) | 3 Shotgun Husks, 2 Fiends, 3 Brutes, 1 Shade | 2 medikits, box of shells, clip, 2 barrels, slime basins |
 | Exit room (north-east) | 2 Fiends, 1 Brute | 2 stimpacks, **exit switch** on the north wall |
 
 ### Route
@@ -400,7 +411,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 | Totals | |
 | --- | --- |
-| Enemies | 36: 11 Husks, 11 Fiends, 8 Brutes, 6 Shades |
+| Enemies | 36: 7 Husks, 4 Shotgun Husks, 11 Fiends, 8 Brutes, 6 Shades |
 | Map items | 20 |
 | Barrels | 4 |
 | Secrets | 1 |
@@ -411,11 +422,11 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Area | Enemies | Items and objects |
 | --- | --- | --- |
 | Start cave (south) | 1 Husk | Clip, box of shells |
-| Hub cavern (center, lava pools) | 4 Husks, 3 Fiends, 2 Brutes | Medikit, box of shells, 2 barrels |
-| East wing (lava channels with one gap each) | 2 Husks, 2 Fiends, 3 Shades | **Yellow keycard** (north-east corner), medikit, stimpack, box of shells, clip, crates |
+| Hub cavern (center, lava pools) | 3 Husks, 1 Shotgun Husk, 3 Fiends, 2 Brutes | Medikit, box of shells, 2 barrels |
+| East wing (lava channels with one gap each) | 2 Shotgun Husks, 2 Fiends, 3 Shades | **Yellow keycard** (north-east corner), medikit, stimpack, box of shells, clip, crates |
 | Secret chamber (south of the east wing) | none | **Vital sphere**, combat vest, box of shells |
 | West wing (behind the yellow door) | 2 Husks, 2 Fiends, 3 Brutes, 1 Shade | **Red keycard** inside a lava moat (north-west), medikit, stimpack, box of shells, clip, 2 barrels |
-| Sanctum (north, behind the red door) | 2 Husks, 4 Fiends, 3 Brutes, 2 Shades | 2 medikits, box of shells, **exit switch** on the north wall |
+| Sanctum (north, behind the red door) | 1 Husk, 1 Shotgun Husk, 4 Fiends, 3 Brutes, 2 Shades | 2 medikits, box of shells, **exit switch** on the north wall |
 
 ### Route
 

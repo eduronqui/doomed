@@ -65,6 +65,7 @@ src/
     marine.ts         MARINE: speed, size, starting loadout
     marine.art.ts     MARINE_ART: one sprite set per weapon, corpse
     husk.ts           HUSK: stats and traits      husk.art.ts    HUSK_ART
+    shotgunner.ts     SHOTGUNNER (Shotgun Husk)   shotgunner.art.ts  SHOTGUNNER_ART
     fiend.ts          FIEND                       fiend.art.ts   FIEND_ART
     brute.ts          BRUTE                       brute.art.ts   BRUTE_ART (and BRUTE_PALETTE)
     shade.ts          SHADE                       shade.art.ts   SHADE_ART (a ghostly Brute)

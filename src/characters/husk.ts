@@ -9,6 +9,7 @@ export const HUSK: MonsterDef = {
   painChance: 0.8,
   painTime: 0.25,
   ranged: 'hitscan',
+  weapon: 'pistol',
   rangedRange: 12,
   rangedChance: 0.55,
   meleeDamage: null,

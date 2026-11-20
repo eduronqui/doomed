@@ -9,6 +9,7 @@ export const FIEND: MonsterDef = {
   painChance: 0.7,
   painTime: 0.25,
   ranged: 'fireball',
+  weapon: null,
   rangedRange: 14,
   rangedChance: 0.45,
   meleeDamage: [3, 24],
