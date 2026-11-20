@@ -1,0 +1,158 @@
+.gitignore
+  h_c8144e9885d225 1-5
+.nvmrc
+  h_c8144e9885d225 1
+LICENSE
+  h_c8144e9885d225 1-21
+README.md
+  h_c8144e9885d225 1-154
+docs/extending.md
+  h_c8144e9885d225 1-497
+docs/gameplay.md
+  h_c8144e9885d225 1-422
+eslint.config.js
+  h_c8144e9885d225 1-20
+index.html
+  h_c8144e9885d225 1-71
+package-lock.json
+  h_c8144e9885d225 1-2510
+package.json
+  h_c8144e9885d225 1-30
+public/assets/sprites.json
+  h_c8144e9885d225 1-4234
+scripts/build-sprites.mjs
+  h_c8144e9885d225 1-15
+scripts/png.mjs
+  h_c8144e9885d225 1-81
+src/characters/art.ts
+  h_c8144e9885d225 1-29
+src/characters/brute.art.ts
+  h_c8144e9885d225 1-167
+src/characters/brute.ts
+  h_c8144e9885d225 1-29
+src/characters/fiend.art.ts
+  h_c8144e9885d225 1-24
+src/characters/fiend.ts
+  h_c8144e9885d225 1-29
+src/characters/humanoid.art.ts
+  h_c8144e9885d225 1-294
+src/characters/husk.art.ts
+  h_c8144e9885d225 1-24
+src/characters/husk.ts
+  h_c8144e9885d225 1-29
+src/characters/index.ts
+  h_c8144e9885d225 1-10
+src/characters/marine.art.ts
+  h_c8144e9885d225 1-24
+src/characters/marine.ts
+  h_c8144e9885d225 1-8
+src/characters/shade.art.ts
+  h_c8144e9885d225 1-16
+src/characters/shade.ts
+  h_c8144e9885d225 1-29
+src/characters/types.ts
+  h_c8144e9885d225 1-43
+src/levels/index.ts
+  h_c8144e9885d225 1-18
+src/levels/level1.map.ts
+  h_c8144e9885d225 1-44
+src/levels/level1.music.ts
+  h_c8144e9885d225 1-26
+src/levels/level1.ts
+  h_c8144e9885d225 1-16
+src/levels/level2.map.ts
+  h_c8144e9885d225 1-46
+src/levels/level2.music.ts
+  h_c8144e9885d225 1-26
+src/levels/level2.ts
+  h_c8144e9885d225 1-16
+src/levels/level3.map.ts
+  h_c8144e9885d225 1-46
+src/levels/level3.music.ts
+  h_c8144e9885d225 1-26
+src/levels/level3.ts
+  h_c8144e9885d225 1-16
+src/levels/training.map.ts
+  h_c8144e9885d225 1-15
+src/levels/training.music.ts
+  h_c8144e9885d225 1-18
+src/levels/training.ts
+  h_c8144e9885d225 1-35
+src/levels/types.ts
+  h_c8144e9885d225 1-25
+src/main.ts
+  h_c8144e9885d225 1-42
+src/render/GameScene.ts
+  h_c8144e9885d225 1-866
+src/render/art/catalog.ts
+  h_c8144e9885d225 1-63
+src/render/art/items.ts
+  h_c8144e9885d225 1-266
+src/render/art/tiles.ts
+  h_c8144e9885d225 1-377
+src/render/atlas.ts
+  h_c8144e9885d225 1-38
+src/render/lighting.ts
+  h_c8144e9885d225 1-90
+src/render/music.ts
+  h_c8144e9885d225 1-283
+src/render/pixel.ts
+  h_c8144e9885d225 1-141
+src/render/sfx.ts
+  h_c8144e9885d225 1-176
+src/render/sheet.ts
+  h_c8144e9885d225 1-73
+src/render/tracks.ts
+  h_c8144e9885d225 1-74
+src/sim/defs.ts
+  h_c8144e9885d225 1-188
+src/sim/grid.ts
+  h_c8144e9885d225 1-293
+src/sim/level.ts
+  h_c8144e9885d225 1-205
+src/sim/pathfind.ts
+  h_c8144e9885d225 1-114
+src/sim/rng.ts
+  h_c8144e9885d225 1-27
+src/sim/types.ts
+  h_c8144e9885d225 1-22
+src/sim/world.ts
+  h_c8144e9885d225 1-1181
+src/style.css
+  h_c8144e9885d225 1-552
+src/ui/hud.ts
+  h_c8144e9885d225 1-202
+src/ui/logo.ts
+  h_c8144e9885d225 1-84
+src/ui/progress.ts
+  h_c8144e9885d225 1-17
+src/ui/screens.ts
+  h_c8144e9885d225 1-199
+tests/grid.test.ts
+  h_c8144e9885d225 1-84
+tests/level.test.ts
+  h_c8144e9885d225 1-142
+tests/music.test.ts
+  h_c8144e9885d225 1-28
+tests/sprites.test.mjs
+  h_c8144e9885d225 1-30
+tests/training.test.ts
+  h_c8144e9885d225 1-57
+tests/world.test.ts
+  h_c8144e9885d225 1-345
+tsconfig.json
+  h_c8144e9885d225 1-19
+vite.config.ts
+  h_c8144e9885d225 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3ab670f742db11dbaf56e684dde227c23e3c9131",
+  "prompts": {},
+  "humans": {
+    "h_c8144e9885d225": {
+      "author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
