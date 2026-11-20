@@ -174,6 +174,7 @@ interface HitResult {
 
 const PICKUP_RADIUS = 0.6;
 const NOISE_RANGE = 13;
+const SHOUT_RANGE = 10;
 const EXPLOSION_RADIUS = 2.6;
 const EXPLOSION_DAMAGE = 110;
 const FIREBALL_SPEED = 7.5;
@@ -710,6 +711,11 @@ export class World {
     if (this.throttled(`alert-${m.kind}`, 0.6)) this.sound(m.def.alertSound, m.x, m.y);
   }
 
+  private spot(m: Monster): void {
+    this.wake(m);
+    this.alertNearby(m.x, m.y, SHOUT_RANGE);
+  }
+
   private alertNearby(x: number, y: number, radius: number): void {
     for (const m of this.monsters) {
       if (m.state !== 'dead' && m.state !== 'chase' && dist(x, y, m.x, m.y) <= radius) this.wake(m, x, y);
@@ -734,18 +740,18 @@ export class World {
 
     switch (m.state) {
       case 'idle':
-        if (m.seesPlayer) this.wake(m);
+        if (m.seesPlayer) this.spot(m);
         else this.lookAround(m, dt);
         return;
       case 'hold':
-        if (m.seesPlayer) this.wake(m);
+        if (m.seesPlayer) this.spot(m);
         return;
       case 'wander':
-        if (m.seesPlayer) this.wake(m);
+        if (m.seesPlayer) this.spot(m);
         else this.wander(m, dt);
         return;
       case 'return':
-        if (m.seesPlayer) this.wake(m);
+        if (m.seesPlayer) this.spot(m);
         else if (this.navigate(m, m.home.x, m.home.y, dt, 0.7) !== 'moving') {
           m.state = 'idle';
           m.turnTo = m.angle + Math.PI;

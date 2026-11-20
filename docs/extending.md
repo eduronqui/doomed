@@ -329,6 +329,7 @@ All sound effects are synthesized in `src/render/sfx.ts`. There are no audio fil
 
    - `n(duration, filterType, freqStart, freqEnd, gain, delay = 0, q = 1)`: filtered noise. Good for shots, explosions, hisses and impacts.
    - `o(wave, freqStart, freqEnd, duration, gain, delay = 0)`: a tone that slides from one pitch to another. Wave is `'sine'`, `'square'`, `'sawtooth'` or `'triangle'`. Good for growls, beeps and thumps.
+   - `c(wave, [start, peak, end], duration, gain, [vibratoRate, vibratoDepth], delay = 0)`: a cry. It fades in, rises to the peak pitch, then falls, with an optional vibrato. Good for alert cries and roars.
 
    ```ts
    case 'wraithShriek':

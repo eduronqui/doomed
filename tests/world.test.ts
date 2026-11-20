@@ -330,6 +330,29 @@ describe('World', () => {
     expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7 });
   });
 
+  describe('spotting the player', () => {
+    const spot = (gap: number): string => {
+      const width = 6 + gap;
+      const row = `#P..h${'.'.repeat(gap - 1)}h.#`;
+      const w = new World(parseLevel('t', `${'#'.repeat(width + 2)}\n${row}\n${'#'.repeat(width + 2)}`));
+      const [seer, other] = w.monsters;
+      seer.angle = Math.PI;
+      other.angle = 0;
+      run(w, 0.3);
+      expect(seer.state).toBe('chase');
+      expect(other.seesPlayer).toBe(false);
+      return other.state;
+    };
+
+    it('wakes enemies within 10 tiles of the one that sees the player', () => {
+      expect(spot(9)).toBe('chase');
+    });
+
+    it('leaves enemies farther away calm', () => {
+      expect(spot(12)).toBe('idle');
+    });
+  });
+
   it('lets a husk next to the player shoot at point-blank range', () => {
     const w = new World(parseLevel('t', '#######\n#P.h..#\n#######'), 3);
     w.player.health = 10000;

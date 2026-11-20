@@ -50,6 +50,8 @@ export class Sfx {
     const n = (dur: number, type: BiquadFilterType, f0: number, f1: number, gain: number, at = 0, q = 1): void =>
       this.noiseBurst(out, t + at, dur, type, f0, f1, gain, q);
     const o = (wave: Wave, f0: number, f1: number, dur: number, gain: number, at = 0): void => this.tone(out, t + at, wave, f0, f1, dur, gain);
+    const c = (wave: Wave, pitch: [number, number, number], dur: number, gain: number, vibrato: [number, number] = [0, 0], at = 0): void =>
+      this.cry(out, t + at, wave, pitch, dur, gain, vibrato);
 
     switch (id) {
       case 'pistol':
@@ -102,17 +104,22 @@ export class Sfx {
         [392, 523, 659, 784, 1046].forEach((f, i) => o('triangle', f, f, 0.2, 0.22, i * 0.11));
         break;
       case 'alertHusk':
-        o('sawtooth', 170, 85, 0.55, 0.3);
-        n(0.5, 'bandpass', 600, 300, 0.4, 0, 3);
+        c('sawtooth', [150, 270, 85], 0.45, 0.3, [7, 14]);
+        c('square', [151, 272, 86], 0.45, 0.12, [6, 10]);
+        n(0.4, 'bandpass', 800, 380, 0.4, 0.03, 3);
+        o('sine', 95, 45, 0.2, 0.35);
         break;
       case 'alertFiend':
-        o('sawtooth', 240, 100, 0.7, 0.3);
-        o('square', 120, 60, 0.7, 0.15);
-        n(0.6, 'bandpass', 900, 400, 0.35, 0, 4);
+        c('sawtooth', [300, 760, 170], 0.55, 0.26, [11, 35]);
+        c('square', [150, 380, 85], 0.55, 0.13, [11, 18]);
+        n(0.5, 'bandpass', 1100, 2600, 0.35, 0.03, 4);
+        o('sine', 120, 50, 0.2, 0.3);
         break;
       case 'alertBrute':
-        o('sawtooth', 95, 48, 0.8, 0.45);
-        n(0.8, 'lowpass', 700, 200, 0.6);
+        c('sawtooth', [68, 125, 42], 0.65, 0.4, [5, 7]);
+        c('sawtooth', [69, 127, 43], 0.65, 0.3, [4, 6]);
+        n(0.6, 'lowpass', 1000, 220, 0.65, 0.03);
+        o('sine', 58, 32, 0.5, 0.55);
         break;
       case 'monsterPain':
         o('sawtooth', 320, 170, 0.22, 0.28);
@@ -156,6 +163,32 @@ export class Sfx {
     osc.frequency.exponentialRampToValueAtTime(Math.max(1, f1), at + dur);
     g.gain.setValueAtTime(gain, at);
     g.gain.exponentialRampToValueAtTime(0.001, at + dur);
+    osc.connect(g).connect(dest);
+    osc.start(at);
+    osc.stop(at + dur + 0.02);
+  }
+
+  private cry(dest: AudioNode, at: number, wave: Wave, [f0, peak, f1]: [number, number, number], dur: number, gain: number, [rate, depth]: [number, number]): void {
+    const ctx = this.ctx!;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = wave;
+    osc.frequency.setValueAtTime(f0, at);
+    osc.frequency.exponentialRampToValueAtTime(peak, at + dur * 0.3);
+    osc.frequency.exponentialRampToValueAtTime(f1, at + dur);
+    g.gain.setValueAtTime(0.001, at);
+    g.gain.exponentialRampToValueAtTime(gain, at + 0.06);
+    g.gain.setValueAtTime(gain, at + dur * 0.45);
+    g.gain.exponentialRampToValueAtTime(0.001, at + dur);
+    if (rate > 0) {
+      const lfo = ctx.createOscillator();
+      const lfoGain = ctx.createGain();
+      lfo.frequency.value = rate;
+      lfoGain.gain.value = depth;
+      lfo.connect(lfoGain).connect(osc.frequency);
+      lfo.start(at);
+      lfo.stop(at + dur + 0.02);
+    }
     osc.connect(g).connect(dest);
     osc.start(at);
     osc.stop(at + dur + 0.02);
