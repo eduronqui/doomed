@@ -36,7 +36,7 @@ The first time you play, the game starts with a short training level, "Training:
 
 ## Difficulty
 
-Pick a difficulty on the title screen before you start. The death and victory screens let you pick again. R restarts with the same difficulty.
+Pick a difficulty on the title screen before you start. The victory screen after the last level lets you pick again. The death screen lets you pick again only from your 3rd death in a row on the same level. R restarts with the same difficulty.
 
 | | Recruit | Veteran | Doomed |
 | --- | --- | --- | --- |
@@ -108,7 +108,11 @@ Doors divide the level into rooms. Open passages without a door join two areas i
 
 ### Death
 
-When your health reaches 0, you die. The death screen shows your kills and time. Click, select a difficulty with the arrow keys or W A S D and press Enter, or press R to restart the level.
+When your health reaches 0, you die. The death screen shows your kills and time.
+
+- On your 1st and 2nd death on a level, the screen shows one "Try again" button on the same difficulty. Click it, press Enter or press R.
+- From your 3rd death on the same level, the screen shows the difficulty picker instead. Select a difficulty with the mouse, or with the arrow keys or W A S D and Enter, or press R to keep the same one.
+- The count goes back to 0 when you clear a level or reload the page.
 
 ## Weapons
 

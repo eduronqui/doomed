@@ -29,6 +29,7 @@ const NAME_DEPTH = 2_000_000;
 const ACTOR_FOOT = 0.28;
 const GUN_HEIGHT_PX = 10;
 const STEALTH_EXPOSE_RANGE = 3;
+const DEATHS_BEFORE_DIFFICULTY_PICK = 3;
 
 export interface GameDeps {
   sfx: Sfx;
@@ -109,6 +110,8 @@ export class GameScene extends Phaser.Scene {
   private paused = false;
   private ended = false;
   private endTimer = 0;
+  private deathLevel = -1;
+  private deathCount = 0;
   private started = false;
   private difficulty: Difficulty = DEFAULT_DIFFICULTY;
   private firing = false;
@@ -526,6 +529,8 @@ export class GameScene extends Phaser.Scene {
         const info = levelInfo(this.levelIndex);
         const nextInfo = LEVELS[this.levelIndex + 1];
         if (w.status === 'won') {
+          this.deathLevel = -1;
+          this.deathCount = 0;
           if (info.training) markTrainingDone();
           const next = info.training
             ? { title: nextInfo.title, onContinue: () => this.finishTraining(), blurb: 'The deployment starts with a fresh loadout.' }
@@ -533,7 +538,15 @@ export class GameScene extends Phaser.Scene {
               ? { title: nextInfo.title, onContinue: () => this.restart(this.difficulty, this.levelIndex + 1, this.world.carry()) }
               : null;
           this.deps.screens.won(info.title, w.stats, w.time, info.par, DIFFICULTIES, this.difficulty.id, (d) => this.restart(d, 0, undefined), next);
-        } else this.deps.screens.dead(w.stats, w.time, DIFFICULTIES, this.difficulty.id, (d) => this.restart(d));
+        } else {
+          if (this.deathLevel !== this.levelIndex) {
+            this.deathLevel = this.levelIndex;
+            this.deathCount = 0;
+          }
+          this.deathCount++;
+          const canPick = this.deathCount >= DEATHS_BEFORE_DIFFICULTY_PICK;
+          this.deps.screens.dead(w.stats, w.time, DIFFICULTIES, this.difficulty.id, (d) => this.restart(d), canPick);
+        }
       }
     }
   }

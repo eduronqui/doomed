@@ -145,7 +145,7 @@ export class Screens {
     });
   }
 
-  dead(stats: Stats, time: number, list: Difficulty[], current: DifficultyId, onPick: Pick): void {
+  dead(stats: Stats, time: number, list: Difficulty[], current: DifficultyId, onPick: Pick, canPick: boolean): void {
     const table = el('table');
     for (const [k, v] of [
       ['Kills', `${stats.kills} / ${stats.totalKills}`],
@@ -155,10 +155,15 @@ export class Screens {
       tr.append(el('td', k), el('td', v));
       table.append(tr);
     }
-    this.show(
-      [el('h1', 'YOU DIED'), el('h3', 'The outpost claims another soul.'), table, this.picker('Try again (R repeats the same difficulty)', list, current, onPick)],
-      null,
-    );
+    const retry = canPick ? this.picker('Try again (R repeats the same difficulty)', list, current, onPick) : this.retry(list, current, onPick);
+    this.show([el('h1', 'YOU DIED'), el('h3', 'The outpost claims another soul.'), table, retry], null);
+  }
+
+  private retry(list: Difficulty[], current: DifficultyId, onPick: Pick): HTMLElement {
+    const difficulty = list.find((d) => d.id === current) ?? list[0];
+    const box = el('div', undefined, 'picker');
+    box.append(this.choice('Try again', `${difficulty.name}. Press Enter or R.`, 'diff current', () => onPick(difficulty)));
+    return box;
   }
 
   won(
