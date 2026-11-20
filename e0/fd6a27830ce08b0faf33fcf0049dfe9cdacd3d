@@ -1,0 +1,21 @@
+README.md
+  s_e549dc79ddcbfe::t_4e4f163f21a52f 9
+docs/ideas.md
+  s_e549dc79ddcbfe::t_140c3bbd3aa4c8 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e0fd6a27830ce08b0faf33fcf0049dfe9cdacd3d",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
