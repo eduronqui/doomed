@@ -330,6 +330,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 
 ## Screen and interface
 
+- **Obstacles:** crates and braziers block their whole tile. A lamp is a thin post: you can walk close around it.
 - **Lighting:** the level is dark. Your marine, lamps, braziers, slime, lava, fireballs, explosions, screens and some items give light. A muzzle flash lights the area for a moment.
 - **Names and bars:** each creature shows its name and a health bar, like your own "Marine" label.
 - **Floating numbers:** red numbers show damage, and green "+1" numbers show healing.

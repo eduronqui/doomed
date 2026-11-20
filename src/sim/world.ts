@@ -1,4 +1,4 @@
-import { ITEM_NAMES, SOLID_DECOS, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
+import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
 import { Grid, type Door } from './grid';
@@ -221,6 +221,8 @@ export class World {
   readonly monsters: Monster[] = [];
   readonly items: Item[] = [];
   readonly decos: Deco[] = [];
+  private posts: { x: number; y: number; r: number }[] = [];
+  private postCells = new Set<number>();
   readonly barrels: Barrel[] = [];
   readonly projectiles: Projectile[] = [];
   readonly stats: Stats;
@@ -274,6 +276,11 @@ export class World {
         this.decos.push({ id: this.nextId++, kind, x: s.x, y: s.y });
         const cell = this.grid.index(Math.floor(s.x), Math.floor(s.y));
         if (SOLID_DECOS.has(kind)) this.grid.blockers.add(cell);
+        const postRadius = DECO_POSTS.get(kind);
+        if (postRadius !== undefined) {
+          this.posts.push({ x: s.x, y: s.y, r: postRadius });
+          this.postCells.add(cell);
+        }
         if (kind === 'crate') this.grid.shotBlockers.add(cell);
       }
     }
@@ -930,7 +937,10 @@ export class World {
   private monsterPassable(cx: number, cy: number): boolean {
     const t = this.grid.tile(cx, cy);
     if (!t) return false;
-    if (t.type === 'floor') return !this.grid.blockers.has(this.grid.index(cx, cy)) && FLOOR_HAZARD[t.floor] === 0;
+    if (t.type === 'floor') {
+      const cell = this.grid.index(cx, cy);
+      return !this.grid.blockers.has(cell) && !this.postCells.has(cell) && FLOOR_HAZARD[t.floor] === 0;
+    }
     if (t.type === 'door') return !this.grid.isSolid(cx, cy);
     return false;
   }
@@ -1157,6 +1167,7 @@ export class World {
     const solids: { x: number; y: number; r: number }[] = [];
     for (const m of this.monsters) if (m !== self && m.state !== 'dead') solids.push(m);
     for (const b of this.barrels) if (!b.exploded) solids.push(b);
+    solids.push(...this.posts);
     if (self) solids.push(this.player);
     for (const o of solids) {
       const dx = e.x - o.x;

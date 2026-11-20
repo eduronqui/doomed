@@ -334,7 +334,7 @@ export class GameScene extends Phaser.Scene {
     const bottom = Math.floor(y) * TILE + TILE;
     switch (kind) {
       case 'lamp':
-        this.decoViews.push({ img: this.add.image(cx, bottom - 2, ATLAS, key.deco('lamp', 0)).setOrigin(0.5, 1).setDepth(bottom), x, y });
+        this.decoViews.push({ img: this.add.image(cx, bottom - 2, ATLAS, key.deco('lamp', 0)).setOrigin(0.5, 1).setDepth((y + ACTOR_FOOT) * TILE), x, y });
         this.staticLights.push({ x, y: y - 0.3, r: 4.6, a: 0.92, color: [170, 225, 255], glow: 0.1 });
         break;
       case 'crate':

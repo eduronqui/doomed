@@ -66,6 +66,18 @@ describe('World', () => {
     expect(Math.hypot(brute.x - w.player.x, brute.y - w.player.y)).toBeLessThan(startDist - 2);
   });
 
+  it('treats a light pole as a thin post, not a full tile', () => {
+    const map = '#######\n#.....#\n#P.l..#\n#.....#\n#######';
+    const past = new World(parseLevel('t', map));
+    past.player.y = 2;
+    run(past, 0.8, { moveX: 1 });
+    expect(past.player.x).toBeGreaterThan(4);
+    const headOn = new World(parseLevel('t', map));
+    run(headOn, 0.8, { moveX: 1 });
+    expect(headOn.player.x).toBeLessThan(3.5 - 0.45);
+    expect(headOn.player.x).toBeGreaterThan(3);
+  });
+
   it('stops bullets and fireballs at crates', () => {
     const w = new World(parseLevel('t', '##########\n#P..C..h.#\n##########'), 2);
     const husk = w.monsters[0];

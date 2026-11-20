@@ -167,7 +167,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `b` | Brute | `v` | Vital sphere |
 | `g` | Shade | `c` | Clip of bullets |
 | `o` | Barrel | `s` | Box of shells |
-| `l` | Lamp (solid, light) | `G` | Pump shotgun |
+| `l` | Lamp (thin post, light) | `G` | Pump shotgun |
 | `C` | Crate (solid, blocks shots) | `W` | Rotary gun |
 | `t` | Brazier (solid, light) | `k` | Red keycard |
 | `x` | Gore decal | `j` | Blue keycard |
@@ -449,7 +449,7 @@ The game has red, blue and yellow keycards and doors. To add a color, for exampl
 
 Decorations are lamps, crates, braziers and decals.
 
-1. Add the name to `DecoKind` in `src/sim/defs.ts`. If it should block movement, add it to `SOLID_DECOS`.
+1. Add the name to `DecoKind` in `src/sim/defs.ts`. If it should block its whole tile, add it to `SOLID_DECOS`. If it is a thin object like a lamp, add its radius to `DECO_POSTS` instead: you can walk close around it, and monsters still plan their paths around its tile.
 2. Add a map character to `SPAWNS` in `src/sim/level.ts`.
 3. Add a case to `decoTexture()` in `src/render/art/items.ts`, and register its frames in `buildArt()` in `src/render/art/catalog.ts`.
 4. Add a case to `addDeco()` in `src/render/GameScene.ts`. It sets the position and depth, and optionally pushes a light to `staticLights`.

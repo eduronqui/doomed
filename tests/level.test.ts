@@ -3,7 +3,7 @@ import { ALL_LEVELS } from '../src/levels';
 import { parseLevel, type DoorKind, type LevelData } from '../src/sim/level';
 
 const KEY_OF: Record<string, DoorKind> = { redkey: 'red', bluekey: 'blue', yellowkey: 'yellow' };
-const SOLID_DECOS = ['lamp', 'crate', 'brazier'];
+const SOLID_DECOS = ['crate', 'brazier'];
 
 function reachable(level: LevelData, from: { x: number; y: number }, keys: Set<DoorKind>): Set<number> {
   const seen = new Set<number>();
