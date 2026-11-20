@@ -1,0 +1,19 @@
+README.md
+  s_e549dc79ddcbfe::t_8770e32ba5ab75 87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "001ac553d6fc375d2646fff3c8fa0fcc4dd6ac7c",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
