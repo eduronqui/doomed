@@ -1,0 +1,59 @@
+README.md
+  s_e549dc79ddcbfe::t_a1dbbea7990a37 68
+docs/extending.md
+  s_e549dc79ddcbfe::t_6b00ab19a8e4f7 164,200,239-240,244
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_f6fbbc8c4a8866 144-145,150,158-176,207,211-213,216-225,347,363,381,396,414,425-426,429
+public/assets/sprites.json
+  s_e549dc79ddcbfe::t_8c7076ffbc8197 2563-2882,2945,2965-2966,2985-2986,3005-3006,3025-3046,3065-3066,3165-3166,3405-3406,3425-3426,3445-3446,3465-3466,3485-3486,3505-3506,3525-3526,3545-3546,3565-3566,3585-3586,3605,3625,3645,3665,3685,3705,3725,3745,3765-3766,3785-3786,3805-3806,3825-3826,3845-3846,3865-3866,3885-3886,3985-3986,4005-4006,4025-4026,4045-4046,4065-4066,4085-4086,4125,4145,4165,4185,4205,4225,4245-4246,4265-4266,4285-4286,4305-4306,4325-4326,4345-4346,4365-4366,4385-4386,4405-4406,4570
+src/characters/art.ts
+  s_e549dc79ddcbfe::t_4814070ba43c29 10,25
+src/characters/brute.ts
+  s_e549dc79ddcbfe::t_54b9b0ae8ac942 12
+src/characters/fiend.ts
+  s_e549dc79ddcbfe::t_05ea4ac3e2ed30 12
+src/characters/husk.art.ts
+  s_e549dc79ddcbfe::t_a874bc92a112bb 14
+src/characters/husk.ts
+  s_e549dc79ddcbfe::t_8a17486d2e16fa 12
+src/characters/index.ts
+  s_e549dc79ddcbfe::t_2ad6c5d57d2619 5,11
+src/characters/shade.ts
+  s_e549dc79ddcbfe::t_5f64c001bb802c 12
+src/characters/shotgunner.art.ts
+  s_e549dc79ddcbfe::t_7bff8652eb6f8c 1-24
+src/characters/shotgunner.ts
+  s_e549dc79ddcbfe::t_09be93c8deac82 1-30
+src/characters/types.ts
+  s_e549dc79ddcbfe::t_0caf2189ee1e85 1,4,19
+src/levels/level1.map.ts
+  s_e549dc79ddcbfe::t_a62875c7598459 32
+src/levels/level2.map.ts
+  s_e549dc79ddcbfe::t_93e7fe6b441727 14,24,32
+src/levels/level3.map.ts
+  s_e549dc79ddcbfe::t_3f4a46e029625d 4,24,27,38
+src/sim/level.ts
+  s_e549dc79ddcbfe::t_679c7616d5476e 47,148
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_51389cadcd1e2a 197-198,604,607,991,1007-1027
+tests/level.test.ts
+  s_e549dc79ddcbfe::t_478355cc8cb8ce 47
+tests/world.test.ts
+  s_e549dc79ddcbfe::t_a7a73c670dd78d 308-345
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "db018af8379306a96d23d71e64d9ddaf1c0484c1",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
