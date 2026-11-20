@@ -57,7 +57,7 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 | Input | Action |
 | --- | --- |
 | W A S D or arrow keys | Move |
-| Mouse | Aim |
+| Mouse | Aim. The last input wins: when you start walking or change direction with the keys, the Marine looks (and shoots with Space) where he walks. When you move the mouse or hold its button, he looks at the cursor, also while he keeps walking. |
 | Left mouse button or Space (hold) | Fire (a mouse click must start inside the play area) |
 | E or Space | Use (doors, secret walls, exit switch). Space also fires, so one press both shoots and uses. |
 | 1 to 4 | Select weapon slot |

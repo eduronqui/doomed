@@ -116,6 +116,10 @@ export class GameScene extends Phaser.Scene {
   private started = false;
   private difficulty: Difficulty = DEFAULT_DIFFICULTY;
   private firing = false;
+  private aimByKeys = false;
+  private keyAim = 0;
+  private lastPointer = { x: -1, y: -1 };
+  private lastMove = { x: 0, y: 0 };
   private revealCount = -1;
   private walls: { img: Phaser.GameObjects.Image; rooms: number[] }[] = [];
   private closetCovers: Phaser.GameObjects.Image[] = [];
@@ -162,6 +166,7 @@ export class GameScene extends Phaser.Scene {
     this.staticLights = [];
     this.paused = false;
     this.ended = false;
+    this.aimByKeys = false;
     this.endTimer = 0;
 
     this.buildMap();
@@ -496,13 +501,24 @@ export class GameScene extends Phaser.Scene {
     const cam = this.cameras.main;
     const ptr = this.input.activePointer;
     const wp = cam.getWorldPoint(ptr.x, ptr.y);
+    const moveX = (k.D.isDown || k.RIGHT.isDown ? 1 : 0) - (k.A.isDown || k.LEFT.isDown ? 1 : 0);
+    const moveY = (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0);
+    const mouseFire = this.firing && ptr.leftButtonDown();
+    const pointerMoved = ptr.x !== this.lastPointer.x || ptr.y !== this.lastPointer.y;
+    this.lastPointer = { x: ptr.x, y: ptr.y };
+    const moveChanged = (moveX !== 0 || moveY !== 0) && (moveX !== this.lastMove.x || moveY !== this.lastMove.y);
+    this.lastMove = { x: moveX, y: moveY };
+    if (mouseFire || pointerMoved) this.aimByKeys = false;
+    else if (moveChanged) this.aimByKeys = true;
+    if (this.aimByKeys && (moveX !== 0 || moveY !== 0)) this.keyAim = Math.atan2(moveY, moveX);
+    const p = this.world.player;
     const input: Input = {
       ...IDLE_INPUT,
-      moveX: (k.D.isDown || k.RIGHT.isDown ? 1 : 0) - (k.A.isDown || k.LEFT.isDown ? 1 : 0),
-      moveY: (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0),
-      aimX: wp.x / TILE,
-      aimY: (wp.y + GUN_HEIGHT_PX) / TILE,
-      fire: (this.firing && ptr.leftButtonDown()) || k.SPACE.isDown,
+      moveX,
+      moveY,
+      aimX: this.aimByKeys ? p.x + Math.cos(this.keyAim) : wp.x / TILE,
+      aimY: this.aimByKeys ? p.y + Math.sin(this.keyAim) : (wp.y + GUN_HEIGHT_PX) / TILE,
+      fire: mouseFire || k.SPACE.isDown,
       use: this.useQueued,
       weaponSlot: this.slotQueued,
       cycleWeapon: this.wheel,
