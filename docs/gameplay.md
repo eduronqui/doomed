@@ -31,7 +31,7 @@ The first time you play, the game starts with a short training level, "Training:
 | 3 | E3: Ember Gate | yellow, then red | 6:00 |
 
 - When you continue to the next level, your health, armor, ammo, weapons and selected weapon carry over. Keycards do not carry over.
-- When you die, the level restarts with the loadout you had when you entered it. Level 1 always starts with 100 health, the knife, the sidearm and 50 bullets.
+- When you die, the level restarts with the loadout you had when you entered it. Level 1 always starts with 100 health, the knife, the sidearm and the start bullets of your difficulty (60, 40 or 20).
 - After level 3, the victory screen offers to play the episode again from level 1, with any difficulty.
 
 ## Difficulty
@@ -41,7 +41,8 @@ Pick a difficulty on the title screen before you start. The death and victory sc
 | | Recruit | Veteran | Doomed |
 | --- | --- | --- | --- |
 | Enemy damage | x0.5 | x1 | x1.5 |
-| Ammo from pickups | x2 | x1 | x1 |
+| Start bullets | 60 | 40 | 20 |
+| Ammo from pickups and drops (rounded) | x2 | x1 | x0.75 |
 | Enemy speed | x0.9 | x1 | x1.15 |
 | Time between enemy attacks | x1.3 | x1 | x0.75 |
 | Enemy sight range | x0.85 | x1 | x1.25 |
@@ -83,7 +84,7 @@ The first difficulty pick on the title screen (click or Enter) also starts the s
 | Max armor | 100 |
 | Speed | 5 tiles per second |
 | Start weapons | Combat knife, sidearm |
-| Start ammo | 50 bullets, 0 shells |
+| Start ammo | 40 bullets, 0 shells (60 on Recruit, 20 on Doomed) |
 
 ### Armor
 
@@ -144,8 +145,8 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Medikit | +25 health, up to 100 |
 | Vital sphere | +100 health, up to 200 |
 | Combat vest | Sets armor to 100 |
-| Clip of bullets | +10 bullets (always +5 if a Husk dropped it) |
-| Box of shells | +8 shells (always +5 if a Shotgun Husk dropped it) |
+| Clip of bullets | +10 bullets (+5 if a Husk dropped it) |
+| Box of shells | +8 shells (+5 if a Shotgun Husk dropped it) |
 | Pump shotgun | Gives the shotgun and 8 shells |
 | Rotary gun | Gives the rotary gun and 20 bullets |
 | Red, blue or yellow keycard | Opens doors of the same color in this level |
@@ -216,7 +217,7 @@ A dead soldier with a sidearm. It is weak, but it shoots from range.
 - **It uses the Marine's guns.** Its shot has the sidearm sound and the sidearm spread, plus some aim error. You know what fires at you from the sound.
 
 - **Trait: it searches, then wanders.** When it loses sight of you, it walks to the place where it last saw you. When it gets there, or after 5 seconds, it gives up. Then it walks around at random, at half speed, with short stops. If it sees you again, it hunts you again.
-- When it dies, it drops a clip with 5 bullets. You always get exactly 5, on every difficulty.
+- When it dies, it drops a clip with 5 bullets (10 on Recruit, 4 on Doomed).
 
 ### Shotgun Husk
 
@@ -225,7 +226,7 @@ A dead soldier with a pump shotgun. Its uniform is darker green, and you see the
 - It fires the Marine's pump shotgun: 7 pellets with the shotgun sound and spread. Up close, most pellets hit, so it hurts. From far away, most pellets miss.
 - It has a longer wind-up and a longer time between shots than the Husk. Close in or take cover between its shots.
 - It searches and wanders like the Husk when it loses sight of you.
-- When it dies, it drops 5 shells. You always get exactly 5, on every difficulty.
+- When it dies, it drops 5 shells (10 on Recruit, 4 on Doomed).
 
 ### Fiend
 

@@ -65,6 +65,7 @@ export interface Difficulty {
   blurb: string;
   enemyDamage: number;
   ammo: number;
+  startBullets: number;
   enemySpeed: number;
   enemyCooldown: number;
   enemySight: number;
@@ -80,6 +81,7 @@ export const DIFFICULTIES: Difficulty[] = [
     blurb: 'Half damage, double ammo, slow demons.',
     enemyDamage: 0.5,
     ammo: 2,
+    startBullets: 60,
     enemySpeed: 0.9,
     enemyCooldown: 1.3,
     enemySight: 0.85,
@@ -93,6 +95,7 @@ export const DIFFICULTIES: Difficulty[] = [
     blurb: 'The outpost as intended.',
     enemyDamage: 1,
     ammo: 1,
+    startBullets: 40,
     enemySpeed: 1,
     enemyCooldown: 1,
     enemySight: 1,
@@ -103,9 +106,10 @@ export const DIFFICULTIES: Difficulty[] = [
   {
     id: 'doomed',
     name: 'Doomed',
-    blurb: 'Harder hits, faster and sharper demons, no resting.',
+    blurb: 'Harder hits, less ammo, faster and sharper demons, no resting.',
     enemyDamage: 1.5,
-    ammo: 1,
+    ammo: 0.75,
+    startBullets: 20,
     enemySpeed: 1.15,
     enemyCooldown: 0.75,
     enemySight: 1.25,

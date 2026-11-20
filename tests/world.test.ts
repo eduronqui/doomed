@@ -4,6 +4,7 @@ import { parseLevel } from '../src/sim/level';
 import { MONSTERS } from '../src/characters';
 import { DIFFICULTIES } from '../src/sim/defs';
 import { IDLE_INPUT, World, type Input } from '../src/sim/world';
+import type { WeaponId } from '../src/weapons';
 
 function run(world: World, seconds: number, input: Partial<Input> = {}): void {
   const full = { ...IDLE_INPUT, aimX: world.player.x + 1, aimY: world.player.y, ...input };
@@ -302,7 +303,19 @@ describe('World', () => {
       return { hp: w.player.health, bullets: w.player.ammo.bullets };
     });
     expect(hits.map((h) => h.hp)).toEqual([90, 80, 70]);
-    expect(hits.map((h) => h.bullets)).toEqual([70, 60, 60]);
+    expect(hits.map((h) => h.bullets)).toEqual([80, 50, 28]);
+  });
+
+  it('starts a fresh game with 60, 40 or 20 bullets by difficulty, but keeps carried ammo', () => {
+    const map = '#####\n#P..#\n#####';
+    const fresh = DIFFICULTIES.map((d) => new World(parseLevel('t', map), 1, d).player.ammo);
+    expect(fresh).toEqual([
+      { bullets: 60, shells: 0 },
+      { bullets: 40, shells: 0 },
+      { bullets: 20, shells: 0 },
+    ]);
+    const carry = { health: 80, armor: 10, ammo: { bullets: 123, shells: 7 }, weapons: ['knife', 'pistol'] as WeaponId[], weapon: 'pistol' as const };
+    expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7 });
   });
 
   describe('husk guns', () => {
@@ -330,16 +343,19 @@ describe('World', () => {
       expect(log.filter((e) => e === 'tracer')).toHaveLength(7);
     });
 
-    it('drops 5 rounds of the held gun ammo on every difficulty', () => {
-      const [recruit] = DIFFICULTIES;
-      const loot = (kind: string): { bullets: number; shells: number } => {
-        const w = new World(parseLevel('t', `########\n#P.${kind}...#\n########`), 1, recruit);
+    it('drops 5 rounds of the held gun ammo on Veteran, scaled by the difficulty', () => {
+      const [recruit, veteran, doomed] = DIFFICULTIES;
+      const loot = (kind: string, d = veteran): { bullets: number; shells: number } => {
+        const w = new World(parseLevel('t', `########\n#P.${kind}...#\n########`), 1, d);
+        const start = { ...w.player.ammo };
         w.damageMonster(w.monsters[0], 999);
         run(w, 0.8, { moveX: 1 });
-        return { bullets: w.player.ammo.bullets, shells: w.player.ammo.shells };
+        return { bullets: w.player.ammo.bullets - start.bullets, shells: w.player.ammo.shells - start.shells };
       };
-      expect(loot('h')).toEqual({ bullets: 55, shells: 0 });
-      expect(loot('H')).toEqual({ bullets: 50, shells: 5 });
+      expect(loot('h')).toEqual({ bullets: 5, shells: 0 });
+      expect(loot('H')).toEqual({ bullets: 0, shells: 5 });
+      expect(loot('h', recruit).bullets).toBe(10);
+      expect(loot('H', doomed).shells).toBe(4);
     });
   });
 

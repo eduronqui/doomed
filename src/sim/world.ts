@@ -248,7 +248,7 @@ export class World {
       dir: 's',
       health: (carry ?? MARINE.start).health,
       armor: (carry ?? MARINE.start).armor,
-      ammo: { ...(carry ?? MARINE.start).ammo },
+      ammo: carry ? { ...carry.ammo } : { ...MARINE.start.ammo, bullets: difficulty.startBullets },
       weapons: new Set<WeaponId>((carry ?? MARINE.start).weapons),
       weapon: (carry ?? MARINE.start).weapon,
       keys: new Set(),
@@ -587,10 +587,10 @@ export class World {
         p.armor = 100;
         break;
       case 'clip':
-        if (!this.giveAmmo('bullets', item.dropped ? DROPPED_AMMO : this.scaledAmmo(10))) return;
+        if (!this.giveAmmo('bullets', this.scaledAmmo(item.dropped ? DROPPED_AMMO : 10))) return;
         break;
       case 'shells':
-        if (!this.giveAmmo('shells', item.dropped ? DROPPED_AMMO : this.scaledAmmo(8))) return;
+        if (!this.giveAmmo('shells', this.scaledAmmo(item.dropped ? DROPPED_AMMO : 8))) return;
         break;
       case 'shotgun':
       case 'rotary': {
