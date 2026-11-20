@@ -1,0 +1,23 @@
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_9fb1f5c3328477 207
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_886094f6b983c0 781
+tests/world.test.ts
+  s_e549dc79ddcbfe::t_6f0db4634bd5c6 333-348
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cbd95b15d15f27e729e9474208bebb46e5918408",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
