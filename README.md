@@ -95,6 +95,7 @@ src/
   render/             Everything visual and audible
     GameScene.ts      Builds the map sprites, syncs them with the world, effects, input
     lighting.ts       Darkness overlay and colored glow
+    devParams.ts      Dev-only URL parameters (the production build drops them)
     atlas.ts          Atlas paths, frame names, frame-to-canvas helper
     sheet.ts          Packs sprites into one RGBA sheet and its atlas data
     art/catalog.ts    The list of every sprite in the sheet (including door pieces for all levels)
@@ -153,6 +154,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 
 - `level.test.ts`: for every level: one start, enough monsters, a secret and one exit. No floor touches the void. The exit faces a room. Every keycard is reachable without its own door, and the exit needs the keycards. All entities are reachable. Also map parsing of colored doors, keycards and shades.
 - `grid.test.ts`: collision, sliding along walls, raycasts, door timing, door groups, path search.
+- `devParams.test.ts`: the dev URL parameters, also bad values.
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.

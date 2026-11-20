@@ -14,6 +14,7 @@ import type { Sfx } from './sfx';
 import type { Music } from './music';
 import { TILE, WALL_HEIGHT } from './art/tiles';
 import { Lighting, type Light } from './lighting';
+import { parseDevParams } from './devParams';
 import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
 
 export const VIEW_W = 1024;
@@ -129,9 +130,8 @@ export class GameScene extends Phaser.Scene {
   create(): void {
     if (import.meta.env.DEV && !GameScene.devLevelApplied) {
       GameScene.devLevelApplied = true;
-      const raw = new URLSearchParams(window.location.search).get('level');
-      const lv = Number(raw);
-      if (raw !== null && Number.isInteger(lv) && lv >= 0 && lv <= LEVELS.length) this.levelIndex = lv === 0 ? TRAINING_INDEX : lv - 1;
+      const { level } = parseDevParams(window.location.search, LEVELS.length);
+      if (level !== null) this.levelIndex = level === 0 ? TRAINING_INDEX : level - 1;
     }
     const info = levelInfo(this.levelIndex);
     this.world = new World(info.load(), (Date.now() & 0xffff) + 1, this.difficulty, this.startCarry ?? info.startCarry, { alertOnEntry: info.alertOnEntry });
@@ -170,7 +170,18 @@ export class GameScene extends Phaser.Scene {
 
     this.setupInput();
     this.deps.hud.reset(this.world, `${info.title} (${this.difficulty.name})`);
-    if (import.meta.env.DEV) this.applyDevParams();
+    if (import.meta.env.DEV) {
+      const dev = parseDevParams(window.location.search, LEVELS.length);
+      if (dev.autostart) this.started = true;
+      if (dev.pos) {
+        this.world.player.x = dev.pos.x + 0.5;
+        this.world.player.y = dev.pos.y + 0.5;
+        this.cameras.main.centerOn(this.world.player.x * TILE, this.world.player.y * TILE);
+      }
+      if (dev.god) this.world.player.health = 9999;
+      if (dev.sight) this.showSight = true;
+      (window as unknown as { __doomed: { world: World; scene: Phaser.Scene } }).__doomed = { world: this.world, scene: this };
+    }
     if (this.started) this.beginPlay();
     else {
       this.paused = true;
@@ -179,20 +190,6 @@ export class GameScene extends Phaser.Scene {
         this.restart(d);
       });
     }
-  }
-
-  private applyDevParams(): void {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('autostart')) this.started = true;
-    const pos = params.get('pos')?.split(',').map(Number);
-    if (pos && pos.length === 2 && pos.every(Number.isFinite)) {
-      this.world.player.x = pos[0] + 0.5;
-      this.world.player.y = pos[1] + 0.5;
-      this.cameras.main.centerOn(this.world.player.x * TILE, this.world.player.y * TILE);
-    }
-    if (params.has('god')) this.world.player.health = 9999;
-    if (params.has('sight')) this.showSight = true;
-    (window as unknown as { __doomed: { world: World; scene: Phaser.Scene } }).__doomed = { world: this.world, scene: this };
   }
 
   private beginPlay(): void {
