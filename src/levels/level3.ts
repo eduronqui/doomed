@@ -7,10 +7,9 @@ export const LEVEL3: LevelInfo = {
   id: 3,
   title: 'E3: Ember Gate',
   briefing:
-    'Below the refinery the base is gone. Only rock, fire and the gate the demons came through. Take the yellow and red keys from its wings and close the gate from the sanctum.',
+    'Below the refinery the base is gone. Only rock, fire and the gate the demons came through. It is still open, and it is still hungry.',
   darkness: 0.8,
   par: 360,
-  startMessage: 'Find the yellow keycard, then the red one.',
   music: LEVEL3_MUSIC,
   load: () => parseLevel('Ember Gate', LEVEL3_MAP),
 };

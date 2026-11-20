@@ -102,7 +102,6 @@ A level is three files plus one line in the level list.
      briefing: 'Story text for the title screen.',
      darkness: 0.75,
      par: 300,
-     startMessage: 'Find the blue keycard.',
      music: LEVEL4_MUSIC,
      load: () => parseLevel('Your Title', LEVEL4_MAP),
    };
@@ -123,7 +122,7 @@ A level is three files plus one line in the level list.
 | `briefing` | Story text on the title screen. It shows only for the level a run starts on (the training or E1, or any level with `?level=n` in dev mode). |
 | `darkness` | Strength of the darkness, 0 (bright) to 1 (black). The levels use 0.55 to 0.8. |
 | `par` | Par time in seconds, shown on the victory tally |
-| `startMessage` | First message in the Server Log |
+| `startMessage` | Optional. Text after "Welcome to ..." in the first Server Log message. Do not use it for hints about the level; only the training uses it. |
 | `music` | The level's `Track` |
 | `load` | Returns the parsed map |
 | `startCarry` | Optional. The marine's loadout at the start. Only the training uses it. Other levels get the loadout from the previous level. |

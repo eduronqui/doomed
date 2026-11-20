@@ -201,7 +201,7 @@ export class GameScene extends Phaser.Scene {
     this.started = true;
     this.deps.music.play(levelInfo(this.levelIndex).music);
     const info = levelInfo(this.levelIndex);
-    this.deps.hud.message(`Welcome to ${info.title}. ${info.startMessage}`, 'info', 0);
+    this.deps.hud.message(info.startMessage ? `Welcome to ${info.title}. ${info.startMessage}` : `Welcome to ${info.title}.`, 'info', 0);
   }
 
   // ---------- construction ----------

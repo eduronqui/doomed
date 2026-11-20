@@ -7,10 +7,9 @@ export const LEVEL2: LevelInfo = {
   id: 2,
   title: 'E2: Toxin Refinery',
   briefing:
-    'The vault gate led to the refinery that feeds the outpost. Slime channels, settling basins and something that moves like smoke. The exit lift sits behind a blue security door.',
+    'The vault gate led to the refinery that feeds the outpost. Slime channels, settling basins and something that moves like smoke. The workers did not leave.',
   darkness: 0.76,
   par: 300,
-  startMessage: 'Find the blue keycard.',
   music: LEVEL2_MUSIC,
   load: () => parseLevel('Toxin Refinery', LEVEL2_MAP),
 };

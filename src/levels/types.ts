@@ -9,7 +9,7 @@ export interface LevelInfo {
   briefing: string;
   darkness: number;
   par: number;
-  startMessage: string;
+  startMessage?: string;
   music: Track;
   load: () => LevelData;
   training?: boolean;
