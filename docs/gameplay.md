@@ -517,6 +517,29 @@ Each level has its own looping track. All music is synthesized in the browser: a
 
 When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages) and your Time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Then the Par time appears at once, with an explosion. Click or press Enter or Space to skip to the final numbers. Then pick a button with the mouse or with the arrow keys or W A S D and Enter or Space, or press R.
 
+## Versus (2 players)
+
+Pick **Versus** on the title screen to fight one other player in the arena **The Pit**. There is no chat.
+
+**Connecting** (no server, the browsers connect directly over WebRTC):
+1. Both players type a name, up to 12 characters. Markup and control characters are removed; an empty name becomes "Marine".
+2. The host picks **Host a match**, copies the code (about 140 characters, one line) and sends it to the guest by any chat or mail.
+3. The guest picks **Join a match**, pastes the code, picks **Create my reply** and sends the reply code back.
+4. The host pastes the reply code and picks **Connect**. The match starts on both screens.
+
+Playing online shares your IP address with the other player, and with a public STUN server that helps the browsers find each other. Some strict home or office routers block direct connections; then the two browsers cannot connect (a relay server is not part of this first version).
+
+**Rules**
+- The host's Marine is **green**, the guest's Marine is **blue**. Name labels use the same colors.
+- First to **10 frags** wins. The score shows in the side panel under the map.
+- You start and respawn with 100 health, no armor, the knife, the sidearm and 40 bullets. A dead Marine respawns after 2.5 seconds at the start point farthest from the other player.
+- Weapons work as in the episode; armor absorbs a third of the damage. You cannot hurt yourself.
+- Items come back after they are taken: medkits, stimpacks, clips and shells after 15 seconds, the armor after 30, the shotgun after 20 and the rotary gun after 30. The arena has 2 medkits and 4 stimpacks.
+- Esc opens a menu to keep playing or leave the match. The match does not pause.
+- The host runs the match. Keep the host's game window visible: browsers pause hidden tabs, and then the match freezes for both players.
+
+**The arena** is point-symmetric, so both starts are fair: open concrete lanes in the middle, grate halls in the north and south, side rooms with cover, crates and lamps. Each side has a shotgun, a rotary gun, an armor, a medkit and stimpacks.
+
 ## Level 1: Outpost Breach
 
 > The Kharon research outpost went silent six hours ago. Its gate to the deep vaults is open, and something came through.

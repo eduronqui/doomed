@@ -7,6 +7,7 @@ import type { FloorKind } from '../../sim/level';
 import type { Pix } from '../pixel';
 import { packSheet, type Sheet } from '../sheet';
 import { CHARACTERS, CHARACTER_ART, DIRS, FRAMES } from '../../characters/art';
+import { MARINE_BLUE_ART } from '../../characters/marine.art';
 import { FLOOR_VARIANTS, WALL_VARIANTS, key } from '../atlas';
 import { barrelTexture, bloodFx, decoTexture, explosion, bolt, fireball, flameFx, wisp, grenadeShot, itemTexture, muzzle, puff, riftBlast, riftOrb, scorch } from './items';
 import { RAISED_FLOORS, STAIR_DIRS, STAIR_FLOORS, ledgeRimTexture, ledgeSideTexture, raisedFaceTexture, raisedTopTexture, stairsTexture } from './raised';
@@ -56,6 +57,8 @@ export function buildArt(): Map<string, Pix> {
     } else for (const d of DIRS) for (const f of FRAMES) art.set(key.actor(c, d, f), look.frame(d, f));
     art.set(key.corpse(c), look.corpse());
   }
+  for (const w of WEAPON_ORDER) for (const d of DIRS) for (const f of FRAMES) art.set(key.marine(w, d, f, 'blue'), MARINE_BLUE_ART.frame(d, f, w));
+  art.set(key.marineCorpse('blue'), MARINE_BLUE_ART.corpse());
   for (const i of Object.keys(ITEM_NAMES) as ItemKind[]) art.set(key.item(i), itemTexture(i));
   for (const d of ['lamp', 'crate', 'gore', 'body'] as const) art.set(key.deco(d, 0), decoTexture(d, 0));
   for (let f = 0; f < 3; f++) {

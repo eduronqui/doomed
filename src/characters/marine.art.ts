@@ -18,6 +18,19 @@ const MARINE_OUTFIT: Outfit = {
   pad: 0x6e9a52,
 };
 
+const BLUE_OUTFIT: Outfit = {
+  ...MARINE_OUTFIT,
+  body: 0x3a5a9a,
+  legs: 0x2c4472,
+  helmet: 0x4a72b8,
+  pad: 0x6a92d0,
+};
+
+export const MARINE_BLUE_ART: CharacterArt = {
+  frame: (dir, frame, held = 'pistol') => humanoid({ ...BLUE_OUTFIT, weapon: held }, dir, frame, 'marine-blue'),
+  corpse: () => humanoidCorpse('marine-blue', BLUE_OUTFIT.body, BLUE_OUTFIT.skin, (q) => q.rect(14, 16, 9, 2, 0x2c2e33)),
+};
+
 export const MARINE_ART: CharacterArt = {
   frame: (dir, frame, held = 'pistol') => humanoid({ ...MARINE_OUTFIT, weapon: held }, dir, frame, 'marine'),
   corpse: () => humanoidCorpse('marine', MARINE_OUTFIT.body, MARINE_OUTFIT.skin, (q) => q.rect(14, 16, 9, 2, 0x2c2e33)),

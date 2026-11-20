@@ -20,3 +20,18 @@ export function dist(ax: number, ay: number, bx: number, by: number): number {
 export function clamp(v: number, min: number, max: number): number {
   return v < min ? min : v > max ? max : v;
 }
+
+export function angleDiff(a: number, b: number): number {
+  return Math.atan2(Math.sin(a - b), Math.cos(a - b));
+}
+
+export function rayCircle(ox: number, oy: number, dx: number, dy: number, cx: number, cy: number, r: number): number {
+  const fx = ox - cx;
+  const fy = oy - cy;
+  const b = fx * dx + fy * dy;
+  const c = fx * fx + fy * fy - r * r;
+  if (c <= 0) return 0;
+  const disc = b * b - c;
+  if (disc < 0 || b > 0) return -1;
+  return -b - Math.sqrt(disc);
+}

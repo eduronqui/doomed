@@ -3,7 +3,7 @@ import { parseDevParams } from '../src/render/devParams';
 
 describe('dev URL parameters', () => {
   it('reads every flag and value', () => {
-    expect(parseDevParams('?autostart&god&arsenal&sight&noMonster&overview&pos=50,26&level=2', 3)).toEqual({
+    expect(parseDevParams('?autostart&god&arsenal&sight&noMonster&overview&pos=50,26&level=2&versus=join', 3)).toEqual({
       autostart: true,
       god: true,
       arsenal: true,
@@ -12,11 +12,12 @@ describe('dev URL parameters', () => {
       overview: true,
       pos: { x: 50, y: 26 },
       level: 2,
+      versus: 'join',
     });
   });
 
   it('defaults to nothing on an empty query', () => {
-    expect(parseDevParams('', 3)).toEqual({ autostart: false, god: false, arsenal: false, sight: false, noMonster: false, overview: false, pos: null, level: null });
+    expect(parseDevParams('', 3)).toEqual({ autostart: false, god: false, arsenal: false, sight: false, noMonster: false, overview: false, pos: null, level: null, versus: null });
   });
 
   it('ignores a bad position or level', () => {

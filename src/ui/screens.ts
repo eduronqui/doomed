@@ -3,8 +3,18 @@ import type { Difficulty, DifficultyId } from '../sim/defs';
 import type { Stats } from '../sim/world';
 import { formatTime } from './hud';
 import { drawLogo } from './logo';
+import { NAME_MAX } from '../net/protocol';
 
 type Pick = (d: Difficulty) => void;
+
+export interface VersusApi {
+  host(name: string): Promise<string>;
+  connect(answer: string): Promise<void>;
+  join(name: string, offer: string): Promise<string>;
+  back(): void;
+}
+
+const PRIVACY = 'Playing online shares your IP address with the other player and with a public STUN server (Google) that helps the two browsers find each other. Only send codes to people you trust.';
 
 interface Counter {
   label: string;
@@ -40,6 +50,7 @@ export class Screens {
   private actions = new WeakMap<HTMLButtonElement, () => void>();
   private buttons: HTMLButtonElement[] = [];
   private selected = 0;
+  private keepOpen = new WeakSet<HTMLButtonElement>();
 
   constructor(sfx: Sfx) {
     this.sfx = sfx;
@@ -54,6 +65,7 @@ export class Screens {
 
   private onKey(e: KeyboardEvent): void {
     if (!this.visible || e.repeat) return;
+    if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
     if (ENTER_KEYS.has(e.code)) {
       e.preventDefault();
       if (this.onClick) this.onClick();
@@ -62,11 +74,12 @@ export class Screens {
     else if (NEXT_KEYS.has(e.code)) this.select(this.selected + 1);
   }
 
-  private choice(name: string, blurb: string, cls: string, action: () => void): HTMLButtonElement {
+  private choice(name: string, blurb: string, cls: string, action: () => void, keepOpen = false): HTMLButtonElement {
     const btn = el('button', undefined, cls);
     btn.type = 'button';
     btn.append(el('span', name, 'diff-name'), el('span', blurb, 'diff-blurb'));
     this.actions.set(btn, action);
+    if (keepOpen) this.keepOpen.add(btn);
     btn.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return;
       e.stopPropagation();
@@ -82,7 +95,7 @@ export class Screens {
   private press(btn: HTMLButtonElement | undefined): void {
     const action = btn && this.actions.get(btn);
     if (!action) return;
-    this.hide();
+    if (!this.keepOpen.has(btn)) this.hide();
     action();
   }
 
@@ -131,12 +144,135 @@ export class Screens {
     return box;
   }
 
-  title(levelTitle: string, briefing: string, list: Difficulty[], current: DifficultyId, onPick: Pick): void {
+  title(levelTitle: string, briefing: string, list: Difficulty[], current: DifficultyId, onPick: Pick, onVersus?: () => void): void {
     const logo = drawLogo();
     logo.className = 'logo';
     logo.setAttribute('role', 'img');
     logo.setAttribute('aria-label', 'DOOMED');
-    this.show([logo, el('h3', levelTitle), el('p', briefing), this.picker('Choose your difficulty', list, current, onPick)], null);
+    const parts = [logo, el('h3', levelTitle), el('p', briefing), this.picker('Choose your difficulty', list, current, onPick)];
+    if (onVersus) {
+      const box = el('div', undefined, 'picker');
+      box.append(el('div', 'Or fight another player', 'picker-title'), this.choice('Versus', 'Two players online. First to 10 frags wins.', 'diff', onVersus));
+      parts.push(box);
+    }
+    this.show(parts, null);
+  }
+
+  notice(title: string, text: string, button: string, action: () => void): void {
+    const box = el('div', undefined, 'picker');
+    box.append(this.choice(button, '', 'diff current', action));
+    this.show([el('h1', title), el('h3', text), box], null);
+  }
+
+  menu(title: string, text: string, options: { name: string; blurb: string; action: () => void }[]): void {
+    const box = el('div', undefined, 'picker');
+    options.forEach((o, i) => box.append(this.choice(o.name, o.blurb, i === 0 ? 'diff current' : 'diff', o.action)));
+    this.show([el('h1', title), el('p', text), box], null);
+  }
+
+  versus(api: VersusApi, name = ''): void {
+    const input = el('input', undefined, 'lobby-input');
+    input.type = 'text';
+    input.maxLength = NAME_MAX;
+    input.placeholder = 'Your name';
+    input.value = name;
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+    const box = el('div', undefined, 'picker');
+    box.append(
+      this.choice('Host a match', 'Create a code and send it to the other player.', 'diff current', () => void this.versusHost(api, input.value)),
+      this.choice('Join a match', 'Paste the code the host sent you.', 'diff', () => this.versusJoin(api, input.value)),
+      this.choice('Back', 'Return to the title screen.', 'diff', api.back),
+    );
+    this.show([el('h1', 'VERSUS'), el('p', 'Two Marines, one arena. The host plays green, the guest plays blue.'), el('div', `Name (up to ${NAME_MAX} characters)`, 'picker-title'), input, box, el('p', PRIVACY, 'lobby-note')], null);
+    input.focus();
+  }
+
+  private codeBox(value: string, readOnly: boolean, placeholder: string): HTMLTextAreaElement {
+    const area = el('textarea', undefined, 'lobby-code');
+    area.readOnly = readOnly;
+    area.value = value;
+    area.placeholder = placeholder;
+    area.rows = 3;
+    area.spellcheck = false;
+    return area;
+  }
+
+  private copyButton(area: HTMLTextAreaElement, status: HTMLElement): HTMLButtonElement {
+    return this.choice(
+      'Copy my code',
+      'Send it to the other player by chat or mail.',
+      'diff',
+      () => {
+        area.select();
+        navigator.clipboard?.writeText(area.value).then(
+          () => (status.textContent = 'Code copied.'),
+          () => (status.textContent = 'Select the code and copy it by hand.'),
+        );
+      },
+      true,
+    );
+  }
+
+  private async versusHost(api: VersusApi, name: string): Promise<void> {
+    const status = el('p', 'Creating your code...', 'lobby-status');
+    this.show([el('h1', 'HOST'), status], null);
+    let offer: string;
+    try {
+      offer = await api.host(name);
+    } catch {
+      this.notice('HOST', 'The browser could not create a connection.', 'Back', () => this.versus(api, name));
+      return;
+    }
+    const mine = this.codeBox(offer, true, '');
+    const reply = this.codeBox('', false, "Paste the guest's reply code here");
+    status.textContent = '1. Send your code to the guest. 2. Paste their reply code. 3. Connect.';
+    const box = el('div', undefined, 'picker');
+    box.append(
+      this.copyButton(mine, status),
+      this.choice(
+        'Connect',
+        'Start the match with the reply code.',
+        'diff current',
+        () => {
+          status.textContent = 'Connecting...';
+          api.connect(reply.value).catch((e: unknown) => (status.textContent = e instanceof Error ? e.message : 'The reply code is not valid.'));
+        },
+        true,
+      ),
+      this.choice('Back', 'Cancel and return.', 'diff', api.back),
+    );
+    this.show([el('h1', 'HOST'), el('div', 'Your code', 'picker-title'), mine, el('div', 'Reply code', 'picker-title'), reply, box, status], null);
+  }
+
+  private versusJoin(api: VersusApi, name: string): void {
+    const offer = this.codeBox('', false, "Paste the host's code here");
+    const status = el('p', 'Paste the code the host sent you, then create your reply.', 'lobby-status');
+    const box = el('div', undefined, 'picker');
+    box.append(
+      this.choice(
+        'Create my reply',
+        'Makes the code to send back to the host.',
+        'diff current',
+        () => {
+          status.textContent = 'Creating your reply...';
+          api.join(name, offer.value).then(
+            (answer) => {
+              const mine = this.codeBox(answer, true, '');
+              const wait = el('p', 'Send this reply code to the host. The match starts when the host connects.', 'lobby-status');
+              const back = el('div', undefined, 'picker');
+              back.append(this.copyButton(mine, wait), this.choice('Back', 'Cancel and return.', 'diff', api.back));
+              this.show([el('h1', 'JOIN'), el('div', 'Your reply code', 'picker-title'), mine, back, wait], null);
+            },
+            (e: unknown) => (status.textContent = e instanceof Error ? e.message : 'The code is not valid.'),
+          );
+        },
+        true,
+      ),
+      this.choice('Back', 'Cancel and return.', 'diff', api.back),
+    );
+    this.show([el('h1', 'JOIN'), el('div', "Host's code", 'picker-title'), offer, box, status], null);
+    offer.focus();
   }
 
   mainMenu(save: { blurb: string } | null, onContinue: () => void, onNew: () => void): void {

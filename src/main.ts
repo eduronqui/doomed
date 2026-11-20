@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { Sfx } from './render/sfx';
 import { Music } from './render/music';
 import { GameScene, VIEW_H, VIEW_W, type GameDeps } from './render/GameScene';
+import { ArenaScene } from './render/ArenaScene';
 import { ATLAS, ATLAS_DATA, ATLAS_IMAGE, frameCanvas, key } from './render/atlas';
 import { AMMO_ORDER, WEAPON_ORDER } from './weapons';
 import { AMMO_ICON } from './ui/hud';
@@ -61,5 +62,5 @@ new Phaser.Game({
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   input: { mouse: { preventDefaultWheel: true } },
-  scene: [BootScene, GameScene],
+  scene: [BootScene, GameScene, ArenaScene],
 });

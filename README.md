@@ -68,6 +68,7 @@ src/
     grid.ts           Tiles, doors and door groups, rooms, collision, raycasts
     pathfind.ts       A* path search (8 directions, no corner cutting)
     world.ts          The simulation: player, monster AI, combat, pickups, events
+    arena.ts          Versus simulation: two Marines, frags, respawns, item respawns, snapshots
     rng.ts            Seeded random numbers
     types.ts          Small shared types and helpers
   characters/         Everything about each character, one name per character
@@ -105,6 +106,8 @@ src/
     training.ts       Training settings (tips, start loadout, alert-on-entry), shown once
     training.map.ts   Training ASCII map
     training.music.ts Training music track
+    arena.ts          Versus arena settings (title, darkness, music, loader)
+    arena.map.ts      Versus arena ASCII map (two or more `P` starts)
     death.music.ts    Death screen music loop
 
     Levels: 1 = E1: Outpost Breach, 2 = E2: Toxin Refinery, 3 = E3: Ember Gate, 4 = E4: Freight Lift,
@@ -112,6 +115,7 @@ src/
     9 = E9: Iron Bastion, 10 = E10: Drowned Pit, 11 = E11: The Gauntlet, 12 = E12: The Gate (boss).
   render/             Everything visual and audible
     GameScene.ts      Builds the map sprites, syncs them with the world, effects, input
+    ArenaScene.ts     Versus match: draws the arena, runs the host or guest loop over the link
     lighting.ts       Darkness overlay and colored glow
     heights.ts        Raised floor rows, stairs and ledge shadows
     devParams.ts      Dev-only URL parameters (the production build drops them)
@@ -126,6 +130,12 @@ src/
     sfx.ts            WebAudio sound effects (class Sfx)
     music.ts          Music engine: look-ahead step sequencer, guitar, bass, lead and drum voices
     tracks.ts         Track type, pattern parser and validation
+  net/
+    peer.ts           WebRTC data channel with copy-paste offer and reply codes
+    sdp.ts            Packs the session data into a short code (~140 characters) and rebuilds it
+    protocol.ts       Versus messages, name cleaning and strict checks in both directions
+    handshake.ts      Hello and start messages before a match
+    localLink.ts      Dev only: pairs two tabs over a BroadcastChannel (?versus=host / ?versus=join)
   ui/
     hud.ts            Side panel, minimap, server log, center messages
     screens.ts        Menu, title, pause, death and victory screens
@@ -172,6 +182,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?sight` | Show the enemy sight layer (view cones) |
 | `?touch` | Turn on touch mode on a desktop browser, to test the phone layout and controls (works on the live site too) |
 | `?noMonster` | Remove every monster at the start, to look around a level in peace |
+| `?versus=host` / `?versus=join` | Start a local versus match between two tabs or an iframe, without WebRTC |
 
 Example: `http://localhost:5173/?autostart&god&pos=50,26` starts in the hell vault.
 
@@ -192,6 +203,9 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
 - `puzzles.test.ts`: levers open their gates for good, gates refuse the player and monsters and point to their lever, link errors, enemies that face the doors, and the boss seal that breaks when the boss dies.
 - `sprites.test.mjs`: the committed sprite sheet and favicons match the art code, and no frames overlap.
+- `arena.test.ts`: the versus arena: teams and spawns, frags and respawns, the frag limit, armor, medical aid coming back, and a host snapshot copied to the guest.
+- `sdp.test.ts`: the short connection codes: size, a full round trip of keys and routes, and rejection of bad or injected codes.
+- `protocol.test.ts`: player names (length, markup, control characters), and the checks on client and host messages: size, types, value ranges and unknown events.
 - `world.test.ts`: pickups, weapons, ammo fallback, combat, armor, hazards, barrels, doors and keys, secrets, death, exit, resting, view cones, crate cover, knife backstabs, the lost-sight behavior of each enemy kind, monsters and doors, difficulty scaling, room reveal, colored keycards, carry-over between levels and the Shade.
 
 ## Security notes

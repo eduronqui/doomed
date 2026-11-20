@@ -999,3 +999,40 @@ html.touch #rotate p {
     --panel-w: 150px;
   }
 }
+
+#screen .lobby-input,
+#screen .lobby-code {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 6px auto;
+  padding: 5px 8px;
+  font: 12px Verdana, Tahoma, sans-serif;
+  color: #f4f0e8;
+  background: #14110f;
+  border: 1px solid #5a4a3a;
+  user-select: text;
+}
+
+#screen .lobby-code {
+  font: 10px ui-monospace, Menlo, monospace;
+  resize: none;
+  word-break: break-all;
+}
+
+#screen .lobby-input:focus,
+#screen .lobby-code:focus {
+  outline: 1px solid var(--gold);
+}
+
+#screen .lobby-status {
+  color: #f4f0e8;
+  min-height: 1.2em;
+}
+
+#screen .lobby-note {
+  color: var(--muted);
+  font-size: 10px;
+  max-width: 360px;
+  margin: 10px auto 0;
+}

@@ -13,7 +13,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Level select](#level-select) | Under discussion, not built |
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Minimum loadout at level start](#minimum-loadout-at-level-start) | Under discussion, not built |
-| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Under discussion, not built |
+| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Versus built (2 players, copy-paste codes). Co-op, TURN relay and prediction not built |
 
 ### Discarded
 
@@ -155,6 +155,8 @@ Problem: health, armor, ammo and weapons carry over to the next level, and a res
 - Show the change: a Server Log line such as "Resupplied: +40 health, +15 bullets", so the jump does not look like a bug.
 
 ## Multiplayer over WebRTC
+
+**Built so far:** 2-player versus in its own arena (see [gameplay.md](gameplay.md#versus-2-players)): host-authoritative `ArenaWorld`, a WebRTC data channel with copy-paste codes, strict message checks, names up to 12 characters, green host and blue guest. Not built yet: co-op, a signaling server, TURN, client-side prediction and interpolation, more than 2 players.
 
 Goal: 2 to 4 players in two modes, on the same network code:
 

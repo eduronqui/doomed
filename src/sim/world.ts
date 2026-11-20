@@ -5,7 +5,7 @@ import { FOOT_OFFSET, Grid, reachUp, type Door } from './grid';
 import { FLOOR_HAZARD, exitClosetCells, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
 import { Rng } from './rng';
-import { clamp, dirFromAngle, dist, type Dir, type Vec } from './types';
+import { angleDiff, clamp, dirFromAngle, dist, rayCircle, type Dir, type Vec } from './types';
 
 export interface Input {
   moveX: number;
@@ -264,21 +264,6 @@ const ENEMY_AIM_ERROR = 0.14;
 const DROPPED_AMMO = 5;
 export const ALERT_SIGHT = 1.5;
 export const LOSS_GRACE = 2;
-
-function angleDiff(a: number, b: number): number {
-  return Math.atan2(Math.sin(a - b), Math.cos(a - b));
-}
-
-function rayCircle(ox: number, oy: number, dx: number, dy: number, cx: number, cy: number, r: number): number {
-  const fx = ox - cx;
-  const fy = oy - cy;
-  const b = fx * dx + fy * dy;
-  const c = fx * fx + fy * fy - r * r;
-  if (c <= 0) return 0;
-  const disc = b * b - c;
-  if (disc < 0 || b > 0) return -1;
-  return -b - Math.sqrt(disc);
-}
 
 function isCalm(m: Monster): boolean {
   return m.state === 'idle' || m.state === 'wander' || m.state === 'return' || m.state === 'hold';
