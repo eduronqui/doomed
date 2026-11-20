@@ -18,7 +18,7 @@
       ]
     },
     {
-      "source": "/assets/index-(.*)",
+      "source": "/assets/(index|phaser)-(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
