@@ -1,0 +1,27 @@
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_4497150abca9c8 34,44-45,87,148-149,220,229
+src/characters/marine.ts
+  s_e549dc79ddcbfe::t_57aa790fc6f2bf 7
+src/sim/defs.ts
+  s_e549dc79ddcbfe::t_73b0c9b5d213e1 68,84,98,109,111-112
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_f635703afd823f 251,590,593
+tests/world.test.ts
+  s_e549dc79ddcbfe::t_3031aa3b1cd86d 7,306-318,346-350,353,355-358
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f2ad1d318ca60ff9d271ad12c9f3ea6f7bf8a366",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
