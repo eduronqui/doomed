@@ -162,7 +162,7 @@ export class Screens {
   private retry(list: Difficulty[], current: DifficultyId, onPick: Pick): HTMLElement {
     const difficulty = list.find((d) => d.id === current) ?? list[0];
     const box = el('div', undefined, 'picker');
-    box.append(this.choice('Try again', `${difficulty.name}. Press Enter or R.`, 'diff current', () => onPick(difficulty)));
+    box.append(this.choice('Try again', 'Press Enter or R.', 'diff current', () => onPick(difficulty)));
     return box;
   }
 
