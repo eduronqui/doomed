@@ -84,7 +84,7 @@ src/
   levels/
     index.ts          LEVELS (play order), TRAINING, ALL_LEVELS, levelInfo()
     types.ts          LevelInfo and Tip types
-    levelN.ts         Level N settings (N = 1 to 3): title, briefing, darkness, par, start message, music, loader
+    levelN.ts         Level N settings (N = 1 to 3): title, briefing, darkness, par, music, loader
     levelN.map.ts     Level N ASCII map
     levelN.music.ts   Level N music track
     training.ts       Training settings (tips, start loadout, alert-on-entry), shown once
