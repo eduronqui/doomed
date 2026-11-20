@@ -71,7 +71,10 @@ export class Screens {
       e.stopPropagation();
       this.press(btn);
     });
-    btn.addEventListener('pointerenter', () => this.select(this.buttons.indexOf(btn)));
+    btn.addEventListener('pointerenter', () => {
+      const index = this.buttons.indexOf(btn);
+      if (index >= 0) this.select(index);
+    });
     return btn;
   }
 
@@ -89,7 +92,7 @@ export class Screens {
 
   private select(index: number): void {
     const n = this.buttons.length;
-    if (n === 0 || index < 0) return;
+    if (n === 0) return;
     this.selected = (index + n) % n;
     this.buttons.forEach((b, i) => b.classList.toggle('selected', i === this.selected));
   }
