@@ -228,6 +228,27 @@ body {
   overflow-y: auto;
 }
 
+#credits {
+  margin-top: auto;
+  padding: 4px 0 2px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+#credits .heart {
+  vertical-align: -2px;
+  margin: 0 2px;
+}
+
+#credits:hover,
+#credits:focus-visible {
+  color: var(--gold);
+  opacity: 1;
+}
+
 #minimap {
   display: block;
   width: 100%;
