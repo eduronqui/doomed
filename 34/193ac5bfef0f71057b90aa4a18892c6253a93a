@@ -1,0 +1,29 @@
+README.md
+  s_e549dc79ddcbfe::t_a51e066a5f8ddc 93
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_ed085461036373 111,325
+src/levels/death.music.ts
+  s_e549dc79ddcbfe::t_d313e109823ff1 1-20
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_8b982c043c1209 5,549-550
+src/ui/screens.ts
+  s_e549dc79ddcbfe::t_db77441073f3ab 148,150
+tests/music.test.ts
+  s_e549dc79ddcbfe::t_55385b6cde7d7c 3,12-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "34193ac5bfef0f71057b90aa4a18892c6253a93a",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
