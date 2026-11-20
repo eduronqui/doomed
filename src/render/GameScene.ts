@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { MARINE } from '../characters';
 import type { CharacterKind } from '../characters/art';
 import { LEVELS, TRAINING_INDEX, levelInfo } from '../levels';
+import { DEATH_MUSIC } from '../levels/death.music';
 import { isTrainingDone, markTrainingDone } from '../ui/progress';
 import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from '../sim/defs';
 import type { Door } from '../sim/grid';
@@ -545,7 +546,8 @@ export class GameScene extends Phaser.Scene {
           }
           this.deathCount++;
           const canPick = this.deathCount >= DEATHS_BEFORE_DIFFICULTY_PICK;
-          this.deps.screens.dead(w.stats, w.time, DIFFICULTIES, this.difficulty.id, (d) => this.restart(d), canPick);
+          this.deps.screens.dead(DIFFICULTIES, this.difficulty.id, (d) => this.restart(d), canPick);
+          this.deps.music.play(DEATH_MUSIC);
         }
       }
     }

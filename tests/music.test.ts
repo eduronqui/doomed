@@ -1,11 +1,17 @@
 import { describe, expect, it } from 'vitest';
 import { ALL_LEVELS, TRAINING } from '../src/levels';
+import { DEATH_MUSIC } from '../src/levels/death.music';
 import { STEPS_PER_BAR, parseHits, parseLine, trackLength, validateTrack } from '../src/render/tracks';
 
 describe('level music', () => {
   it.each(ALL_LEVELS)('$title has whole bars with matching parts', (info) => {
     expect(() => validateTrack(info.music)).not.toThrow();
     expect(trackLength(info.music) % STEPS_PER_BAR).toBe(0);
+  });
+
+  it('has a valid death loop', () => {
+    expect(() => validateTrack(DEATH_MUSIC)).not.toThrow();
+    expect(trackLength(DEATH_MUSIC) % STEPS_PER_BAR).toBe(0);
   });
 
   it('gives every level its own track', () => {

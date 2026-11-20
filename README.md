@@ -90,6 +90,7 @@ src/
     training.ts       Training settings (tips, start loadout, alert-on-entry), shown once
     training.map.ts   Training ASCII map
     training.music.ts Training music track
+    death.music.ts    Death screen music loop
 
     Levels: 1 = E1: Outpost Breach, 2 = E2: Toxin Refinery, 3 = E3: Ember Gate.
   render/             Everything visual and audible

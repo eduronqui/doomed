@@ -145,18 +145,9 @@ export class Screens {
     });
   }
 
-  dead(stats: Stats, time: number, list: Difficulty[], current: DifficultyId, onPick: Pick, canPick: boolean): void {
-    const table = el('table');
-    for (const [k, v] of [
-      ['Kills', `${stats.kills} / ${stats.totalKills}`],
-      ['Time', formatTime(time)],
-    ]) {
-      const tr = el('tr');
-      tr.append(el('td', k), el('td', v));
-      table.append(tr);
-    }
+  dead(list: Difficulty[], current: DifficultyId, onPick: Pick, canPick: boolean): void {
     const retry = canPick ? this.picker('Try again (R repeats the same difficulty)', list, current, onPick) : this.retry(list, current, onPick);
-    this.show([el('h1', 'YOU DIED'), el('h3', 'The outpost claims another soul.'), table, retry], null);
+    this.show([el('h1', 'YOU DIED'), retry], null);
   }
 
   private retry(list: Difficulty[], current: DifficultyId, onPick: Pick): HTMLElement {

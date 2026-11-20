@@ -108,7 +108,7 @@ Doors divide the level into rooms. Open passages without a door join two areas i
 
 ### Death
 
-When your health reaches 0, you die. The death screen shows your kills and time.
+When your health reaches 0, you die. The level music stops. After 1.4 seconds the death screen shows "YOU DIED" and a slow dramatic loop plays until you restart. The screen shows no stats; only the victory tally shows them.
 
 - On your 1st and 2nd death on a level, the screen shows one "Try again" button on the same difficulty. Click it, press Enter or press R.
 - From your 3rd death on the same level, the screen shows the difficulty picker instead. Select a difficulty with the mouse, or with the arrow keys or W A S D and Enter, or press R to keep the same one.
@@ -322,7 +322,7 @@ A secret area counts as found when you step into it. A message shows, and the "S
 
 ## Music
 
-Each level has its own looping track. All music is synthesized in the browser: a distorted power-chord guitar, a bass, a lead and drums.
+Each level has its own looping track. All music is synthesized in the browser: a distorted power-chord guitar, a bass, a lead and drums. When you die, a slow two-bar loop in D minor (60 BPM) plays while the death screen shows: falling power chords (D, B flat, A, C sharp) and a falling lead line. N turns it off too.
 
 | Level | Track | Tempo | Style |
 | --- | --- | --- | --- |
