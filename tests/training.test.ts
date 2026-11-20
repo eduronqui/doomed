@@ -47,7 +47,7 @@ describe('training', () => {
 
   it('starts the marine hurt so resting shows, with a tip for each room', () => {
     const w = new World(TRAINING.load(), 1, undefined, TRAINING.startCarry);
-    expect(w.player.health).toBe(50);
+    expect(w.player.health).toBe(25);
     expect(TRAINING.tips).toHaveLength(3);
     const inTip = (x: number, y: number): boolean => TRAINING.tips!.some(({ area: [x0, y0, x1, y1] }) => x >= x0 && x <= x1 && y >= y0 && y <= y1);
     expect(inTip(Math.floor(w.player.x), Math.floor(w.player.y))).toBe(true);

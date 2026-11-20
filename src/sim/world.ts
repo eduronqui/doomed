@@ -390,7 +390,7 @@ export class World {
       this.sound('secret', p.x, p.y);
     }
 
-    const calm = !p.moving && p.attackTime <= 0 && p.hurtTime <= 0 && p.health < 100 && !this.enemyNearby();
+    const calm = !p.moving && p.attackTime <= 0 && p.hurtTime <= 0 && p.health < this.difficulty.restCap && !this.enemyNearby();
     p.stillTime = calm ? p.stillTime + dt : 0;
     p.resting = p.stillTime >= REST_DELAY;
     if (p.resting) {

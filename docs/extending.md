@@ -466,6 +466,7 @@ Add an entry to `DIFFICULTIES` in `src/sim/defs.ts`. The picker shows all entrie
 | `enemySpeed`, `enemyCooldown` | Multiply enemy speed and time between attacks |
 | `enemySight`, `projectileSpeed` | Multiply enemy sight range and fireball speed |
 | `restInterval` | Seconds per 1 HP while resting. The 10 s wait before resting starts is `REST_DELAY` in `src/sim/world.ts` and is the same for all difficulties. |
+| `restCap` | Resting stops at this health. 0 turns resting off. |
 
 ## 16. Training tips
 

@@ -168,20 +168,36 @@ describe('World', () => {
 
   it('starts resting after 10 still seconds, then recovers 1 hp every 2 seconds', () => {
     const w = new World(parseLevel('t', '##########\n#P.......#\n####D#####\n#....h...#\n##########'));
-    w.player.health = 50;
+    w.player.health = 20;
     run(w, 9.9);
-    expect(w.player.health).toBe(50);
+    expect(w.player.health).toBe(20);
     expect(w.player.resting).toBe(false);
     run(w, 6.15);
     expect(w.player.resting).toBe(true);
-    expect(w.player.health).toBe(53);
+    expect(w.player.health).toBe(23);
     run(w, 3, { moveX: 1 });
-    expect(w.player.health).toBe(53);
+    expect(w.player.health).toBe(23);
+  });
+
+  it('rests only up to the difficulty cap: 60 on Recruit, 30 on Veteran, never on Doomed', () => {
+    const map = '##########\n#P.......#\n##########';
+    const [recruit, veteran, doomed] = DIFFICULTIES;
+    const rest = (d: (typeof DIFFICULTIES)[number], hp: number): World => {
+      const w = new World(parseLevel('t', map), 1, d);
+      w.player.health = hp;
+      run(w, 40);
+      return w;
+    };
+    expect(rest(recruit, 55).player.health).toBe(60);
+    expect(rest(veteran, 25).player.health).toBe(30);
+    const capped = rest(veteran, 30);
+    expect([capped.player.health, capped.player.resting]).toEqual([30, false]);
+    expect(rest(doomed, 10).player.health).toBe(10);
   });
 
   it('restarts the rest delay when the player moves or shoots', () => {
     const w = new World(parseLevel('t', '############\n#P.........#\n############'));
-    w.player.health = 50;
+    w.player.health = 20;
     run(w, 8);
     run(w, 0.2, { moveX: 1 });
     run(w, 8);
@@ -189,15 +205,15 @@ describe('World', () => {
     run(w, 0.1, { fire: true });
     run(w, 9);
     expect(w.player.resting).toBe(false);
-    expect(w.player.health).toBe(50);
+    expect(w.player.health).toBe(20);
   });
 
   it('does not recover while an enemy shares the room', () => {
     const w = new World(parseLevel('t', '#########################\n#P.....................h#\n#########################'));
-    w.player.health = 50;
-    run(w, 3);
+    w.player.health = 10;
+    run(w, 15);
     expect(w.monsters[0].state).toBe('idle');
-    expect(w.player.health).toBe(50);
+    expect(w.player.health).toBe(10);
   });
 
   it('never lets a monster open a door, but lets it pass an open one', () => {

@@ -13,10 +13,10 @@ The first time you play, the game starts with a short training level, "Training:
 | Room | What it teaches |
 | --- | --- |
 | 1 | Moving (W A S D), aiming (mouse), picking up items (a clip and a combat vest) and opening doors |
-| 2 | Shooting two Husks and a pair of barrels, crates as cover. When the room is clear, the box explains resting and weapon switching with a shotgun. |
+| 2 | Shooting two Husks and a pair of barrels, crates as cover. When the room is clear, the box explains resting and its cap, healing with a medikit, and weapon switching with a shotgun. |
 | 3 | A Brute that guards the exit switch. It spots you the moment you step into the room and charges at once. The box explains how to fight a Brute and how to show enemy sight (V). When the Brute is dead, it tells you to use the exit switch. |
 
-- You start the training with 50 health, so you can see resting heal you.
+- You start the training with 25 health, below the rest cap of Recruit and Veteran, so you can see resting heal you. On Doomed there is no resting, so use the medikit.
 - When you use the exit switch, the training shows the same victory tally as the other levels (par 1:30). Then "Continue to E1: Outpost Breach" (or R) starts E1 with a fresh loadout. Nothing from the training carries over.
 - The "Skip training" button in the box ends the training at once and starts E1.
 - When you reach the training exit or skip the training, the game stores `doomed.trainingDone = 1` in the browser's localStorage. After that, new games start at E1. To see the training again, remove that key (browser developer tools, Application, Local Storage). If the browser blocks localStorage, the training shows on each new game.
@@ -46,7 +46,8 @@ Pick a difficulty on the title screen before you start. The death and victory sc
 | Time between enemy attacks | x1.3 | x1 | x0.75 |
 | Enemy sight range | x0.85 | x1 | x1.25 |
 | Fireball speed | x0.85 | x1 | x1.25 |
-| Resting heals 1 HP every (after the 10 s wait) | 1.5 s | 2 s | 4 s |
+| Resting heals 1 HP every (after the 10 s wait) | 1.5 s | 2 s | no resting |
+| Resting stops at | 60 HP | 30 HP | no resting |
 
 All numbers in this document are for Veteran. The side panel shows the difficulty next to the level name.
 
@@ -92,10 +93,12 @@ You start to rest after **10 seconds** in which all these conditions stay true:
 - You do not move.
 - You do not attack.
 - No damage hit you.
-- Your health is below 100.
+- Your health is below the rest cap of your difficulty.
 - No live enemy is in your room.
 
 While you rest, you recover **1 health every 2 seconds** (Veteran). If any condition breaks, resting stops and the 10 seconds start again.
+
+Resting is a safety net, not full healing. It stops at the rest cap: **60 HP on Recruit, 30 HP on Veteran, and no resting at all on Doomed**. Above the cap, only stimpacks, medikits and vital spheres heal you.
 
 Doors divide the level into rooms. Open passages without a door join two areas into one room. If you stand in a doorway, the rooms on both sides count. While you wait, the health bar label counts down ("Rest in 7s"). While you rest, it shows "Resting", and a green "+1" floats up for each point.
 

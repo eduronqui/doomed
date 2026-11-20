@@ -14,7 +14,7 @@ export const TRAINING: LevelInfo = {
   load: () => parseLevel('Boot Camp', TRAINING_MAP),
   training: true,
   alertOnEntry: ['brute'],
-  startCarry: { health: 50, armor: 0, ammo: { bullets: 50, shells: 0 }, weapons: ['knife', 'pistol'], weapon: 'pistol' },
+  startCarry: { health: 25, armor: 0, ammo: { bullets: 50, shells: 0 }, weapons: ['knife', 'pistol'], weapon: 'pistol' },
   tips: [
     {
       area: [1, 1, 12, 11],
@@ -24,7 +24,7 @@ export const TRAINING: LevelInfo = {
       area: [13, 1, 28, 11],
       text: 'SHOOT: hold the left mouse button. Kill the two Husks, or shoot a barrel to blow up what stands near it. Crates block bullets, so use them as cover.',
       clearText:
-        'REST: the room is clear. Stand still and do not shoot. After 10 seconds you heal 1 HP every 2 seconds while no enemy is in the room. Then take the shotgun and press 3 (or turn the mouse wheel) to switch weapons.',
+        'REST: the room is clear. Stand still and do not shoot. After 10 seconds you heal 1 HP every 2 seconds, up to 60 HP on Recruit and 30 HP on Veteran (no resting on Doomed). Then take the medikit to heal more, and the shotgun: press 3 (or turn the mouse wheel) to switch weapons.',
     },
     {
       area: [29, 1, 43, 11],

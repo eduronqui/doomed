@@ -144,6 +144,7 @@ export interface Difficulty {
   enemySight: number;
   projectileSpeed: number;
   restInterval: number;
+  restCap: number;
 }
 
 export const DIFFICULTIES: Difficulty[] = [
@@ -158,6 +159,7 @@ export const DIFFICULTIES: Difficulty[] = [
     enemySight: 0.85,
     projectileSpeed: 0.85,
     restInterval: 1.5,
+    restCap: 60,
   },
   {
     id: 'veteran',
@@ -170,11 +172,12 @@ export const DIFFICULTIES: Difficulty[] = [
     enemySight: 1,
     projectileSpeed: 1,
     restInterval: 2,
+    restCap: 30,
   },
   {
     id: 'doomed',
     name: 'Doomed',
-    blurb: 'Harder hits, faster and sharper demons, slow rest.',
+    blurb: 'Harder hits, faster and sharper demons, no resting.',
     enemyDamage: 1.5,
     ammo: 1,
     enemySpeed: 1.15,
@@ -182,6 +185,7 @@ export const DIFFICULTIES: Difficulty[] = [
     enemySight: 1.25,
     projectileSpeed: 1.25,
     restInterval: 4,
+    restCap: 0,
   },
 ];
 
