@@ -1,5 +1,5 @@
 import { MAX_AMMO, WEAPONS, WEAPON_ORDER, type KeyColor, type WeaponId } from '../sim/defs';
-import { REST_DELAY, type MessageTone, type World } from '../sim/world';
+import type { MessageTone, World } from '../sim/world';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -115,8 +115,6 @@ export class Hud {
   update(world: World, dt: number): void {
     const p = world.player;
     this.setBar('hp', p.health, p.health > 100 ? 200 : 100, `${p.health}`);
-    const waiting = p.stillTime > 1 && !p.resting;
-    this.setText('hp-label', p.resting ? 'Resting' : waiting ? `Rest in ${Math.ceil(REST_DELAY - p.stillTime)}s` : 'Health');
     this.setBar('ar', p.armor, p.armor > 100 ? 200 : 100, `${p.armor}`);
     for (const [id, slot] of this.slots) {
       const owned = p.weapons.has(id);

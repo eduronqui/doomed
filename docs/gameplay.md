@@ -100,7 +100,7 @@ While you rest, you recover **1 health every 2 seconds** (Veteran). If any condi
 
 Resting is a safety net, not full healing. It stops at the rest cap: **60 HP on Recruit, 30 HP on Veteran, and no resting at all on Doomed**. Above the cap, only stimpacks, medikits and vital spheres heal you.
 
-Doors divide the level into rooms. Open passages without a door join two areas into one room. If you stand in a doorway, the rooms on both sides count. While you wait, the health bar label counts down ("Rest in 7s"). While you rest, it shows "Resting", and a green "+1" floats up for each point.
+Doors divide the level into rooms. Open passages without a door join two areas into one room. If you stand in a doorway, the rooms on both sides count. The HUD shows no countdown and no label. While you rest, a green "+1" floats up over the marine for each point.
 
 ### Death
 
