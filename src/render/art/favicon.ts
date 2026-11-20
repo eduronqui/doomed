@@ -6,8 +6,14 @@ export interface Icon {
 }
 
 type Rgb = [number, number, number];
+type Stops = [number, Rgb][];
 
-const FIRE: [number, Rgb][] = [
+interface Palette {
+  face: Stops;
+  depth: (t: number) => Rgb;
+}
+
+const FIRE: Stops = [
   [0, [0xff, 0xf3, 0xb0]],
   [0.18, [0xff, 0xc8, 0x40]],
   [0.5, [0xf0, 0x70, 0x1c]],
@@ -15,19 +21,32 @@ const FIRE: [number, Rgb][] = [
   [1, [0x6a, 0x0e, 0x06]],
 ];
 
-function fire(t: number): Rgb {
-  for (let i = 1; i < FIRE.length; i++) {
-    const [t1, c1] = FIRE[i];
+const SLIME: Stops = [
+  [0, [0xe8, 0xff, 0xc0]],
+  [0.18, [0x9c, 0xf0, 0x50]],
+  [0.5, [0x40, 0xc0, 0x2a]],
+  [0.8, [0x1c, 0x7a, 0x18]],
+  [1, [0x0a, 0x40, 0x0c]],
+];
+
+export const PALETTES = {
+  fire: { face: FIRE, depth: (t: number): Rgb => [Math.round(110 - 70 * t), Math.round(24 - 16 * t), Math.round(8 - 4 * t)] },
+  slime: { face: SLIME, depth: (t: number): Rgb => [Math.round(20 - 12 * t), Math.round(90 - 60 * t), Math.round(18 - 12 * t)] },
+} satisfies Record<string, Palette>;
+
+function gradient(stops: Stops, t: number): Rgb {
+  for (let i = 1; i < stops.length; i++) {
+    const [t1, c1] = stops[i];
     if (t <= t1) {
-      const [t0, c0] = FIRE[i - 1];
+      const [t0, c0] = stops[i - 1];
       const k = (t - t0) / (t1 - t0);
       return [0, 1, 2].map((j) => Math.round(c0[j] + (c1[j] - c0[j]) * k)) as Rgb;
     }
   }
-  return FIRE[FIRE.length - 1][1];
+  return stops[stops.length - 1][1];
 }
 
-export function drawIcon(size: number, background: Rgb | null): Icon {
+export function drawIcon(size: number, background: Rgb | null, palette: Palette = PALETTES.fire): Icon {
   const rgba = new Uint8Array(size * size * 4);
   const paint = (x: number, y: number, w: number, h: number, c: Rgb, a = 1): void => {
     for (let j = Math.max(0, y); j < Math.min(size, y + h); j++) {
@@ -65,10 +84,10 @@ export function drawIcon(size: number, background: Rgb | null): Icon {
   for (const [x, y, w, h] of cells) paint(x - edge, y - edge, w + edge * 2 + depth, h + edge * 2 + depth, [0, 0, 0]);
   for (let k = depth; k >= 1; k--) {
     const t = k / depth;
-    const c: Rgb = [Math.round(110 - 70 * t), Math.round(24 - 16 * t), Math.round(8 - 4 * t)];
+    const c = palette.depth(t);
     for (const [x, y, w, h] of cells) paint(x + k, y + k, w, h, c);
   }
-  for (const [x, y, w, h] of cells) for (let j = 0; j < h; j++) paint(x, y + j, w, 1, fire((y + j - oy) / box));
+  for (const [x, y, w, h] of cells) for (let j = 0; j < h; j++) paint(x, y + j, w, 1, gradient(palette.face, (y + j - oy) / box));
   const line = Math.max(1, Math.round(size / 48));
   for (const [x, y, w, h, gx, gy] of cells) {
     if (!filled(gx, gy - 1)) paint(x, y, w, line, [255, 255, 220], 0.75);
@@ -79,7 +98,8 @@ export function drawIcon(size: number, background: Rgb | null): Icon {
   return { size, rgba };
 }
 
-export const ICONS: { file: string; size: number; background: Rgb | null }[] = [
-  { file: 'favicon.png', size: 32, background: null },
-  { file: 'apple-touch-icon.png', size: 180, background: [0x1a, 0x13, 0x10] },
+export const ICONS: { file: string; size: number; background: Rgb | null; palette: Palette }[] = [
+  { file: 'favicon.png', size: 32, background: null, palette: PALETTES.fire },
+  { file: 'favicon-dev.png', size: 32, background: null, palette: PALETTES.slime },
+  { file: 'apple-touch-icon.png', size: 180, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
 ];

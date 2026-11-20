@@ -1,6 +1,13 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, type Plugin } from 'vitest/config';
+
+const devFavicon: Plugin = {
+  name: 'dev-favicon',
+  apply: 'serve',
+  transformIndexHtml: (html) => html.replace('href="/favicon.png"', 'href="/favicon-dev.png"'),
+};
 
 export default defineConfig({
+  plugins: [devFavicon],
   server: {
     headers: {
       'X-Content-Type-Options': 'nosniff',

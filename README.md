@@ -45,6 +45,7 @@ TypeScript is pinned to 6.0.x because typescript-eslint 8.73 supports only TypeS
 index.html            Page layout: game view, server log, side panel
 public/
   favicon.png         32x32 tab icon: the "D" from the logo (generated)
+  favicon-dev.png     Green version of the tab icon; only `npm run dev` uses it (generated)
   apple-touch-icon.png  180x180 icon for phones and bookmarks (generated)
 public/assets/
   sprites.png         Sprite sheet with every sprite frame (generated)

@@ -31,9 +31,9 @@ describe('sprite sheet', () => {
 });
 
 describe('favicons', () => {
-  it.each(ICONS)('$file matches the logo code (run `npm run sprites` after logo changes)', ({ file, size, background }) => {
+  it.each(ICONS)('$file matches the logo code (run `npm run sprites` after logo changes)', ({ file, size, background, palette }) => {
     const png = decodePng(readFileSync(new URL(`../public/${file}`, import.meta.url)));
-    const icon = drawIcon(size, background);
+    const icon = drawIcon(size, background, palette);
     expect([png.width, png.height]).toEqual([size, size]);
     expect(Buffer.from(png.rgba).equals(Buffer.from(icon.rgba))).toBe(true);
   });
