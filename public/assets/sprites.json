@@ -960,10 +960,1290 @@
         "h": 32
       }
     },
-    "actor_marine-knife_e_0": {
+    "actor_marine-blue-knife_e_0": {
       "frame": {
         "x": 133,
         "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_e_1": {
+      "frame": {
+        "x": 166,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_e_2": {
+      "frame": {
+        "x": 199,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_e_3": {
+      "frame": {
+        "x": 232,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_n_0": {
+      "frame": {
+        "x": 265,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_n_1": {
+      "frame": {
+        "x": 298,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_n_2": {
+      "frame": {
+        "x": 331,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_n_3": {
+      "frame": {
+        "x": 364,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_s_0": {
+      "frame": {
+        "x": 397,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_s_1": {
+      "frame": {
+        "x": 430,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_s_2": {
+      "frame": {
+        "x": 463,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_s_3": {
+      "frame": {
+        "x": 496,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_w_0": {
+      "frame": {
+        "x": 529,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_w_1": {
+      "frame": {
+        "x": 562,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_w_2": {
+      "frame": {
+        "x": 595,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-knife_w_3": {
+      "frame": {
+        "x": 628,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_e_0": {
+      "frame": {
+        "x": 661,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_e_1": {
+      "frame": {
+        "x": 694,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_e_2": {
+      "frame": {
+        "x": 727,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_e_3": {
+      "frame": {
+        "x": 760,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_n_0": {
+      "frame": {
+        "x": 793,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_n_1": {
+      "frame": {
+        "x": 826,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_n_2": {
+      "frame": {
+        "x": 859,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_n_3": {
+      "frame": {
+        "x": 892,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_s_0": {
+      "frame": {
+        "x": 925,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_s_1": {
+      "frame": {
+        "x": 958,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_s_2": {
+      "frame": {
+        "x": 991,
+        "y": 244,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_s_3": {
+      "frame": {
+        "x": 1,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_w_0": {
+      "frame": {
+        "x": 34,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_w_1": {
+      "frame": {
+        "x": 67,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_w_2": {
+      "frame": {
+        "x": 100,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-pistol_w_3": {
+      "frame": {
+        "x": 133,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_e_0": {
+      "frame": {
+        "x": 166,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_e_1": {
+      "frame": {
+        "x": 199,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_e_2": {
+      "frame": {
+        "x": 232,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_e_3": {
+      "frame": {
+        "x": 265,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_n_0": {
+      "frame": {
+        "x": 298,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_n_1": {
+      "frame": {
+        "x": 331,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_n_2": {
+      "frame": {
+        "x": 364,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_n_3": {
+      "frame": {
+        "x": 397,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_s_0": {
+      "frame": {
+        "x": 430,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_s_1": {
+      "frame": {
+        "x": 463,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_s_2": {
+      "frame": {
+        "x": 496,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_s_3": {
+      "frame": {
+        "x": 529,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_w_0": {
+      "frame": {
+        "x": 562,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_w_1": {
+      "frame": {
+        "x": 595,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_w_2": {
+      "frame": {
+        "x": 628,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-rotary_w_3": {
+      "frame": {
+        "x": 661,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_e_0": {
+      "frame": {
+        "x": 694,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_e_1": {
+      "frame": {
+        "x": 727,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_e_2": {
+      "frame": {
+        "x": 760,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_e_3": {
+      "frame": {
+        "x": 793,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_n_0": {
+      "frame": {
+        "x": 826,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_n_1": {
+      "frame": {
+        "x": 859,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_n_2": {
+      "frame": {
+        "x": 892,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_n_3": {
+      "frame": {
+        "x": 925,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_s_0": {
+      "frame": {
+        "x": 958,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_s_1": {
+      "frame": {
+        "x": 991,
+        "y": 277,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_s_2": {
+      "frame": {
+        "x": 1,
+        "y": 310,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_s_3": {
+      "frame": {
+        "x": 34,
+        "y": 310,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_w_0": {
+      "frame": {
+        "x": 67,
+        "y": 310,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_w_1": {
+      "frame": {
+        "x": 100,
+        "y": 310,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_w_2": {
+      "frame": {
+        "x": 133,
+        "y": 310,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-blue-shotgun_w_3": {
+      "frame": {
+        "x": 166,
+        "y": 310,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-knife_e_0": {
+      "frame": {
+        "x": 199,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -982,8 +2262,8 @@
     },
     "actor_marine-knife_e_1": {
       "frame": {
-        "x": 166,
-        "y": 244,
+        "x": 232,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1002,8 +2282,8 @@
     },
     "actor_marine-knife_e_2": {
       "frame": {
-        "x": 199,
-        "y": 244,
+        "x": 265,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1022,8 +2302,8 @@
     },
     "actor_marine-knife_e_3": {
       "frame": {
-        "x": 232,
-        "y": 244,
+        "x": 298,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1042,8 +2322,8 @@
     },
     "actor_marine-knife_n_0": {
       "frame": {
-        "x": 265,
-        "y": 244,
+        "x": 331,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1062,8 +2342,8 @@
     },
     "actor_marine-knife_n_1": {
       "frame": {
-        "x": 298,
-        "y": 244,
+        "x": 364,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1082,8 +2362,8 @@
     },
     "actor_marine-knife_n_2": {
       "frame": {
-        "x": 331,
-        "y": 244,
+        "x": 397,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1102,8 +2382,8 @@
     },
     "actor_marine-knife_n_3": {
       "frame": {
-        "x": 364,
-        "y": 244,
+        "x": 430,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1122,8 +2402,8 @@
     },
     "actor_marine-knife_s_0": {
       "frame": {
-        "x": 397,
-        "y": 244,
+        "x": 463,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1142,8 +2422,8 @@
     },
     "actor_marine-knife_s_1": {
       "frame": {
-        "x": 430,
-        "y": 244,
+        "x": 496,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1162,8 +2442,8 @@
     },
     "actor_marine-knife_s_2": {
       "frame": {
-        "x": 463,
-        "y": 244,
+        "x": 529,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1182,8 +2462,8 @@
     },
     "actor_marine-knife_s_3": {
       "frame": {
-        "x": 496,
-        "y": 244,
+        "x": 562,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1202,8 +2482,8 @@
     },
     "actor_marine-knife_w_0": {
       "frame": {
-        "x": 529,
-        "y": 244,
+        "x": 595,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1222,8 +2502,8 @@
     },
     "actor_marine-knife_w_1": {
       "frame": {
-        "x": 562,
-        "y": 244,
+        "x": 628,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1242,8 +2522,8 @@
     },
     "actor_marine-knife_w_2": {
       "frame": {
-        "x": 595,
-        "y": 244,
+        "x": 661,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1262,8 +2542,8 @@
     },
     "actor_marine-knife_w_3": {
       "frame": {
-        "x": 628,
-        "y": 244,
+        "x": 694,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1282,8 +2562,8 @@
     },
     "actor_marine-pistol_e_0": {
       "frame": {
-        "x": 661,
-        "y": 244,
+        "x": 727,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1302,8 +2582,8 @@
     },
     "actor_marine-pistol_e_1": {
       "frame": {
-        "x": 694,
-        "y": 244,
+        "x": 760,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1322,8 +2602,8 @@
     },
     "actor_marine-pistol_e_2": {
       "frame": {
-        "x": 727,
-        "y": 244,
+        "x": 793,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1342,8 +2622,8 @@
     },
     "actor_marine-pistol_e_3": {
       "frame": {
-        "x": 760,
-        "y": 244,
+        "x": 826,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1362,8 +2642,8 @@
     },
     "actor_marine-pistol_n_0": {
       "frame": {
-        "x": 793,
-        "y": 244,
+        "x": 859,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1382,8 +2662,8 @@
     },
     "actor_marine-pistol_n_1": {
       "frame": {
-        "x": 826,
-        "y": 244,
+        "x": 892,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1402,8 +2682,8 @@
     },
     "actor_marine-pistol_n_2": {
       "frame": {
-        "x": 859,
-        "y": 244,
+        "x": 925,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1422,8 +2702,8 @@
     },
     "actor_marine-pistol_n_3": {
       "frame": {
-        "x": 892,
-        "y": 244,
+        "x": 958,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1442,8 +2722,8 @@
     },
     "actor_marine-pistol_s_0": {
       "frame": {
-        "x": 925,
-        "y": 244,
+        "x": 991,
+        "y": 310,
         "w": 32,
         "h": 32
       },
@@ -1462,8 +2742,8 @@
     },
     "actor_marine-pistol_s_1": {
       "frame": {
-        "x": 958,
-        "y": 244,
+        "x": 1,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1482,8 +2762,8 @@
     },
     "actor_marine-pistol_s_2": {
       "frame": {
-        "x": 991,
-        "y": 244,
+        "x": 34,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1502,8 +2782,8 @@
     },
     "actor_marine-pistol_s_3": {
       "frame": {
-        "x": 1,
-        "y": 277,
+        "x": 67,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1522,8 +2802,8 @@
     },
     "actor_marine-pistol_w_0": {
       "frame": {
-        "x": 34,
-        "y": 277,
+        "x": 100,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1542,8 +2822,8 @@
     },
     "actor_marine-pistol_w_1": {
       "frame": {
-        "x": 67,
-        "y": 277,
+        "x": 133,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1562,8 +2842,8 @@
     },
     "actor_marine-pistol_w_2": {
       "frame": {
-        "x": 100,
-        "y": 277,
+        "x": 166,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1582,8 +2862,8 @@
     },
     "actor_marine-pistol_w_3": {
       "frame": {
-        "x": 133,
-        "y": 277,
+        "x": 199,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1602,8 +2882,8 @@
     },
     "actor_marine-rotary_e_0": {
       "frame": {
-        "x": 166,
-        "y": 277,
+        "x": 232,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1622,8 +2902,8 @@
     },
     "actor_marine-rotary_e_1": {
       "frame": {
-        "x": 199,
-        "y": 277,
+        "x": 265,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1642,8 +2922,8 @@
     },
     "actor_marine-rotary_e_2": {
       "frame": {
-        "x": 232,
-        "y": 277,
+        "x": 298,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1662,8 +2942,8 @@
     },
     "actor_marine-rotary_e_3": {
       "frame": {
-        "x": 265,
-        "y": 277,
+        "x": 331,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1682,8 +2962,8 @@
     },
     "actor_marine-rotary_n_0": {
       "frame": {
-        "x": 298,
-        "y": 277,
+        "x": 364,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1702,8 +2982,8 @@
     },
     "actor_marine-rotary_n_1": {
       "frame": {
-        "x": 331,
-        "y": 277,
+        "x": 397,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1722,8 +3002,8 @@
     },
     "actor_marine-rotary_n_2": {
       "frame": {
-        "x": 364,
-        "y": 277,
+        "x": 430,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1742,8 +3022,8 @@
     },
     "actor_marine-rotary_n_3": {
       "frame": {
-        "x": 397,
-        "y": 277,
+        "x": 463,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1762,8 +3042,8 @@
     },
     "actor_marine-rotary_s_0": {
       "frame": {
-        "x": 430,
-        "y": 277,
+        "x": 496,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1782,8 +3062,8 @@
     },
     "actor_marine-rotary_s_1": {
       "frame": {
-        "x": 463,
-        "y": 277,
+        "x": 529,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1802,8 +3082,8 @@
     },
     "actor_marine-rotary_s_2": {
       "frame": {
-        "x": 496,
-        "y": 277,
+        "x": 562,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1822,8 +3102,8 @@
     },
     "actor_marine-rotary_s_3": {
       "frame": {
-        "x": 529,
-        "y": 277,
+        "x": 595,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1842,8 +3122,8 @@
     },
     "actor_marine-rotary_w_0": {
       "frame": {
-        "x": 562,
-        "y": 277,
+        "x": 628,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1862,8 +3142,8 @@
     },
     "actor_marine-rotary_w_1": {
       "frame": {
-        "x": 595,
-        "y": 277,
+        "x": 661,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1882,8 +3162,8 @@
     },
     "actor_marine-rotary_w_2": {
       "frame": {
-        "x": 628,
-        "y": 277,
+        "x": 694,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1902,8 +3182,8 @@
     },
     "actor_marine-rotary_w_3": {
       "frame": {
-        "x": 661,
-        "y": 277,
+        "x": 727,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1922,8 +3202,8 @@
     },
     "actor_marine-shotgun_e_0": {
       "frame": {
-        "x": 694,
-        "y": 277,
+        "x": 760,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1942,8 +3222,8 @@
     },
     "actor_marine-shotgun_e_1": {
       "frame": {
-        "x": 727,
-        "y": 277,
+        "x": 793,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1962,8 +3242,8 @@
     },
     "actor_marine-shotgun_e_2": {
       "frame": {
-        "x": 760,
-        "y": 277,
+        "x": 826,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -1982,8 +3262,8 @@
     },
     "actor_marine-shotgun_e_3": {
       "frame": {
-        "x": 793,
-        "y": 277,
+        "x": 859,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -2002,8 +3282,8 @@
     },
     "actor_marine-shotgun_n_0": {
       "frame": {
-        "x": 826,
-        "y": 277,
+        "x": 892,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -2022,8 +3302,8 @@
     },
     "actor_marine-shotgun_n_1": {
       "frame": {
-        "x": 859,
-        "y": 277,
+        "x": 925,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -2042,8 +3322,8 @@
     },
     "actor_marine-shotgun_n_2": {
       "frame": {
-        "x": 892,
-        "y": 277,
+        "x": 958,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -2062,8 +3342,8 @@
     },
     "actor_marine-shotgun_n_3": {
       "frame": {
-        "x": 925,
-        "y": 277,
+        "x": 991,
+        "y": 343,
         "w": 32,
         "h": 32
       },
@@ -2082,8 +3362,8 @@
     },
     "actor_marine-shotgun_s_0": {
       "frame": {
-        "x": 958,
-        "y": 277,
+        "x": 1,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2102,8 +3382,8 @@
     },
     "actor_marine-shotgun_s_1": {
       "frame": {
-        "x": 991,
-        "y": 277,
+        "x": 34,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2122,8 +3402,8 @@
     },
     "actor_marine-shotgun_s_2": {
       "frame": {
-        "x": 1,
-        "y": 310,
+        "x": 67,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2142,8 +3422,8 @@
     },
     "actor_marine-shotgun_s_3": {
       "frame": {
-        "x": 34,
-        "y": 310,
+        "x": 100,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2162,8 +3442,8 @@
     },
     "actor_marine-shotgun_w_0": {
       "frame": {
-        "x": 67,
-        "y": 310,
+        "x": 133,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2182,8 +3462,8 @@
     },
     "actor_marine-shotgun_w_1": {
       "frame": {
-        "x": 100,
-        "y": 310,
+        "x": 166,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2202,8 +3482,8 @@
     },
     "actor_marine-shotgun_w_2": {
       "frame": {
-        "x": 133,
-        "y": 310,
+        "x": 199,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2222,8 +3502,8 @@
     },
     "actor_marine-shotgun_w_3": {
       "frame": {
-        "x": 166,
-        "y": 310,
+        "x": 232,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2242,8 +3522,8 @@
     },
     "actor_shade_e_0": {
       "frame": {
-        "x": 199,
-        "y": 310,
+        "x": 265,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2262,8 +3542,8 @@
     },
     "actor_shade_e_1": {
       "frame": {
-        "x": 232,
-        "y": 310,
+        "x": 298,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2282,8 +3562,8 @@
     },
     "actor_shade_e_2": {
       "frame": {
-        "x": 265,
-        "y": 310,
+        "x": 331,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2302,8 +3582,8 @@
     },
     "actor_shade_e_3": {
       "frame": {
-        "x": 298,
-        "y": 310,
+        "x": 364,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2322,8 +3602,8 @@
     },
     "actor_shade_n_0": {
       "frame": {
-        "x": 331,
-        "y": 310,
+        "x": 397,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2342,8 +3622,8 @@
     },
     "actor_shade_n_1": {
       "frame": {
-        "x": 364,
-        "y": 310,
+        "x": 430,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2362,8 +3642,8 @@
     },
     "actor_shade_n_2": {
       "frame": {
-        "x": 397,
-        "y": 310,
+        "x": 463,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2382,8 +3662,8 @@
     },
     "actor_shade_n_3": {
       "frame": {
-        "x": 430,
-        "y": 310,
+        "x": 496,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2402,8 +3682,8 @@
     },
     "actor_shade_s_0": {
       "frame": {
-        "x": 463,
-        "y": 310,
+        "x": 529,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2422,8 +3702,8 @@
     },
     "actor_shade_s_1": {
       "frame": {
-        "x": 496,
-        "y": 310,
+        "x": 562,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2442,8 +3722,8 @@
     },
     "actor_shade_s_2": {
       "frame": {
-        "x": 529,
-        "y": 310,
+        "x": 595,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2462,8 +3742,8 @@
     },
     "actor_shade_s_3": {
       "frame": {
-        "x": 562,
-        "y": 310,
+        "x": 628,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2482,8 +3762,8 @@
     },
     "actor_shade_w_0": {
       "frame": {
-        "x": 595,
-        "y": 310,
+        "x": 661,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2502,8 +3782,8 @@
     },
     "actor_shade_w_1": {
       "frame": {
-        "x": 628,
-        "y": 310,
+        "x": 694,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2522,8 +3802,8 @@
     },
     "actor_shade_w_2": {
       "frame": {
-        "x": 661,
-        "y": 310,
+        "x": 727,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2542,8 +3822,8 @@
     },
     "actor_shade_w_3": {
       "frame": {
-        "x": 694,
-        "y": 310,
+        "x": 760,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2562,8 +3842,8 @@
     },
     "actor_shotgunner_e_0": {
       "frame": {
-        "x": 727,
-        "y": 310,
+        "x": 793,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2582,8 +3862,8 @@
     },
     "actor_shotgunner_e_1": {
       "frame": {
-        "x": 760,
-        "y": 310,
+        "x": 826,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2602,8 +3882,8 @@
     },
     "actor_shotgunner_e_2": {
       "frame": {
-        "x": 793,
-        "y": 310,
+        "x": 859,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2622,8 +3902,8 @@
     },
     "actor_shotgunner_e_3": {
       "frame": {
-        "x": 826,
-        "y": 310,
+        "x": 892,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2642,8 +3922,8 @@
     },
     "actor_shotgunner_n_0": {
       "frame": {
-        "x": 859,
-        "y": 310,
+        "x": 925,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2662,8 +3942,8 @@
     },
     "actor_shotgunner_n_1": {
       "frame": {
-        "x": 892,
-        "y": 310,
+        "x": 958,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2682,8 +3962,8 @@
     },
     "actor_shotgunner_n_2": {
       "frame": {
-        "x": 925,
-        "y": 310,
+        "x": 991,
+        "y": 376,
         "w": 32,
         "h": 32
       },
@@ -2702,8 +3982,8 @@
     },
     "actor_shotgunner_n_3": {
       "frame": {
-        "x": 958,
-        "y": 310,
+        "x": 1,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2722,8 +4002,8 @@
     },
     "actor_shotgunner_s_0": {
       "frame": {
-        "x": 991,
-        "y": 310,
+        "x": 34,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2742,8 +4022,8 @@
     },
     "actor_shotgunner_s_1": {
       "frame": {
-        "x": 1,
-        "y": 343,
+        "x": 67,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2762,8 +4042,8 @@
     },
     "actor_shotgunner_s_2": {
       "frame": {
-        "x": 34,
-        "y": 343,
+        "x": 100,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2782,8 +4062,8 @@
     },
     "actor_shotgunner_s_3": {
       "frame": {
-        "x": 67,
-        "y": 343,
+        "x": 133,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2802,8 +4082,8 @@
     },
     "actor_shotgunner_w_0": {
       "frame": {
-        "x": 100,
-        "y": 343,
+        "x": 166,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2822,8 +4102,8 @@
     },
     "actor_shotgunner_w_1": {
       "frame": {
-        "x": 133,
-        "y": 343,
+        "x": 199,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2842,8 +4122,8 @@
     },
     "actor_shotgunner_w_2": {
       "frame": {
-        "x": 166,
-        "y": 343,
+        "x": 232,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2862,8 +4142,8 @@
     },
     "actor_shotgunner_w_3": {
       "frame": {
-        "x": 199,
-        "y": 343,
+        "x": 265,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2942,8 +4222,8 @@
     },
     "corpse_brute": {
       "frame": {
-        "x": 232,
-        "y": 343,
+        "x": 298,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2962,8 +4242,8 @@
     },
     "corpse_fiend": {
       "frame": {
-        "x": 265,
-        "y": 343,
+        "x": 331,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -2982,8 +4262,8 @@
     },
     "corpse_husk": {
       "frame": {
-        "x": 298,
-        "y": 343,
+        "x": 364,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3002,8 +4282,28 @@
     },
     "corpse_marine": {
       "frame": {
-        "x": 331,
-        "y": 343,
+        "x": 397,
+        "y": 409,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "corpse_marine-blue": {
+      "frame": {
+        "x": 430,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3022,8 +4322,8 @@
     },
     "corpse_shade": {
       "frame": {
-        "x": 364,
-        "y": 343,
+        "x": 463,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3042,8 +4342,8 @@
     },
     "corpse_shotgunner": {
       "frame": {
-        "x": 397,
-        "y": 343,
+        "x": 496,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3062,8 +4362,8 @@
     },
     "deco_body_0": {
       "frame": {
-        "x": 430,
-        "y": 343,
+        "x": 529,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3162,8 +4462,8 @@
     },
     "deco_gore_0": {
       "frame": {
-        "x": 463,
-        "y": 343,
+        "x": 562,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3482,8 +4782,8 @@
     },
     "floor_concrete_0": {
       "frame": {
-        "x": 496,
-        "y": 343,
+        "x": 595,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3502,8 +4802,8 @@
     },
     "floor_concrete_1": {
       "frame": {
-        "x": 529,
-        "y": 343,
+        "x": 628,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3522,8 +4822,8 @@
     },
     "floor_concrete_2": {
       "frame": {
-        "x": 562,
-        "y": 343,
+        "x": 661,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3542,8 +4842,8 @@
     },
     "floor_grate_0": {
       "frame": {
-        "x": 595,
-        "y": 343,
+        "x": 694,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3562,8 +4862,8 @@
     },
     "floor_grate_1": {
       "frame": {
-        "x": 628,
-        "y": 343,
+        "x": 727,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3582,8 +4882,8 @@
     },
     "floor_grate_2": {
       "frame": {
-        "x": 661,
-        "y": 343,
+        "x": 760,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3602,8 +4902,8 @@
     },
     "floor_lava_0": {
       "frame": {
-        "x": 694,
-        "y": 343,
+        "x": 793,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3622,8 +4922,8 @@
     },
     "floor_lava_1": {
       "frame": {
-        "x": 727,
-        "y": 343,
+        "x": 826,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3642,8 +4942,8 @@
     },
     "floor_lava_2": {
       "frame": {
-        "x": 760,
-        "y": 343,
+        "x": 859,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3662,8 +4962,8 @@
     },
     "floor_metal_0": {
       "frame": {
-        "x": 793,
-        "y": 343,
+        "x": 892,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3682,8 +4982,8 @@
     },
     "floor_metal_1": {
       "frame": {
-        "x": 826,
-        "y": 343,
+        "x": 925,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3702,8 +5002,8 @@
     },
     "floor_metal_2": {
       "frame": {
-        "x": 859,
-        "y": 343,
+        "x": 958,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3722,8 +5022,8 @@
     },
     "floor_rock_0": {
       "frame": {
-        "x": 892,
-        "y": 343,
+        "x": 991,
+        "y": 409,
         "w": 32,
         "h": 32
       },
@@ -3742,8 +5042,8 @@
     },
     "floor_rock_1": {
       "frame": {
-        "x": 925,
-        "y": 343,
+        "x": 1,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -3762,8 +5062,8 @@
     },
     "floor_rock_2": {
       "frame": {
-        "x": 958,
-        "y": 343,
+        "x": 34,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -3782,8 +5082,8 @@
     },
     "floor_slime_0": {
       "frame": {
-        "x": 991,
-        "y": 343,
+        "x": 67,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -3802,8 +5102,8 @@
     },
     "floor_slime_1": {
       "frame": {
-        "x": 1,
-        "y": 376,
+        "x": 100,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -3822,8 +5122,8 @@
     },
     "floor_slime_2": {
       "frame": {
-        "x": 34,
-        "y": 376,
+        "x": 133,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -3842,8 +5142,8 @@
     },
     "fx_blood_0": {
       "frame": {
-        "x": 662,
-        "y": 376,
+        "x": 761,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -3862,8 +5162,8 @@
     },
     "fx_blood_1": {
       "frame": {
-        "x": 679,
-        "y": 376,
+        "x": 778,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -3882,8 +5182,8 @@
     },
     "fx_blood_2": {
       "frame": {
-        "x": 696,
-        "y": 376,
+        "x": 795,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -3902,8 +5202,8 @@
     },
     "fx_burst_0": {
       "frame": {
-        "x": 562,
-        "y": 376,
+        "x": 661,
+        "y": 442,
         "w": 24,
         "h": 24
       },
@@ -3922,8 +5222,8 @@
     },
     "fx_burst_1": {
       "frame": {
-        "x": 587,
-        "y": 376,
+        "x": 686,
+        "y": 442,
         "w": 24,
         "h": 24
       },
@@ -3942,8 +5242,8 @@
     },
     "fx_burst_2": {
       "frame": {
-        "x": 612,
-        "y": 376,
+        "x": 711,
+        "y": 442,
         "w": 24,
         "h": 24
       },
@@ -3962,8 +5262,8 @@
     },
     "fx_burst_3": {
       "frame": {
-        "x": 637,
-        "y": 376,
+        "x": 736,
+        "y": 442,
         "w": 24,
         "h": 24
       },
@@ -4062,8 +5362,8 @@
     },
     "fx_fireball_0": {
       "frame": {
-        "x": 713,
-        "y": 376,
+        "x": 812,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -4082,8 +5382,8 @@
     },
     "fx_fireball_1": {
       "frame": {
-        "x": 730,
-        "y": 376,
+        "x": 829,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -4102,8 +5402,8 @@
     },
     "fx_muzzle_0": {
       "frame": {
-        "x": 747,
-        "y": 376,
+        "x": 846,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -4122,8 +5422,8 @@
     },
     "fx_puff_0": {
       "frame": {
-        "x": 764,
-        "y": 376,
+        "x": 863,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -4142,8 +5442,8 @@
     },
     "fx_puff_1": {
       "frame": {
-        "x": 781,
-        "y": 376,
+        "x": 880,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -4162,8 +5462,8 @@
     },
     "fx_puff_2": {
       "frame": {
-        "x": 798,
-        "y": 376,
+        "x": 897,
+        "y": 442,
         "w": 16,
         "h": 16
       },
@@ -4202,8 +5502,8 @@
     },
     "icon_knife": {
       "frame": {
-        "x": 67,
-        "y": 376,
+        "x": 166,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4222,8 +5522,8 @@
     },
     "icon_pistol": {
       "frame": {
-        "x": 100,
-        "y": 376,
+        "x": 199,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4242,8 +5542,8 @@
     },
     "icon_rotary": {
       "frame": {
-        "x": 133,
-        "y": 376,
+        "x": 232,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4262,8 +5562,8 @@
     },
     "icon_shotgun": {
       "frame": {
-        "x": 166,
-        "y": 376,
+        "x": 265,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4282,8 +5582,8 @@
     },
     "item_armor": {
       "frame": {
-        "x": 199,
-        "y": 376,
+        "x": 298,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4302,8 +5602,8 @@
     },
     "item_bluekey": {
       "frame": {
-        "x": 232,
-        "y": 376,
+        "x": 331,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4322,8 +5622,8 @@
     },
     "item_clip": {
       "frame": {
-        "x": 265,
-        "y": 376,
+        "x": 364,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4342,8 +5642,8 @@
     },
     "item_medkit": {
       "frame": {
-        "x": 298,
-        "y": 376,
+        "x": 397,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4362,8 +5662,8 @@
     },
     "item_redkey": {
       "frame": {
-        "x": 331,
-        "y": 376,
+        "x": 430,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4382,8 +5682,8 @@
     },
     "item_rotary": {
       "frame": {
-        "x": 364,
-        "y": 376,
+        "x": 463,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4402,8 +5702,8 @@
     },
     "item_shells": {
       "frame": {
-        "x": 397,
-        "y": 376,
+        "x": 496,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4422,8 +5722,8 @@
     },
     "item_shotgun": {
       "frame": {
-        "x": 430,
-        "y": 376,
+        "x": 529,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4442,8 +5742,8 @@
     },
     "item_sphere": {
       "frame": {
-        "x": 463,
-        "y": 376,
+        "x": 562,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4462,8 +5762,8 @@
     },
     "item_stimpack": {
       "frame": {
-        "x": 496,
-        "y": 376,
+        "x": 595,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4482,8 +5782,8 @@
     },
     "item_yellowkey": {
       "frame": {
-        "x": 529,
-        "y": 376,
+        "x": 628,
+        "y": 442,
         "w": 32,
         "h": 32
       },
@@ -4647,7 +5947,7 @@
     "format": "RGBA8888",
     "size": {
       "w": 1024,
-      "h": 409
+      "h": 475
     },
     "scale": "1"
   }

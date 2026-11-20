@@ -4,6 +4,7 @@ export interface DevParams {
   sight: boolean;
   pos: { x: number; y: number } | null;
   level: number | null;
+  versus: 'host' | 'join' | null;
 }
 
 export function parseDevParams(search: string, levelCount: number): DevParams {
@@ -16,6 +17,7 @@ export function parseDevParams(search: string, levelCount: number): DevParams {
     god: params.has('god'),
     sight: params.has('sight'),
     pos: pos && pos.length === 2 && pos.every(Number.isFinite) ? { x: pos[0], y: pos[1] } : null,
+    versus: params.get('versus') === 'host' ? 'host' : params.get('versus') === 'join' ? 'join' : null,
     level: rawLevel !== null && Number.isInteger(level) && level >= 0 && level <= levelCount ? level : null,
   };
 }

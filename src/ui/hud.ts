@@ -1,6 +1,29 @@
 import type { KeyColor } from '../sim/defs';
 import { MAX_AMMO, WEAPONS, WEAPON_ORDER, type WeaponId } from '../weapons';
-import type { MessageTone, World } from '../sim/world';
+import type { Grid } from '../sim/grid';
+import type { HiddenCloset, MessageTone } from '../sim/world';
+import type { AmmoType } from '../weapons';
+
+export interface HudView {
+  player: {
+    x: number;
+    y: number;
+    angle: number;
+    health: number;
+    armor: number;
+    hurtTime: number;
+    weapon: WeaponId;
+    weapons: ReadonlySet<WeaponId>;
+    ammo: Record<AmmoType, number>;
+    keys: ReadonlySet<KeyColor>;
+  };
+  status: string;
+  time: number;
+  grid: Grid;
+  revealedRooms: ReadonlySet<number>;
+  isRevealedAt(x: number, y: number): boolean;
+  hiddenCloset(): HiddenCloset | null;
+}
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string): T => {
   const el = document.getElementById(id);
@@ -93,7 +116,7 @@ export class Hud {
     $('tip-text').textContent = this.tipText;
   }
 
-  reset(world: World, levelTitle: string): void {
+  reset(world: { grid: Grid }, levelTitle: string): void {
     this.cache.clear();
     this.log.replaceChildren();
     this.explored = new Uint8Array(world.grid.width * world.grid.height);
@@ -119,7 +142,11 @@ export class Hud {
     bar.querySelector<HTMLElement>('.value')!.textContent = label;
   }
 
-  update(world: World, dt: number): void {
+  setTitle(text: string): void {
+    $('level-name').textContent = text;
+  }
+
+  update(world: HudView, dt: number): void {
     const p = world.player;
     this.setBar('hp', p.health, p.health > 100 ? 200 : 100, `${p.health}`);
     this.setBar('ar', p.armor, p.armor > 100 ? 200 : 100, `${p.armor}`);
@@ -167,7 +194,7 @@ export class Hud {
     }
   }
 
-  private drawMinimap(world: World): void {
+  private drawMinimap(world: HudView): void {
     const g = world.grid;
     const p = world.player;
     const R = 7;

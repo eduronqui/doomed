@@ -16,19 +16,22 @@ import type { Music } from './music';
 import { TILE, WALL_HEIGHT } from './art/tiles';
 import { Lighting, type Light } from './lighting';
 import { parseDevParams } from './devParams';
+import { PeerLink, type Link } from '../net/peer';
+import { guestHandshake, hostHandshake } from '../net/handshake';
+import type { Role } from './ArenaScene';
 import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
 
 export const VIEW_W = 1024;
 export const VIEW_H = 704;
 export const ZOOM = 2;
 
-const FLOOR_DEPTH = -100000;
+export const FLOOR_DEPTH = -100000;
 const DECAL_DEPTH = -90000;
-const CORPSE_DEPTH = -80000;
-const OVERLAY_DEPTH = 1_000_000;
-const NAME_DEPTH = 2_000_000;
-const ACTOR_FOOT = 0.28;
-const GUN_HEIGHT_PX = 10;
+export const CORPSE_DEPTH = -80000;
+export const OVERLAY_DEPTH = 1_000_000;
+export const NAME_DEPTH = 2_000_000;
+export const ACTOR_FOOT = 0.28;
+export const GUN_HEIGHT_PX = 10;
 const STEALTH_EXPOSE_RANGE = 3;
 const DEATHS_BEFORE_DIFFICULTY_PICK = 3;
 
@@ -68,7 +71,7 @@ interface ActorView {
   exposedUntil: number;
 }
 
-function hash(x: number, y: number): number {
+export function hash(x: number, y: number): number {
   let h = Math.imul(x * 374761393 + y * 668265263, 1274126177);
   h ^= h >>> 13;
   return (h >>> 0) % 1000;
@@ -197,16 +200,75 @@ export class GameScene extends Phaser.Scene {
       }
       if (dev.god) this.world.player.health = 9999;
       if (dev.sight) this.showSight = true;
+      if (dev.versus) {
+        const role = dev.versus;
+        void import('../net/localLink').then(({ LocalLink }) => this.startLocalVersus(new LocalLink(role), role));
+        return;
+      }
       (window as unknown as { __doomed: { world: World; scene: Phaser.Scene } }).__doomed = { world: this.world, scene: this };
     }
     if (this.started) this.beginPlay();
     else {
       this.paused = true;
-      this.deps.screens.title(info.title, info.briefing, DIFFICULTIES, this.difficulty.id, (d) => {
-        this.deps.sfx.unlock();
-        this.restart(d);
-      });
+      this.deps.screens.title(
+        info.title,
+        info.briefing,
+        DIFFICULTIES,
+        this.difficulty.id,
+        (d) => {
+          this.deps.sfx.unlock();
+          this.restart(d);
+        },
+        () => this.openVersus(),
+      );
     }
+  }
+
+  private openVersus(): void {
+    this.deps.sfx.unlock();
+    const kb = this.input.keyboard!;
+    kb.enabled = false;
+    kb.disableGlobalCapture();
+    let link: PeerLink | null = null;
+    const start = (l: Link, role: Role, names: [string, string]): void => {
+      kb.enabled = true;
+      kb.enableGlobalCapture();
+      this.deps.screens.hide();
+      this.deps.music.stop();
+      this.scene.start('arena', { deps: this.deps, link: l, role, names });
+    };
+    this.deps.screens.versus({
+      host: async (name) => {
+        const made = await PeerLink.host();
+        link = made.link;
+        hostHandshake(made.link, name, (names) => start(made.link, 'host', names));
+        return made.offerCode;
+      },
+      connect: async (answer) => {
+        if (!link) throw new Error('Create your code first.');
+        await link.acceptAnswer(answer);
+      },
+      join: async (name, offer) => {
+        const made = await PeerLink.join(offer);
+        link = made.link;
+        guestHandshake(made.link, name, (names) => start(made.link, 'guest', names));
+        return made.answerCode;
+      },
+      back: () => {
+        link?.close();
+        kb.enabled = true;
+        kb.enableGlobalCapture();
+        this.scene.restart({ deps: this.deps });
+      },
+    });
+  }
+
+  private startLocalVersus(link: Link, role: 'host' | 'join'): void {
+    const go = (names: [string, string]): void => {
+      this.scene.start('arena', { deps: this.deps, link, role: role === 'host' ? 'host' : 'guest', names });
+    };
+    if (role === 'host') hostHandshake(link, 'Host', go);
+    else guestHandshake(link, 'Guest', go);
   }
 
   private beginPlay(): void {

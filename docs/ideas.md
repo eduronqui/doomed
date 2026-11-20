@@ -12,7 +12,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
 | [Positional enemy footsteps](#positional-enemy-footsteps) | Under discussion, not built |
-| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Under discussion, not built |
+| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Versus built (2 players, copy-paste codes). Co-op, TURN relay and prediction not built |
 | [Mobile play](#mobile-play) | Under discussion, not built |
 
 ### Discarded
@@ -130,6 +130,8 @@ Goal: hear an enemy before you see it.
 - Each kind can have its own step sound, so you know a Brute from a Husk.
 
 ## Multiplayer over WebRTC
+
+**Built so far:** 2-player versus in its own arena (see [gameplay.md](gameplay.md#versus-2-players)): host-authoritative `ArenaWorld`, a WebRTC data channel with copy-paste codes, strict message checks, names up to 12 characters, green host and blue guest. Not built yet: co-op, a signaling server, TURN, client-side prediction and interpolation, more than 2 players.
 
 Goal: 2 to 4 players in two modes, on the same network code:
 
