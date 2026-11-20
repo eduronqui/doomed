@@ -204,7 +204,7 @@ export class Grid {
       if (phase === 'opening') {
         openness = Math.min(1, openness + DOOR_SPEED * dt);
         if (openness >= 1) phase = 'open';
-      } else if (phase === 'open' && lead.kind !== 'secret') {
+      } else if (phase === 'open' && lead.kind !== 'secret' && lead.kind !== 'trap') {
         timer -= dt;
         if (timer <= 0) {
           if (busy()) timer = 0.5;

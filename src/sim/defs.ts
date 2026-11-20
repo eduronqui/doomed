@@ -60,6 +60,11 @@ export const DECO_POSTS: ReadonlyMap<DecoKind, number> = new Map<DecoKind, numbe
 
 export type DifficultyId = 'recruit' | 'veteran' | 'doomed';
 
+export interface Ambush {
+  key: KeyColor;
+  groups: Record<DifficultyId, string>;
+}
+
 export interface Difficulty {
   id: DifficultyId;
   name: string;

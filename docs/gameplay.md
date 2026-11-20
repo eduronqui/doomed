@@ -280,11 +280,26 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 | Normal (yellow and black stripes) | Walk into it, or press E | Cannot open it |
 | Red, blue or yellow (colored stripes and a colored light) | Walk into it, or press E, with the keycard of the same color | Cannot open it |
 | Secret wall | Press E while you face it | Cannot open it |
+| Trap door | Nothing opens it. It opens by itself when you take the level's trap keycard | Cannot open it |
 
 - A door opens in about 0.4 seconds. You can pass when it is 85% open.
 - A wide door, or a wide secret wall, opens and closes as one piece.
 - Normal and red doors close again 4 seconds after they open. They do not close while you or an enemy stand in them.
 - A secret wall stays open.
+
+### Key ambush
+
+Each level has one trap door. It looks exactly like a plain wall, with no scratches. Behind it, a closed room holds a group of enemies. Until the door opens, the door and the whole room look like a solid block of wall, on screen and on the minimap. The trap door is as wide as that room, so nothing stays hidden inside when it opens.
+
+- When you take the trap keycard, the trap door opens with the normal door sound, stays open, and the whole group comes out to hunt you.
+- You cannot open a trap door any other way, and enemies cannot open it.
+- The enemies in the closet count in the kill total.
+
+| Level | Trap keycard | Recruit | Veteran | Doomed |
+| --- | --- | --- | --- | --- |
+| E1 | Red | 2 Husks, 2 Fiends | Same | Same |
+| E2 | Blue | 2 Husks, 2 Fiends | + Shotgun Husk, Brute | + Shotgun Husk, Brute, Shade |
+| E3 | Red | 2 Husks, 3 Fiends, Shade | + 2 Shotgun Husks, Brute | + 2 Shotgun Husks, 2 Brutes, 2 Shades |
 - An open door does not block sight or shots. A closed door blocks both.
 - E reaches doors and switches up to 1.5 tiles away, in the direction you aim.
 
@@ -378,7 +393,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 1. Leave the start bay through the east door.
 2. Cross the courtyard. Use the grate bridge over the slime.
-3. Go east into the lab. Take the red keycard.
+3. Go east into the lab. Take the red keycard. The east wall of the lab opens behind it: 2 Husks and 2 Fiends.
 4. Optional: go back to the courtyard and take the south door to the storage room for the shotgun. On the west wall of the storage room, near the middle, find the secret wall with the scratched panels. Press E there.
 5. In the lab, open the red door in the south wall. Go down the corridor into the hell vault.
 6. Go around the lava pools to the exit chamber door in the south-west. Use the red-lit **EXIT** switch.
@@ -411,7 +426,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 1. Leave the start room through the east door into the pump hall. Cross the slime channel on a grate bridge.
 2. Go north through one of the two doors into the refinery tanks.
-3. Walk the grate path from the south edge of the pool to the island. Take the blue keycard.
+3. Walk the grate path from the south edge of the pool to the island. Take the blue keycard. The west face of the pump housing in the slime, right next to the island, opens, and its group pours onto the island.
 4. Optional: the west door leads to the control room with a shotgun. In its north wall, three scratched panels hide the secret storage. Press E there.
 5. Open the blue door in the east wall of the refinery tanks. Cross the settling basins.
 6. Take the door in the north wall of the basins to the exit room. Use the exit switch.
@@ -445,5 +460,5 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 2. Take the east door into the east wing. Cross the lava channels at their gaps. Take the yellow keycard in the north-east corner.
 3. Optional: in the south wall of the east wing, three scratched panels hide the secret chamber.
 4. Go back to the hub and open the yellow door in its west wall.
-5. In the west wing, cross the lava moat at its gap in the north-west. Take the red keycard.
+5. In the west wing, cross the lava moat at its gap in the north-west. Take the red keycard. A trap door in the north wall of the west wing, just east of the key, opens on a large group.
 6. Go back to the hub and open the red door in its north wall. Fight through the sanctum and use the exit switch between the braziers.

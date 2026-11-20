@@ -239,7 +239,7 @@ export function wallTexture(kind: 'tech' | 'stone', variant: number): Pix {
   return p;
 }
 
-const HAZARD: Record<DoorKind, number> = { normal: 0xd8b02a, red: 0xc42020, blue: 0x2a5ad8, yellow: 0xf0d020, secret: 0xd8b02a };
+const HAZARD: Record<DoorKind, number> = { normal: 0xd8b02a, red: 0xc42020, blue: 0x2a5ad8, yellow: 0xf0d020, secret: 0xd8b02a, trap: 0xd8b02a };
 
 export const KEY_LIGHT: Record<'red' | 'blue' | 'yellow', { light: number; dark: number }> = {
   red: { light: 0xff3a3a, dark: 0x5a0a0a },
@@ -318,7 +318,7 @@ export function exitTexture(on: boolean): Pix {
   return p;
 }
 
-export function doorPiece(kind: Exclude<DoorKind, 'secret'>, cellsW: number, cellsH: number): Pix {
+export function doorPiece(kind: Exclude<DoorKind, 'secret' | 'trap'>, cellsW: number, cellsH: number): Pix {
   const rng = seeded(`doorpiece${kind}${cellsW}x${cellsH}`);
   const w = cellsW * 32;
   const topH = cellsH * 32;
@@ -364,8 +364,8 @@ export function doorPiece(kind: Exclude<DoorKind, 'secret'>, cellsW: number, cel
   return p;
 }
 
-export function secretPiece(wall: 'tech' | 'stone', cellsW: number, cellsH: number): Pix {
-  const src = doorTexture('secret', wall);
+export function hiddenPiece(kind: 'secret' | 'trap', wall: 'tech' | 'stone', cellsW: number, cellsH: number): Pix {
+  const src = kind === 'secret' ? doorTexture('secret', wall) : wallTexture(wall, 0);
   const p = new Pix(cellsW * 32, cellsH * 32 + WALL_HEIGHT);
   for (let j = 0; j < cellsH; j++) {
     for (let i = 0; i < cellsW; i++) {

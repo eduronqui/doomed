@@ -9,7 +9,7 @@ import { packSheet, type Sheet } from '../sheet';
 import { CHARACTERS, CHARACTER_ART, DIRS, FRAMES } from '../../characters/art';
 import { FLOOR_VARIANTS, WALL_VARIANTS, key } from '../atlas';
 import { barrelTexture, bloodFx, decoTexture, explosion, fireball, itemTexture, muzzle, puff, scorch } from './items';
-import { doorPiece, exitTexture, floorTexture, secretPiece, wallTexture } from './tiles';
+import { doorPiece, exitTexture, floorTexture, hiddenPiece, wallTexture } from './tiles';
 
 function addDoorPieces(art: Map<string, Pix>): void {
   for (const info of ALL_LEVELS) {
@@ -21,7 +21,7 @@ function addDoorPieces(art: Map<string, Pix>): void {
       const ch = Math.max(...group.map((d) => d.y)) - Math.min(...group.map((d) => d.y)) + 1;
       const name = key.doorPiece(lead.kind, wall, cw, ch);
       if (art.has(name)) continue;
-      art.set(name, lead.kind === 'secret' ? secretPiece(wall, cw, ch) : doorPiece(lead.kind, cw, ch));
+      art.set(name, lead.kind === 'secret' || lead.kind === 'trap' ? hiddenPiece(lead.kind, wall, cw, ch) : doorPiece(lead.kind, cw, ch));
     }
   }
 }

@@ -11,5 +11,6 @@ export const LEVEL1: LevelInfo = {
   darkness: 0.72,
   par: 240,
   music: LEVEL1_MUSIC,
+  ambush: { key: 'red', groups: { recruit: 'hhff', veteran: 'hhff', doomed: 'hhff' } },
   load: () => parseLevel('Outpost Breach', LEVEL1_MAP),
 };

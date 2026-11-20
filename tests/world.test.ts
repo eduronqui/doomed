@@ -330,6 +330,48 @@ describe('World', () => {
     expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7 });
   });
 
+  describe('key ambush', () => {
+    const map = '#########\n#P.k....#\n#####T###\n    #.#\n    #.#\n    ###';
+    const ambush = { key: 'red' as const, groups: { recruit: 'h', veteran: 'hh', doomed: 'hf' } };
+    const make = (d = DIFFICULTIES[1]): World => new World(parseLevel('t', map), 1, d, undefined, { ambush });
+    const trap = (w: World) => [...w.grid.doors.values()].find((d) => d.kind === 'trap')!;
+
+    it('hides a group that depends on the difficulty and counts it in the kill total', () => {
+      const kinds = DIFFICULTIES.map((d) => make(d).monsters.map((m) => m.kind).join(','));
+      expect(kinds).toEqual(['husk', 'husk,husk', 'husk,fiend']);
+      expect(make().stats.totalKills).toBe(2);
+    });
+
+    it('rejects a trap door narrower than its closet', () => {
+      const narrow = '#########\n#P.k....#\n#####T###\n    #..#\n    ####';
+      expect(() => new World(parseLevel('t', narrow), 1, DIFFICULTIES[1], undefined, { ambush })).toThrow(/as wide as its closet/);
+    });
+
+    it('keeps the trap door shut against use and bumps', () => {
+      const w = make();
+      w.player.x = 5.5;
+      run(w, 0.5, { use: true, moveY: 1, aimX: 5.5, aimY: 4 });
+      expect(trap(w).openness).toBe(0);
+    });
+
+    it('opens the trap door and wakes the group when the player takes the key', () => {
+      const w = make();
+      run(w, 1, { moveX: 1 });
+      expect(w.player.keys.has('red')).toBe(true);
+      expect(trap(w).openness).toBeGreaterThan(0);
+      expect(w.monsters.every((m) => m.state !== 'idle')).toBe(true);
+    });
+  });
+
+  it.each(LEVELS.filter((l) => l.ambush).map((l) => [l.title, l] as const))('%s fits its ambush on every difficulty', (_t, info) => {
+    for (const d of DIFFICULTIES) {
+      const plain = new World(info.load(), 1, d).monsters.length;
+      const w = new World(info.load(), 1, d, undefined, { ambush: info.ambush });
+      expect(w.monsters.length - plain).toBe(info.ambush!.groups[d.id].length);
+      expect(w.monsters.slice(plain).every((m) => !w.isRevealedAt(m.x, m.y))).toBe(true);
+    }
+  });
+
   describe('spotting the player', () => {
     const spot = (gap: number): string => {
       const width = 6 + gap;

@@ -1,8 +1,8 @@
-import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
+import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
 import { Grid, type Door } from './grid';
-import { FLOOR_HAZARD, type DoorKind, type LevelData } from './level';
+import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
 import { Rng } from './rng';
 import { clamp, dirFromAngle, dist, type Dir, type Vec } from './types';
@@ -29,8 +29,15 @@ export const IDLE_INPUT: Input = {
   cycleWeapon: 0,
 };
 
+export interface HiddenCloset {
+  cells: ReadonlySet<number>;
+  outerRooms: readonly number[];
+  wall: WallKind;
+}
+
 export interface WorldOptions {
   alertOnEntry?: MonsterKind[];
+  ambush?: Ambush;
 }
 
 export interface Carry {
@@ -218,6 +225,7 @@ export class World {
   private readonly enteredRooms = new Set<number>();
   private readonly alertOnEntry: ReadonlySet<MonsterKind>;
   private doorRooms: { group: Door[]; rooms: number[] }[] = [];
+  private ambush: { key: KeyColor; door: Door; monsters: Monster[]; sprung: boolean; closet: HiddenCloset } | null = null;
   readonly player: Player;
   readonly monsters: Monster[] = [];
   readonly items: Item[] = [];
@@ -291,6 +299,7 @@ export class World {
       rooms: [...new Set(group.flatMap((d) => this.grid.roomsAt(d.x, d.y)))],
     }));
     this.updateReveal();
+    if (options.ambush) this.setUpAmbush(options.ambush);
 
     this.stats = {
       kills: 0,
@@ -561,7 +570,74 @@ export class World {
     this.status = 'won';
   }
 
+  private setUpAmbush(ambush: Ambush): void {
+    const traps = this.grid.doorGroups.filter((g) => g[0].kind === 'trap');
+    if (traps.length !== 1) throw new Error(`Level ${this.level.name} needs exactly one trap door for its ambush, found ${traps.length}`);
+    const trap = traps[0];
+    const trapRooms = this.doorRooms.find((d) => d.group === trap)!.rooms;
+    const occupied = new Set(this.level.spawns.map((s) => this.grid.rooms[this.grid.index(Math.floor(s.x), Math.floor(s.y))]));
+    const closets = trapRooms.filter((r) => !occupied.has(r));
+    if (closets.length !== 1) throw new Error(`Trap door in ${this.level.name} must lead to exactly one empty closet`);
+    const closet: number[] = [];
+    this.grid.rooms.forEach((r, i) => {
+      if (r === closets[0]) closet.push(i);
+    });
+    if (!this.doorSpansCloset(trap, closet)) throw new Error(`Trap door in ${this.level.name} must be as wide as its closet`);
+    const door = trap[Math.floor(trap.length / 2)];
+    const cells: { x: number; y: number }[] = [];
+    this.grid.rooms.forEach((r, i) => {
+      if (r === closets[0] && !this.grid.blockers.has(i)) cells.push({ x: (i % this.grid.width) + 0.5, y: Math.floor(i / this.grid.width) + 0.5 });
+    });
+    cells.sort((a, b) => dist(a.x, a.y, door.x + 0.5, door.y + 0.5) - dist(b.x, b.y, door.x + 0.5, door.y + 0.5));
+    const kinds = [...ambush.groups[this.difficulty.id]].map((c) => {
+      const kind = monsterOfChar(c);
+      if (!kind) throw new Error(`Unknown ambush monster '${c}' in ${this.level.name}`);
+      return kind;
+    });
+    if (kinds.length > cells.length) throw new Error(`Ambush closet in ${this.level.name} has ${cells.length} cells for ${kinds.length} monsters`);
+    const monsters = kinds.map((kind, i) => {
+      const m = this.spawnMonster(kind, cells[i].x, cells[i].y);
+      this.face(m, Math.atan2(door.y + 0.5 - m.y, door.x + 0.5 - m.x));
+      return m;
+    });
+    const closetRoom = closets[0];
+    this.ambush = {
+      key: ambush.key,
+      door,
+      monsters,
+      sprung: false,
+      closet: { cells: new Set(closet), outerRooms: trapRooms.filter((r) => r !== closetRoom), wall: this.grid.tiles[door.index].wall },
+    };
+  }
+
+  private doorSpansCloset(door: Door[], closet: number[]): boolean {
+    const xs = closet.map((i) => i % this.grid.width);
+    const ys = closet.map((i) => Math.floor(i / this.grid.width));
+    const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    const dxs = door.map((d) => d.x);
+    const dys = door.map((d) => d.y);
+    const horizontal = new Set(dys).size === 1 && (dys[0] === y0 - 1 || dys[0] === y1 + 1);
+    const vertical = new Set(dxs).size === 1 && (dxs[0] === x0 - 1 || dxs[0] === x1 + 1);
+    if (horizontal) return Math.min(...dxs) === x0 && Math.max(...dxs) === x1 && door.length === x1 - x0 + 1;
+    if (vertical) return Math.min(...dys) === y0 && Math.max(...dys) === y1 && door.length === y1 - y0 + 1;
+    return false;
+  }
+
+  hiddenCloset(): HiddenCloset | null {
+    const a = this.ambush;
+    return a && a.door.openness === 0 ? a.closet : null;
+  }
+
+  private springAmbush(color: KeyColor): void {
+    const a = this.ambush;
+    if (!a || a.sprung || a.key !== color) return;
+    a.sprung = true;
+    if (this.grid.openDoor(a.door)) this.sound('door', a.door.x + 0.5, a.door.y + 0.5);
+    for (const m of a.monsters) this.wake(m);
+  }
+
   private tryDoor(door: Door, byPlayer: boolean, explicit: boolean): void {
+    if (door.kind === 'trap') return;
     if (door.kind === 'secret' && !(byPlayer && explicit)) return;
     const color = keyColorOf(door.kind);
     if (color) {
@@ -614,6 +690,7 @@ export class World {
       case 'bluekey':
       case 'yellowkey':
         p.keys.add(KEY_COLOR_OF_ITEM[item.kind]);
+        this.springAmbush(KEY_COLOR_OF_ITEM[item.kind]);
         sound = 'powerup';
         break;
     }

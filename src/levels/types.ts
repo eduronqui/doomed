@@ -1,5 +1,6 @@
 import type { Track } from '../render/tracks';
 import type { MonsterKind } from '../characters';
+import type { Ambush } from '../sim/defs';
 import type { LevelData } from '../sim/level';
 import type { Carry } from '../sim/world';
 
@@ -16,6 +17,7 @@ export interface LevelInfo {
   startCarry?: Carry;
   tips?: Tip[];
   alertOnEntry?: MonsterKind[];
+  ambush?: Ambush;
 }
 
 export interface Tip {

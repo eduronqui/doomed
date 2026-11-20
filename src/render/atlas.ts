@@ -15,7 +15,7 @@ export const key = {
   floor: (k: FloorKind, v: number): string => `floor_${k}_${v}`,
   wall: (k: 'tech' | 'stone', v: number): string => `wall_${k}_${v}`,
   doorPiece: (k: DoorKind, wall: 'tech' | 'stone', cellsW: number, cellsH: number): string =>
-    k === 'secret' ? `doorpiece_secret_${wall}_${cellsW}x${cellsH}` : `doorpiece_${k}_${cellsW}x${cellsH}`,
+    k === 'secret' || k === 'trap' ? `doorpiece_${k}_${wall}_${cellsW}x${cellsH}` : `doorpiece_${k}_${cellsW}x${cellsH}`,
   exit: (on: boolean): string => `exit_${on ? 'on' : 'off'}`,
   actor: (k: string, dir: string, frame: number): string => `actor_${k}_${dir}_${frame}`,
   marine: (w: WeaponId, dir: string, frame: number): string => `actor_marine-${w}_${dir}_${frame}`,

@@ -43,6 +43,7 @@ Dev mode helps you test a change fast. These URL parameters work only with `npm 
 | `?level=n` | Start on level n (1 to 3), or 0 for the training |
 | `?pos=x,y` | Put the player on map cell (x, y) |
 | `?god` | Set the player health to 9999 |
+| `?sight` | Show the enemy sight layer (view cones) |
 
 Example: `http://localhost:5173/?autostart&god&level=2&pos=28,24`.
 
@@ -127,6 +128,7 @@ A level is three files plus one line in the level list.
 | `load` | Returns the parsed map |
 | `startCarry` | Optional. The marine's loadout at the start. Only the training uses it. Other levels get the loadout from the previous level. |
 | `alertOnEntry` | Optional. Monster kinds that wake up as soon as the player steps into their room |
+| `ambush` | Optional. `{ key, groups }`: taking the keycard of color `key` opens the level's one trap door (`T`). `groups` maps each difficulty to a string of monster map chars, for example `{ recruit: 'hhff', veteran: 'hhffHb', doomed: 'hhffHbg' }`. The game places them on the floor of the empty closet behind the door, nearest to the door first. The closet must be a room with no map spawns, big enough for the largest group, and the `T` door must cover one whole side of it, so that every enemy inside can see out when it opens. The game throws an error otherwise. While the door is shut, the closet is drawn as solid wall (screen and minimap), so a closet can stand anywhere, even inside a room, as a pillar or housing. |
 | `tips` | Optional, training only. The instruction boxes (see [Training tips](#16-training-tips)) |
 | `training` | Optional. Marks the training level |
 
@@ -153,6 +155,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `B` | Blue door (blue keycard) | `~` | Toxic slime (5 damage/s) |
 | `Y` | Yellow door (yellow keycard) | `=` | Lava (10 damage/s) |
 | `X` | Secret wall (opens with E) | `?` | Metal floor in a secret area |
+| `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | | |
 | `E` | Exit switch (part of a wall) | space | Void outside the level |
 
 ### Entities

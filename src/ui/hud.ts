@@ -171,9 +171,13 @@ export class Hud {
     const g = world.grid;
     const p = world.player;
     const R = 7;
+    const closet = world.hiddenCloset();
+    const closetSeen = closet ? closet.outerRooms.some((r) => world.revealedRooms.has(r)) : false;
     for (let y = Math.floor(p.y) - R; y <= Math.floor(p.y) + R; y++) {
       for (let x = Math.floor(p.x) - R; x <= Math.floor(p.x) + R; x++) {
-        if (g.inBounds(x, y) && Math.hypot(x + 0.5 - p.x, y + 0.5 - p.y) <= R && world.isRevealedAt(x + 0.5, y + 0.5)) this.explored[g.index(x, y)] = 1;
+        if (!g.inBounds(x, y) || Math.hypot(x + 0.5 - p.x, y + 0.5 - p.y) > R) continue;
+        const inCloset = closet?.cells.has(g.index(x, y)) ?? false;
+        if (inCloset ? closetSeen : world.isRevealedAt(x + 0.5, y + 0.5)) this.explored[g.index(x, y)] = 1;
       }
     }
     const ctx = this.minimap.getContext('2d')!;
@@ -185,8 +189,12 @@ export class Hud {
         if (!this.explored[g.index(x, y)]) continue;
         const t = g.tiles[g.index(x, y)];
         let color: string | null = null;
-        if (t.type === 'wall') color = t.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
-        else if (t.type === 'door') color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' ? MINIMAP_COLORS[t.door] : t.door === 'secret' ? MINIMAP_COLORS.wall : MINIMAP_COLORS.door;
+        if (closet?.cells.has(g.index(x, y))) color = closet.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
+        else if (t.type === 'wall') color = t.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
+        else if (t.type === 'door') {
+          const hidden = t.door === 'secret' || (t.door === 'trap' && g.doors.get(g.index(x, y))!.openness === 0);
+          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' ? MINIMAP_COLORS[t.door] : hidden ? MINIMAP_COLORS.wall : MINIMAP_COLORS.door;
+        }
         else if (t.type === 'exit') color = MINIMAP_COLORS.exit;
         else if (t.type === 'floor') color = t.floor === 'slime' ? MINIMAP_COLORS.slime : t.floor === 'lava' ? MINIMAP_COLORS.lava : t.floor === 'rock' ? MINIMAP_COLORS.rock : MINIMAP_COLORS.floor;
         if (!color) continue;

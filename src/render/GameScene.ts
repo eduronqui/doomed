@@ -6,9 +6,9 @@ import { DEATH_MUSIC } from '../levels/death.music';
 import { isTrainingDone, markTrainingDone } from '../ui/progress';
 import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from '../sim/defs';
 import type { Door } from '../sim/grid';
-import type { Tile } from '../sim/level';
+import { looksLikeWall, type Tile } from '../sim/level';
 import { dist } from '../sim/types';
-import { IDLE_INPUT, World, type Carry, type EffectKind, type GameEvent, type Input, type Monster } from '../sim/world';
+import { IDLE_INPUT, World, keyColorOf, type Carry, type EffectKind, type GameEvent, type Input, type Monster } from '../sim/world';
 import type { Hud } from '../ui/hud';
 import type { Screens } from '../ui/screens';
 import type { Sfx } from './sfx';
@@ -118,6 +118,7 @@ export class GameScene extends Phaser.Scene {
   private firing = false;
   private revealCount = -1;
   private walls: { img: Phaser.GameObjects.Image; rooms: number[] }[] = [];
+  private closetCovers: Phaser.GameObjects.Image[] = [];
   private decoViews: { img: Phaser.GameObjects.Image; x: number; y: number }[] = [];
 
   constructor() {
@@ -139,13 +140,17 @@ export class GameScene extends Phaser.Scene {
       if (level !== null) this.levelIndex = level === 0 ? TRAINING_INDEX : level - 1;
     }
     const info = levelInfo(this.levelIndex);
-    this.world = new World(info.load(), (Date.now() & 0xffff) + 1, this.difficulty, this.startCarry ?? info.startCarry, { alertOnEntry: info.alertOnEntry });
+    this.world = new World(info.load(), (Date.now() & 0xffff) + 1, this.difficulty, this.startCarry ?? info.startCarry, {
+      alertOnEntry: info.alertOnEntry,
+      ambush: info.ambush,
+    });
     this.monsterViews.clear();
     this.itemViews.clear();
     this.barrelViews.clear();
     this.projectileViews.clear();
     this.doorViews = [];
     this.walls = [];
+    this.closetCovers = [];
     this.decoViews = [];
     this.revealCount = -1;
     this.firing = false;
@@ -217,7 +222,7 @@ export class GameScene extends Phaser.Scene {
     ctx.imageSmoothingEnabled = false;
     const isWallLike = (x: number, y: number): boolean => {
       const t = g.tile(x, y);
-      return !t || t.type === 'wall' || t.type === 'exit' || t.type === 'void' || (t.type === 'door' && t.door === 'secret');
+      return !t || t.type === 'wall' || t.type === 'exit' || t.type === 'void' || (t.type === 'door' && looksLikeWall(t.door));
     };
 
     for (let y = 0; y < H; y++) {
@@ -250,6 +255,12 @@ export class GameScene extends Phaser.Scene {
     tex.refresh();
     this.add.image(0, 0, 'floor_static').setOrigin(0).setDepth(FLOOR_DEPTH);
     this.buildDoorPieces();
+    const closet = this.world.hiddenCloset();
+    for (const i of closet?.cells ?? []) {
+      const x = i % W;
+      const y = Math.floor(i / W);
+      this.closetCovers.push(this.add.image(x * TILE, y * TILE - WALL_HEIGHT, ATLAS, key.wall(closet!.wall, 0)).setOrigin(0).setDepth((y + 1) * TILE));
+    }
 
     for (let y = 0; y < H; y++) {
       for (let x = 0; x < W; x++) {
@@ -286,7 +297,8 @@ export class GameScene extends Phaser.Scene {
       const top = y0 * TILE - WALL_HEIGHT;
       const img = this.add.image(x0 * TILE, top, ATLAS, k).setOrigin(0).setDepth((y0 + ch) * TILE);
       this.doorViews.push({ img, lead, top, height: ch * TILE + WALL_HEIGHT, width: cw * TILE });
-      if (kind !== 'normal' && kind !== 'secret') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.45, color: KEY_RGB[kind], glow: 0.25 });
+      const color = keyColorOf(kind);
+      if (color) this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.45, color: KEY_RGB[color], glow: 0.25 });
     }
   }
 
@@ -715,7 +727,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     for (const v of this.doorViews) {
-      if (v.lead.kind === 'secret' && !w.isRevealedAt(v.lead.x + 0.5, v.lead.y + 0.5)) {
+      if (looksLikeWall(v.lead.kind) && !w.isRevealedAt(v.lead.x + 0.5, v.lead.y + 0.5)) {
         v.img.setVisible(false);
         continue;
       }
@@ -799,12 +811,15 @@ export class GameScene extends Phaser.Scene {
 
   private hiddenCells(view: Phaser.Geom.Rectangle): [number, number][] {
     const g = this.world.grid;
+    const closet = this.world.hiddenCloset();
     const out: [number, number][] = [];
     for (let y = Math.floor(view.y / TILE) - 1; y <= Math.ceil(view.bottom / TILE) + 1; y++) {
       for (let x = Math.floor(view.x / TILE) - 1; x <= Math.ceil(view.right / TILE) + 1; x++) {
         const t = g.tile(x, y);
         if (!t || t.type === 'void') out.push([x, y]);
-        else if (t.type === 'floor' || t.type === 'door') {
+        else if (closet?.cells.has(g.index(x, y))) {
+          if (!closet.outerRooms.some((r) => this.world.revealedRooms.has(r))) out.push([x, y]);
+        } else if (t.type === 'floor' || t.type === 'door') {
           if (!this.world.isRevealedAt(x + 0.5, y + 0.5)) out.push([x, y]);
         } else if (!this.roomsAround(x, y).some((r) => this.world.revealedRooms.has(r))) out.push([x, y]);
       }
@@ -814,6 +829,16 @@ export class GameScene extends Phaser.Scene {
 
   private syncReveal(): void {
     const w = this.world;
+    if (this.closetCovers.length > 0) {
+      const closet = w.hiddenCloset();
+      if (!closet) {
+        for (const img of this.closetCovers) img.destroy();
+        this.closetCovers = [];
+      } else {
+        const shown = closet.outerRooms.some((r) => w.revealedRooms.has(r));
+        for (const img of this.closetCovers) img.setVisible(shown);
+      }
+    }
     if (w.revealedRooms.size === this.revealCount) return;
     this.revealCount = w.revealedRooms.size;
     for (const v of this.walls) v.img.setVisible(v.rooms.length === 0 || v.rooms.some((r) => w.revealedRooms.has(r)));
