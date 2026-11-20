@@ -13,7 +13,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
 | [Positional enemy footsteps](#positional-enemy-footsteps) | Under discussion, not built |
-| [Co-op multiplayer over WebRTC](#co-op-multiplayer-over-webrtc) | Under discussion, not built |
+| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Under discussion, not built |
 
 ### Discarded
 
@@ -137,9 +137,12 @@ Goal: hear an enemy before you see it.
 - Nearby enemies make footstep sounds, panned left or right and quieter with distance.
 - Each kind can have its own step sound, so you know a Brute from a Husk.
 
-## Co-op multiplayer over WebRTC
+## Multiplayer over WebRTC
 
-Goal: play the episode together, 2 to 4 Marines against the same demons. Co-op only, no versus mode.
+Goal: 2 to 4 players in two modes, on the same network code:
+
+- **Co-op:** play the episode together, Marines against the same demons.
+- **Versus (PvP):** Marines against each other, in deathmatch arenas, with or without demons.
 
 ### Network model
 
@@ -162,31 +165,78 @@ Goal: play the episode together, 2 to 4 Marines against the same demons. Co-op o
 ### Game changes
 
 - `World` holds a list of players instead of one `player`. This touches monster sight and targeting, backstabs, alert cries, noise, damage, pickups, keys, resting, death and room reveal.
-- Rules to decide:
+- Co-op rules to decide:
   - Friendly fire: on or off?
   - Keycards: shared by the team, or per player?
   - Death: respawn, spectate, or restart only when all are dead?
   - Ammo and stats: per player?
   - Ambushes: which player's pickup triggers them?
   - Difficulty: do enemy groups scale with the player count?
+- Versus needs its own rules and content:
+  - Arena maps built for fights: loops, several routes, no keycards, no exit switch.
+  - Weapons and items that respawn on a timer, instead of one pickup per level.
+  - Respawn points away from the killer, short spawn protection, a frag limit or a time limit, and a score table.
+  - Optional demons in the arena as a shared danger.
+  - Backstabs, the sight layer and the alert cries need rules when the target is a player, for example a backstab from behind on a player who is not shooting.
+- Fairness in versus: shots must hit what the shooter saw. The host keeps a short history of player positions and checks each shot against where the target was on the shooter's screen (lag compensation).
 - Rendering: several Marines with name labels and colors. Each camera, minimap and HUD follows its local player.
 - Screens: a lobby to host or join, a ready check, and synced level changes.
 
 ### Security and privacy
 
-- **The host validates every client message** (type, size, value ranges, for example weapon slot 1 to 4 and a bounded aim). A client sends only inputs. This protects against cheating and against crashing the host with malformed data.
-- **WebRTC shows each player's IP address to the other players.** Tell players. A TURN-only mode hides it, at the cost of more TURN traffic.
-- **Content Security Policy:** extend `connect-src` only to the signaling, STUN and TURN hosts.
+The design is host-authoritative. In co-op the risk to the game itself is low; in versus, cheating matters more (see part 3). The other concerns are attacks between players' browsers, privacy, and any servers we add.
+
+**1. Untrusted messages (most important).** The other browser can send anything; a modified client or the browser console is enough.
+- **Host side:** validate every client message. Known types only, a maximum size, finite numbers only (no NaN or Infinity), and value ranges (movement -1/0/1, weapon slot 1 to 4, aim within a few tiles of the player). Drop everything else.
+- **Client side:** the host is untrusted too. A malicious host can send huge snapshots or hostile text. Limit list lengths, value ranges and text length.
+- **Safe parsing:** `JSON.parse` copies `__proto__` and `constructor` keys onto the objects it creates. Never merge parsed objects into game state; read known fields into fresh objects, or use a fixed binary format.
+- **Text from other players** (names, chat): write it only with `textContent`, never `innerHTML`, with a length limit and no control characters. This protects against script injection (XSS).
+
+**2. Flooding (denial of service).**
+- Limit messages per peer per second, and disconnect peers that go over.
+- Cap the number of players, set connection timeouts, and close idle connections.
+
+**3. Cheating.**
+- Clients send only inputs, never state such as "I picked up the key" or "I have 200 health". The host computes all results.
+- The host can cheat, because it runs the game. In co-op, players choose whom they host with, so this is acceptable.
+- **In versus, the host is also a player,** so it can give itself an advantage: more damage, wall vision, a slower enemy. For casual games among friends, accept it and tell players. For fair or public games, run the `World` on a neutral host that does not play: a small dedicated server (Node can run `src/sim/` as it is), or a spectator browser.
+- **Wallhacks:** a client that gets the positions of every player can show players behind walls. In versus, the host should send each client only the players and demons it can see, or nearly see (interest management).
+- **Aim and timing bots** cannot be stopped in the browser. With friends this does not matter; with strangers, server-side checks on impossible aim speed or reaction time can catch the worst cases.
+
+**4. Privacy: IP addresses.**
+- WebRTC shows each player's public IP address to the other players. Modern browsers hide local network addresses behind random `.local` names.
+- Tell players in the lobby. Offer a relay-only mode (`iceTransportPolicy: 'relay'`) that sends all traffic through TURN, so peers never see each other's address. It costs more TURN traffic.
+- Copy-paste codes contain the IP address. Players should not post them in public channels.
+
+**5. Signaling and TURN servers** (only when we add them).
+- HTTPS and WSS only. The signaling exchange carries the keys that WebRTC's built-in encryption (DTLS) depends on, so anyone who can change it can read or change all game traffic.
+- Long random room codes that expire, with a rate limit on join attempts, so strangers cannot guess them.
+- Check the `Origin` header, cap rooms and connections per IP address, and do not log the exchanged data.
+- Never put TURN credentials in the client bundle, or anyone can use the relay at our cost. Use short-lived credentials signed by a small server endpoint. Its secret goes in a secret store, never in code or in the repository.
+
+**6. Browser and dependency settings.**
+- Extend `connect-src` in the Content Security Policy only to the exact signaling, STUN and TURN hosts, with no wildcards. Keep `script-src 'self'` and `frame-ancestors 'none'`.
+- A library such as PeerJS adds supply-chain risk: pin its version, run `npm audit`, and ask before installing it. The copy-paste first step needs no new package.
+
+**7. Data.** No accounts, no personal data, nothing stored on a server beyond the short signaling exchange. Player names live in memory for the session only.
+
+**Checklist for the first step (copy-paste, co-op or versus):**
+1. Strict checks on all messages, both directions.
+2. Rate and size limits per peer.
+3. Text only through `textContent`, with length limits.
+4. A lobby notice about IP addresses.
+5. The exact hosts in the Content Security Policy.
 
 ### Size and first step
 
 | Step | Size |
 | --- | --- |
 | A list of players in `World`, co-op rules | Large, about 30 to 40% of the work, with tests |
+| Versus rules, arena maps, respawns, scores, lag compensation | Large |
 | Snapshots, interpolation, prediction | Large |
 | WebRTC with copy-paste signaling | Medium |
 | Lobby, multiplayer HUD and cameras, synced level changes | Medium |
 | Signaling server and TURN (optional) | Small to medium, plus hosting |
 
-First step: **2-player co-op with copy-paste signaling**. No server and no new packages, and it tests the hardest part, the multi-player `World`, before any money goes into servers.
+First step: **2 players with copy-paste signaling, co-op first**. No server and no new packages, and it tests the hardest part, the multi-player `World`, on the existing levels. Versus comes after, on the same network code, with its own arena map and rules.
 
