@@ -487,12 +487,18 @@ body {
   box-shadow: 0 0 0 1px #000;
 }
 
-#screen .diff:hover {
+#screen .diff:hover,
+#screen .diff.selected {
   background: linear-gradient(180deg, #6a3a24, #3a1a10);
 }
 
 #screen .diff.current {
   border-color: var(--gold);
+}
+
+#screen .diff.selected {
+  outline: 1px solid #f4f0e8;
+  outline-offset: 1px;
 }
 
 #screen .diff-name {

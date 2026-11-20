@@ -16,6 +16,9 @@ interface Counter {
 const TICK_MS = 33;
 const SHOT_EVERY = 2;
 const LINE_PAUSE_MS = 450;
+const PREV_KEYS = new Set(['ArrowUp', 'ArrowLeft', 'KeyW', 'KeyA']);
+const NEXT_KEYS = new Set(['ArrowDown', 'ArrowRight', 'KeyS', 'KeyD']);
+const ENTER_KEYS = new Set(['Enter', 'NumpadEnter']);
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string, cls?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -33,6 +36,9 @@ export class Screens {
   private onClick: (() => void) | null = null;
   private timer: number | null = null;
   private sfx: Sfx;
+  private actions = new WeakMap<HTMLButtonElement, () => void>();
+  private buttons: HTMLButtonElement[] = [];
+  private selected = 0;
 
   constructor(sfx: Sfx) {
     this.sfx = sfx;
@@ -42,6 +48,50 @@ export class Screens {
       const cb = this.onClick;
       cb();
     });
+    window.addEventListener('keydown', (e) => this.onKey(e));
+  }
+
+  private onKey(e: KeyboardEvent): void {
+    if (!this.visible || e.repeat) return;
+    if (ENTER_KEYS.has(e.code)) {
+      e.preventDefault();
+      if (this.onClick) this.onClick();
+      else this.press(this.buttons[this.selected]);
+    } else if (PREV_KEYS.has(e.code)) this.select(this.selected - 1);
+    else if (NEXT_KEYS.has(e.code)) this.select(this.selected + 1);
+  }
+
+  private choice(name: string, blurb: string, cls: string, action: () => void): HTMLButtonElement {
+    const btn = el('button', undefined, cls);
+    btn.type = 'button';
+    btn.append(el('span', name, 'diff-name'), el('span', blurb, 'diff-blurb'));
+    this.actions.set(btn, action);
+    btn.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      e.stopPropagation();
+      this.press(btn);
+    });
+    btn.addEventListener('pointerenter', () => this.select(this.buttons.indexOf(btn)));
+    return btn;
+  }
+
+  private press(btn: HTMLButtonElement | undefined): void {
+    const action = btn && this.actions.get(btn);
+    if (!action) return;
+    this.hide();
+    action();
+  }
+
+  private bindButtons(): void {
+    this.buttons = [...this.root.querySelectorAll<HTMLButtonElement>('button')];
+    this.select(Math.max(0, this.buttons.findIndex((b) => b.classList.contains('current'))));
+  }
+
+  private select(index: number): void {
+    const n = this.buttons.length;
+    if (n === 0 || index < 0) return;
+    this.selected = (index + n) % n;
+    this.buttons.forEach((b, i) => b.classList.toggle('selected', i === this.selected));
   }
 
   get visible(): boolean {
@@ -52,6 +102,7 @@ export class Screens {
     this.stopTimer();
     this.root.classList.add('hidden');
     this.onClick = null;
+    this.buttons = [];
   }
 
   private stopTimer(): void {
@@ -66,23 +117,13 @@ export class Screens {
     this.root.replaceChildren(card);
     this.root.classList.remove('hidden');
     this.onClick = onClick;
+    this.bindButtons();
   }
 
   private picker(title: string, list: Difficulty[], current: DifficultyId, onPick: Pick): HTMLElement {
     const box = el('div', undefined, 'picker');
     box.append(el('div', title, 'picker-title'));
-    for (const d of list) {
-      const btn = el('button', undefined, `diff${d.id === current ? ' current' : ''}`);
-      btn.type = 'button';
-      btn.append(el('span', d.name, 'diff-name'), el('span', d.blurb, 'diff-blurb'));
-      btn.addEventListener('pointerdown', (e) => {
-        if (e.button !== 0) return;
-        e.stopPropagation();
-        this.hide();
-        onPick(d);
-      });
-      box.append(btn);
-    }
+    for (const d of list) box.append(this.choice(d.name, d.blurb, `diff${d.id === current ? ' current' : ''}`, () => onPick(d)));
     return box;
   }
 
@@ -95,7 +136,7 @@ export class Screens {
   }
 
   paused(onResume: () => void): void {
-    this.show([el('h1', 'PAUSED'), el('p', 'The demons wait for you.'), el('div', 'Click or press Esc to resume', 'prompt')], () => {
+    this.show([el('h1', 'PAUSED'), el('p', 'The demons wait for you.'), el('div', 'Click or press Enter or Esc to resume', 'prompt')], () => {
       this.hide();
       onResume();
     });
@@ -157,22 +198,14 @@ export class Screens {
       });
       this.sfx.play('explode', 0.7);
       if (next) {
-        const btn = el('button', undefined, 'diff current next');
-        btn.type = 'button';
-        btn.append(el('span', `Continue to ${next.title}`, 'diff-name'), el('span', next.blurb ?? 'Your weapons, ammo, health and armor carry over.', 'diff-blurb'));
-        btn.addEventListener('pointerdown', (e) => {
-          if (e.button !== 0) return;
-          e.stopPropagation();
-          this.hide();
-          next.onContinue();
-        });
         const box = el('div', undefined, 'picker');
-        box.append(btn);
+        box.append(this.choice(`Continue to ${next.title}`, next.blurb ?? 'Your weapons, ammo, health and armor carry over.', 'diff current next', next.onContinue));
         footer.replaceChildren(box);
       } else {
         footer.replaceChildren(el('p', 'The gate is sealed. The episode is complete... for now.'), this.picker('Play the episode again', list, current, onPick));
       }
       this.onClick = null;
+      this.bindButtons();
     };
     const tick = (): void => {
       const c = counters[line];

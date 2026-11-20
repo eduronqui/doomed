@@ -50,6 +50,12 @@ export class Hud {
       e.stopPropagation();
       this.onSkip();
     });
+    window.addEventListener('keydown', (e) => {
+      if (e.repeat || e.defaultPrevented || (e.code !== 'Enter' && e.code !== 'NumpadEnter')) return;
+      if (!this.onSkip || this.tip.classList.contains('hidden') || !$('screen').classList.contains('hidden')) return;
+      e.preventDefault();
+      this.onSkip();
+    });
     const slotRoot = $('slots');
     slotRoot.replaceChildren();
     for (const id of WEAPON_ORDER) {

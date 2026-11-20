@@ -18,7 +18,7 @@ The first time you play, the game starts with a short training level, "Training:
 
 - You start the training with 25 health, below the rest cap of Recruit and Veteran, so you can see resting heal you. On Doomed there is no resting, so use the medikit.
 - When you use the exit switch, the training shows the same victory tally as the other levels (par 1:30). Then "Continue to E1: Outpost Breach" (or R) starts E1 with a fresh loadout. Nothing from the training carries over.
-- The "Skip training" button in the box ends the training at once and starts E1.
+- The "Skip training (Enter)" button in the box, or Enter, ends the training at once and starts E1.
 - When you reach the training exit or skip the training, the game stores `doomed.trainingDone = 1` in the browser's localStorage. After that, new games start at E1. To see the training again, remove that key (browser developer tools, Application, Local Storage). If the browser blocks localStorage, the training shows on each new game.
 - If you die in the training, it restarts.
 
@@ -66,9 +66,13 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 | N | Turn the music on or off (remembered in localStorage) |
 | M | Mute or unmute all sound |
 | Esc or P | Pause or resume |
+| W A S D or arrow keys, then Enter | On the title, death and victory screens: select a button and press it |
+| Enter | On the pause screen: resume. On the victory screen: skip the count. During training: skip the training |
 | R | On the death screen: restart the level. On the victory screen: continue to the next level (or play again after level 3) |
 
-The first click on the title screen also starts the sound. Browsers block sound until you click.
+On a screen with buttons, the gold border marks your current difficulty and the white outline marks the selected button. The selection starts on the current difficulty, and the mouse moves it too. A held key does not repeat on these screens.
+
+The first difficulty pick on the title screen (click or Enter) also starts the sound. Browsers block sound until you click or press a key.
 
 ## The Marine
 
@@ -104,7 +108,7 @@ Doors divide the level into rooms. Open passages without a door join two areas i
 
 ### Death
 
-When your health reaches 0, you die. The death screen shows your kills and time. Click or press R to restart the level.
+When your health reaches 0, you die. The death screen shows your kills and time. Click, select a difficulty with the arrow keys or W A S D and press Enter, or press R to restart the level.
 
 ## Weapons
 
@@ -336,7 +340,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 
 ## Victory tally
 
-When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages), your Time and the Par time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Click to skip to the final numbers. Then pick a difficulty to play again, or press R.
+When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages), your Time and the Par time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Click or press Enter to skip to the final numbers. Then pick a button with the mouse or with the arrow keys or W A S D and Enter, or press R.
 
 ## Level 1: Outpost Breach
 
