@@ -1,0 +1,29 @@
+README.md
+  s_e549dc79ddcbfe::t_2e6955eee7cc97 26,46-48,53,106,166
+index.html
+  s_e549dc79ddcbfe::t_e515dc900b4d0c 11-12
+scripts/build-sprites.mjs
+  s_e549dc79ddcbfe::t_2998edc6f7a3ed 13-18
+src/render/art/favicon.ts
+  s_e549dc79ddcbfe::t_c0b4e31ee5a00e 1-85
+src/ui/logo.ts
+  s_e549dc79ddcbfe::t_6b23a4b538bdfa 1
+tests/sprites.test.mjs
+  s_e549dc79ddcbfe::t_3e40240e60ed47 5,32-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "39bf60a7100aa63067ab62aa6b944f4bdc37de9f",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
