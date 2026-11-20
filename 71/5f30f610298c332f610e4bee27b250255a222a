@@ -1,0 +1,21 @@
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_8374707c60706e 103
+src/ui/hud.ts
+  s_e549dc79ddcbfe::t_c80a6836c17d6e 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "715f30f610298c332f610e4bee27b250255a222a",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
