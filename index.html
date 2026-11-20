@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss:; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <title>DOOMED</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <main id="main">
+        <div id="viewport">
+          <div id="game"></div>
+          <div id="hurt"></div>
+          <div id="center-msg"></div>
+          <div id="tip" class="frame hidden"><h2>Training</h2><p id="tip-text"></p><button id="tip-skip" type="button">Skip training</button></div>
+          <div id="screen" class="hidden"></div>
+        </div>
+        <section id="console" class="frame">
+          <header><span class="tab active">Server Log</span></header>
+          <ol id="log"></ol>
+        </section>
+      </main>
+      <aside id="panel">
+        <section class="frame">
+          <h2>Map</h2>
+          <canvas id="minimap" width="168" height="120"></canvas>
+          <div id="level-name" class="small"></div>
+        </section>
+        <section class="frame">
+          <h2>Status</h2>
+          <div class="bar hp"><span class="fill"></span><span class="label" id="hp-label">Health</span><span class="value"></span></div>
+          <div class="bar ar"><span class="fill"></span><span class="label">Armor</span><span class="value"></span></div>
+        </section>
+        <section class="frame">
+          <h2>Weapons</h2>
+          <div id="slots"></div>
+        </section>
+        <section class="frame">
+          <h2>Inventory</h2>
+          <div id="inventory">
+            <div class="inv"><span class="slot" id="inv-bullets"></span><span class="txt">Bullets <b id="ammo-bullets"></b></span></div>
+            <div class="inv"><span class="slot" id="inv-shells"></span><span class="txt">Shells <b id="ammo-shells"></b></span></div>
+            <div class="inv"><span class="slot empty" id="inv-key-red"></span><span class="slot empty" id="inv-key-blue"></span><span class="slot empty" id="inv-key-yellow"></span><span class="txt">Keycards</span></div>
+          </div>
+        </section>
+        <section class="frame">
+          <h2>Mission</h2>
+          <dl id="mission">
+            <dt>Kills</dt><dd id="st-kills"></dd>
+            <dt>Items</dt><dd id="st-items"></dd>
+            <dt>Secrets</dt><dd id="st-secrets"></dd>
+            <dt>Time</dt><dd id="st-time"></dd>
+          </dl>
+        </section>
+        <section class="frame help">
+          <h2>Controls</h2>
+          <p><b>WASD</b> move &middot; <b>Mouse</b> aim &middot; <b>Click</b> fire</p>
+          <p><b>E</b>/<b>Space</b> use &middot; <b>1-4</b>/<b>Wheel</b> weapon</p>
+          <p><b>V</b> enemy sight &middot; <b>N</b> music &middot; <b>M</b> mute</p>
+          <p><b>Esc</b> pause</p>
+        </section>
+      </aside>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

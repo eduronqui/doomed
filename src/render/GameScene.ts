@@ -1,0 +1,866 @@
+import Phaser from 'phaser';
+import { MARINE } from '../characters';
+import type { CharacterKind } from '../characters/art';
+import { LEVELS, TRAINING_INDEX, levelInfo } from '../levels';
+import { isTrainingDone, markTrainingDone } from '../ui/progress';
+import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from '../sim/defs';
+import type { Door } from '../sim/grid';
+import type { Tile } from '../sim/level';
+import { dist } from '../sim/types';
+import { IDLE_INPUT, World, type Carry, type EffectKind, type GameEvent, type Input, type Monster } from '../sim/world';
+import type { Hud } from '../ui/hud';
+import type { Screens } from '../ui/screens';
+import type { Sfx } from './sfx';
+import type { Music } from './music';
+import { TILE, WALL_HEIGHT } from './art/tiles';
+import { Lighting, type Light } from './lighting';
+import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
+
+export const VIEW_W = 1024;
+export const VIEW_H = 704;
+export const ZOOM = 2;
+
+const FLOOR_DEPTH = -100000;
+const DECAL_DEPTH = -90000;
+const CORPSE_DEPTH = -80000;
+const OVERLAY_DEPTH = 1_000_000;
+const NAME_DEPTH = 2_000_000;
+const ACTOR_FOOT = 0.28;
+const STEALTH_EXPOSE_RANGE = 3;
+
+export interface GameDeps {
+  sfx: Sfx;
+  music: Music;
+  hud: Hud;
+  screens: Screens;
+}
+
+interface Fx {
+  sprite: Phaser.GameObjects.Image;
+  name: EffectKind;
+  frames: number;
+  age: number;
+  frameTime: number;
+}
+
+interface Floater {
+  text: Phaser.GameObjects.Text;
+  age: number;
+}
+
+interface Tracer {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  age: number;
+  hostile: boolean;
+}
+
+interface ActorView {
+  sprite: Phaser.GameObjects.Image;
+  name: Phaser.GameObjects.Text;
+  dead: boolean;
+  exposedUntil: number;
+}
+
+function hash(x: number, y: number): number {
+  let h = Math.imul(x * 374761393 + y * 668265263, 1274126177);
+  h ^= h >>> 13;
+  return (h >>> 0) % 1000;
+}
+
+const KEY_RGB: Record<'red' | 'blue' | 'yellow', [number, number, number]> = { red: [255, 40, 40], blue: [60, 130, 255], yellow: [255, 220, 60] };
+
+const FX_FRAMES: Record<EffectKind, number> = { puff: 3, blood: 3, explosion: 4, burst: 4 };
+const FX_TIME: Record<EffectKind, number> = { puff: 0.06, blood: 0.07, explosion: 0.09, burst: 0.06 };
+
+export class GameScene extends Phaser.Scene {
+  private deps!: GameDeps;
+  private world!: World;
+  private levelIndex = 0;
+  private startCarry: Carry | undefined;
+  private static devLevelApplied = false;
+  private playerView!: ActorView;
+  private monsterViews = new Map<number, ActorView>();
+  private itemViews = new Map<number, Phaser.GameObjects.Image>();
+  private barrelViews = new Map<number, Phaser.GameObjects.Image>();
+  private projectileViews = new Map<number, Phaser.GameObjects.Image>();
+  private doorViews: { img: Phaser.GameObjects.Image; lead: Door; top: number; height: number; width: number }[] = [];
+  private liquids: { img: Phaser.GameObjects.Image; kind: 'slime' | 'lava' }[] = [];
+  private braziers: Phaser.GameObjects.Image[] = [];
+  private exitView: Phaser.GameObjects.Image | null = null;
+  private fx: Fx[] = [];
+  private floaters: Floater[] = [];
+  private tracers: Tracer[] = [];
+  private gfx!: Phaser.GameObjects.Graphics;
+  private sightGfx!: Phaser.GameObjects.Graphics;
+  private showSight = true;
+  private muzzle!: Phaser.GameObjects.Image;
+  private lighting!: Lighting;
+  private staticLights: Light[] = [];
+  private keys!: Record<string, Phaser.Input.Keyboard.Key>;
+  private wheel = 0;
+  private useQueued = false;
+  private slotQueued: number | null = null;
+  private animClock = 0;
+  private paused = false;
+  private ended = false;
+  private endTimer = 0;
+  private started = false;
+  private difficulty: Difficulty = DEFAULT_DIFFICULTY;
+  private firing = false;
+  private revealCount = -1;
+  private walls: { img: Phaser.GameObjects.Image; rooms: number[] }[] = [];
+  private decoViews: { img: Phaser.GameObjects.Image; x: number; y: number }[] = [];
+
+  constructor() {
+    super('game');
+  }
+
+  init(data: { deps: GameDeps; started?: boolean; difficulty?: Difficulty; levelIndex?: number; carry?: Carry }): void {
+    this.deps = data.deps;
+    this.started = data.started ?? false;
+    this.difficulty = data.difficulty ?? this.difficulty;
+    this.levelIndex = data.levelIndex ?? (isTrainingDone() ? 0 : TRAINING_INDEX);
+    this.startCarry = data.carry;
+  }
+
+  create(): void {
+    if (import.meta.env.DEV && !GameScene.devLevelApplied) {
+      GameScene.devLevelApplied = true;
+      const raw = new URLSearchParams(window.location.search).get('level');
+      const lv = Number(raw);
+      if (raw !== null && Number.isInteger(lv) && lv >= 0 && lv <= LEVELS.length) this.levelIndex = lv === 0 ? TRAINING_INDEX : lv - 1;
+    }
+    const info = levelInfo(this.levelIndex);
+    this.world = new World(info.load(), (Date.now() & 0xffff) + 1, this.difficulty, this.startCarry ?? info.startCarry, { alertOnEntry: info.alertOnEntry });
+    this.monsterViews.clear();
+    this.itemViews.clear();
+    this.barrelViews.clear();
+    this.projectileViews.clear();
+    this.doorViews = [];
+    this.walls = [];
+    this.decoViews = [];
+    this.revealCount = -1;
+    this.firing = false;
+    this.liquids = [];
+    this.braziers = [];
+    this.fx = [];
+    this.floaters = [];
+    this.tracers = [];
+    this.staticLights = [];
+    this.paused = false;
+    this.ended = false;
+    this.endTimer = 0;
+
+    this.buildMap();
+    this.buildEntities();
+    this.gfx = this.add.graphics().setDepth(OVERLAY_DEPTH - 10);
+    this.sightGfx = this.add.graphics().setDepth(OVERLAY_DEPTH + 5);
+    this.muzzle = this.add.image(0, 0, ATLAS, key.fx('muzzle', 0)).setVisible(false).setBlendMode(Phaser.BlendModes.ADD);
+    this.lighting = new Lighting(this, VIEW_W / ZOOM, VIEW_H / ZOOM, info.darkness, OVERLAY_DEPTH);
+
+    const cam = this.cameras.main;
+    cam.setZoom(ZOOM);
+    cam.setBackgroundColor('#000000');
+    cam.setBounds(-TILE * 2, -TILE * 2, this.world.grid.width * TILE + TILE * 4, this.world.grid.height * TILE + TILE * 4);
+    cam.startFollow(this.playerView.sprite, true, 0.18, 0.18, 0, 14);
+    cam.roundPixels = true;
+
+    this.setupInput();
+    this.deps.hud.reset(this.world, `${info.title} (${this.difficulty.name})`);
+    if (import.meta.env.DEV) this.applyDevParams();
+    if (this.started) this.beginPlay();
+    else {
+      this.paused = true;
+      this.deps.screens.title(info.title, info.briefing, DIFFICULTIES, this.difficulty.id, (d) => {
+        this.deps.sfx.unlock();
+        this.restart(d);
+      });
+    }
+  }
+
+  private applyDevParams(): void {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('autostart')) this.started = true;
+    const pos = params.get('pos')?.split(',').map(Number);
+    if (pos && pos.length === 2 && pos.every(Number.isFinite)) {
+      this.world.player.x = pos[0] + 0.5;
+      this.world.player.y = pos[1] + 0.5;
+      this.cameras.main.centerOn(this.world.player.x * TILE, this.world.player.y * TILE);
+    }
+    if (params.has('god')) this.world.player.health = 9999;
+    (window as unknown as { __doomed: { world: World; scene: Phaser.Scene } }).__doomed = { world: this.world, scene: this };
+  }
+
+  private beginPlay(): void {
+    this.paused = false;
+    this.started = true;
+    this.deps.music.play(levelInfo(this.levelIndex).music);
+    const info = levelInfo(this.levelIndex);
+    this.deps.hud.message(`Welcome to ${info.title}. ${info.startMessage}`, 'info', 0);
+  }
+
+  // ---------- construction ----------
+
+  private buildMap(): void {
+    const g = this.world.grid;
+    const W = g.width;
+    const H = g.height;
+    if (this.textures.exists('floor_static')) this.textures.remove('floor_static');
+    const tex = this.textures.createCanvas('floor_static', W * TILE, H * TILE)!;
+    const ctx = tex.context;
+    ctx.imageSmoothingEnabled = false;
+    const isWallLike = (x: number, y: number): boolean => {
+      const t = g.tile(x, y);
+      return !t || t.type === 'wall' || t.type === 'exit' || t.type === 'void' || (t.type === 'door' && t.door === 'secret');
+    };
+
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const t = g.tiles[g.index(x, y)];
+        if (t.type === 'floor' || t.type === 'door') {
+          const v = hash(x, y) % FLOOR_VARIANTS;
+          const variant = t.floor === 'slime' || t.floor === 'lava' ? 0 : hash(x, y) < 700 ? 0 : v;
+          const fr = this.textures.getFrame(ATLAS, key.floor(t.floor, variant));
+          ctx.drawImage(fr.source.image as CanvasImageSource, fr.cutX, fr.cutY, TILE, TILE, x * TILE, y * TILE, TILE, TILE);
+          if (t.floor === 'slime' || t.floor === 'lava') {
+            const img = this.add.image(x * TILE, y * TILE, ATLAS, key.floor(t.floor, 0)).setOrigin(0).setDepth(FLOOR_DEPTH + 1);
+            this.liquids.push({ img, kind: t.floor });
+            this.staticLights.push(
+              t.floor === 'lava'
+                ? { x: x + 0.5, y: y + 0.5, r: 1.7, a: 0.55, color: [255, 90, 20], glow: 0.2 }
+                : { x: x + 0.5, y: y + 0.5, r: 1.3, a: 0.3, color: [80, 255, 60], glow: 0.08 },
+            );
+          }
+          if (t.type === 'floor') {
+            ctx.fillStyle = 'rgba(0,0,0,0.38)';
+            if (isWallLike(x, y - 1)) ctx.fillRect(x * TILE, y * TILE, TILE, 7);
+            if (isWallLike(x - 1, y)) ctx.fillRect(x * TILE, y * TILE + (isWallLike(x, y - 1) ? 7 : 0), 5, TILE - (isWallLike(x, y - 1) ? 7 : 0));
+            ctx.fillStyle = 'rgba(0,0,0,0.18)';
+            if (isWallLike(x - 1, y - 1) && !isWallLike(x, y - 1) && !isWallLike(x - 1, y)) ctx.fillRect(x * TILE, y * TILE, 5, 7);
+          }
+        }
+      }
+    }
+    tex.refresh();
+    this.add.image(0, 0, 'floor_static').setOrigin(0).setDepth(FLOOR_DEPTH);
+    this.buildDoorPieces();
+
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const i = g.index(x, y);
+        const t = g.tiles[i];
+        if (t.type === 'void' || t.type === 'floor') continue;
+        const px = x * TILE;
+        const py = y * TILE - WALL_HEIGHT;
+        const depth = (y + 1) * TILE;
+        if (t.type === 'wall') {
+          if (!this.touchesOpen(x, y)) continue;
+          const variant = this.wallVariant(t, x, y);
+          this.walls.push({ img: this.add.image(px, py, ATLAS, key.wall(t.wall, variant)).setOrigin(0).setDepth(depth), rooms: this.roomsAround(x, y) });
+          if (t.wall === 'tech' && variant === 1 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 2.2, a: 0.45, color: [120, 230, 255], glow: 0.12 });
+          if (t.wall === 'tech' && variant === 2 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 1.8, a: 0.35, color: [80, 255, 120], glow: 0.1 });
+          if (t.wall === 'stone' && variant === 2 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 1.6, a: 0.35, color: [255, 100, 30], glow: 0.15 });
+        } else if (t.type === 'exit') {
+          this.exitView = this.add.image(px, py, ATLAS, key.exit(false)).setOrigin(0).setDepth(depth);
+        }
+      }
+    }
+  }
+
+  private buildDoorPieces(): void {
+    for (const group of this.world.grid.doorGroups) {
+      const lead = group[0];
+      const kind = lead.kind;
+      const x0 = Math.min(...group.map((d) => d.x));
+      const y0 = Math.min(...group.map((d) => d.y));
+      const cw = Math.max(...group.map((d) => d.x)) - x0 + 1;
+      const ch = Math.max(...group.map((d) => d.y)) - y0 + 1;
+      const wallKind = this.world.grid.tiles[lead.index].wall;
+      const k = key.doorPiece(kind, wallKind, cw, ch);
+      const top = y0 * TILE - WALL_HEIGHT;
+      const img = this.add.image(x0 * TILE, top, ATLAS, k).setOrigin(0).setDepth((y0 + ch) * TILE);
+      this.doorViews.push({ img, lead, top, height: ch * TILE + WALL_HEIGHT, width: cw * TILE });
+      if (kind !== 'normal' && kind !== 'secret') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.45, color: KEY_RGB[kind], glow: 0.25 });
+    }
+  }
+
+  private roomsAround(x: number, y: number): number[] {
+    const g = this.world.grid;
+    const out = new Set<number>();
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        if (!g.inBounds(x + dx, y + dy)) continue;
+        const r = g.rooms[g.index(x + dx, y + dy)];
+        if (r >= 0) out.add(r);
+      }
+    }
+    return [...out];
+  }
+
+  private touchesOpen(x: number, y: number): boolean {
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        const t = this.world.grid.tile(x + dx, y + dy);
+        if (t && t.type !== 'wall' && t.type !== 'void') return true;
+      }
+    }
+    return false;
+  }
+
+  private wallVariant(t: Tile, x: number, y: number): number {
+    const h = hash(x, y);
+    const below = this.world.grid.tile(x, y + 1);
+    if (!below || below.type === 'wall' || below.type === 'void') return 0;
+    const n = WALL_VARIANTS[t.wall];
+    if (t.wall === 'tech') return h < 620 ? 0 : 1 + (h % (n - 1));
+    return h < 600 ? 0 : 1 + (h % (n - 1));
+  }
+
+  private buildEntities(): void {
+    const w = this.world;
+    for (const d of w.decos) this.addDeco(d.kind, d.x, d.y);
+    for (const b of w.barrels) {
+      this.barrelViews.set(b.id, this.add.image(b.x * TILE, (b.y + 0.32) * TILE, ATLAS, key.barrel(0)).setOrigin(0.5, 1).setDepth((b.y + 0.32) * TILE));
+    }
+    for (const it of w.items) this.addItem(it.id, it.kind, it.x, it.y);
+    for (const m of w.monsters) this.monsterViews.set(m.id, this.makeActor(m.kind, m.def.name, m.x, m.y));
+    this.playerView = this.makeActor('marine', MARINE.name, w.player.x, w.player.y);
+  }
+
+  private addDeco(kind: DecoKind, x: number, y: number): void {
+    const cx = x * TILE;
+    const bottom = Math.floor(y) * TILE + TILE;
+    switch (kind) {
+      case 'lamp':
+        this.decoViews.push({ img: this.add.image(cx, bottom - 2, ATLAS, key.deco('lamp', 0)).setOrigin(0.5, 1).setDepth(bottom), x, y });
+        this.staticLights.push({ x, y: y - 0.3, r: 4.6, a: 0.92, color: [170, 225, 255], glow: 0.1 });
+        break;
+      case 'crate':
+        this.decoViews.push({ img: this.add.image(cx, bottom, ATLAS, key.deco('crate', 0)).setOrigin(0.5, 1).setDepth(bottom), x, y });
+        break;
+      case 'brazier': {
+        const img = this.add.image(cx, bottom - 1, ATLAS, key.deco('brazier', 0)).setOrigin(0.5, 1).setDepth(bottom);
+        this.braziers.push(img);
+        this.decoViews.push({ img, x, y });
+        this.staticLights.push({ x, y: y - 0.3, r: 4.4, a: 0.9, color: [255, 120, 30], glow: 0.3, flicker: true });
+        break;
+      }
+      case 'gore':
+      case 'body':
+        this.decoViews.push({ img: this.add.image(cx, y * TILE, ATLAS, key.deco(kind, 0)).setDepth(DECAL_DEPTH), x, y });
+        break;
+    }
+  }
+
+  private addItem(id: number, kind: string, x: number, y: number): void {
+    const img = this.add.image(x * TILE, y * TILE - 4, ATLAS, `item_${kind}`).setDepth(y * TILE);
+    if (kind === 'sphere' || kind === 'redkey') {
+      this.tweens.add({ targets: img, y: img.y - 3, duration: 700, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
+    }
+    this.itemViews.set(id, img);
+  }
+
+  private makeActor(kind: CharacterKind, name: string, x: number, y: number): ActorView {
+    const texture = kind === 'marine' ? key.marine('pistol', 's', 0) : key.actor(kind, 's', 0);
+    const sprite = this.add.image(x * TILE, (y + ACTOR_FOOT) * TILE, ATLAS, texture).setOrigin(0.5, 30 / 32);
+    const label = this.add
+      .text(0, 0, name, {
+        fontFamily: 'Verdana, Tahoma, sans-serif',
+        fontSize: '9px',
+        fontStyle: 'bold',
+        color: '#30d030',
+        stroke: '#000000',
+        strokeThickness: 2,
+        resolution: 2,
+      })
+      .setOrigin(0.5, 1)
+      .setDepth(NAME_DEPTH);
+    return { sprite, name: label, dead: false, exposedUntil: 0 };
+  }
+
+  // ---------- input ----------
+
+  private setupInput(): void {
+    const kb = this.input.keyboard!;
+    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,M,N,ESC,P,R,Q,V') as Record<string, Phaser.Input.Keyboard.Key>;
+    kb.addCapture('SPACE,UP,DOWN,LEFT,RIGHT');
+    this.input.mouse?.disableContextMenu();
+    this.input.on('pointerdown', (ptr: Phaser.Input.Pointer) => {
+      if (ptr.leftButtonDown()) this.firing = true;
+    });
+    this.input.on('pointerup', () => (this.firing = false));
+    this.input.on('pointerupoutside', () => (this.firing = false));
+    this.input.on('gameout', () => (this.firing = false));
+    const stopFiring = (): void => {
+      this.firing = false;
+    };
+    this.game.events.on('blur', stopFiring);
+    this.events.once('shutdown', () => this.game.events.off('blur', stopFiring));
+    this.input.on('wheel', (_p: unknown, _o: unknown, _dx: number, dy: number) => {
+      this.wheel += Math.sign(dy);
+    });
+    const onDown = (k: string, fn: () => void): void => {
+      this.keys[k].on('down', fn);
+    };
+    onDown('E', () => (this.useQueued = true));
+    onDown('SPACE', () => (this.useQueued = true));
+    onDown('ONE', () => (this.slotQueued = 1));
+    onDown('TWO', () => (this.slotQueued = 2));
+    onDown('THREE', () => (this.slotQueued = 3));
+    onDown('FOUR', () => (this.slotQueued = 4));
+    onDown('Q', () => (this.wheel += 1));
+    onDown('M', () => {
+      const muted = this.deps.sfx.toggleMute();
+      this.deps.hud.message(muted ? 'Sound muted.' : 'Sound on.', 'info', this.world.time);
+    });
+    onDown('V', () => {
+      this.showSight = !this.showSight;
+      this.deps.hud.message(this.showSight ? 'Enemy sight shown.' : 'Enemy sight hidden.', 'info', this.world.time);
+    });
+    onDown('N', () => {
+      const on = this.deps.music.toggle();
+      this.deps.hud.message(on ? 'Music on.' : 'Music off.', 'info', this.world.time);
+    });
+    const pause = (): void => this.togglePause();
+    onDown('ESC', pause);
+    onDown('P', pause);
+    onDown('R', () => {
+      if (!this.ended) return;
+      const next = LEVELS[this.levelIndex + 1];
+      if (this.world.status === 'won' && this.levelIndex === TRAINING_INDEX) this.finishTraining();
+      else if (this.world.status === 'won') {
+        if (next) this.restart(this.difficulty, this.levelIndex + 1, this.world.carry());
+        else this.restart(this.difficulty, 0, undefined);
+      } else this.restart();
+    });
+  }
+
+  private finishTraining(): void {
+    markTrainingDone();
+    this.restart(this.difficulty, 0, undefined);
+  }
+
+  private updateTip(): void {
+    const info = levelInfo(this.levelIndex);
+    if (!info.tips || this.world.status !== 'playing') {
+      this.deps.hud.setTip(null, null);
+      return;
+    }
+    const w = this.world;
+    const px = Math.floor(w.player.x);
+    const py = Math.floor(w.player.y);
+    const tip = info.tips.find(({ area: [x0, y0, x1, y1] }) => px >= x0 && px <= x1 && py >= y0 && py <= y1);
+    if (!tip) return;
+    const [x0, y0, x1, y1] = tip.area;
+    const clear = !w.monsters.some((m) => m.state !== 'dead' && m.x >= x0 && m.x < x1 + 1 && m.y >= y0 && m.y < y1 + 1);
+    this.deps.hud.setTip(clear && tip.clearText ? tip.clearText : tip.text, () => this.finishTraining());
+  }
+
+  private togglePause(): void {
+    if (!this.started || this.ended) return;
+    if (this.paused) {
+      this.deps.screens.hide();
+      this.paused = false;
+      this.deps.music.resume();
+    } else {
+      this.paused = true;
+      this.deps.music.pause();
+      this.deps.screens.paused(() => {
+        this.paused = false;
+        this.deps.music.resume();
+      });
+    }
+  }
+
+  private restart(difficulty: Difficulty = this.difficulty, levelIndex = this.levelIndex, carry: Carry | undefined = this.startCarry): void {
+    this.deps.screens.hide();
+    this.scene.restart({ deps: this.deps, started: true, difficulty, levelIndex, carry });
+  }
+
+  private readInput(): Input {
+    const k = this.keys;
+    const cam = this.cameras.main;
+    const ptr = this.input.activePointer;
+    const wp = cam.getWorldPoint(ptr.x, ptr.y);
+    const input: Input = {
+      ...IDLE_INPUT,
+      moveX: (k.D.isDown || k.RIGHT.isDown ? 1 : 0) - (k.A.isDown || k.LEFT.isDown ? 1 : 0),
+      moveY: (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0),
+      aimX: wp.x / TILE,
+      aimY: wp.y / TILE - 0.3,
+      fire: this.firing && ptr.leftButtonDown(),
+      use: this.useQueued,
+      weaponSlot: this.slotQueued,
+      cycleWeapon: this.wheel,
+    };
+    this.useQueued = false;
+    this.slotQueued = null;
+    this.wheel = 0;
+    return input;
+  }
+
+  // ---------- frame ----------
+
+  update(_time: number, deltaMs: number): void {
+    const dt = Math.min(deltaMs / 1000, 0.1);
+    const w = this.world;
+    if (!this.paused && !this.deps.screens.visible) {
+      w.update(dt, this.readInput());
+    } else {
+      this.useQueued = false;
+      this.slotQueued = null;
+      this.wheel = 0;
+    }
+    for (const e of w.drainEvents()) this.handleEvent(e);
+
+    this.animClock += dt;
+    this.syncWorld();
+    this.updateFx(dt);
+    this.drawOverlay();
+    this.deps.hud.update(w, dt);
+    this.updateTip();
+
+    if (w.status !== 'playing' && !this.ended) {
+      this.endTimer += dt;
+      if (this.endTimer > (w.status === 'won' ? 0.6 : 1.4)) {
+        this.ended = true;
+        this.deps.music.stop();
+        const info = levelInfo(this.levelIndex);
+        const nextInfo = LEVELS[this.levelIndex + 1];
+        if (w.status === 'won') {
+          if (info.training) markTrainingDone();
+          const next = info.training
+            ? { title: nextInfo.title, onContinue: () => this.finishTraining(), blurb: 'The deployment starts with a fresh loadout.' }
+            : nextInfo
+              ? { title: nextInfo.title, onContinue: () => this.restart(this.difficulty, this.levelIndex + 1, this.world.carry()) }
+              : null;
+          this.deps.screens.won(info.title, w.stats, w.time, info.par, DIFFICULTIES, this.difficulty.id, (d) => this.restart(d, 0, undefined), next);
+        } else this.deps.screens.dead(w.stats, w.time, DIFFICULTIES, this.difficulty.id, (d) => this.restart(d));
+      }
+    }
+  }
+
+  private handleEvent(e: GameEvent): void {
+    const p = this.world.player;
+    switch (e.type) {
+      case 'sound': {
+        const d = dist(p.x, p.y, e.x, e.y);
+        this.deps.sfx.play(e.sound, Math.max(0, 1 - d / 20), (e.x - p.x) / 12);
+        break;
+      }
+      case 'message':
+        this.deps.hud.message(e.text, e.tone, this.world.time);
+        break;
+      case 'damage':
+        if (!this.world.isRevealedAt(e.x, e.y)) break;
+        this.spawnFloater(e.x, e.y, String(e.amount), e.toPlayer ? '#ff3a2a' : '#ff6a3a');
+        break;
+      case 'heal':
+        if (!this.world.isRevealedAt(e.x, e.y)) break;
+        this.spawnFloater(e.x, e.y, `+${e.amount}`, '#40e040');
+        break;
+      case 'tracer':
+        if (!this.world.isRevealedAt(e.x1, e.y1) && !this.world.isRevealedAt(e.x2, e.y2)) break;
+        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: e.hostile });
+        break;
+      case 'effect':
+        if (!this.world.isRevealedAt(e.x, e.y)) break;
+        this.spawnFx(e.effect, e.x, e.y);
+        break;
+    }
+  }
+
+  private spawnFloater(x: number, y: number, label: string, color: string): void {
+    const text = this.add
+      .text(x * TILE + (Math.random() * 8 - 4), (y - 0.7) * TILE, label, {
+        fontFamily: 'Verdana, Tahoma, sans-serif',
+        fontSize: '9px',
+        fontStyle: 'bold',
+        color,
+        stroke: '#000000',
+        strokeThickness: 2,
+        resolution: 2,
+      })
+      .setOrigin(0.5)
+      .setDepth(NAME_DEPTH + 1);
+    this.floaters.push({ text, age: 0 });
+  }
+
+  private spawnFx(name: EffectKind, x: number, y: number): void {
+    const sprite = this.add.image(x * TILE, y * TILE - (name === 'blood' ? 10 : 6), ATLAS, key.fx(name, 0)).setDepth(y * TILE + 20);
+    if (name === 'explosion' || name === 'burst') sprite.setBlendMode(Phaser.BlendModes.ADD);
+    this.fx.push({ sprite, name, frames: FX_FRAMES[name], age: 0, frameTime: FX_TIME[name] });
+    if (name === 'explosion') {
+      this.add.image(x * TILE, y * TILE, ATLAS, key.fx('scorch', 0)).setDepth(DECAL_DEPTH + 1);
+      const d = dist(x, y, this.world.player.x, this.world.player.y);
+      if (d < 9) this.cameras.main.shake(220, 0.012 * (1 - d / 9));
+    }
+  }
+
+  private actorFrame(moving: boolean, walkTime: number, attacking: boolean): number {
+    if (attacking) return 3;
+    if (!moving) return 0;
+    return Math.floor(walkTime / 0.16) % 2 === 0 ? 1 : 2;
+  }
+
+  private syncWorld(): void {
+    const w = this.world;
+    const p = w.player;
+    const pv = this.playerView;
+    const pf = this.actorFrame(p.moving, p.walkTime, p.attackTime > 0);
+    pv.sprite.setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE).setDepth((p.y + ACTOR_FOOT) * TILE);
+    if (w.status === 'dead') {
+      if (!pv.dead) {
+        pv.dead = true;
+        pv.sprite.setFrame(key.corpse('marine')).setOrigin(0.5, 0.7).setDepth(CORPSE_DEPTH + p.y);
+        pv.name.setVisible(false);
+      }
+    } else {
+      pv.sprite.setFrame(key.marine(p.weapon, p.dir, pf));
+      pv.sprite.setTint(p.hurtTime > 0.2 ? 0xff9090 : 0xffffff);
+      pv.name.setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE - 31);
+    }
+
+    if (p.flash > 0 && w.status === 'playing') {
+      this.muzzle
+        .setVisible(true)
+        .setPosition((p.x + Math.cos(p.angle) * 0.62) * TILE, (p.y + Math.sin(p.angle) * 0.62) * TILE - 10)
+        .setDepth((p.y + ACTOR_FOOT) * TILE + (p.dir === 'n' ? -1 : 1));
+    } else this.muzzle.setVisible(false);
+
+    this.syncReveal();
+
+    for (const m of w.monsters) {
+      const v = this.monsterViews.get(m.id)!;
+      v.sprite.setVisible(w.isRevealedAt(m.x, m.y));
+      if (m.state === 'dead') {
+        if (!v.dead) {
+          v.dead = true;
+          v.sprite.setFrame(key.corpse(m.kind)).setOrigin(0.5, 0.7).clearTint().setAlpha(m.def.stealth ? 0.45 : 1).setDepth(CORPSE_DEPTH + m.y);
+          v.sprite.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE);
+          v.name.setVisible(false);
+        }
+        continue;
+      }
+      const f = this.actorFrame(m.moving, m.walkTime, m.state === 'windup' && m.stateTime < 0.25);
+      v.sprite
+        .setFrame(key.actor(m.kind, m.dir, m.state === 'pain' ? 0 : f))
+        .setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE)
+        .setDepth((m.y + ACTOR_FOOT) * TILE);
+      v.sprite.setTint(m.hurtTime > 0 || m.state === 'pain' ? 0xff7070 : 0xffffff);
+      if (m.def.stealth) {
+        if (m.hurtTime > 0) v.exposedUntil = this.animClock + 1.5;
+        v.sprite.setAlpha(m.hurtTime > 0 ? 0.7 : 0.37 + 0.12 * Math.sin(this.animClock * 7 + m.id));
+      }
+      const ratio = m.hp / m.def.hp;
+      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (m.kind === 'brute' ? 28 : 31));
+      v.name.setColor(ratio > 0.6 ? '#30d030' : ratio > 0.3 ? '#e0d030' : '#e03020');
+    }
+
+    for (const it of w.items) {
+      let img = this.itemViews.get(it.id);
+      if (!img && !it.taken) {
+        this.addItem(it.id, it.kind, it.x, it.y);
+        img = this.itemViews.get(it.id);
+      }
+      if (img && it.taken) {
+        this.tweens.killTweensOf(img);
+        img.destroy();
+        this.itemViews.delete(it.id);
+      } else if (img) img.setVisible(w.isRevealedAt(it.x, it.y));
+    }
+
+    const frame3 = Math.floor(this.animClock / 0.3) % 3;
+    for (const b of w.barrels) {
+      const img = this.barrelViews.get(b.id);
+      if (!img) continue;
+      if (b.exploded) {
+        img.destroy();
+        this.barrelViews.delete(b.id);
+      } else img.setFrame(key.barrel(frame3)).setVisible(w.isRevealedAt(b.x, b.y));
+    }
+
+    const live = new Set<number>();
+    for (const pr of w.projectiles) {
+      live.add(pr.id);
+      let img = this.projectileViews.get(pr.id);
+      if (!img) {
+        img = this.add.image(0, 0, ATLAS, key.fx('fireball', 0)).setBlendMode(Phaser.BlendModes.ADD);
+        this.projectileViews.set(pr.id, img);
+      }
+      img
+        .setFrame(key.fx('fireball', Math.floor(this.animClock / 0.08) % 2))
+        .setPosition(pr.x * TILE, pr.y * TILE - 12)
+        .setDepth(pr.y * TILE + 12)
+        .setVisible(w.isRevealedAt(pr.x, pr.y));
+    }
+    for (const [id, img] of this.projectileViews) {
+      if (!live.has(id)) {
+        img.destroy();
+        this.projectileViews.delete(id);
+      }
+    }
+
+    for (const v of this.doorViews) {
+      if (v.lead.kind === 'secret' && !w.isRevealedAt(v.lead.x + 0.5, v.lead.y + 0.5)) {
+        v.img.setVisible(false);
+        continue;
+      }
+      const visible = Math.max(0, Math.round(v.height * (1 - v.lead.openness)));
+      v.img.setVisible(visible > 0);
+      v.img.setCrop(0, 0, v.width, visible);
+      v.img.y = v.top + (v.height - visible);
+    }
+
+    if (this.exitView && w.exitActivated) this.exitView.setFrame(key.exit(true));
+
+    for (const l of this.liquids) l.img.setFrame(key.floor(l.kind, frame3));
+    const bf = Math.floor(this.animClock / 0.12) % 3;
+    for (const b of this.braziers) b.setFrame(key.deco('brazier', bf));
+  }
+
+  private updateFx(dt: number): void {
+    for (const f of this.fx) {
+      f.age += dt;
+      const frame = Math.floor(f.age / f.frameTime);
+      if (frame >= f.frames) f.sprite.destroy();
+      else f.sprite.setFrame(key.fx(f.name, frame));
+    }
+    this.fx = this.fx.filter((f) => f.sprite.active);
+
+    for (const fl of this.floaters) {
+      fl.age += dt;
+      fl.text.y -= dt * 22;
+      fl.text.setAlpha(Math.max(0, 1 - Math.max(0, fl.age - 0.5) / 0.5));
+      if (fl.age > 1) fl.text.destroy();
+    }
+    this.floaters = this.floaters.filter((f) => f.text.active);
+    for (const t of this.tracers) t.age += dt;
+    this.tracers = this.tracers.filter((t) => t.age < 0.06);
+  }
+
+  private drawSight(view: Phaser.Geom.Rectangle): void {
+    const g = this.sightGfx;
+    g.clear();
+    if (!this.showSight) return;
+    const grid = this.world.grid;
+    const margin = 14 * TILE;
+    for (const m of this.world.monsters) {
+      if (m.state === 'dead' || !this.world.isRevealedAt(m.x, m.y) || !this.isExposed(m)) continue;
+      const mx = m.x * TILE;
+      const my = m.y * TILE;
+      if (mx < view.x - margin || mx > view.right + margin || my < view.y - margin || my > view.bottom + margin) continue;
+      const alert = m.state === 'chase' || m.state === 'windup' || m.state === 'pain';
+      const color = alert ? 0xff3020 : m.state === 'hold' ? 0xff9a20 : 0xffe060;
+      const { fov } = m.def;
+      const range = this.world.sightRange(m, alert);
+      const rays = Math.max(8, Math.ceil(fov / 0.07));
+      const points: { x: number; y: number }[] = [{ x: mx, y: my }];
+      for (let i = 0; i <= rays; i++) {
+        const a = m.angle - fov / 2 + (fov * i) / rays;
+        const dx = Math.cos(a);
+        const dy = Math.sin(a);
+        const hit = grid.raycast(m.x, m.y, dx, dy, range, (cx, cy) => (m.def.coverBlocksSight ? grid.isShotBlocker(cx, cy) : grid.isOpaque(cx, cy)));
+        points.push({ x: (m.x + dx * hit.dist) * TILE, y: (m.y + dy * hit.dist) * TILE });
+      }
+      const trace = (): void => {
+        g.beginPath();
+        g.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) g.lineTo(points[i].x, points[i].y);
+        g.closePath();
+      };
+      g.fillStyle(color, alert ? 0.16 : 0.11);
+      trace();
+      g.fillPath();
+      g.lineStyle(1, color, alert ? 0.55 : 0.35);
+      trace();
+      g.strokePath();
+    }
+  }
+
+  private isExposed(m: Monster): boolean {
+    if (!m.def.stealth) return true;
+    const p = this.world.player;
+    return Math.hypot(m.x - p.x, m.y - p.y) < STEALTH_EXPOSE_RANGE || this.monsterViews.get(m.id)!.exposedUntil > this.animClock;
+  }
+
+  private hiddenCells(view: Phaser.Geom.Rectangle): [number, number][] {
+    const g = this.world.grid;
+    const out: [number, number][] = [];
+    for (let y = Math.floor(view.y / TILE) - 1; y <= Math.ceil(view.bottom / TILE) + 1; y++) {
+      for (let x = Math.floor(view.x / TILE) - 1; x <= Math.ceil(view.right / TILE) + 1; x++) {
+        const t = g.tile(x, y);
+        if (!t || t.type === 'void') out.push([x, y]);
+        else if (t.type === 'floor' || t.type === 'door') {
+          if (!this.world.isRevealedAt(x + 0.5, y + 0.5)) out.push([x, y]);
+        } else if (!this.roomsAround(x, y).some((r) => this.world.revealedRooms.has(r))) out.push([x, y]);
+      }
+    }
+    return out;
+  }
+
+  private syncReveal(): void {
+    const w = this.world;
+    if (w.revealedRooms.size === this.revealCount) return;
+    this.revealCount = w.revealedRooms.size;
+    for (const v of this.walls) v.img.setVisible(v.rooms.length === 0 || v.rooms.some((r) => w.revealedRooms.has(r)));
+    for (const v of this.decoViews) v.img.setVisible(w.isRevealedAt(v.x, v.y));
+  }
+
+  private drawOverlay(): void {
+    const g = this.gfx;
+    const w = this.world;
+    g.clear();
+    for (const t of this.tracers) {
+      g.lineStyle(1, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
+      g.lineBetween(t.x1 * TILE, t.y1 * TILE - 10, t.x2 * TILE, t.y2 * TILE - 10);
+    }
+
+    const view = this.cameras.main.worldView;
+    const bar = (x: number, y: number, ratio: number): void => {
+      const bw = 26;
+      g.fillStyle(0x000000, 1).fillRect(x - bw / 2 - 1, y - 1, bw + 2, 5);
+      const color = ratio > 0.6 ? 0x20c020 : ratio > 0.3 ? 0xd0c020 : 0xd02010;
+      g.fillStyle(color, 1).fillRect(x - bw / 2, y, Math.max(1, Math.round(bw * ratio)), 3);
+    };
+    for (const m of w.monsters) {
+      if (m.state === 'dead') continue;
+      const v = this.monsterViews.get(m.id)!;
+      const onScreen = view.contains(m.x * TILE, m.y * TILE) && w.isRevealedAt(m.x, m.y) && this.isExposed(m);
+      v.name.setVisible(onScreen);
+      if (onScreen) bar(m.x * TILE, v.name.y + 1, m.hp / m.def.hp);
+    }
+    if (w.status === 'playing') bar(w.player.x * TILE, this.playerView.name.y + 1, Math.min(1, w.player.health / 100));
+
+    this.drawSight(view);
+
+    const lights: Light[] = [];
+    const p = w.player;
+    lights.push({ x: p.x, y: p.y, r: p.flash > 0 ? 7.5 : 5.2, a: 0.95, color: [255, 220, 160], glow: p.flash > 0 ? 0.25 : 0 });
+    for (const l of this.staticLights) lights.push(l);
+    for (const pr of w.projectiles) lights.push({ x: pr.x, y: pr.y - 0.3, r: 2.6, a: 0.9, color: [255, 130, 30], glow: 0.45 });
+    for (const f of this.fx) {
+      if (f.name === 'explosion') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 6, a: 1, color: [255, 150, 50], glow: 0.6 * (1 - f.age / 0.36) });
+      if (f.name === 'burst') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 3, a: 0.9, color: [255, 120, 40], glow: 0.4 });
+    }
+    for (const it of w.items) {
+      if (it.taken) continue;
+      const keyColor = it.kind === 'redkey' ? 'red' : it.kind === 'bluekey' ? 'blue' : it.kind === 'yellowkey' ? 'yellow' : null;
+      if (keyColor) lights.push({ x: it.x, y: it.y, r: 1.6, a: 0.5, color: KEY_RGB[keyColor], glow: 0.35 });
+      if (it.kind === 'sphere') lights.push({ x: it.x, y: it.y, r: 2.2, a: 0.6, color: [60, 140, 255], glow: 0.35 });
+    }
+    for (const m of w.monsters) {
+      if (m.kind === 'fiend' && m.state === 'windup' && m.attack === 'ranged') lights.push({ x: m.x, y: m.y - 0.4, r: 2, a: 0.7, color: [255, 140, 40], glow: 0.4 });
+    }
+    if (this.exitView) {
+      const ex = this.exitView.x / TILE + 0.5;
+      const ey = (this.exitView.y + WALL_HEIGHT) / TILE + 1;
+      lights.push({ x: ex, y: ey, r: 2.2, a: 0.6, color: w.exitActivated ? [60, 255, 80] : [255, 50, 40], glow: 0.25 });
+    }
+    const visibleLights = lights.filter((l, i) => i === 0 || w.isRevealedAt(l.x, l.y));
+    this.lighting.render(view, visibleLights, this.animClock, this.hiddenCells(view));
+  }
+}

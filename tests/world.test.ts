@@ -1,0 +1,345 @@
+import { describe, expect, it } from 'vitest';
+import { LEVELS } from '../src/levels';
+import { parseLevel } from '../src/sim/level';
+import { MONSTERS } from '../src/characters';
+import { DIFFICULTIES } from '../src/sim/defs';
+import { IDLE_INPUT, World, type Input } from '../src/sim/world';
+
+function run(world: World, seconds: number, input: Partial<Input> = {}): void {
+  const full = { ...IDLE_INPUT, aimX: world.player.x + 1, aimY: world.player.y, ...input };
+  for (let t = 0; t < seconds; t += 1 / 60) world.update(1 / 60, full);
+}
+
+function events(world: World): string[] {
+  return world.drainEvents().map((e) => (e.type === 'message' ? e.text : e.type === 'sound' ? `sound:${e.sound}` : e.type));
+}
+
+describe('World', () => {
+  it('picks up items and counts them', () => {
+    const w = new World(parseLevel('t', '#######\n#P.m..#\n#######'));
+    w.player.health = 50;
+    run(w, 0.6, { moveX: 1 });
+    expect(w.player.health).toBe(75);
+    expect(w.stats.items).toBe(1);
+    expect(events(w)).toContain('You picked up a medikit.');
+  });
+
+  it('equips a new weapon on pickup and gives its ammo', () => {
+    const w = new World(parseLevel('t', '#######\n#P.G..#\n#######'));
+    run(w, 0.6, { moveX: 1 });
+    expect(w.player.weapon).toBe('shotgun');
+    expect(w.player.ammo.shells).toBe(8);
+  });
+
+  it('falls back to the knife when the current weapon runs dry', () => {
+    const w = new World(parseLevel('t', '#######\n#P....#\n#######'));
+    w.player.ammo.bullets = 1;
+    run(w, 1.5, { fire: true });
+    expect(w.player.ammo.bullets).toBe(0);
+    expect(w.player.weapon).toBe('knife');
+  });
+
+  it('leaves health items when the player is at full health', () => {
+    const w = new World(parseLevel('t', '#######\n#P.+..#\n#######'));
+    run(w, 0.6, { moveX: 1 });
+    expect(w.items[0].taken).toBe(false);
+  });
+
+  it('kills a husk with pistol fire and drops a clip', () => {
+    const w = new World(parseLevel('t', '##########\n#P.....h.#\n##########'), 7);
+    const husk = w.monsters[0];
+    run(w, 6, { fire: true, aimX: husk.x, aimY: husk.y });
+    expect(husk.state).toBe('dead');
+    expect(w.stats.kills).toBe(1);
+    expect(w.player.ammo.bullets).toBeLessThan(50);
+    expect(w.items.some((i) => i.kind === 'clip' && i.dropped)).toBe(true);
+  });
+
+  it('wakes monsters that hear gunfire and they chase the player', () => {
+    const w = new World(parseLevel('t', '#############\n#P....#....b#\n#...........#\n#############'), 3);
+    const brute = w.monsters[0];
+    run(w, 0.1, { fire: true, aimX: 1.5, aimY: 0 });
+    expect(brute.state).not.toBe('idle');
+    const startDist = Math.hypot(brute.x - w.player.x, brute.y - w.player.y);
+    run(w, 1.5);
+    expect(Math.hypot(brute.x - w.player.x, brute.y - w.player.y)).toBeLessThan(startDist - 2);
+  });
+
+  it('stops bullets and fireballs at crates', () => {
+    const w = new World(parseLevel('t', '##########\n#P..C..h.#\n##########'), 2);
+    const husk = w.monsters[0];
+    run(w, 3, { fire: true, aimX: husk.x, aimY: husk.y });
+    expect(husk.hp).toBe(husk.def.hp);
+    expect(w.player.ammo.bullets).toBeLessThan(50);
+  });
+
+  it('keeps monsters off slime even when the player stands across it', () => {
+    const w = new World(parseLevel('t', '###########\n#P..~~~..f#\n#...~~~...#\n###########'), 4);
+    const fiend = w.monsters[0];
+    w.player.health = 10000;
+    run(w, 6, { aimX: fiend.x, aimY: fiend.y, fire: true });
+    run(w, 6);
+    const onHazard = (x: number): boolean => x > 4 && x < 8;
+    expect(onHazard(fiend.x)).toBe(false);
+    expect(fiend.state).not.toBe('idle');
+  });
+
+  it('makes calm fiends scan the room often', () => {
+    const w = new World(parseLevel('t', '#####\n#P#f#\n#####'), 4);
+    const fiend = w.monsters[0];
+    const dirs = new Set<string>();
+    for (let t = 0; t < 6; t += 0.1) {
+      run(w, 0.1);
+      dirs.add(fiend.dir);
+    }
+    expect(fiend.state).toBe('idle');
+    expect(dirs.size).toBeGreaterThanOrEqual(3);
+    expect(fiend.def.lookEvery[1]).toBeLessThan(MONSTERS.husk.lookEvery[0]);
+  });
+
+  it('lets idle monsters see only inside their view cone', () => {
+    const room = (rows: string[]): World => new World(parseLevel('t', ['#########', ...rows, '#########'].join('\n')));
+    const empty = '#.......#';
+    const behind = room(['#...P...#', empty, empty, '#...h...#', empty]);
+    run(behind, 0.5, { aimX: 4.5, aimY: 0 });
+    expect(behind.monsters[0].state).toBe('idle');
+
+    const front = room([empty, '#...h...#', empty, empty, '#...P...#']);
+    run(front, 0.5, { aimX: 4.5, aimY: 0 });
+    expect(front.monsters[0].state).not.toBe('idle');
+  });
+
+  describe('when the player is out of sight', () => {
+    const SEALED = '##############\n#P..#........#\n#...#....X...#\n#...#........#\n##############';
+    const setup = (kind: string): { w: World; m: World['monsters'][number] } => {
+      const w = new World(parseLevel('t', SEALED.replace('X', kind)), 9);
+      const m = w.monsters[0];
+      w.damageMonster(m, 1);
+      return { w, m };
+    };
+
+    it('husks give up and wander around', () => {
+      const { w, m } = setup('h');
+      run(w, 1);
+      expect(m.state).toBe('wander');
+      const seen = new Set<string>();
+      for (let i = 0; i < 10; i++) {
+        run(w, 1);
+        seen.add(`${Math.round(m.x)},${Math.round(m.y)}`);
+      }
+      expect(seen.size).toBeGreaterThan(1);
+    });
+
+    it('fiends stop and hold position', () => {
+      const { w, m } = setup('f');
+      const start = { x: m.x, y: m.y };
+      run(w, 3);
+      expect(m.state).toBe('hold');
+      expect({ x: m.x, y: m.y }).toEqual(start);
+      w.player.x = 7.5;
+      w.player.y = 2.5;
+      run(w, 0.5);
+      expect(['chase', 'windup', 'pain']).toContain(m.state);
+    });
+
+    it('brutes track for a while, then walk back home', () => {
+      const { w, m } = setup('b');
+      m.x = 11.5;
+      m.y = 1.5;
+      run(w, 3);
+      expect(m.state).toBe('chase');
+      run(w, 8);
+      expect(m.state).toBe('idle');
+      expect(Math.hypot(m.x - m.home.x, m.y - m.home.y)).toBeLessThan(0.3);
+    });
+  });
+
+  it('makes a fiend lose track when a crate is between it and the player', () => {
+    const w = new World(parseLevel('t', '###########\n#.........#\n#P...C...f#\n#.........#\n###########'), 3);
+    const fiend = w.monsters[0];
+    w.player.y = 1.5;
+    run(w, 0.5, { aimX: 1.5, aimY: 0 });
+    fiend.state = 'chase';
+    fiend.angle = Math.PI;
+    w.player.y = 2.5;
+    run(w, 1, { aimX: 1.5, aimY: 0 });
+    expect(fiend.state).toBe('hold');
+  });
+
+  it('starts resting after 10 still seconds, then recovers 1 hp every 2 seconds', () => {
+    const w = new World(parseLevel('t', '##########\n#P.......#\n####D#####\n#....h...#\n##########'));
+    w.player.health = 50;
+    run(w, 9.9);
+    expect(w.player.health).toBe(50);
+    expect(w.player.resting).toBe(false);
+    run(w, 6.15);
+    expect(w.player.resting).toBe(true);
+    expect(w.player.health).toBe(53);
+    run(w, 3, { moveX: 1 });
+    expect(w.player.health).toBe(53);
+  });
+
+  it('restarts the rest delay when the player moves or shoots', () => {
+    const w = new World(parseLevel('t', '############\n#P.........#\n############'));
+    w.player.health = 50;
+    run(w, 8);
+    run(w, 0.2, { moveX: 1 });
+    run(w, 8);
+    expect(w.player.resting).toBe(false);
+    run(w, 0.1, { fire: true });
+    run(w, 9);
+    expect(w.player.resting).toBe(false);
+    expect(w.player.health).toBe(50);
+  });
+
+  it('does not recover while an enemy shares the room', () => {
+    const w = new World(parseLevel('t', '#########################\n#P.....................h#\n#########################'));
+    w.player.health = 50;
+    run(w, 3);
+    expect(w.monsters[0].state).toBe('idle');
+    expect(w.player.health).toBe(50);
+  });
+
+  it('never lets a monster open a door, but lets it pass an open one', () => {
+    const map = '#############\n#P....#.....#\n#.....D...b.#\n#.....#.....#\n#############';
+    const closed = new World(parseLevel('t', map), 6);
+    closed.damageMonster(closed.monsters[0], 1);
+    run(closed, 4);
+    expect(closed.grid.doorAt(6, 2)!.phase).toBe('closed');
+    expect(closed.monsters[0].x).toBeGreaterThan(6);
+
+    const open = new World(parseLevel('t', map), 6);
+    const door = open.grid.doorAt(6, 2)!;
+    open.grid.openDoor(door);
+    door.openness = 1;
+    door.phase = 'open';
+    door.timer = 100;
+    open.damageMonster(open.monsters[0], 1);
+    open.player.health = 10000;
+    run(open, 4);
+    expect(open.monsters[0].x).toBeLessThan(6);
+  });
+
+  it('scales enemy damage and ammo pickups with the difficulty', () => {
+    const map = '#######\n#P.c..#\n#######';
+    const [recruit, veteran, doomed] = DIFFICULTIES;
+    const hits = [recruit, veteran, doomed].map((d) => {
+      const w = new World(parseLevel('t', map), 1, d);
+      run(w, 0.6, { moveX: 1 });
+      (w as unknown as { hurtPlayerByEnemy(n: number): void }).hurtPlayerByEnemy(20);
+      return { hp: w.player.health, bullets: w.player.ammo.bullets };
+    });
+    expect(hits.map((h) => h.hp)).toEqual([90, 80, 70]);
+    expect(hits.map((h) => h.bullets)).toEqual([70, 60, 60]);
+  });
+
+  it('hides rooms behind closed doors until a door opens into them', () => {
+    const w = new World(parseLevel('t', '###########\n#P...D...h#\n###########'));
+    const husk = w.monsters[0];
+    expect(w.isRevealedAt(w.player.x, w.player.y)).toBe(true);
+    expect(w.isRevealedAt(husk.x, husk.y)).toBe(false);
+    run(w, 1.2, { moveX: 1 });
+    expect(w.isRevealedAt(husk.x, husk.y)).toBe(true);
+  });
+
+  it('opens blue and yellow doors only with the matching keycard', () => {
+    const w = new World(parseLevel('t', '############\n#PyB....j..#\n############'));
+    run(w, 1, { moveX: 1 });
+    expect(w.player.keys.has('yellow')).toBe(true);
+    expect(w.player.x).toBeLessThan(3.5);
+    expect(events(w)).toContain('You need a blue keycard to open this door.');
+  });
+
+  it('carries weapons, ammo, health and armor into the next level', () => {
+    const map = '#######\n#P....#\n#######';
+    const first = new World(parseLevel('t', map));
+    first.player.weapons.add('shotgun');
+    first.player.weapon = 'shotgun';
+    first.player.ammo.shells = 12;
+    first.player.health = 64;
+    first.player.armor = 30;
+    first.player.keys.add('red');
+    const next = new World(parseLevel('t', map), 1, undefined, first.carry());
+    expect(next.player.weapon).toBe('shotgun');
+    expect(next.player.ammo.shells).toBe(12);
+    expect([next.player.health, next.player.armor]).toEqual([64, 30]);
+    expect(next.player.keys.size).toBe(0);
+  });
+
+  it('gives shades the brute fighting style with a longer hunt', () => {
+    const w = new World(parseLevel('t', '#####\n#P.g#\n#####'));
+    const shade = w.monsters[0];
+    expect(shade.def.stealth).toBe(true);
+    expect(shade.def.meleeDamage).toEqual(MONSTERS.brute.meleeDamage);
+    expect(shade.def.trackTime).toBeGreaterThan(6);
+  });
+
+  it('blocks the red door without the key and opens it with the key', () => {
+    const map = '########\n#P.R...#\n########';
+    const w = new World(parseLevel('t', map));
+    run(w, 1, { moveX: 1 });
+    expect(w.player.x).toBeLessThan(3);
+    expect(events(w)).toContain('You need a red keycard to open this door.');
+
+    const w2 = new World(parseLevel('t', map));
+    w2.player.keys.add('red');
+    run(w2, 2, { moveX: 1 });
+    expect(w2.player.x).toBeGreaterThan(4);
+  });
+
+  it('opens secret walls only with the use key and counts the secret', () => {
+    const w = new World(parseLevel('t', '#######\n#P.X??#\n#######'));
+    run(w, 0.8, { moveX: 1 });
+    expect(w.player.x).toBeLessThan(3);
+    w.update(1 / 60, { ...IDLE_INPUT, use: true, aimX: 5, aimY: 1.5 });
+    run(w, 1.5, { moveX: 1 });
+    expect(w.stats.secrets).toBe(1);
+    expect(events(w)).toContain('You found a secret area!');
+  });
+
+  it('hurts the player on slime but armor does not help there', () => {
+    const w = new World(parseLevel('t', '#####\n#P~~#\n#####'));
+    w.player.armor = 100;
+    w.player.x = 2.5;
+    run(w, 2.1);
+    expect(w.player.health).toBe(85);
+    expect(w.player.armor).toBe(100);
+  });
+
+  it('lets armor absorb a third of monster damage', () => {
+    const w = new World(parseLevel('t', '####\n#P.#\n####'));
+    w.player.armor = 50;
+    w.damagePlayer(30);
+    expect(w.player.health).toBe(80);
+    expect(w.player.armor).toBe(40);
+  });
+
+  it('chains barrel explosions and hurts nearby monsters', () => {
+    const w = new World(parseLevel('t', '############\n#P....oo.f.#\n############'), 5);
+    const fiend = w.monsters[0];
+    w.damageBarrel(w.barrels[0], 50);
+    run(w, 0.6);
+    expect(w.barrels.every((b) => b.exploded)).toBe(true);
+    expect(fiend.hp).toBeLessThan(fiend.def.hp);
+  });
+
+  it('ends with death when health runs out', () => {
+    const w = new World(parseLevel('t', '####\n#P.#\n####'));
+    w.damagePlayer(500);
+    expect(w.status).toBe('dead');
+    run(w, 1, { moveX: 1 });
+    expect(w.player.x).toBe(1.5);
+  });
+
+  it('wins when the player uses the exit switch', () => {
+    const w = new World(parseLevel('t', '##E##\n#.P.#\n#..h#\n#####'));
+    w.update(1 / 60, { ...IDLE_INPUT, use: true, aimX: 2.5, aimY: 0 });
+    expect(w.status).toBe('won');
+  });
+
+  it('runs level 1 for a while with an idle player without errors', () => {
+    const w = new World(LEVELS[0].load(), 11);
+    expect(() => run(w, 20, { fire: true, aimX: 20, aimY: 5 })).not.toThrow();
+    expect(w.stats.totalSecrets).toBe(1);
+  });
+});
