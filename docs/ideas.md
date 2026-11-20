@@ -13,6 +13,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
 | [Positional enemy footsteps](#positional-enemy-footsteps) | Under discussion, not built |
 | [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Under discussion, not built |
+| [Mobile play](#mobile-play) | Under discussion, not built |
 
 ### Discarded
 
@@ -218,6 +219,20 @@ The design is host-authoritative. In co-op the risk to the game itself is low; i
 4. A lobby notice about IP addresses.
 5. The exact hosts in the Content Security Policy.
 
+### Testing without deploying
+
+Almost everything can be built and tested locally.
+
+1. **Two tabs on one machine (main loop).** WebRTC works on `localhost`, and two tabs of `npm run dev` connect directly, without STUN. In dev only, the tabs can exchange the connection codes through a `BroadcastChannel`, so they connect by themselves; the production build drops this code, like the dev URL parameters. Open two windows side by side and play as host and client.
+2. **Other devices on the home network.** `npm run dev -- --host` makes the dev server reachable at `http://192.168.x.x:5173`. Data channels work over plain HTTP on a LAN. This tests real latency with two players, but not strict routers that need TURN.
+3. **Automated tests, no browser.**
+   - The multi-player `World` is pure TypeScript: Vitest feeds two inputs and checks targeting, damage and versus scores.
+   - The network layer sits behind a small transport interface. Tests use a fake in-memory transport that can add delay, drop packets and reorder them, to test snapshots, interpolation and message validation.
+   - The Chrome DevTools connection can open two pages and drive both, as a smoke test of the real connection.
+4. **Before production.** Vercel builds a preview deployment for every branch or pull request, at its own HTTPS URL. Use it to play with friends on other networks and to try STUN and TURN before anything reaches production.
+
+Only connections between different networks (and the TURN relay) need the internet.
+
 ### Size and first step
 
 | Step | Size |
@@ -230,4 +245,63 @@ The design is host-authoritative. In co-op the risk to the game itself is low; i
 | Signaling server and TURN (optional) | Small to medium, plus hosting |
 
 First step: **2 players with copy-paste signaling, co-op first**. No server and no new packages, and it tests the hardest part, the multi-player `World`, on the existing levels. Versus comes after, on the same network code, with its own arena map and rules.
+
+## Mobile play
+
+Goal: play DOOMED on phones and tablets in the browser, with touch controls, without a separate app.
+
+### Controls
+
+- **Twin virtual sticks.** The left thumb moves the Marine. The right thumb aims, and holding it past a small dead zone fires. This matches the keyboard and mouse model: move and aim are separate, and the facing rule (whichever moved last) carries over.
+- **Buttons** near the right thumb: use (doors, switches), next weapon, and pause. Weapon slots 1 to 4 as a small row at the top.
+- **Light aim assist** on touch only: shots bend a few degrees toward the nearest visible enemy in the aim cone. A thumb is less precise than a mouse. No assist with a mouse.
+- **Stealth still works:** the left stick has no walk speed, the same as the keyboard. Quiet floors, not slow steps, decide the noise.
+- **Menus:** the screen buttons already react to pointer events, so taps work. Make them at least 44 px tall.
+
+### Screen and layout
+
+- **Landscape only.** Ask the player to turn the phone, and try `screen.orientation.lock('landscape')` in fullscreen (Android only; iOS ignores it).
+- **Fullscreen** on the first tap, where the browser allows it.
+- **Small screens:** hide the side panel and the Server Log. Show a compact HUD over the game: health, armor, ammo, keycards, and a small minimap in a corner.
+- **No page gestures:** `touch-action: none` on the game area, no pinch zoom, no pull-to-refresh, no text selection, no long-press menu.
+- **Safe areas:** keep the HUD and sticks clear of notches and rounded corners (`env(safe-area-inset-*)`).
+
+### Performance
+
+- Cap the device pixel ratio for the canvas (for example at 2), and test the lighting overlay, which is the most expensive part of a frame.
+- Pause the game and the music when the tab is hidden (`visibilitychange`), so a call or a home-button press does not get the Marine killed.
+- Target: 60 fps on a mid-range phone from the last few years.
+
+### Audio and feedback
+
+- Sound already starts on the first tap, because the difficulty pick unlocks WebAudio.
+- Short vibration on damage with `navigator.vibrate` where supported (Android). iOS Safari does not support it, so it is a bonus, never the only feedback.
+
+### Optional: install as an app (PWA)
+
+- A web app manifest and the existing touch icon let players add DOOMED to the home screen, with its own window and no browser bar.
+- A service worker can cache the game for offline play, since it makes no network requests. The Content Security Policy already allows same-origin files, so no change is needed for the manifest.
+
+### Testing
+
+- Chrome DevTools device mode for layout and touch events.
+- Real phones on the home network with `npm run dev -- --host`.
+- iOS Safari needs real-device testing: fullscreen, audio unlock and orientation behave differently there.
+- Vercel preview deployments for testing over HTTPS on any phone.
+
+### Open points
+
+1. **Twin sticks or tap-to-move?** Twin sticks keep the shooter feel. Tap-to-move is easier but loses strafing and dodging.
+2. **Aim assist strength,** and whether it is on by default or a setting.
+3. **Minimum device:** which phones must run at 60 fps.
+
+### Size
+
+| Step | Size |
+| --- | --- |
+| Touch input (sticks, buttons) mapped onto the existing `Input` | Medium |
+| Compact mobile HUD and layout, fullscreen, orientation | Medium |
+| Aim assist with tests | Small |
+| Performance tuning on real devices | Small to medium |
+| PWA manifest and offline cache (optional) | Small |
 
