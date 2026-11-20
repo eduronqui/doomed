@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { decodePng } from '../scripts/png.mjs';
 import { buildSheet } from '../src/render/art/catalog.ts';
+import { ICONS, drawIcon } from '../src/render/art/favicon.ts';
 
 describe('sprite sheet', () => {
   const sheet = buildSheet();
@@ -26,5 +27,14 @@ describe('sprite sheet', () => {
         expect(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y).toBe(true);
       }
     }
+  });
+});
+
+describe('favicons', () => {
+  it.each(ICONS)('$file matches the logo code (run `npm run sprites` after logo changes)', ({ file, size, background }) => {
+    const png = decodePng(readFileSync(new URL(`../public/${file}`, import.meta.url)));
+    const icon = drawIcon(size, background);
+    expect([png.width, png.height]).toEqual([size, size]);
+    expect(Buffer.from(png.rgba).equals(Buffer.from(icon.rgba))).toBe(true);
   });
 });

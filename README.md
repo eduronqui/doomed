@@ -23,7 +23,7 @@ All sprites are drawn in code and baked into one sprite sheet (`public/assets/sp
 | `npm run dev` | Start the dev server (Vite) |
 | `npm run build` | Type-check and build to `dist/` |
 | `npm run preview` | Serve the `dist/` build |
-| `npm run sprites` | Draw all sprites and write the sprite sheet to `public/assets/` |
+| `npm run sprites` | Draw all sprites and write the sprite sheet to `public/assets/`, and the favicons to `public/` |
 | `npm run linter` | Type-check (`tsc --noEmit`) and run ESLint |
 | `npm test` | Run the Vitest tests |
 
@@ -43,11 +43,14 @@ TypeScript is pinned to 6.0.x because typescript-eslint 8.73 supports only TypeS
 
 ```
 index.html            Page layout: game view, server log, side panel
+public/
+  favicon.png         32x32 tab icon: the "D" from the logo (generated)
+  apple-touch-icon.png  180x180 icon for phones and bookmarks (generated)
 public/assets/
   sprites.png         Sprite sheet with every sprite frame (generated)
   sprites.json        Phaser atlas (JSON hash) with the frame rectangles (generated)
 scripts/
-  build-sprites.mjs   Builds the sprite sheet from the art code (npm run sprites)
+  build-sprites.mjs   Builds the sprite sheet and the favicons from the art code (npm run sprites)
   png.mjs             Small PNG encoder and decoder (Node zlib, no dependencies)
 src/
   main.ts             Creates the Phaser game, the boot scene and the shared services
@@ -100,6 +103,7 @@ src/
     atlas.ts          Atlas paths, frame names, frame-to-canvas helper
     sheet.ts          Packs sprites into one RGBA sheet and its atlas data
     art/catalog.ts    The list of every sprite in the sheet (including door pieces for all levels)
+    art/favicon.ts    Favicons drawn from the logo's "D" glyph
     pixel.ts          Small pixel canvas with outline, mirror and shading helpers
     art/tiles.ts      Floors, walls, doors, exit switch
     art/items.ts      Items, decorations, barrels, effects
@@ -159,7 +163,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
-- `sprites.test.mjs`: the committed sprite sheet matches the art code, and no frames overlap.
+- `sprites.test.mjs`: the committed sprite sheet and favicons match the art code, and no frames overlap.
 - `world.test.ts`: pickups, weapons, ammo fallback, combat, armor, hazards, barrels, doors and keys, secrets, death, exit, resting, view cones, crate cover, knife backstabs, the lost-sight behavior of each enemy kind, monsters and doors, difficulty scaling, room reveal, colored keycards, carry-over between levels and the Shade.
 
 ## Security notes
