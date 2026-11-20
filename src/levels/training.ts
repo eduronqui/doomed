@@ -28,7 +28,7 @@ export const TRAINING: LevelInfo = {
     },
     {
       area: [29, 1, 43, 11],
-      text: 'FINAL: a Brute guards the exit. It is fast and hits hard, but you are faster. Back off while you shoot, and use the shotgun up close. Press V to show or hide what enemies can see.',
+      text: 'FINAL: a Brute guards the exit. It is fast and hits hard, but you are faster. Back off while you shoot, and use the shotgun up close.',
       clearText: 'EXIT: press E at the red EXIT switch on the north wall to finish the training.',
     },
   ],

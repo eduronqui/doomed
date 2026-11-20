@@ -1,4 +1,5 @@
 import type { Sfx } from './sfx';
+import { readFlag, writeFlag } from '../ui/storage';
 import { STEPS_PER_BAR, parseHits, parseLine, trackLength, type NoteEvent, type Track } from './tracks';
 
 const LOOKAHEAD = 0.12;
@@ -50,22 +51,6 @@ function distortionCurve(amount: number): Float32Array<ArrayBuffer> {
   return curve;
 }
 
-function readPref(): boolean {
-  try {
-    return window.localStorage.getItem(PREF_KEY) !== '0';
-  } catch {
-    return true;
-  }
-}
-
-function writePref(on: boolean): void {
-  try {
-    window.localStorage.setItem(PREF_KEY, on ? '1' : '0');
-  } catch {
-    return;
-  }
-}
-
 export class Music {
   private sfx: Sfx;
   private current: Compiled | null = null;
@@ -74,7 +59,7 @@ export class Music {
   private step = 0;
   private nextTime = 0;
   private curves = new Map<number, Float32Array<ArrayBuffer>>();
-  enabled = readPref();
+  enabled = readFlag(PREF_KEY, true);
 
   constructor(sfx: Sfx) {
     this.sfx = sfx;
@@ -102,7 +87,7 @@ export class Music {
 
   toggle(): boolean {
     this.enabled = !this.enabled;
-    writePref(this.enabled);
+    writeFlag(PREF_KEY, this.enabled);
     if (this.enabled) this.resume();
     else this.halt();
     return this.enabled;

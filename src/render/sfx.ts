@@ -1,4 +1,8 @@
 import type { SoundId } from '../sim/defs';
+import { readFlag, writeFlag } from '../ui/storage';
+
+const SOUND_KEY = 'doomed.sound';
+const MASTER_VOLUME = 0.55;
 
 type Wave = OscillatorType;
 
@@ -6,7 +10,7 @@ export class Sfx {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
   private noise: AudioBuffer | null = null;
-  muted = false;
+  muted = !readFlag(SOUND_KEY, true);
 
   get audio(): { ctx: AudioContext; out: AudioNode; noise: AudioBuffer } | null {
     return this.ctx && this.master && this.noise ? { ctx: this.ctx, out: this.master, noise: this.noise } : null;
@@ -16,7 +20,7 @@ export class Sfx {
     if (!this.ctx) {
       this.ctx = new AudioContext();
       this.master = this.ctx.createGain();
-      this.master.gain.value = 0.55;
+      this.master.gain.value = this.muted ? 0 : MASTER_VOLUME;
       const comp = this.ctx.createDynamicsCompressor();
       this.master.connect(comp).connect(this.ctx.destination);
       const len = this.ctx.sampleRate;
@@ -29,7 +33,8 @@ export class Sfx {
 
   toggleMute(): boolean {
     this.muted = !this.muted;
-    if (this.master) this.master.gain.value = this.muted ? 0 : 0.55;
+    writeFlag(SOUND_KEY, !this.muted);
+    if (this.master) this.master.gain.value = this.muted ? 0 : MASTER_VOLUME;
     return this.muted;
   }
 

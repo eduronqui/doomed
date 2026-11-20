@@ -14,7 +14,7 @@ The first time you play, the game starts with a short training level, "Training:
 | --- | --- |
 | 1 | Moving (W A S D), aiming (mouse), picking up items (a clip and a combat vest) and opening doors |
 | 2 | Shooting two Husks and a pair of barrels, crates as cover. When the room is clear, the box explains resting and its cap, healing with a medikit, and weapon switching with a shotgun. |
-| 3 | A Brute that guards the exit switch. It spots you the moment you step into the room and charges at once. The box explains how to fight a Brute and how to show enemy sight (V). When the Brute is dead, it tells you to use the exit switch. |
+| 3 | A Brute that guards the exit switch. It spots you the moment you step into the room and charges at once. The box explains how to fight a Brute. When the Brute is dead, it tells you to use the exit switch. |
 
 - You start the training with 25 health, below the rest cap of Recruit and Veteran, so you can see resting heal you. On Doomed there is no resting, so use the medikit.
 - When you use the exit switch, the training shows the same victory tally as the other levels (par 1:30). Then "Continue to E1: Outpost Breach" (or R) starts E1 with a fresh loadout. Nothing from the training carries over.
@@ -62,9 +62,8 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 | 1 to 4 | Select weapon slot |
 | Mouse wheel | Next or previous weapon |
 | Q | Next weapon |
-| V | Show or hide the enemy sight layer |
 | N | Turn the music on or off (remembered in localStorage) |
-| M | Mute or unmute all sound |
+| M | Mute or unmute all sound (remembered in localStorage) |
 | Esc or P | Pause or resume |
 | W A S D or arrow keys, then Enter | On the title, death and victory screens: select a button and press it |
 | Enter | On the pause screen: resume. On the victory screen: skip the count. During training: skip the training |
@@ -250,7 +249,7 @@ A hunched red horned demon with tusks and claws. It is fast, tough and fights on
 
 A transparent Brute. It is a pale blue ghost of a Brute, and you can see through it.
 
-- **Trait: it is almost invisible.** Its body shimmers at 25% to 50% opacity. Its name, health bar and sight cone show only when it is within 3 tiles of you, or for 1.5 seconds after you hit it. A hit makes it flash more visible.
+- **Trait: it is almost invisible.** Its body shimmers at 25% to 50% opacity. Its name, health bar and sight cone (with `?sight`) show only when it is within 3 tiles of you, or for 1.5 seconds after you hit it. A hit makes it flash more visible.
 - It fights like a Brute: same health and claws, a little slower.
 - **Trait: it tracks you longer.** After it loses sight of you, it follows you for 8 seconds, then walks back to its start position.
 - Its corpse stays half transparent.
@@ -258,7 +257,7 @@ A transparent Brute. It is a pale blue ghost of a Brute, and you can see through
 
 ## Sight layer
 
-Press **V** to show or hide the view cones of enemies on screen. The layer is on by default. Walls cut the cones, and crates cut the cones of Fiends.
+A debug layer that shows the view cones of enemies on screen. It is off, and players cannot turn it on. In dev mode only, add `?sight` to the URL to show it (see the development aids in the [README](../README.md#development-aids)). Walls cut the cones, and crates cut the cones of Fiends.
 
 | Cone color | Meaning |
 | --- | --- |
@@ -325,7 +324,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 | E3 | Ember Gate | 152 BPM | C# Phrygian gallop with double kick |
 
 - The music starts when the level starts, pauses with the game and stops on the death and victory screens.
-- N turns only the music on or off. The game stores the choice as `doomed.music` in localStorage. M mutes all sound, music included.
+- N turns only the music on or off. The game stores the choice as `doomed.music` in localStorage. M mutes all sound, music included, and the game stores it as `doomed.sound`. Both choices stay after a reload.
 
 ## Screen and interface
 

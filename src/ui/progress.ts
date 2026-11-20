@@ -1,17 +1,11 @@
+import { readFlag, writeFlag } from './storage';
+
 const TRAINING_KEY = 'doomed.trainingDone';
 
 export function isTrainingDone(): boolean {
-  try {
-    return window.localStorage.getItem(TRAINING_KEY) === '1';
-  } catch {
-    return false;
-  }
+  return readFlag(TRAINING_KEY, false);
 }
 
 export function markTrainingDone(): void {
-  try {
-    window.localStorage.setItem(TRAINING_KEY, '1');
-  } catch {
-    return;
-  }
+  writeFlag(TRAINING_KEY, true);
 }

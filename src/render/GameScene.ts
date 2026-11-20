@@ -95,7 +95,7 @@ export class GameScene extends Phaser.Scene {
   private tracers: Tracer[] = [];
   private gfx!: Phaser.GameObjects.Graphics;
   private sightGfx!: Phaser.GameObjects.Graphics;
-  private showSight = true;
+  private showSight = false;
   private muzzle!: Phaser.GameObjects.Image;
   private lighting!: Lighting;
   private staticLights: Light[] = [];
@@ -191,6 +191,7 @@ export class GameScene extends Phaser.Scene {
       this.cameras.main.centerOn(this.world.player.x * TILE, this.world.player.y * TILE);
     }
     if (params.has('god')) this.world.player.health = 9999;
+    if (params.has('sight')) this.showSight = true;
     (window as unknown as { __doomed: { world: World; scene: Phaser.Scene } }).__doomed = { world: this.world, scene: this };
   }
 
@@ -385,7 +386,7 @@ export class GameScene extends Phaser.Scene {
 
   private setupInput(): void {
     const kb = this.input.keyboard!;
-    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,M,N,ESC,P,R,Q,V') as Record<string, Phaser.Input.Keyboard.Key>;
+    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,M,N,ESC,P,R,Q') as Record<string, Phaser.Input.Keyboard.Key>;
     kb.addCapture('SPACE,UP,DOWN,LEFT,RIGHT');
     this.input.mouse?.disableContextMenu();
     this.input.on('pointerdown', (ptr: Phaser.Input.Pointer) => {
@@ -415,10 +416,6 @@ export class GameScene extends Phaser.Scene {
     onDown('M', () => {
       const muted = this.deps.sfx.toggleMute();
       this.deps.hud.message(muted ? 'Sound muted.' : 'Sound on.', 'info', this.world.time);
-    });
-    onDown('V', () => {
-      this.showSight = !this.showSight;
-      this.deps.hud.message(this.showSight ? 'Enemy sight shown.' : 'Enemy sight hidden.', 'info', this.world.time);
     });
     onDown('N', () => {
       const on = this.deps.music.toggle();

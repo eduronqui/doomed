@@ -109,6 +109,7 @@ src/
     screens.ts        Title, pause, death and victory screens
     logo.ts           Generated title logo
     progress.ts       localStorage flag that marks the training as done
+    storage.ts        Safe localStorage flags (training, music, sound)
 tests/                Vitest tests for the simulation, the levels and the sprite sheet
 ```
 
@@ -140,6 +141,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?god` | Set the player health to 9999 |
 | `?pos=x,y` | Start the player on map cell (x, y) |
 | `?level=n` | Start on level n (1 to 3), or 0 for the training |
+| `?sight` | Show the enemy sight layer (view cones) |
 
 Example: `http://localhost:5173/?autostart&god&pos=50,26` starts in the hell vault.
 
@@ -151,6 +153,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 
 - `level.test.ts`: for every level: one start, enough monsters, a secret and one exit. No floor touches the void. The exit faces a room. Every keycard is reachable without its own door, and the exit needs the keycards. All entities are reachable. Also map parsing of colored doors, keycards and shades.
 - `grid.test.ts`: collision, sliding along walls, raycasts, door timing, door groups, path search.
+- `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
 - `sprites.test.mjs`: the committed sprite sheet matches the art code, and no frames overlap.
@@ -161,7 +164,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `index.html` sets a Content Security Policy: scripts from the same origin only, no plugins, no form targets.
 - On Vercel, `vercel.json` also sends the policy as an HTTP header, with `frame-ancestors 'none'`, HSTS, `nosniff`, `Referrer-Policy` and `Permissions-Policy`.
 - The interface writes dynamic text with `textContent`, never with `innerHTML`.
-- The game makes no network requests. It stores only two flags in `localStorage`: training done and music on or off.
+- The game makes no network requests. It stores only three flags in `localStorage`: training done, music on or off, and sound on or off.
 
 ## License
 
