@@ -27,6 +27,7 @@ const CORPSE_DEPTH = -80000;
 const OVERLAY_DEPTH = 1_000_000;
 const NAME_DEPTH = 2_000_000;
 const ACTOR_FOOT = 0.28;
+const GUN_HEIGHT_PX = 10;
 const STEALTH_EXPOSE_RANGE = 3;
 
 export interface GameDeps {
@@ -484,7 +485,7 @@ export class GameScene extends Phaser.Scene {
       moveX: (k.D.isDown || k.RIGHT.isDown ? 1 : 0) - (k.A.isDown || k.LEFT.isDown ? 1 : 0),
       moveY: (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0),
       aimX: wp.x / TILE,
-      aimY: wp.y / TILE - 0.3,
+      aimY: (wp.y + GUN_HEIGHT_PX) / TILE,
       fire: this.firing && ptr.leftButtonDown(),
       use: this.useQueued,
       weaponSlot: this.slotQueued,
@@ -621,7 +622,7 @@ export class GameScene extends Phaser.Scene {
     if (p.flash > 0 && w.status === 'playing') {
       this.muzzle
         .setVisible(true)
-        .setPosition((p.x + Math.cos(p.angle) * 0.62) * TILE, (p.y + Math.sin(p.angle) * 0.62) * TILE - 10)
+        .setPosition((p.x + Math.cos(p.angle) * 0.62) * TILE, (p.y + Math.sin(p.angle) * 0.62) * TILE - GUN_HEIGHT_PX)
         .setDepth((p.y + ACTOR_FOOT) * TILE + (p.dir === 'n' ? -1 : 1));
     } else this.muzzle.setVisible(false);
 
@@ -810,7 +811,7 @@ export class GameScene extends Phaser.Scene {
     g.clear();
     for (const t of this.tracers) {
       g.lineStyle(1, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
-      g.lineBetween(t.x1 * TILE, t.y1 * TILE - 10, t.x2 * TILE, t.y2 * TILE - 10);
+      g.lineBetween(t.x1 * TILE, t.y1 * TILE - GUN_HEIGHT_PX, t.x2 * TILE, t.y2 * TILE - GUN_HEIGHT_PX);
     }
 
     const view = this.cameras.main.worldView;

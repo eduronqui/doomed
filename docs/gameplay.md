@@ -119,6 +119,7 @@ When your health reaches 0, you die. The death screen shows your kills and time.
 | 3 | Pump Shotgun | 1 shell | 5 to 15 | 7 | 0.95 s | 18 tiles | loud |
 | 4 | Rotary Gun | 1 bullet | 5 to 15 | 1 | 0.11 s | 22 tiles | loud |
 
+- Aim at the head or the body of an enemy. The line of aim goes through the cursor at gun height, so shots at the legs miss.
 - Guns hit instantly along the line of aim (hitscan). Each pellet spreads a little. The rotary gun spreads more than the sidearm. The shotgun spreads the most.
 - The knife hits the nearest enemy or barrel in front of you, inside a wide arc.
 - **Backstab.** A knife hit kills a calm enemy at once if you stand in its back arc (120° wide) and it does not see you. Calm means idle, wandering, holding or walking home, not hunting you. It works on every enemy kind, also the Brute and the Shade. The kill makes only a soft thud instead of the death scream, and no other enemy wakes up. The message "Silent kill." shows.
