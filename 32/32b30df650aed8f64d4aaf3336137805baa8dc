@@ -1,0 +1,28 @@
+docs/extending.md
+  h_c8144e9885d225 469
+docs/gameplay.md
+  h_c8144e9885d225 16,19,49-50,96,101-102
+src/levels/training.map.ts
+  h_c8144e9885d225 9
+src/levels/training.ts
+  h_c8144e9885d225 17,27
+src/sim/defs.ts
+  h_c8144e9885d225 147,162,175,180,188
+src/sim/world.ts
+  h_c8144e9885d225 393
+tests/training.test.ts
+  h_c8144e9885d225 50
+tests/world.test.ts
+  h_c8144e9885d225 171,173,177,179-195,200,208,213-214,216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3232b30df650aed8f64d4aaf3336137805baa8dc",
+  "prompts": {},
+  "humans": {
+    "h_c8144e9885d225": {
+      "author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
