@@ -19,6 +19,7 @@ export type SoundId =
   | 'rotary'
   | 'knife'
   | 'backstab'
+  | 'footstep'
   | 'fireball'
   | 'explode'
   | 'door'

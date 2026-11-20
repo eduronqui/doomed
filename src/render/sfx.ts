@@ -88,6 +88,10 @@ export class Sfx {
         o('square', 900, 900, 0.03, 0.3);
         o('square', 420, 420, 0.06, 0.3, 0.05);
         break;
+      case 'footstep':
+        n(0.05, 'bandpass', 2600, 1800, 0.22, 0, 3);
+        o('square', 220, 160, 0.03, 0.05);
+        break;
       case 'pickup':
         o('square', 640, 980, 0.07, 0.18);
         o('square', 980, 980, 0.06, 0.14, 0.07);

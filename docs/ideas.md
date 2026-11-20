@@ -6,7 +6,6 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | --- | --- |
 | [Achievements](#achievements) | Under discussion, not built |
 | [Stealth enemy behaviors](#stealth-enemy-behaviors) | Under discussion, not built |
-| [Footstep noise](#footstep-noise) | Under discussion, not built |
 | [Enemies that break habits](#enemies-that-break-habits) | Under discussion, not built |
 | [Level 4 and a boss](#level-4-and-a-boss) | Under discussion, not built |
 | [Level select](#level-select) | Under discussion, not built |
@@ -85,14 +84,6 @@ Goal: make stealth and the backstab deeper.
 
 - **Sleeping enemies.** Some enemies start asleep. They do not see you, and only a noise wakes them. A sleeping enemy is a free backstab if you are quiet.
 - **Corpse discovery.** An enemy that sees a corpse becomes alert and alarms the enemies near it. Players must pick where they kill, not only who.
-
-## Footstep noise
-
-Goal: a real choice between speed and stealth.
-
-- Running makes noise in a small radius, and enemies in that radius become alert.
-- Hold Shift to walk slowly. Slow steps make no noise.
-- The radius must stay smaller than the gunfire noise range, so that a shot is always louder than a step.
 
 ## Enemies that break habits
 

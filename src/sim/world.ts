@@ -2,7 +2,7 @@ import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, t
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
 import { Grid, type Door } from './grid';
-import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type LevelData, type WallKind } from './level';
+import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
 import { Rng } from './rng';
 import { clamp, dirFromAngle, dist, type Dir, type Vec } from './types';
@@ -184,6 +184,9 @@ const PICKUP_RADIUS = 0.6;
 const NOISE_RANGE = 13;
 const SHOUT_RANGE = 10;
 const CRY_GAP = 0.5;
+const FOOTSTEP_RANGE = 4;
+const STEP_INTERVAL = 0.35;
+const LOUD_FLOORS: ReadonlySet<FloorKind> = new Set<FloorKind>(['metal', 'grate']);
 const EXPLOSION_RADIUS = 2.6;
 const EXPLOSION_DAMAGE = 110;
 const FIREBALL_SPEED = 7.5;
@@ -210,6 +213,10 @@ function rayCircle(ox: number, oy: number, dx: number, dy: number, cx: number, c
   return -b - Math.sqrt(disc);
 }
 
+function isCalm(m: Monster): boolean {
+  return m.state === 'idle' || m.state === 'wander' || m.state === 'return' || m.state === 'hold';
+}
+
 function isMonster(t: HitResult['target']): t is Monster {
   return t !== null && 'kind' in t && 'def' in t;
 }
@@ -227,6 +234,7 @@ export class World {
   private readonly enteredRooms = new Set<number>();
   private readonly alertOnEntry: ReadonlySet<MonsterKind>;
   private doorRooms: { group: Door[]; rooms: number[] }[] = [];
+  private stepTimer = 0;
   private ambush: { key: KeyColor; door: Door; monsters: Monster[]; sprung: boolean; closet: HiddenCloset } | null = null;
   readonly player: Player;
   readonly monsters: Monster[] = [];
@@ -375,6 +383,11 @@ export class World {
       p.x = res.x;
       p.y = res.y;
       p.walkTime += dt;
+      this.stepTimer += dt;
+      if (this.stepTimer >= STEP_INTERVAL) {
+        this.stepTimer -= STEP_INTERVAL;
+        this.footstep();
+      }
       for (const idx of res.bumped) {
         const door = this.grid.doors.get(idx);
         if (door) this.tryDoor(door, true, false);
@@ -488,7 +501,7 @@ export class World {
       }
     }
     for (const [target, dmg] of totals) {
-      if (isMonster(target)) this.damageMonster(target, dmg);
+      if (isMonster(target)) this.damageMonster(target, dmg, true);
       else this.damageBarrel(target, dmg);
     }
   }
@@ -517,13 +530,12 @@ export class World {
       this.backstab(best);
       return;
     }
-    this.damageMonster(best, this.rng.int(w.damage[0], w.damage[1]));
+    this.damageMonster(best, this.rng.int(w.damage[0], w.damage[1]), true);
     if (best.state === 'dead') this.alertNearby(best.x, best.y, NOISE_RANGE);
   }
 
   private canBackstab(m: Monster): boolean {
-    const calm = m.state === 'idle' || m.state === 'wander' || m.state === 'return' || m.state === 'hold';
-    return calm && !m.seesPlayer && this.isBehind(m);
+    return isCalm(m) && !m.seesPlayer && this.isBehind(m);
   }
 
   private backstab(m: Monster): void {
@@ -791,6 +803,18 @@ export class World {
     if (m.cried) return;
     m.cried = true;
     if (this.throttled('alert-cry', CRY_GAP)) this.sound(m.def.alertSound, m.x, m.y);
+  }
+
+  private footstep(): void {
+    const p = this.player;
+    const tile = this.grid.tile(Math.floor(p.x), Math.floor(p.y));
+    if (!tile || !LOUD_FLOORS.has(tile.floor)) return;
+    this.sound('footstep', p.x, p.y);
+    const range = FOOTSTEP_RANGE * this.difficulty.enemySight;
+    for (const m of this.monsters) {
+      if (!isCalm(m) || dist(m.x, m.y, p.x, p.y) > range || !this.grid.lineOfSight(m.x, m.y, p.x, p.y)) continue;
+      this.spot(m);
+    }
   }
 
   private spot(m: Monster): void {
@@ -1109,7 +1133,7 @@ export class World {
     }
   }
 
-  damageMonster(m: Monster, amount: number): void {
+  damageMonster(m: Monster, amount: number, byPlayer = false): void {
     if (m.state === 'dead') return;
     m.hp -= amount;
     m.hurtTime = 0.15;
@@ -1118,7 +1142,10 @@ export class World {
       this.killMonster(m);
       return;
     }
-    if (m.state !== 'chase' && m.state !== 'windup' && m.state !== 'pain') this.wake(m);
+    if (isCalm(m)) {
+      if (byPlayer) this.spot(m);
+      else this.wake(m);
+    }
     if (m.state !== 'windup' && this.rng.chance(m.def.painChance)) {
       m.state = 'pain';
       m.stateTime = m.def.painTime;

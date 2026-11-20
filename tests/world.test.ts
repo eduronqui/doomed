@@ -398,6 +398,60 @@ describe('World', () => {
     expect(fiend.state).toBe('chase');
   });
 
+  describe('footsteps', () => {
+    const walk = (floor: string, wall = false): World => {
+      const mid = wall ? '#' : floor;
+      const w = new World(parseLevel('t', `##########\n#P${floor}${floor}${mid}${floor}h..#\n##########`));
+      w.monsters[0].angle = 0;
+      run(w, 0.5, { moveX: 1, aimX: 9, aimY: 1.5 });
+      return w;
+    };
+
+    it('wakes a calm enemy within 4 tiles when the marine walks on metal', () => {
+      expect(walk('.').monsters[0].state).toBe('chase');
+    });
+
+    it('scales the hearing range with the difficulty: 3.4, 4 and 5 tiles', () => {
+      const heard = (d: (typeof DIFFICULTIES)[number], gap: number): boolean => {
+        const w = new World(parseLevel('t', '############\n#P.........#\n############'), 1, d);
+        const husk = w.spawnMonster('husk', 0, 1.5);
+        husk.angle = 0;
+        husk.x = 1.5 + gap;
+        run(w, 0.36, { moveX: 1, aimX: 10, aimY: 1.5 });
+        return husk.state === 'chase';
+      };
+      const [recruit, veteran, doomed] = DIFFICULTIES;
+      expect([heard(recruit, 4.9), heard(recruit, 5.4)]).toEqual([true, false]);
+      expect([heard(veteran, 5.5), heard(veteran, 6)]).toEqual([true, false]);
+      expect([heard(doomed, 6.5), heard(doomed, 7)]).toEqual([true, false]);
+    });
+
+    it('stays quiet on concrete', () => {
+      expect(walk(',').monsters[0].state).toBe('idle');
+    });
+
+    it('does not carry through a wall', () => {
+      expect(walk('.', true).monsters[0].state).toBe('idle');
+    });
+
+    it('lets a heard step alarm the group around the enemy', () => {
+      const w = new World(parseLevel('t', '##############\n#P...h......h#\n##############'));
+      for (const m of w.monsters) m.angle = 0;
+      run(w, 0.5, { moveX: 1, aimX: 13, aimY: 1.5 });
+      expect(w.monsters.map((m) => m.state)).toEqual(['chase', 'chase']);
+    });
+  });
+
+  it('lets a wounded enemy alarm its neighbors, but not one hurt by a barrel', () => {
+    const map = '##############\n#P.........hh#\n##############';
+    const byPlayer = new World(parseLevel('t', map));
+    byPlayer.damageMonster(byPlayer.monsters[0], 1, true);
+    expect(byPlayer.monsters[1].state).toBe('chase');
+    const byBarrel = new World(parseLevel('t', map));
+    byBarrel.damageMonster(byBarrel.monsters[0], 1);
+    expect(byBarrel.monsters[1].state).toBe('idle');
+  });
+
   describe('spotting the player', () => {
     const spot = (gap: number): string => {
       const width = 6 + gap;

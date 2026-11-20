@@ -198,10 +198,16 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 
 **What wakes an enemy**
 - It sees you.
-- It hears a loud weapon or a barrel explosion within 13 tiles. Walls do not stop the sound.
-- Another enemy within 10 tiles sees you. The one that sees you gives its alert cry, and that wakes the others. Walls do not stop the cry. Only an enemy that sees you cries out, so a woken enemy does not pass the alarm on.
+- It hears your steps. Your boots clang on metal floor and on grates, and a calm enemy within 4 tiles hears every step (3.4 tiles on Recruit, 5 on Doomed: the range follows the enemy sight factor). Concrete and rock are quiet. Walls and closed doors stop the sound, so an enemy in the next room or around a corner does not hear you. You hear your own steps as a soft clank, so you always know when you are loud.
+- You hit it and it survives.
+- It hears a loud weapon or a barrel explosion within 13 tiles. Walls do not stop this sound.
+- It hears another enemy's alert cry within 10 tiles.
+
+**The alarm**
+- An enemy that finds you by itself (it sees you, hears your steps, or you hit it) gives its alert cry, and the cry wakes every calm enemy within 10 tiles. Walls do not stop the cry.
+- An enemy woken second-hand (by a cry, by gunfire, by an explosion, or by a trap door) joins the hunt but does not pass the alarm on. So one alarm wakes one area, not the whole level.
 - Each enemy cries only the first time it becomes alert. If it loses you and finds you again, it still alerts the enemies near it, but silently. You hear at most one cry every half second, so a group that wakes at once gives one cry.
-- You hit it.
+- To reach an enemy's back for a backstab, plan a path over concrete or rock. A knife hit that does not kill counts as a hit, so it raises the alarm.
 
 **Attacks**
 - Each attack has a short wind-up. During the wind-up the enemy faces you and shows its attack pose.
