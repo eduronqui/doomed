@@ -4,6 +4,8 @@ A fast top-down shooter with a demon-invasion theme. The view, pixel art and int
 
 All sprites are drawn in code and baked into one sprite sheet (`public/assets/sprites.png` with the atlas `public/assets/sprites.json`). All sound effects and the music of each level are synthesized at runtime with WebAudio. The project has no audio files.
 
+**Play it:** https://doomed-nine.vercel.app/
+
 - Game rules, enemies, weapons, items and walkthroughs of all three levels: [docs/gameplay.md](docs/gameplay.md)
 - How to add levels, characters, sprites, sounds, music and more: [docs/extending.md](docs/extending.md)
 - Ideas and plans under discussion (not built yet): [docs/ideas.md](docs/ideas.md)
@@ -157,8 +159,9 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 ## Security notes
 
 - `index.html` sets a Content Security Policy: scripts from the same origin only, no plugins, no form targets.
+- On Vercel, `vercel.json` also sends the policy as an HTTP header, with `frame-ancestors 'none'`, HSTS, `nosniff`, `Referrer-Policy` and `Permissions-Policy`.
 - The interface writes dynamic text with `textContent`, never with `innerHTML`.
-- The game makes no network requests and stores no data.
+- The game makes no network requests. It stores only two flags in `localStorage`: training done and music on or off.
 
 ## License
 
