@@ -22,7 +22,7 @@ export const TRAINING: LevelInfo = {
     },
     {
       area: [13, 1, 28, 11],
-      text: 'SHOOT: hold the left mouse button. Kill the two Husks, or shoot a barrel to blow up what stands near it. Crates block bullets, so use them as cover. Or sneak up behind a Husk and stab it with the knife (press 1): a silent kill.',
+      text: 'SHOOT: hold the left mouse button or the space bar. Kill the two Husks, or shoot a barrel to blow up what stands near it. Crates block bullets, so use them as cover. Or sneak up behind a Husk and stab it with the knife (press 1): a silent kill.',
       clearText:
         'REST: the room is clear. Stand still and do not shoot. After 10 seconds you heal 1 HP every 2 seconds, up to 60 HP on Recruit and 30 HP on Veteran (no resting on Doomed). Then take the medikit to heal more, and the shotgun: press 3 (or turn the mouse wheel) to switch weapons.',
     },

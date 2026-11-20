@@ -18,7 +18,7 @@ const SHOT_EVERY = 2;
 const LINE_PAUSE_MS = 450;
 const PREV_KEYS = new Set(['ArrowUp', 'ArrowLeft', 'KeyW', 'KeyA']);
 const NEXT_KEYS = new Set(['ArrowDown', 'ArrowRight', 'KeyS', 'KeyD']);
-const ENTER_KEYS = new Set(['Enter', 'NumpadEnter']);
+const ENTER_KEYS = new Set(['Enter', 'NumpadEnter', 'Space']);
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string, cls?: string): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -139,7 +139,7 @@ export class Screens {
   }
 
   paused(onResume: () => void): void {
-    this.show([el('h1', 'PAUSED'), el('p', 'The demons wait for you.'), el('div', 'Click or press Enter or Esc to resume', 'prompt')], () => {
+    this.show([el('h1', 'PAUSED'), el('p', 'The demons wait for you.'), el('div', 'Click or press Enter, Space or Esc to resume', 'prompt')], () => {
       this.hide();
       onResume();
     });
@@ -153,7 +153,7 @@ export class Screens {
   private retry(list: Difficulty[], current: DifficultyId, onPick: Pick): HTMLElement {
     const difficulty = list.find((d) => d.id === current) ?? list[0];
     const box = el('div', undefined, 'picker');
-    box.append(this.choice('Try again', 'Press Enter or R.', 'diff current', () => onPick(difficulty)));
+    box.append(this.choice('Try again', 'Press Enter, Space or R.', 'diff current', () => onPick(difficulty)));
     return box;
   }
 

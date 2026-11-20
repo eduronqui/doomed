@@ -58,21 +58,22 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 | --- | --- |
 | W A S D or arrow keys | Move |
 | Mouse | Aim |
-| Left mouse button (hold) | Fire (only when the click starts inside the play area) |
-| E or Space | Use (doors, secret walls, exit switch) |
+| Left mouse button or Space (hold) | Fire (a mouse click must start inside the play area) |
+| E or Space | Use (doors, secret walls, exit switch). Space also fires, so one press both shoots and uses. |
 | 1 to 4 | Select weapon slot |
 | Mouse wheel | Next or previous weapon |
 | Q | Next weapon |
 | N | Turn the music on or off (remembered in localStorage) |
 | M | Mute or unmute all sound (remembered in localStorage) |
 | Esc or P | Pause or resume |
-| W A S D or arrow keys, then Enter | On the title, death and victory screens: select a button and press it |
-| Enter | On the pause screen: resume. On the victory screen: skip the count. During training: skip the training |
+| W A S D or arrow keys, then Enter or Space | On the title, death and victory screens: select a button and press it |
+| Enter or Space | On the pause screen: resume. On the victory screen: skip the count |
+| Enter | During training: skip the training. Space does not skip it, because Space fires and uses during play. |
 | R | On the death screen: restart the level. On the victory screen: continue to the next level (or play again after level 3) |
 
 On a screen with buttons, the gold border marks your current difficulty and the white outline marks the selected button. The selection starts on the current difficulty, and the mouse moves it too. A held key does not repeat on these screens.
 
-The first difficulty pick on the title screen (click or Enter) also starts the sound. Browsers block sound until you click or press a key.
+The first difficulty pick on the title screen (click, Enter or Space) also starts the sound. Browsers block sound until you click or press a key.
 
 ## The Marine
 
@@ -110,8 +111,8 @@ Doors divide the level into rooms. Open passages without a door join two areas i
 
 When your health reaches 0, you die. The level music stops. After 1.4 seconds the death screen shows "YOU DIED" and a slow dramatic loop plays until you restart. The screen shows no stats; only the victory tally shows them.
 
-- On your 1st and 2nd death on a level, the screen shows one "Try again" button on the same difficulty. Click it, press Enter or press R.
-- From your 3rd death on the same level, the screen shows the difficulty picker instead. Select a difficulty with the mouse, or with the arrow keys or W A S D and Enter, or press R to keep the same one.
+- On your 1st and 2nd death on a level, the screen shows one "Try again" button on the same difficulty. Click it, or press Enter, Space or R.
+- From your 3rd death on the same level, the screen shows the difficulty picker instead. Select a difficulty with the mouse, or with the arrow keys or W A S D and Enter or Space, or press R to keep the same one.
 - The count goes back to 0 when you clear a level or reload the page.
 
 ## Weapons
@@ -363,7 +364,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 
 ## Victory tally
 
-When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages), your Time and the Par time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Click or press Enter to skip to the final numbers. Then pick a button with the mouse or with the arrow keys or W A S D and Enter, or press R.
+When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages), your Time and the Par time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Click or press Enter or Space to skip to the final numbers. Then pick a button with the mouse or with the arrow keys or W A S D and Enter or Space, or press R.
 
 ## Level 1: Outpost Breach
 

@@ -502,7 +502,7 @@ export class GameScene extends Phaser.Scene {
       moveY: (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0),
       aimX: wp.x / TILE,
       aimY: (wp.y + GUN_HEIGHT_PX) / TILE,
-      fire: this.firing && ptr.leftButtonDown(),
+      fire: (this.firing && ptr.leftButtonDown()) || k.SPACE.isDown,
       use: this.useQueued,
       weaponSlot: this.slotQueued,
       cycleWeapon: this.wheel,
