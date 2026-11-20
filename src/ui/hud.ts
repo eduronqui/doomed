@@ -138,11 +138,6 @@ export class Hud {
       const slot = $(`inv-key-${color}`);
       if (slot.className !== cls) slot.className = cls;
     }
-    const s = world.stats;
-    this.setText('st-kills', `${s.kills} / ${s.totalKills}`);
-    this.setText('st-items', `${s.items} / ${s.totalItems}`);
-    this.setText('st-secrets', `${s.secrets} / ${s.totalSecrets}`);
-    this.setText('st-time', formatTime(world.time));
 
     const hurt = Math.min(0.85, p.hurtTime * 2.4 + (p.health < 25 && world.status === 'playing' ? 0.25 + Math.sin(world.time * 6) * 0.1 : 0));
     this.hurt.style.opacity = world.status === 'dead' ? '0.8' : hurt.toFixed(2);

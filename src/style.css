@@ -361,23 +361,6 @@ body {
   filter: grayscale(1);
 }
 
-#mission {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 2px 8px;
-  margin: 0;
-}
-
-#mission dt {
-  color: var(--muted);
-}
-
-#mission dd {
-  margin: 0;
-  text-align: right;
-  font-weight: bold;
-}
-
 .help p {
   margin: 2px 0;
   color: var(--muted);
