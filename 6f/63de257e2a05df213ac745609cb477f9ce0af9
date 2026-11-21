@@ -1,0 +1,31 @@
+docs/extending.md
+  s_e549dc79ddcbfe::t_0c9796f5665b0a 131
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_0c3bcdeb0d2d8e 300
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_6751d80f04a821 266,832-833,836-839,845-854
+src/render/lighting.ts
+  s_e549dc79ddcbfe::t_7556ceee91baf4 38,81,84-85
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_17c706e1a90319 36,624-629,633-645
+src/ui/hud.ts
+  s_e549dc79ddcbfe::t_544afde7fa4fe0 175,192
+tests/world.test.ts
+  s_e549dc79ddcbfe::t_b95a670f9b0f4b 362-370
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6f63de257e2a05df213ac745609cb477f9ce0af9",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
