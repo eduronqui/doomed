@@ -40,7 +40,7 @@ Dev mode helps you test a change fast. These URL parameters work only with `npm 
 | Parameter | Effect |
 | --- | --- |
 | `?autostart` | Skip the title screen (default difficulty) |
-| `?level=n` | Start on level n (1 to 3), or 0 for the training |
+| `?level=n` | Start on level n (1 to 12), or 0 for the training |
 | `?pos=x,y` | Put the player on map cell (x, y) |
 | `?god` | Take no damage; health and armor items stay on the floor |
 | `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |

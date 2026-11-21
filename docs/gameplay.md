@@ -4,7 +4,7 @@ This document describes every game rule in DOOMED. All numbers come from the cod
 
 ## Goal
 
-The episode has three levels. Each level has one exit switch. It always sits on the top wall of a room, and at least one monster always guards it, close to it in the same room. Find it and use it. Enemies, locked doors and hazards are in your way. When you use the switch, a tally shows your kills, items, secrets and time. Then you continue to the next level.
+The episode has twelve levels. Each level from 4 to 11 brings one new weapon or one new enemy, and level 12 ends the episode with a boss. Each level has one exit switch. It always sits on the top wall of a room, and at least one monster always guards it, close to it in the same room. Find it and use it. Enemies, locked doors and hazards are in your way. When you use the switch, a tally shows your kills, items, secrets and time. Then you continue to the next level.
 
 ## Training (first run only)
 
@@ -29,10 +29,19 @@ The first time you play, the game starts with a short training level, "Training:
 | 1 | E1: Outpost Breach | red | 4:00 |
 | 2 | E2: Toxin Refinery | blue | 5:00 |
 | 3 | E3: Ember Gate | yellow, then red | 6:00 |
+| 4 | E4: Freight Lift | yellow | 5:00 |
+| 5 | E5: Coolant Works | blue, then red | 5:30 |
+| 6 | E6: Furnace Deck | red | 5:30 |
+| 7 | E7: Hunting Grounds | yellow, then blue | 6:00 |
+| 8 | E8: Arc Foundry | red | 6:00 |
+| 9 | E9: Iron Bastion | blue, then yellow | 6:30 |
+| 10 | E10: Drowned Pit | red | 6:30 |
+| 11 | E11: The Gauntlet | yellow, then red | 8:00 |
+| 12 | E12: The Gate | red | 7:00 |
 
 - When you continue to the next level, your health, armor, ammo, weapons and selected weapon carry over. Keycards do not carry over.
 - When you die, the level restarts with the loadout you had when you entered it. Level 1 always starts with 100 health, the knife, the sidearm and the start bullets of your difficulty (60, 40 or 20).
-- After level 3, the victory screen offers to play the episode again from level 1, with any difficulty.
+- After level 12, the victory screen offers to play the episode again from level 1, with any difficulty.
 
 ## Difficulty
 
@@ -558,3 +567,289 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 4. Go back to the hub and open the yellow door in its west wall.
 5. In the west wing, cross the lava moat at its gap in the north-west. Take the red keycard. A trap door in the north wall of the west wing, just east of the key, opens on a large group.
 6. Go back to the hub and open the red door in its north wall. Cross the sanctum to its north-east corner and open the door in the east wall. Beat the Brute in the small end room and use the exit switch.
+
+## Level 4: Freight Lift
+
+> Freight lifts haul ammunition down to the deep levels, and the dead now guard them.
+
+| Totals | |
+| --- | --- |
+| Enemies | 22: 10 Husks, 4 Shotgun Husks, 6 Fiends, 2 Brutes |
+| Map items | 18 |
+| Barrels | 3 |
+| Secrets | 1 |
+| Par time | 5:00 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start bay (north-west) | none | Stimpack, clip |
+| Corridor east of the start | 1 Husk |  |
+| Armory (north) | 3 Husks, 1 Shotgun Husk | **Grenade launcher**, 2 boxes of grenades, crates |
+| Cargo hall (center) | 5 Husks, 2 Shotgun Husks, 4 Fiends, 1 Brute | Two raised porches (north-east with 2 Fiends and a Husk, south-west with 2 Shotgun Husks), medikit, box of shells, 2 boxes of grenades, clip, 3 barrels, crates |
+| Key room (east, grate floor) | 1 Husk, 1 Shotgun Husk | **Yellow keycard**, stimpack, box of grenades. A trap door in its east wall |
+| Secret room (west of the cargo hall) | none | **Vital sphere**, combat vest, box of grenades, clip |
+| Exit room (south, behind the yellow door) | 2 Fiends, 1 Brute | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go east from the start bay through the corridor into the armory. Take the grenade launcher.
+2. Go south from the armory into the cargo hall. Lob grenades over the crates and onto the porches.
+3. Optional: in the west wall of the cargo hall, three scratched panels hide the secret room.
+4. Take the east door into the key room. Take the yellow keycard. The trap door in the east wall opens on a group.
+5. Open the yellow door in the south wall of the cargo hall. Beat the guards in the exit room and use the exit switch.
+
+## Level 5: Coolant Works
+
+> Deeper down, the coolant plant still pumps, and something heavier walks the catwalks.
+
+| Totals | |
+| --- | --- |
+| Enemies | 24: 8 Husks, 3 Shotgun Husks, 5 Fiends, 2 Brutes, 6 Gunners |
+| Map items | 18 |
+| Barrels | 3 |
+| Secrets | 1 |
+| Par time | 5:30 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (south-west) | none | 2 clips, stimpack |
+| Corridor north of the start | 1 Husk |  |
+| Pump room (west, slime channel with a grate bridge) | 2 Husks, 1 Gunner on a raised porch | Box of shells, medikit |
+| Coolant hall (center, two slime pools) | 3 Husks, 1 Shotgun Husk, 2 Fiends, 1 Brute, 2 Gunners on a raised catwalk (north-east) | Medikit, box of shells, box of grenades, clip, 3 barrels, crates |
+| Blue key room (north of the hall) | 2 Husks, 1 Shotgun Husk, 1 Gunner | **Blue keycard**, box of grenades. A trap door in its east wall |
+| East wing (behind the blue door) | 1 Shotgun Husk, 2 Fiends, 1 Gunner | **Red keycard**, medikit, box of shells |
+| Secret room (east of the start) | none | Combat vest, box of grenades, clip |
+| Exit room (south, behind the red door) | 1 Fiend, 1 Brute, 1 Gunner | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go north from the start through the corridor into the pump room, then east into the coolant hall.
+2. Gunners fire long bursts from the catwalk. Use the slime pools and crates as cover, and lob grenades.
+3. Take the north door into the blue key room. Take the blue keycard. The trap door in the east wall opens on a group.
+4. Open the blue door in the east wall of the hall. Take the red keycard in the east wing.
+5. Optional: in the east wall of the start room, three scratched panels hide the secret room.
+6. Open the red door in the south wall of the hall and use the exit switch in the exit room.
+
+## Level 6: Furnace Deck
+
+> The furnaces that forge the gate still burn, and packs of the dead crowd the deck.
+
+| Totals | |
+| --- | --- |
+| Enemies | 23: 9 Husks, 2 Shotgun Husks, 6 Fiends, 4 Brutes, 2 Shades |
+| Map items | 17 |
+| Secrets | 1 |
+| Par time | 5:30 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (south) | none | Clip, stimpack, braziers |
+| Flamer alcove (west of the start) | 3 Husks | **Flamer**, 2 fuel canisters |
+| Furnace hall (center, three lava pools) | 4 Husks, 2 Shotgun Husks, 3 Fiends, 2 Brutes, 1 Shade | Raised central dais with 2 Fiends, 2 fuel canisters, 2 medikits, box of shells, box of grenades, braziers |
+| Red key furnace (east) | 2 Husks, 1 Fiend, 1 Brute | **Red keycard**, fuel canister. A trap door in its north wall |
+| Secret room (west of the hall) | none | **Vital sphere**, fuel canister, box of shells |
+| Exit room (north, behind the red door) | 2 Fiends, 1 Brute, 1 Shade | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Take the west door from the start into the alcove. Take the flamer and burn the Husks there.
+2. Go north into the furnace hall. Packs crowd together, so the flamer cone catches several at once. Climb the dais from the south.
+3. Optional: in the west wall of the hall, three scratched panels hide the secret room.
+4. Take the east door into the furnace room. Take the red keycard. The trap door in the north wall opens on a group.
+5. Open the red door in the north wall of the hall and use the exit switch.
+
+## Level 7: Hunting Grounds
+
+> The caverns below the furnaces are dark and wide, and something fast hunts here.
+
+| Totals | |
+| --- | --- |
+| Enemies | 24: 5 Husks, 3 Shotgun Husks, 3 Fiends, 2 Brutes, 1 Shade, 10 Stalkers |
+| Map items | 20 |
+| Secrets | 1 |
+| Par time | 6:00 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start cave (north-west) | none | 2 clips, stimpack |
+| Corridor east of the start | 1 Husk |  |
+| First cavern (north, stone pillars) | 2 Husks, 2 Stalkers | Box of shells, medikit, box of grenades |
+| Great cavern (center, stone pillars) | 3 Stalkers, 2 Fiends, 1 Brute, 1 Shade, 2 Shotgun Husks on a raised ledge (north-west) | 2 fuel canisters, box of shells, medikit, box of grenades, clip |
+| West den | 2 Husks, 1 Stalker | **Yellow keycard**, medikit. A trap door in its south wall |
+| East wing (behind the yellow door) | 2 Stalkers, 1 Fiend, 1 Shotgun Husk | **Blue keycard**, box of shells |
+| Secret room (south of the start) | none | Combat vest, box of shells, box of grenades |
+| Exit room (south, behind the blue door) | 2 Stalkers, 1 Brute | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go east from the start into the first cavern, then south into the great cavern.
+2. Stalkers circle and leap. Keep your back to the rock or a pillar, and use the flamer when they close in.
+3. Optional: in the south wall of the start cave, three scratched panels hide the secret room.
+4. Take the west door into the den. Take the yellow keycard. The trap door in the south wall opens on a group.
+5. Open the yellow door in the east wall of the great cavern. Take the blue keycard in the east wing.
+6. Open the blue door in the south wall of the great cavern and use the exit switch.
+
+## Level 8: Arc Foundry
+
+> The foundry that built the gate machines runs on stolen power: long galleries and long lines of enemies.
+
+| Totals | |
+| --- | --- |
+| Enemies | 25: 9 Husks, 1 Shotgun Husk, 3 Fiends, 2 Brutes, 5 Gunners, 5 Stalkers |
+| Map items | 19 |
+| Secrets | 1 |
+| Par time | 6:00 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (north-west) | none | Clip, box of shells, stimpack |
+| Long gallery (north, grate floor) | 4 Husks, 1 Gunner at the far end | Clip, crates |
+| Arc room (south of the gallery) | 2 Husks | **Arc rifle**, 2 energy cell packs |
+| Foundry hall (center, a row of pillars) | 2 Husks, 2 Stalkers, 2 Fiends, 1 Shotgun Husk, 1 Brute, 2 Gunners on a raised porch (east) | 2 energy cell packs, box of shells, medikit, box of grenades, crates |
+| Corridor (east end of the gallery) | 1 Stalker |  |
+| Red key room (east, grate floor) | 1 Husk, 1 Stalker, 1 Gunner | **Red keycard**, energy cell pack, medikit. A trap door in its south wall |
+| Secret room (south of the start) | none | **Vital sphere**, energy cell pack, clip |
+| Exit room (south, behind the red door) | 1 Fiend, 1 Brute, 1 Stalker, 1 Gunner | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go east from the start into the long gallery. The Husks stand in a line.
+2. Take the south door of the gallery into the arc room. Take the arc rifle. One beam hits every enemy in a line.
+3. Go south into the foundry hall. Use the lanes between the pillars to line enemies up.
+4. Take the east door into the red key room, or take the corridor down from the east end of the gallery. Take the red keycard. The trap door in the south wall opens on a group.
+5. Optional: in the south wall of the start room, three scratched panels hide the secret room.
+6. Open the red door in the south wall of the hall and use the exit switch.
+
+## Level 9: Iron Bastion
+
+> Past the foundry stands a bastion of black stone, guarded by shield-bearing Wardens.
+
+| Totals | |
+| --- | --- |
+| Enemies | 21: 4 Husks, 1 Shotgun Husk, 3 Fiends, 1 Brute, 3 Gunners, 4 Stalkers, 5 Wardens |
+| Map items | 17 |
+| Secrets | 1 |
+| Par time | 6:30 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (south) | none | 2 clips, stimpack, energy cell pack |
+| Courtyard (center, stone pillars) | 2 Wardens, 2 Husks, 1 Fiend, 1 Stalker, a Gunner and a Shotgun Husk on raised porches (north-west and north-east) | 2 energy cell packs, box of shells, medikit, box of grenades |
+| West keep | 1 Warden, 1 Stalker, 1 Husk, 1 Fiend | **Blue keycard**, medikit. A trap door in its north wall |
+| East keep (behind the blue door) | 1 Warden, 1 Gunner, 1 Stalker, 1 Fiend, 1 Husk | **Yellow keycard**, energy cell pack |
+| Secret room (east of the start) | none | **Vital sphere**, energy cell pack, box of grenades |
+| Exit hall (north, behind the yellow door) | 1 Warden, 1 Gunner, 1 Stalker, 1 Brute | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go north into the courtyard. Circle the Wardens around the pillars to hit them from the side or the back, or use the arc rifle.
+2. Take the west door into the west keep. Take the blue keycard. The trap door in the north wall opens on a group.
+3. Open the blue door in the east wall of the courtyard. Take the yellow keycard in the east keep.
+4. Optional: in the east wall of the start room, three scratched panels hide the secret room.
+5. Open the yellow door in the north wall of the courtyard and use the exit switch.
+
+## Level 10: Drowned Pit
+
+> The gate drains into a pit of slime, and floating shapes drift over it.
+
+| Totals | |
+| --- | --- |
+| Enemies | 19: 4 Husks, 1 Shotgun Husk, 2 Fiends, 1 Brute, 1 Shade, 2 Gunners, 1 Stalker, 2 Wardens, 5 Hollows |
+| Map items | 15 |
+| Secrets | 1 |
+| Par time | 6:30 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (south-west) | none | Clip, energy cell pack, stimpack |
+| Corridor east of the start | 1 Husk |  |
+| The pit (center: a slime basin, a rock path around it and a grate bridge across) | 4 Hollows over the slime, 3 Husks, 2 Fiends, 1 Stalker, 1 Brute, 1 Shade on the path, 1 Warden on the central platform, a Shotgun Husk and a Gunner on two raised islands with no stairs | **Red keycard** on the raised central platform, 2 energy cell packs, 2 medikits, box of shells, box of grenades, fuel canister. A trap door in the north wall |
+| Secret room (north of the start) | none | **Vital sphere**, energy cell pack, fuel canister |
+| Exit wing (east, behind the red door) | 1 Hollow, 1 Gunner, 1 Warden | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go east from the start into the pit. Walk the rock path around the slime.
+2. Hollows float over the slime and their wisps turn toward you. Shoot them first, or break line of sight.
+3. The enemies on the islands cannot reach you and you cannot reach them. Shoot them from the path.
+4. Cross the grate bridge to the central platform and climb its stairs. Take the red keycard. The trap door in the north wall of the pit opens on a group.
+5. Optional: in the north wall of the start room, three scratched panels hide the secret room.
+6. Follow the path to the red door in the east wall and use the exit switch.
+
+## Level 11: The Gauntlet
+
+> Everything the gate has made waits between you and its keeper.
+
+| Totals | |
+| --- | --- |
+| Enemies | 34: 5 Husks, 2 Shotgun Husks, 3 Fiends, 1 Brute, 1 Shade, 5 Gunners, 7 Stalkers, 6 Wardens, 4 Hollows |
+| Map items | 29 |
+| Secrets | 1 |
+| Par time | 8:00 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (north-west) | none | 2 energy cell packs, medikit, box of shells |
+| Armory (east of the start) | 2 Husks | **Rift cannon**, 2 energy cell packs |
+| First arena (north, two lava strips) | 2 Stalkers, 1 Warden, 2 Fiends, 2 Husks, 2 Gunners on a raised porch (north-east) | Box of grenades, medikit, fuel canister |
+| Great arena (center, two lava pools, raised central dais) | 2 Hollows, 2 Wardens, 2 Stalkers, 1 Gunner, 2 Shotgun Husks, 1 Brute, 1 Shade, 1 Fiend | 3 energy cell packs, 2 medikits, 2 boxes of grenades, 2 fuel canisters, box of shells |
+| West room | 1 Warden, 1 Stalker, 1 Husk | **Yellow keycard**, medikit. A trap door in its south wall |
+| East wing (behind the yellow door) | 1 Hollow, 1 Gunner, 1 Warden, 1 Stalker | **Red keycard**, energy cell pack, medikit |
+| Secret room (south of the start) | none | **Vital sphere**, energy cell pack, combat vest |
+| Exit room (south, behind the red door) | 1 Warden, 1 Gunner, 1 Stalker, 1 Hollow | Medikit, **exit switch** on the north wall |
+
+### Route
+
+1. Go east from the start into the armory. Take the rift cannon. Each shot costs 40 cells, so save it for big groups.
+2. Fight through the first arena, then go south into the great arena.
+3. Optional: in the south wall of the start room, three scratched panels hide the secret room.
+4. Take the west door into the west room. Take the yellow keycard. The trap door in the south wall opens on a group.
+5. Open the yellow door in the east wall of the great arena. Take the red keycard in the east wing.
+6. Open the red door in the south wall of the great arena and use the exit switch.
+
+## Level 12: The Gate
+
+> The gate stands open at the bottom of the world, and its keeper waits in front of it.
+
+| Totals | |
+| --- | --- |
+| Enemies | 17: 3 Husks, 1 Shotgun Husk, 2 Fiends, 1 Brute, 2 Gunners, 3 Stalkers, 2 Wardens, 2 Hollows, 1 Gatekeeper |
+| Map items | 27 |
+| Secrets | 1 |
+| Par time | 7:00 |
+
+### Areas
+
+| Area | Enemies | Items and objects |
+| --- | --- | --- |
+| Start room (south) | none | 2 energy cell packs, medikit, combat vest |
+| Approach hall | 1 Warden, 2 Stalkers, 1 Hollow, 1 Shotgun Husk, 3 Husks, 1 Gunner on a raised porch (east) | Box of grenades, box of shells |
+| West vault | 1 Warden, 1 Stalker, 1 Fiend | **Red keycard**, medikit. A trap door in its west wall |
+| Supply room (east) | 1 Gunner, 1 Hollow, 1 Brute | 4 energy cell packs, 2 medikits, 2 boxes of grenades, 2 fuel canisters |
+| Red corridor | 1 Fiend |  |
+| The gate arena (north, behind the red door) | **The Gatekeeper** | Lava pools in the corners, stone pillars for cover, 3 energy cell packs, 2 medikits, **vital sphere**, **exit switch** on the north wall |
+| Secret room (east of the start) | none | Combat vest, 2 energy cell packs |
+
+### Route
+
+1. Go north into the approach hall and clear it.
+2. Take the east door into the supply room and stock up on cells for the rift cannon.
+3. Take the west door into the vault. Take the red keycard. The trap door in the west wall opens on a group.
+4. Optional: in the east wall of the start room, three scratched panels hide the secret room.
+5. Open the red door in the north wall of the hall and enter the arena. The Gatekeeper guards the exit switch. Use the pillars against his volleys, and expect him to teleport. Kill him, then use the exit switch.

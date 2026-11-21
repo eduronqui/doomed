@@ -6,7 +6,7 @@ All sprites are drawn in code and baked into one sprite sheet (`public/assets/sp
 
 **Play it:** https://doomed-nine.vercel.app/
 
-- Game rules, enemies, weapons, items and walkthroughs of all three levels: [docs/gameplay.md](docs/gameplay.md)
+- Game rules, enemies, weapons, items and walkthroughs of all twelve levels: [docs/gameplay.md](docs/gameplay.md)
 - How to add levels, characters, sprites, sounds, music and more: [docs/extending.md](docs/extending.md)
 - Ideas and plans under discussion (not built yet): [docs/ideas.md](docs/ideas.md)
 
@@ -92,16 +92,18 @@ src/
   levels/
     index.ts          LEVELS (play order), TRAINING, ALL_LEVELS, levelInfo()
     types.ts          LevelInfo and Tip types
-    levelN.ts         Level N settings (N = 1 to 3): title, briefing, darkness, par, music, loader
+    levelN.ts         Level N settings (N = 1 to 12): title, briefing, darkness, par, music, loader
     levelN.map.ts     Level N ASCII map
-    level1.heights.ts E1 height map (raised floor and stairs)
+    levelN.heights.ts Level N height map (raised floor and stairs), where the level has one
     levelN.music.ts   Level N music track
     training.ts       Training settings (tips, start loadout, alert-on-entry), shown once
     training.map.ts   Training ASCII map
     training.music.ts Training music track
     death.music.ts    Death screen music loop
 
-    Levels: 1 = E1: Outpost Breach, 2 = E2: Toxin Refinery, 3 = E3: Ember Gate.
+    Levels: 1 = E1: Outpost Breach, 2 = E2: Toxin Refinery, 3 = E3: Ember Gate, 4 = E4: Freight Lift,
+    5 = E5: Coolant Works, 6 = E6: Furnace Deck, 7 = E7: Hunting Grounds, 8 = E8: Arc Foundry,
+    9 = E9: Iron Bastion, 10 = E10: Drowned Pit, 11 = E11: The Gauntlet, 12 = E12: The Gate (boss).
   render/             Everything visual and audible
     GameScene.ts      Builds the map sprites, syncs them with the world, effects, input
     lighting.ts       Darkness overlay and colored glow
@@ -155,7 +157,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?god` | Take no damage; health and armor items stay on the floor |
 | `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |
 | `?pos=x,y` | Start the player on map cell (x, y) |
-| `?level=n` | Start on level n (1 to 3), or 0 for the training |
+| `?level=n` | Start on level n (1 to 12), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
 | `?noMonster` | Remove every monster at the start, to look around a level in peace |
 
