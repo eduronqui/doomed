@@ -2,7 +2,7 @@ import type { MonsterDef } from './types';
 
 export const SHOTGUNNER: MonsterDef = {
   kind: 'shotgunner',
-  name: 'Shotgun Husk',
+  name: 'Husk',
   hp: 30,
   speed: 2.1,
   radius: 0.3,

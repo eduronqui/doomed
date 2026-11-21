@@ -236,7 +236,7 @@ A dead soldier with a sidearm. It is weak, but it shoots from range.
 
 ### Shotgun Husk
 
-A dead soldier with a pump shotgun. Its uniform is darker green, and you see the shotgun in its hands.
+A dead soldier with a pump shotgun. Its uniform is darker green, and you see the shotgun in its hands. Its label reads "Husk", the same as the plain Husk. Only its look and its gun tell them apart. These docs call it the Shotgun Husk.
 
 - It fires the Marine's pump shotgun: 7 pellets with the shotgun sound and spread. Up close, most pellets hit, so it hurts. From far away, most pellets miss.
 - It has a longer wind-up and a longer time between shots than the Husk. Close in or take cover between its shots.
