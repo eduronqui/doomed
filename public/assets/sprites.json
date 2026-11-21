@@ -642,7 +642,7 @@
     },
     "actor_gatekeeper_e_0": {
       "frame": {
-        "x": 265,
+        "x": 298,
         "y": 1,
         "w": 64,
         "h": 64
@@ -662,7 +662,7 @@
     },
     "actor_gatekeeper_e_1": {
       "frame": {
-        "x": 330,
+        "x": 363,
         "y": 1,
         "w": 64,
         "h": 64
@@ -682,7 +682,7 @@
     },
     "actor_gatekeeper_e_2": {
       "frame": {
-        "x": 395,
+        "x": 428,
         "y": 1,
         "w": 64,
         "h": 64
@@ -702,7 +702,7 @@
     },
     "actor_gatekeeper_e_3": {
       "frame": {
-        "x": 460,
+        "x": 493,
         "y": 1,
         "w": 64,
         "h": 64
@@ -722,7 +722,7 @@
     },
     "actor_gatekeeper_n_0": {
       "frame": {
-        "x": 525,
+        "x": 558,
         "y": 1,
         "w": 64,
         "h": 64
@@ -742,7 +742,7 @@
     },
     "actor_gatekeeper_n_1": {
       "frame": {
-        "x": 590,
+        "x": 623,
         "y": 1,
         "w": 64,
         "h": 64
@@ -762,7 +762,7 @@
     },
     "actor_gatekeeper_n_2": {
       "frame": {
-        "x": 655,
+        "x": 688,
         "y": 1,
         "w": 64,
         "h": 64
@@ -782,7 +782,7 @@
     },
     "actor_gatekeeper_n_3": {
       "frame": {
-        "x": 720,
+        "x": 753,
         "y": 1,
         "w": 64,
         "h": 64
@@ -802,7 +802,7 @@
     },
     "actor_gatekeeper_s_0": {
       "frame": {
-        "x": 785,
+        "x": 818,
         "y": 1,
         "w": 64,
         "h": 64
@@ -822,7 +822,7 @@
     },
     "actor_gatekeeper_s_1": {
       "frame": {
-        "x": 850,
+        "x": 883,
         "y": 1,
         "w": 64,
         "h": 64
@@ -842,7 +842,7 @@
     },
     "actor_gatekeeper_s_2": {
       "frame": {
-        "x": 915,
+        "x": 948,
         "y": 1,
         "w": 64,
         "h": 64
@@ -6182,7 +6182,7 @@
     },
     "doorpiece_blue_1x3": {
       "frame": {
-        "x": 67,
+        "x": 100,
         "y": 1,
         "w": 32,
         "h": 120
@@ -6222,7 +6222,7 @@
     },
     "doorpiece_normal_1x3": {
       "frame": {
-        "x": 100,
+        "x": 133,
         "y": 1,
         "w": 32,
         "h": 120
@@ -6262,7 +6262,7 @@
     },
     "doorpiece_red_1x3": {
       "frame": {
-        "x": 133,
+        "x": 166,
         "y": 1,
         "w": 32,
         "h": 120
@@ -6302,7 +6302,7 @@
     },
     "doorpiece_secret_stone_1x3": {
       "frame": {
-        "x": 166,
+        "x": 199,
         "y": 1,
         "w": 32,
         "h": 120
@@ -6342,7 +6342,7 @@
     },
     "doorpiece_secret_tech_1x3": {
       "frame": {
-        "x": 199,
+        "x": 232,
         "y": 1,
         "w": 32,
         "h": 120
@@ -6380,6 +6380,26 @@
         "h": 56
       }
     },
+    "doorpiece_trap_stone_1x5": {
+      "frame": {
+        "x": 1,
+        "y": 1,
+        "w": 32,
+        "h": 184
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 184
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 184
+      }
+    },
     "doorpiece_trap_stone_5x1": {
       "frame": {
         "x": 651,
@@ -6402,7 +6422,7 @@
     },
     "doorpiece_trap_tech_1x4": {
       "frame": {
-        "x": 34,
+        "x": 67,
         "y": 1,
         "w": 32,
         "h": 152
@@ -6422,7 +6442,7 @@
     },
     "doorpiece_trap_tech_1x5": {
       "frame": {
-        "x": 1,
+        "x": 34,
         "y": 1,
         "w": 32,
         "h": 184
@@ -6462,7 +6482,7 @@
     },
     "doorpiece_yellow_1x3": {
       "frame": {
-        "x": 232,
+        "x": 265,
         "y": 1,
         "w": 32,
         "h": 120

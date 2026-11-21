@@ -1,0 +1,46 @@
+export const LEVEL12_MAP = String.raw`
+
+          %%%%%%%%%%%%%%%%%%%%%%E%%%%%%%%%%%%%%%%%%%%%%
+          %trrrrrrrrrrrrrrrrrrtrrrtrrrrrrrrrrrrrrrrrrt%
+          %rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%
+          %rr======rrrrrrrrrrrrrZrrrrrrrrrrrrr======rr%
+          %rr======rrrrrrrrrrrrrrrrrrrrrrrrrrr======rr%
+          %rr======rrrrrrrrr%rrrrrrr%rrrrrrrrr======rr%
+          %rr======rrrrrrrrrrrrrrrrrrrrrrrrrrr======rr%
+          %rr======rrrrrrrrrrrrrrrrrrrrrrrrrrr======rr%
+          %rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%
+          %rrrrrrrrrrr%rrrrrrrrrrrrrrrrrrr%rrrrrrrrrrr%
+          %rerrrrrrrrr%rrrrrrrrrrrrrrrrrrr%rrrrrrrrrer%
+          %rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%
+          %rrrrrrrrrrrrrrrrrrrrrvrrrrrrrrrrrrrrrrrrrrr%
+          %rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%
+          %rr======rrrrrrrrr%rrrrrrr%rrrrrrrrr======rr%
+          %rr======rrrrrrrrrrrrrrrrrrrrrrrrrrr======rr%
+          %rr======rrrrrrrrrrrrrrrrrrrrrrrrrrr======rr%
+          %rr======rrrrrrrrrrrrrrrrrrrrrrrrrrr======rr%
+          %rrrrrrrrrmrrrrrrrrrrrerrrrrrrrrrrmrrrrrrrrr%
+          %trrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrt%
+          %%%%%%%%%%%%%%%%%%%%%DDD%%%%%%%%%%%%%%%%%%%%%
+                              %rrr%
+                              %rfr%
+                              %rrr%
+                              %rrr%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%RRR%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %rrrrrrrrrrrmr%trrrrrrrrrrrrrrrrrrrrrrrrrr%rnrrrrrrrrrrt%
+%%%%%rkrrrrrrrrrrr%rrrrrrrhrrrrrrrVrrrrrrrMrrr%rrrerrrerrrer%
+%rrrTrrrrrrrrrrrrr%rrrrrrrrrrrrrrrrrrrrrrrrrrr%rrrrrrrrrrrrr%
+%rrrTrrrrrrrrrrrrrDrrrrrwrrrrrhrrrrrrrrrrrrrrrDrrrrrrrrMrrrr%
+%rrrTrrrrrwrrrrrrrDrrrrrrrrrrrrrrrrrrrSrrrrrrrDrrrrrrrrrurrn%
+%rrrTrrrrrrrrrrrrrDrrrrrrrrrrrrrrrrrrrrrrrrrrrDrrrrrVrrrrrrr%
+%rrrTrrrrrrrrrrrrr%rrrrrrrrrSrrrrrrrrrrrrrrrsr%rrrrrrrrrrbrr%
+%%%%%rrrfrrrrrSrrr%rHrrrrrrrrrrrrrrrhrrrrrrrrr%rrrmrrrmrrrer%
+    %trrrrrrrrrrrr%rrrnrrrrrrrrrrrrrrrrrrrrrrt%rurrrrrrrrrrr%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%DDD%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                        %trrrrrrrrrrrt%
+                        %rmrrrrrrrrrar%%%%%%%
+                        %rrrrrrrrrrrrrX?e???%
+                        %rrrrrrPrrrrrrX??a??%
+                        %rrrrrrrrrrrrrX?????%
+                        %rerrrrrrrrrer%???e?%
+                        %%%%%%%%%%%%%%%%%%%%%
+`;
