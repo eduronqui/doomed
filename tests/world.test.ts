@@ -253,6 +253,16 @@ describe('World', () => {
     expect(fiend.state).toBe('hold');
   });
 
+  it('lets a holding fiend that faces away look around and find the player again', () => {
+    const w = new World(parseLevel('t', '##########\n#P.....f.#\n##########'), 3);
+    const fiend = w.monsters[0];
+    fiend.state = 'hold';
+    fiend.angle = 0;
+    fiend.turnTo = 0;
+    run(w, 4);
+    expect(fiend.state).not.toBe('hold');
+  });
+
   it('starts resting after 10 still seconds, then recovers 1 hp every 2 seconds', () => {
     const w = new World(parseLevel('t', '##########\n#P.......#\n####D#####\n#....h...#\n##########'));
     w.player.health = 20;

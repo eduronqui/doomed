@@ -248,7 +248,7 @@ A dead soldier with a pump shotgun. Its uniform is darker green, and you see the
 A spiked brown demon. It throws fireballs and claws when you are close.
 
 - **Restless watcher.** While calm, it looks around often and fast, and it can turn to look behind itself. It is hard to sneak past a calm Fiend.
-- **Trait: it holds its position.** When it loses sight of you, it stops at once and faces the place where it last saw you. It follows you again only when it sees you. A shot from out of its sight wakes it, but it still holds.
+- **Trait: it holds its position.** When it loses sight of you, it stops at once and faces the place where it last saw you. While it holds, it keeps turning its head like a calm Fiend, so it can find you again from any side. It follows you again only when it sees you. A shot from out of its sight wakes it, but it still holds.
 - **Crates hide you from Fiends.** If a crate comes between you and a Fiend, it loses sight of you and holds.
 - Its fireball flies at 7.5 tiles per second. You can dodge it. A fireball explodes on walls, crates, barrels, other enemies or you.
 - Before a fireball, a glow shows in its hands.

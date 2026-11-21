@@ -882,6 +882,7 @@ export class World {
         return;
       case 'hold':
         if (m.seesPlayer) this.spot(m);
+        else this.lookAround(m, dt);
         return;
       case 'wander':
         if (m.seesPlayer) this.spot(m);
