@@ -173,6 +173,7 @@ function applyHeights(name: string, tiles: Tile[], width: number, height: number
       if (h === undefined) continue;
       const t = tiles[y * width + x];
       if (t.type !== 'floor' && t.type !== 'door') throw new Error(`Height '${c}' at ${x},${y} in ${name} is not on floor`);
+      if (h === 1 && FLOOR_HAZARD[t.floor] > 0) throw new Error(`Raised floor at ${x},${y} in ${name} cannot be slime or lava`);
       t.height = h;
     }
   }

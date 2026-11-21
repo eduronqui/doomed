@@ -316,19 +316,14 @@ export class GameScene extends Phaser.Scene {
       const tex = this.textures.createCanvas(name, g.width * TILE, TILE + RAISE)!;
       const ctx = tex.context;
       ctx.imageSmoothingEnabled = false;
-      const draw = (frameKey: string, sx: number, sy: number, w: number, h: number, dx: number, dy: number): void => {
-        const fr = this.textures.getFrame(ATLAS, frameKey);
-        ctx.drawImage(fr.source.image as CanvasImageSource, fr.cutX + sx, fr.cutY + sy, w, h, dx, dy, w, h);
-      };
       drawRaisedRow(
-        ctx,
         g,
         y,
-        (cx, cy, sx, sy, w, h, dx, dy) => {
-          const t = g.tiles[g.index(cx, cy)];
-          draw(key.floor(t.floor, floorVariant(t, cx, cy)), sx, sy, w, h, dx, dy);
+        (cx, cy) => floorVariant(g.tiles[g.index(cx, cy)], cx, cy),
+        (frameKey, dx, dy) => {
+          const fr = this.textures.getFrame(ATLAS, frameKey);
+          ctx.drawImage(fr.source.image as CanvasImageSource, fr.cutX, fr.cutY, fr.cutWidth, fr.cutHeight, dx, dy, fr.cutWidth, fr.cutHeight);
         },
-        (floor, sx, sy, w, h, dx, dy) => draw(key.floor(floor, 0), sx, sy, w, h, dx, dy),
       );
       tex.refresh();
       this.add.image(0, y * TILE - RAISE, name).setOrigin(0).setDepth((y + 1) * TILE);

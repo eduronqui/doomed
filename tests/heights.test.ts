@@ -25,6 +25,10 @@ describe('raised floor', () => {
     expect(() => parseLevel('t', '#########\n#P......#\n#.......#\n#.......#\n#########', heights)).toThrow(/must join/);
   });
 
+  it('rejects raised slime or lava', () => {
+    expect(() => parseLevel('t', '#########\n#P...~~.#\n#.......#\n#.......#\n#########', PLATFORM)).toThrow(/slime or lava/);
+  });
+
   it('rejects a height on a wall', () => {
     const heights = ['1        ', '         ', '         ', '         ', '         '].join('\n');
     expect(() => parseLevel('t', '#########\n#P......#\n#.......#\n#.......#\n#########', heights)).toThrow(/not on floor/);

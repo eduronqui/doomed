@@ -1,17 +1,16 @@
 import type { Grid } from '../sim/grid';
 import { STAIR_HEIGHT, type FloorKind } from '../sim/level';
+import { RAISE, type StairDir, type StairFloor } from './art/raised';
 import { TILE } from './art/tiles';
+import { key } from './atlas';
 
-export const RAISE = 12;
-const STEPS = 4;
-const STEP = TILE / STEPS;
-const STEP_RISE = RAISE / STEPS;
+export { RAISE };
 const LEDGE = 0.5;
 
-export type DrawFloorPart = (cellX: number, cellY: number, sx: number, sy: number, w: number, h: number, dx: number, dy: number) => void;
-export type DrawPlate = (floor: FloorKind, sx: number, sy: number, w: number, h: number, dx: number, dy: number) => void;
+export type VariantOf = (cellX: number, cellY: number) => number;
+export type DrawFrame = (frameKey: string, dx: number, dy: number) => void;
 
-const PLATE: Partial<Record<FloorKind, FloorKind>> = { grate: 'metal', slime: 'concrete', lava: 'rock' };
+const PLATE: Record<FloorKind, StairFloor> = { metal: 'metal', concrete: 'concrete', rock: 'rock', grate: 'metal', slime: 'concrete', lava: 'rock' };
 
 function heightOf(grid: Grid, x: number, y: number): number | null {
   const t = grid.tile(x, y);
@@ -55,82 +54,31 @@ export function drawLowShadows(ctx: CanvasRenderingContext2D, grid: Grid): void 
   }
 }
 
-function drawPlatform(ctx: CanvasRenderingContext2D, grid: Grid, x: number, y: number, drawFloorPart: DrawFloorPart): void {
+function drawPlatform(grid: Grid, x: number, y: number, variantOf: VariantOf, drawFrame: DrawFrame): void {
   const px = x * TILE;
-  drawFloorPart(x, y, 0, 0, TILE, TILE, px, 0);
-  ctx.fillStyle = 'rgba(255,236,210,0.08)';
-  ctx.fillRect(px, 0, TILE, TILE);
-  drawFloorPart(x, y, 0, TILE - RAISE, TILE, RAISE, px, TILE);
-  ctx.fillStyle = 'rgba(0,0,0,0.55)';
-  ctx.fillRect(px, TILE, TILE, RAISE);
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.fillRect(px, TILE, TILE, 1);
-  if ((heightOf(grid, x, y - 1) ?? 1) < 1 - LEDGE) {
-    ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.fillRect(px, 0, TILE, 2);
-  }
+  const floor = grid.tile(x, y)!.floor;
+  const v = variantOf(x, y);
+  drawFrame(key.raisedTop(floor, v), px, 0);
+  drawFrame(key.raisedFace(floor, v), px, TILE);
+  if ((heightOf(grid, x, y - 1) ?? 1) < 1 - LEDGE) drawFrame(key.ledgeRim(false), px, 0);
   for (const side of [-1, 1]) {
     if ((heightOf(grid, x + side, y) ?? 1) >= 1 - LEDGE) continue;
-    ctx.fillStyle = 'rgba(255,255,255,0.3)';
-    ctx.fillRect(side < 0 ? px : px + TILE - 2, 0, 2, TILE);
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
-    ctx.fillRect(side < 0 ? px : px + TILE - 1, TILE, 1, RAISE);
+    drawFrame(key.ledgeRim(true), side < 0 ? px : px + TILE - 2, 0);
+    drawFrame(key.ledgeSide(), side < 0 ? px : px + TILE - 1, TILE);
   }
 }
 
-function drawTread(ctx: CanvasRenderingContext2D, plate: FloorKind, drawPlate: DrawPlate, sx: number, sy: number, w: number, h: number, dx: number, dy: number): void {
-  drawPlate(plate, sx, sy, w, h, dx, dy);
-  ctx.fillStyle = 'rgba(255,255,255,0.1)';
-  ctx.fillRect(dx, dy, w, h);
-}
-
-function drawStairs(ctx: CanvasRenderingContext2D, grid: Grid, x: number, y: number, drawPlate: DrawPlate): void {
-  const px = x * TILE;
+function drawStairs(grid: Grid, x: number, y: number, drawFrame: DrawFrame): void {
   const [ux, uy] = upSide(grid, x, y);
   const top = grid.tile(x + ux, y + uy)!.floor;
-  const plate = PLATE[top] ?? top;
-  if (uy < 0) {
-    for (let k = STEPS - 1; k >= 0; k--) {
-      const ty = RAISE + (STEPS - 1 - k) * STEP - STEP_RISE * (k + 1);
-      drawTread(ctx, plate, drawPlate, 0, (STEPS - 1 - k) * STEP, TILE, STEP, px, ty);
-      drawPlate(plate, 0, TILE - STEP_RISE, TILE, STEP_RISE, px, ty + STEP);
-      ctx.fillStyle = 'rgba(0,0,0,0.42)';
-      ctx.fillRect(px, ty + STEP, TILE, STEP_RISE);
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
-      ctx.fillRect(px, ty + STEP, TILE, 1);
-    }
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
-    ctx.fillRect(px, 0, 1, TILE + RAISE);
-    ctx.fillRect(px + TILE - 1, 0, 1, TILE + RAISE);
-  } else if (uy > 0) {
-    for (let k = 0; k < STEPS; k++) {
-      const ty = RAISE + k * STEP - STEP_RISE * (k + 1);
-      drawTread(ctx, plate, drawPlate, 0, k * STEP, TILE, STEP, px, ty);
-      ctx.fillStyle = 'rgba(0,0,0,0.35)';
-      ctx.fillRect(px, ty, TILE, 1);
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
-      ctx.fillRect(px, ty + 1, TILE, 1);
-    }
-  } else {
-    for (let k = 0; k < STEPS; k++) {
-      const col = ux > 0 ? k : STEPS - 1 - k;
-      const cx = px + col * STEP;
-      const lift = STEP_RISE * (k + 1);
-      drawTread(ctx, plate, drawPlate, col * STEP, 0, STEP, TILE, cx, RAISE - lift);
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
-      ctx.fillRect(ux > 0 ? cx : cx + STEP - 1, RAISE - lift, 1, TILE);
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
-      ctx.fillRect(cx, RAISE - lift, STEP, 1);
-      ctx.fillStyle = 'rgba(0,0,0,0.55)';
-      ctx.fillRect(cx, TILE + RAISE - lift, STEP, lift);
-    }
-  }
+  const up: StairDir = uy < 0 ? 'n' : uy > 0 ? 's' : ux < 0 ? 'w' : 'e';
+  drawFrame(key.stairs(PLATE[top], up), x * TILE, 0);
 }
 
-export function drawRaisedRow(ctx: CanvasRenderingContext2D, grid: Grid, y: number, drawFloorPart: DrawFloorPart, drawPlate: DrawPlate): void {
+export function drawRaisedRow(grid: Grid, y: number, variantOf: VariantOf, drawFrame: DrawFrame): void {
   for (let x = 0; x < grid.width; x++) {
     const h = heightOf(grid, x, y);
-    if (h === STAIR_HEIGHT) drawStairs(ctx, grid, x, y, drawPlate);
-    else if (h !== null && h > 0) drawPlatform(ctx, grid, x, y, drawFloorPart);
+    if (h === STAIR_HEIGHT) drawStairs(grid, x, y, drawFrame);
+    else if (h !== null && h > 0) drawPlatform(grid, x, y, variantOf, drawFrame);
   }
 }

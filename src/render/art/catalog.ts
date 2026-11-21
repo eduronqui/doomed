@@ -9,6 +9,7 @@ import { packSheet, type Sheet } from '../sheet';
 import { CHARACTERS, CHARACTER_ART, DIRS, FRAMES } from '../../characters/art';
 import { FLOOR_VARIANTS, WALL_VARIANTS, key } from '../atlas';
 import { barrelTexture, bloodFx, decoTexture, explosion, fireball, itemTexture, muzzle, puff, scorch } from './items';
+import { RAISED_FLOORS, STAIR_DIRS, STAIR_FLOORS, ledgeRimTexture, ledgeSideTexture, raisedFaceTexture, raisedTopTexture, stairsTexture } from './raised';
 import { doorPiece, exitTexture, floorTexture, hiddenPiece, wallTexture } from './tiles';
 
 function addDoorPieces(art: Map<string, Pix>): void {
@@ -31,6 +32,16 @@ export function buildArt(): Map<string, Pix> {
   const floors: FloorKind[] = ['metal', 'concrete', 'grate', 'rock', 'slime', 'lava'];
   for (const f of floors) for (let v = 0; v < FLOOR_VARIANTS; v++) art.set(key.floor(f, v), floorTexture(f, v));
   for (const w of ['tech', 'stone'] as const) for (let v = 0; v < WALL_VARIANTS[w]; v++) art.set(key.wall(w, v), wallTexture(w, v));
+  for (const f of STAIR_FLOORS) for (const d of STAIR_DIRS) art.set(key.stairs(f, d), stairsTexture(f, d));
+  for (const f of RAISED_FLOORS) {
+    for (let v = 0; v < FLOOR_VARIANTS; v++) {
+      art.set(key.raisedTop(f, v), raisedTopTexture(f, v));
+      art.set(key.raisedFace(f, v), raisedFaceTexture(f, v));
+    }
+  }
+  art.set(key.ledgeRim(false), ledgeRimTexture(false));
+  art.set(key.ledgeRim(true), ledgeRimTexture(true));
+  art.set(key.ledgeSide(), ledgeSideTexture());
   addDoorPieces(art);
   for (const wall of ['tech', 'stone'] as const) {
     art.set(key.exit(wall, false), exitTexture(wall, false));
