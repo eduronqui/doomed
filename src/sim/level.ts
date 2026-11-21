@@ -12,6 +12,7 @@ export interface Tile {
   wall: WallKind;
   door: DoorKind | null;
   secretId: number;
+  height: number;
 }
 
 export type SpawnKind = 'player' | 'barrel' | MonsterKind | ItemKind | DecoKind;
@@ -88,8 +89,11 @@ export const FLOOR_HAZARD: Record<FloorKind, number> = {
 };
 
 function floorTile(floor: FloorKind, secretId = -1): Tile {
-  return { type: 'floor', floor, wall: 'tech', door: null, secretId };
+  return { type: 'floor', floor, wall: 'tech', door: null, secretId, height: 0 };
 }
+
+export const STAIR_HEIGHT = 0.5;
+const HEIGHT_CHARS: Record<string, number> = { '1': 1, '/': STAIR_HEIGHT };
 
 function wallOfNeighbours(rows: string[], x: number, y: number): WallKind {
   for (const [dx, dy] of [
@@ -105,8 +109,12 @@ function wallOfNeighbours(rows: string[], x: number, y: number): WallKind {
   return 'tech';
 }
 
-export function parseLevel(name: string, map: string): LevelData {
-  const rows = map.split('\n').filter((r, i, all) => !(r.trim() === '' && (i === 0 || i === all.length - 1)));
+function mapRows(map: string): string[] {
+  return map.split('\n').filter((r, i, all) => !(r.trim() === '' && (i === 0 || i === all.length - 1)));
+}
+
+export function parseLevel(name: string, map: string, heightMap?: string): LevelData {
+  const rows = mapRows(map);
   const height = rows.length;
   const width = Math.max(...rows.map((r) => r.length));
   const tiles: Tile[] = [];
@@ -116,8 +124,8 @@ export function parseLevel(name: string, map: string): LevelData {
     for (let x = 0; x < width; x++) {
       const c = rows[y][x] ?? ' ';
       let tile: Tile;
-      if (c === ' ') tile = { type: 'void', floor: 'metal', wall: 'tech', door: null, secretId: -1 };
-      else if (c === '#' || c === '%') tile = { type: 'wall', floor: 'metal', wall: c === '%' ? 'stone' : 'tech', door: null, secretId: -1 };
+      if (c === ' ') tile = { type: 'void', floor: 'metal', wall: 'tech', door: null, secretId: -1, height: 0 };
+      else if (c === '#' || c === '%') tile = { type: 'wall', floor: 'metal', wall: c === '%' ? 'stone' : 'tech', door: null, secretId: -1, height: 0 };
       else if (c in DOOR_CHARS) {
         const under = tiles[y * width + x - 1];
         tile = {
@@ -126,8 +134,9 @@ export function parseLevel(name: string, map: string): LevelData {
           wall: wallOfNeighbours(rows, x, y),
           door: DOOR_CHARS[c],
           secretId: -1,
+          height: 0,
         };
-      } else if (c === 'E') tile = { type: 'exit', floor: 'metal', wall: wallOfNeighbours(rows, x, y), door: null, secretId: -1 };
+      } else if (c === 'E') tile = { type: 'exit', floor: 'metal', wall: wallOfNeighbours(rows, x, y), door: null, secretId: -1, height: 0 };
       else if (FLOORS[c]) tile = floorTile(FLOORS[c], c === '?' ? 0 : -1);
       else if (SPAWNS[c]) {
         const left = x > 0 ? tiles[y * width + x - 1] : undefined;
@@ -137,6 +146,8 @@ export function parseLevel(name: string, map: string): LevelData {
       tiles.push(tile);
     }
   }
+
+  if (heightMap) applyHeights(name, tiles, width, height, heightMap.split('\n').filter((r, i, all) => !(r === '' && (i === 0 || i === all.length - 1))));
 
   tiles.forEach((t, i) => {
     if (t.type !== 'exit') return;
@@ -151,6 +162,39 @@ export function parseLevel(name: string, map: string): LevelData {
 
   const secretCount = labelSecrets(tiles, width, height);
   return { name, width, height, tiles, spawns, secretCount };
+}
+
+function applyHeights(name: string, tiles: Tile[], width: number, height: number, rows: string[]): void {
+  if (rows.length !== height) throw new Error(`Height map of ${name} has ${rows.length} rows, the map has ${height}`);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const c = rows[y][x] ?? ' ';
+      const h = HEIGHT_CHARS[c];
+      if (h === undefined) continue;
+      const t = tiles[y * width + x];
+      if (t.type !== 'floor' && t.type !== 'door') throw new Error(`Height '${c}' at ${x},${y} in ${name} is not on floor`);
+      if (h === 1 && FLOOR_HAZARD[t.floor] > 0) throw new Error(`Raised floor at ${x},${y} in ${name} cannot be slime or lava`);
+      t.height = h;
+    }
+  }
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const t = tiles[y * width + x];
+      if (t.height !== STAIR_HEIGHT) continue;
+      const around = [
+        [x + 1, y],
+        [x - 1, y],
+        [x, y + 1],
+        [x, y - 1],
+      ]
+        .filter(([nx, ny]) => nx >= 0 && ny >= 0 && nx < width && ny < height)
+        .map(([nx, ny]) => tiles[ny * width + nx])
+        .filter((n) => n.type === 'floor' || n.type === 'door');
+      if (!around.some((n) => n.height === 0) || !around.some((n) => n.height === 1)) {
+        throw new Error(`Stairs at ${x},${y} in ${name} must join low and raised floor`);
+      }
+    }
+  }
 }
 
 export const EXIT_GUARD_RADIUS = 5;

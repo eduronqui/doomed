@@ -187,6 +187,23 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 
 `parseLevel` rejects a map that breaks the exit rules or uses an unknown character. `tests/level.test.ts` checks the other rules for every level.
 
+### Raised floor (height map)
+
+A level can pass an optional height map as the third argument of `parseLevel`: `parseLevel('Outpost Breach', LEVEL1_MAP, LEVEL1_HEIGHTS)`. The height map has the same rows and columns as the map. Keep it in its own file, for example `level1.heights.ts`.
+
+| Char | Meaning |
+| --- | --- |
+| `1` | Raised floor, one step up (as tall as a crate) |
+| `/` | Stairs between low and raised floor |
+| anything else | Low floor (the default) |
+
+- Heights go only on floor or door cells. Raised floor cannot be slime or lava.
+- Stairs must touch low floor and raised floor. The stairs face the raised side, and they take the look of the raised floor (grate stairs use metal).
+- Raised areas do not need stairs. A 1 x 1 pillar with an enemy on top is fine.
+- Blank rows count: the height map keeps empty first and last rows, so its rows line up with the map.
+
+`parseLevel` throws an error when a height breaks these rules. The rules for movement, shots and melee are in [gameplay.md](gameplay.md#raised-floor).
+
 ### Tip: draw maps with a script
 
 The maps in this game were drawn with small scripts that place rectangles (rooms), fill areas (lava, slime) and put entities at coordinates. This is easier than typing a 64 x 44 grid by hand. Paste the output into the `.map.ts` file.

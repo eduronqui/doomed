@@ -62,6 +62,7 @@ export function findPath(
   tx: number,
   ty: number,
   maxNodes = 3000,
+  canStep: (ax: number, ay: number, bx: number, by: number) => boolean = () => true,
 ): Vec[] | null {
   if (sx === tx && sy === ty) return [];
   const size = width * height;
@@ -95,7 +96,8 @@ export function findPath(
       const ni = ny * width + nx;
       if (closed[ni]) continue;
       if (ni !== goal && !passable(nx, ny)) continue;
-      if (dx !== 0 && dy !== 0 && (!passable(cx + dx, cy) || !passable(cx, cy + dy))) continue;
+      if (!canStep(cx, cy, nx, ny)) continue;
+      if (dx !== 0 && dy !== 0 && (!passable(cx + dx, cy) || !passable(cx, cy + dy) || !canStep(cx, cy, cx + dx, cy) || !canStep(cx, cy, cx, cy + dy) || !canStep(cx + dx, cy, cx, cy + dy))) continue;
       const ng = g[cur] + cost;
       if (ng < g[ni]) {
         g[ni] = ng;

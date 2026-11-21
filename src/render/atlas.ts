@@ -14,6 +14,11 @@ export const WALL_VARIANTS: Record<'tech' | 'stone', number> = { tech: 4, stone:
 export const key = {
   floor: (k: FloorKind, v: number): string => `floor_${k}_${v}`,
   wall: (k: 'tech' | 'stone', v: number): string => `wall_${k}_${v}`,
+  stairs: (floor: string, up: string): string => `stairs_${floor}_${up}`,
+  raisedTop: (floor: string, v: number): string => `raised_top_${floor}_${v}`,
+  raisedFace: (floor: string, v: number): string => `raised_face_${floor}_${v}`,
+  ledgeRim: (vertical: boolean): string => `ledge_rim_${vertical ? 'v' : 'h'}`,
+  ledgeSide: (): string => 'ledge_side',
   doorPiece: (k: DoorKind, wall: 'tech' | 'stone', cellsW: number, cellsH: number): string =>
     k === 'secret' || k === 'trap' ? `doorpiece_${k}_${wall}_${cellsW}x${cellsH}` : `doorpiece_${k}_${cellsW}x${cellsH}`,
   exit: (wall: 'tech' | 'stone', on: boolean): string => `exit_${wall}_${on ? 'on' : 'off'}`,

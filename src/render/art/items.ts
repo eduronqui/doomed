@@ -85,6 +85,22 @@ export function barrelTexture(frame: number): Pix {
   return p.outline(OUTLINE);
 }
 
+const STENCIL: Record<string, string[]> = {
+  S: ['111', '1..', '111', '..1', '111'],
+  V: ['1.1', '1.1', '1.1', '1.1', '.1.'],
+  6: ['111', '1..', '111', '1.1', '111'],
+};
+
+function stencil(p: Pix, text: string, x: number, y: number, color: number): void {
+  [...text].forEach((ch, i) => {
+    STENCIL[ch].forEach((row, dy) => {
+      [...row].forEach((cell, dx) => {
+        if (cell === '1') p.set(x + i * 4 + dx, y + dy, color);
+      });
+    });
+  });
+}
+
 export function decoTexture(kind: DecoKind, frame: number): Pix {
   const rng = seeded(`deco${kind}`);
   switch (kind) {
@@ -108,8 +124,7 @@ export function decoTexture(kind: DecoKind, frame: number): Pix {
       p.rect(1, 30, 30, 13, front);
       p.rect(1, 30, 30, 1, shade(front, 0.3)).rect(1, 42, 30, 1, shade(front, -0.35));
       p.rect(1, 30, 2, 13, shade(front, 0.15)).rect(29, 30, 2, 13, shade(front, -0.3));
-      p.rect(9, 33, 14, 6, shade(front, -0.25));
-      p.rect(11, 35, 2, 2, 0xd8c060).rect(15, 35, 2, 2, 0xd8c060).rect(19, 35, 2, 2, 0xd8c060);
+      stencil(p, 'SV6', 11, 34, 0x7e1d14);
       return p.outline(OUTLINE);
     }
     case 'brazier': {

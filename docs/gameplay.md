@@ -333,6 +333,16 @@ In an unrevealed room you see no floor, monsters, items, light, sight cones or e
 
 The first hit comes when you step on the hazard. The next hits come once per second while you stay on it.
 
+## Raised floor
+
+Some areas stand one step above the floor, as tall as a crate: porches, platforms and pillars.
+
+- You climb up or down only on stairs. A ledge stops you, up and down. Enemies also use the stairs.
+- Shots, fireballs and sight cross between heights. An enemy on a porch shoots down at you, and you can shoot back from below.
+- Melee does not reach across a ledge. A Fiend on a porch cannot claw you from above, and your knife cannot reach it from below.
+- Standing right behind a raised area hides your legs, like a crate.
+- A raised area does not always have stairs. An enemy can stand on a pillar that you cannot climb.
+
 ## Barrels
 
 - A barrel has 20 health. Bullets, pellets, the knife, fireballs and explosions can hurt it.
@@ -393,7 +403,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- | --- |
 | Start bay (west) | none | 2 stimpacks, 1 clip |
 | Corridor east of the start | 1 Husk | |
-| Courtyard (slime river, grate bridge) | 4 Husks, 2 Fiends | Combat vest on a slime island (north-east), medikit, 2 clips, 4 barrels (3 in the north-west corner) |
+| Courtyard (slime river, grate bridge) | 4 Husks, 2 Fiends on a raised porch (south-east) | Combat vest on a slime island (north-east), medikit on the porch, 2 clips, 4 barrels (3 in the north-west corner). The porch has stairs on its west side. |
 | Lab (east of the courtyard) | 2 Husks, 3 Fiends, 1 Brute | **Red keycard** (north-east, on a grate platform), medikit, box of shells, clip, 2 barrels |
 | Storage room and its corridor (south of the courtyard) | 3 Husks, 2 Fiends, 1 Brute | **Pump shotgun** and 2 boxes of shells (south-west corner), medikit, stimpack, clip, 2 barrels, crates for cover |
 | Secret room (west of the storage room) | none | **Rotary gun**, **vital sphere**, 2 clips |
