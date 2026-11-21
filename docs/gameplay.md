@@ -302,6 +302,7 @@ Each level has one trap door. It looks exactly like a plain wall, with no scratc
 - When you take the trap keycard, the trap door opens with the normal door sound, stays open, and the whole group comes out to hunt you.
 - You cannot open a trap door any other way, and enemies cannot open it.
 - The enemies in the closet count in the kill total.
+- Two medikits lie on the back row of every trap closet, side by side around its middle. They count in the item total.
 
 | Level | Trap keycard | Recruit | Veteran | Doomed |
 | --- | --- | --- | --- | --- |

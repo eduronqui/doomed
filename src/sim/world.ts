@@ -615,6 +615,7 @@ export class World {
       this.face(m, Math.atan2(door.y + 0.5 - m.y, door.x + 0.5 - m.x));
       return m;
     });
+    this.placeClosetMedkits(trap, cells);
     const closetRoom = closets[0];
     this.ambush = {
       key: ambush.key,
@@ -628,6 +629,17 @@ export class World {
         embedded: this.isEmbedded(closet, closetRoom),
       },
     };
+  }
+
+  private placeClosetMedkits(trap: Door[], cells: { x: number; y: number }[]): void {
+    const horizontal = new Set(trap.map((d) => d.y)).size === 1;
+    const depth = (c: { x: number; y: number }): number => (horizontal ? Math.abs(c.y - 0.5 - trap[0].y) : Math.abs(c.x - 0.5 - trap[0].x));
+    const deepest = Math.max(...cells.map(depth));
+    const back = cells.filter((c) => depth(c) === deepest).sort((a, b) => (horizontal ? a.x - b.x : a.y - b.y));
+    if (back.length < 2) throw new Error(`Ambush closet in ${this.level.name} needs two free cells on its back row for the medkits`);
+    const mid = (back.length - 1) / 2;
+    const picks = back.length % 2 === 0 ? [mid - 0.5, mid + 0.5] : [mid - 1, mid + 1];
+    for (const i of picks) this.items.push({ id: this.nextId++, kind: 'medkit', x: back[i].x, y: back[i].y, taken: false, dropped: false });
   }
 
   private isEmbedded(closet: number[], closetRoom: number): boolean {

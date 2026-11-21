@@ -331,7 +331,7 @@ describe('World', () => {
   });
 
   describe('key ambush', () => {
-    const map = '#########\n#P.k....#\n#####T###\n    #.#\n    #.#\n    ###';
+    const map = '#########\n#P.k....#\n#####TT##\n    #..#\n    #..#\n    ####';
     const ambush = { key: 'red' as const, groups: { recruit: 'h', veteran: 'hh', doomed: 'hf' } };
     const make = (d = DIFFICULTIES[1]): World => new World(parseLevel('t', map), 1, d, undefined, { ambush });
     const trap = (w: World) => [...w.grid.doors.values()].find((d) => d.kind === 'trap')!;
@@ -359,12 +359,18 @@ describe('World', () => {
       expect(() => new World(parseLevel('t', narrow), 1, DIFFICULTIES[1], undefined, { ambush })).toThrow(/as wide as its closet/);
     });
 
+    it('leaves two medkits on the back row of the closet', () => {
+      const wide = '#########\n#P.k....#\n###TTT###\n  #...#\n  #...#\n  #####';
+      const medkits = new World(parseLevel('t', wide), 1, DIFFICULTIES[1], undefined, { ambush }).items.filter((i) => i.kind === 'medkit');
+      expect(medkits.map((i) => [i.x, i.y])).toEqual([[3.5, 4.5], [5.5, 4.5]]);
+    });
+
     it('treats a closet that sticks out of the room as unknown area', () => {
       expect(make().hiddenCloset()!.embedded).toBe(false);
     });
 
     it('treats a closet walled in by rooms as part of the wall', () => {
-      const inside = '#########\n#P.k....#\n#..#T#..#\n#..#.#..#\n#..#.#..#\n#..###..#\n#.......#\n#########';
+      const inside = '##########\n#P.k.....#\n#..#TT#..#\n#..#..#..#\n#..#..#..#\n#..####..#\n#........#\n##########';
       expect(new World(parseLevel('t', inside), 1, DIFFICULTIES[1], undefined, { ambush }).hiddenCloset()!.embedded).toBe(true);
     });
 
@@ -389,6 +395,7 @@ describe('World', () => {
       const plain = new World(info.load(), 1, d).monsters.length;
       const w = new World(info.load(), 1, d, undefined, { ambush: info.ambush });
       expect(w.monsters.length - plain).toBe(info.ambush!.groups[d.id].length);
+      expect(w.items.filter((i) => i.kind === 'medkit').length - new World(info.load(), 1, d).items.filter((i) => i.kind === 'medkit').length).toBe(2);
       expect(w.monsters.slice(plain).every((m) => !w.isRevealedAt(m.x, m.y))).toBe(true);
     }
   });
