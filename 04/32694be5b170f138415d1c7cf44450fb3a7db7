@@ -1,0 +1,27 @@
+src/levels/index.ts
+  s_e549dc79ddcbfe::t_4e6293c7dac91d 9,18
+src/levels/level9.heights.ts
+  s_e549dc79ddcbfe::t_8ada1e4f1278ce 1-46
+src/levels/level9.map.ts
+  s_e549dc79ddcbfe::t_bae3472505daaf 1-46
+src/levels/level9.music.ts
+  s_e549dc79ddcbfe::t_ee727d7da78ee3 1-26
+src/levels/level9.ts
+  s_e549dc79ddcbfe::t_83f6cb981ebec6 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0432694be5b170f138415d1c7cf44450fb3a7db7",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
