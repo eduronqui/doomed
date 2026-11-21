@@ -463,7 +463,8 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | East wing (lava channels with one gap each) | 2 Shotgun Husks, 2 Fiends, 3 Shades | **Yellow keycard** (north-east corner), medikit, stimpack, box of shells, clip, crates |
 | Secret chamber (south of the east wing) | none | **Vital sphere**, combat vest, box of shells |
 | West wing (behind the yellow door) | 2 Husks, 2 Fiends, 3 Brutes, 1 Shade | **Red keycard** inside a lava moat (north-west), medikit, stimpack, box of shells, clip, 2 barrels |
-| Sanctum (north, behind the red door) | 1 Husk, 1 Shotgun Husk, 4 Fiends, 3 Brutes, 2 Shades | 2 medikits, box of shells, **exit switch** on the north wall |
+| Sanctum (north, behind the red door) | 1 Husk, 1 Shotgun Husk, 4 Fiends, 2 Brutes, 2 Shades | 2 medikits, box of shells, braziers |
+| End room (off the north-east corner of the sanctum) | 1 Brute | **Exit switch** on the north wall, 2 braziers |
 
 ### Route
 
@@ -472,4 +473,4 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 3. Optional: in the south wall of the east wing, three scratched panels hide the secret chamber.
 4. Go back to the hub and open the yellow door in its west wall.
 5. In the west wing, cross the lava moat at its gap in the north-west. Take the red keycard. A trap door in the north wall of the west wing, just east of the key, opens on a large group.
-6. Go back to the hub and open the red door in its north wall. Fight through the sanctum and use the exit switch between the braziers.
+6. Go back to the hub and open the red door in its north wall. Cross the sanctum to its north-east corner and open the door in the east wall. Beat the Brute in the small end room and use the exit switch.
