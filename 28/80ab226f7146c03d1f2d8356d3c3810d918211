@@ -1,0 +1,21 @@
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_84de8c7a70cb8b 239
+src/characters/shotgunner.ts
+  s_e549dc79ddcbfe::t_d67d4be7321a57 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2880ab226f7146c03d1f2d8356d3c3810d918211",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
