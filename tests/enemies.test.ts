@@ -122,7 +122,19 @@ describe('Gatekeeper', () => {
     expect(w.stats.kills).toBe(0);
   });
 
-  it('fires a ring of fireballs below one third of its health', () => {
+  it('teleports away after taking heavy damage, staying in its room', () => {
+    const w = tough(new World(parseLevel('t', arena), 2));
+    const boss = w.monsters[0];
+    hunt(boss);
+    boss.teleportTimer = 99;
+    const start = { x: boss.x, y: boss.y };
+    w.damageMonster(boss, 320, true);
+    w.update(1 / 60, IDLE_INPUT);
+    expect(Math.hypot(boss.x - start.x, boss.y - start.y)).toBeGreaterThan(0.5);
+    expect(w.grid.tile(Math.floor(boss.x), Math.floor(boss.y))!.type).toBe('floor');
+  });
+
+  it('fires a ring of bolts below one third of its health', () => {
     const w = tough(new World(parseLevel('t', arena), 2));
     const boss = w.monsters[0];
     hunt(boss);

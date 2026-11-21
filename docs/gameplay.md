@@ -208,11 +208,11 @@ All enemies show their name and a health bar above them. The name color changes 
 | | Gunner | Stalker | Warden | Hollow | Gatekeeper (boss) |
 | --- | --- | --- | --- | --- | --- |
 | Health | 70 | 80 | 220 | 90 | 2500 |
-| Speed (tiles/s) | 1.9 | 4.2 | 1.7 | 2.2 (floats) | 1.6 |
-| Attack | Rotary gun bursts of 6 shots | Claw, and a leap from up to 3.5 tiles | Claw, or a fireball | Slow homing wisp | Fireball volleys and a stomp |
-| Damage | 3 to 8 per shot | 8 to 22 | Claw 10 to 30, fireball 8 to 16 | 8 to 14 | Fireball 10 to 20, stomp 20 to 40 |
-| Attack range | 16 tiles | Contact | Fireball 10 tiles | 14 tiles | 20 tiles |
-| Special | Pins you down with long bursts | Circles you, then leaps in | Front shield blocks 80% of the damage | Ignores ledges, slime and lava | Three phases, cannot be backstabbed |
+| Speed (tiles/s) | 1.9 | 4.2 | 1.7 | 2.2 (floats) | 2 (floats) |
+| Attack | Rotary gun bursts of 6 shots | Claw, and a leap from up to 3.5 tiles | Claw, or a fireball | Slow homing wisp | Volleys of homing energy bolts |
+| Damage | 3 to 8 per shot | 8 to 22 | Claw 10 to 30, fireball 8 to 16 | 8 to 14 | 10 to 18 per bolt |
+| Attack range | 16 tiles | Contact | Fireball 10 tiles | 14 tiles | 22 tiles |
+| Special | Pins you down with long bursts | Circles you, then leaps in | Front shield blocks 80% of the damage | Ignores ledges, slime and lava | Teleports, three phases, cannot be backstabbed |
 | Drops | Clip (5 bullets) | nothing | Energy cell pack | nothing | nothing |
 | First appears in | Level 5 | Level 7 | Level 9 | Level 10 | Level 12 |
 
@@ -337,12 +337,14 @@ A hooded, floating shape with glowing eyes.
 
 ### Gatekeeper (boss)
 
-A giant obsidian demon with burning cracks. It guards the gate in level 12.
+A dark sorcerer in a long red-lined cape, with a crown of horns, glowing violet eyes and a staff. He floats above the floor and guards the gate in level 12.
 
-- It cannot be backstabbed and never staggers. It always knows where you are once it wakes.
-- **Phase 1 (full health to two thirds):** volleys of 3 fireballs, and a stomp at close range.
-- **Phase 2 (below two thirds):** volleys of 5 fireballs. Every 12 seconds it summons two Fiends at its sides, up to 4 at a time.
-- **Phase 3 (below one third):** volleys of 7 fireballs. It summons Stalkers instead of Fiends, and every 7 seconds it fires a ring of 12 fireballs in all directions.
+- He cannot be backstabbed and never staggers. Once he wakes, he always knows where you are.
+- He has no melee attack. He stays at range and hurls volleys of energy bolts that turn slowly toward you.
+- **He teleports.** He vanishes in a rift flash and reappears 5 to 10 tiles from you, in the same room: every 8 seconds in phase 1, every 6 in phase 2, every 4 in phase 3, and also after he takes 300 damage. Rushing him only makes him teleport.
+- **Phase 1 (full health to two thirds):** volleys of 3 bolts.
+- **Phase 2 (below two thirds):** volleys of 5 bolts. Every 12 seconds he summons two Fiends at his sides, up to 4 at a time.
+- **Phase 3 (below one third):** volleys of 7 bolts. He summons Stalkers instead of Fiends, and every 7 seconds he fires a ring of 12 bolts in all directions.
 - Summoned enemies do not count in the kill total.
 
 ## Sight layer

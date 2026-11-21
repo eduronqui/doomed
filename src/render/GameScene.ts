@@ -94,9 +94,10 @@ const PROJECTILE_LIGHT: Record<ProjectileLook, Light | null> = {
   orb: { x: 0, y: 0, r: 4, a: 1, color: [190, 90, 255], glow: 0.55 },
   grenade: null,
   wisp: { x: 0, y: 0, r: 2.2, a: 0.85, color: [150, 230, 255], glow: 0.4 },
+  bolt: { x: 0, y: 0, r: 2.4, a: 0.9, color: [230, 60, 200], glow: 0.45 },
 };
 const FLOAT_PX = 7;
-const LABEL_HEIGHT: Partial<Record<string, number>> = { brute: 28, warden: 28, shade: 28, gatekeeper: 60 };
+const LABEL_HEIGHT: Partial<Record<string, number>> = { brute: 28, warden: 28, shade: 28, gatekeeper: 62 };
 
 export class GameScene extends Phaser.Scene {
   private deps!: GameDeps;

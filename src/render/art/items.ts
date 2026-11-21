@@ -217,6 +217,15 @@ export function wisp(frame: number): Pix {
   return p;
 }
 
+export function bolt(frame: number): Pix {
+  const p = new Pix(16, 16);
+  p.ellipse(8, 8, frame === 0 ? 4.5 : 5, 3, (_x, _y, nx, ny) => {
+    const d = Math.hypot(nx, ny);
+    return d < 0.4 ? 0xfff0ff : d < 0.75 ? 0xf060d0 : 0x8a1070;
+  });
+  return p;
+}
+
 export function riftOrb(frame: number): Pix {
   const p = new Pix(24, 24);
   const r = frame === 0 ? 8 : 9;

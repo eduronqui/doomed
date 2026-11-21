@@ -123,7 +123,7 @@ Three close-range weapons (knife, shotgun, flamer), each of a different kind. Ne
 | Stalker | Fast leaper (the "Flanker" idea). Circles you and attacks from the side | Flamer, staying near walls |
 | Warden | Armored, with a front shield: little damage from the front | Flanking, backstab, arc rifle |
 | Hollow | Floats, so it ignores ledges and hazards. Fires slow homing orbs | Arc rifle, line-of-sight control |
-| **Boss** (level 12) | Gate guardian in its own arena, with phases (new attacks or adds at health thresholds) | Everything, rift cannon |
+| **Boss** (level 12) | Gatekeeper: a dark, caped, floating sorcerer who teleports and hurls energy bolts, with three phases (wider volleys, summons, a bolt ring). Inspired by the classic cartoon villain-sorcerer archetype, with an original look | Everything, rift cannon |
 
 Names and designs stay original. No recreations of well-known weapons or bosses from other games.
 

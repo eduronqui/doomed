@@ -127,6 +127,8 @@ export interface Monster {
   summonTimer: number;
   slamTimer: number;
   summoned: boolean;
+  teleportTimer: number;
+  hurtSinceTeleport: number;
 }
 
 export interface Item {
@@ -224,6 +226,11 @@ const BOSS_SUMMON_EVERY = 12;
 const BOSS_SLAM_EVERY = 7;
 const BOSS_MAX_ADDS = 4;
 const BOSS_RING = 12;
+const BOSS_RING_SHOT: ShotSpec = { look: 'bolt', speed: 6, count: 1, spread: 0, homing: 0, range: 26 };
+const BOSS_TELEPORT_EVERY = [8, 6, 4];
+const BOSS_TELEPORT_HURT = 300;
+const BOSS_TELEPORT_RANGE: [number, number] = [5, 10];
+const BOSS_TELEPORT_TRIES = 40;
 const BURN_TIME = 3;
 const BURN_DPS = 8;
 const BURN_TICK = 4;
@@ -979,6 +986,8 @@ export class World {
       summonTimer: BOSS_SUMMON_EVERY,
       slamTimer: BOSS_SLAM_EVERY,
       summoned: false,
+      teleportTimer: BOSS_TELEPORT_EVERY[0],
+      hurtSinceTeleport: 0,
     };
     this.monsters.push(m);
     return m;
@@ -1409,9 +1418,32 @@ export class World {
       if (m.slamTimer <= 0) {
         m.slamTimer = BOSS_SLAM_EVERY;
         this.sound('rift', m.x, m.y);
-        for (let i = 0; i < BOSS_RING; i++) this.enemyShot(m, (i / BOSS_RING) * Math.PI * 2, FIREBALL_SHOT);
+        for (let i = 0; i < BOSS_RING; i++) this.enemyShot(m, (i / BOSS_RING) * Math.PI * 2, BOSS_RING_SHOT);
       }
     }
+    m.teleportTimer -= dt;
+    if (m.teleportTimer <= 0 || m.hurtSinceTeleport >= BOSS_TELEPORT_HURT) this.teleport(m, BOSS_TELEPORT_EVERY[phase]);
+  }
+
+  private teleport(m: Monster, next: number): void {
+    const p = this.player;
+    const rooms = this.grid.roomsAt(m.x, m.y);
+    for (let i = 0; i < BOSS_TELEPORT_TRIES; i++) {
+      const x = Math.floor(m.x + this.rng.range(-BOSS_TELEPORT_RANGE[1], BOSS_TELEPORT_RANGE[1])) + 0.5;
+      const y = Math.floor(m.y + this.rng.range(-BOSS_TELEPORT_RANGE[1], BOSS_TELEPORT_RANGE[1])) + 0.5;
+      const d = dist(x, y, p.x, p.y);
+      if (d < BOSS_TELEPORT_RANGE[0] || d > BOSS_TELEPORT_RANGE[1] || !this.monsterPassable(Math.floor(x), Math.floor(y), true)) continue;
+      if (!this.grid.roomsAt(x, y).some((r) => rooms.includes(r))) continue;
+      this.effect('riftblast', m.x, m.y);
+      m.x = x;
+      m.y = y;
+      m.path = [];
+      this.effect('riftblast', x, y);
+      this.sound('rift', x, y);
+      break;
+    }
+    m.teleportTimer = next;
+    m.hurtSinceTeleport = 0;
   }
 
   private updateBurst(m: Monster, dt: number): boolean {
@@ -1479,6 +1511,7 @@ export class World {
     }
     m.hp -= amount;
     m.hurtTime = 0.15;
+    if (m.def.boss) m.hurtSinceTeleport += amount;
     this.events.push({ type: 'damage', x: m.x, y: m.y, amount, toPlayer: false });
     if (m.hp <= 0) {
       this.killMonster(m);

@@ -283,7 +283,7 @@ The simulation, sight cones, names, health bars and corpses work for the new kin
 | `leap` | Optional. `{ range, speed, time }`: it leaps at the player from up to `range` tiles |
 | `frontArmor` | Optional. Part of the damage (0 to 1) that its front shield blocks. The shield turns at `turnSpeed` (like the Warden) |
 | `floats` | Optional. If true, it ignores ledges and hazards and hovers above the floor (like the Hollow) |
-| `boss` | Optional. If true, it has the three Gatekeeper phases (wider volleys, summons, fireball ring), never staggers on backstabs and cannot be backstabbed |
+| `boss` | Optional. If true, it has the three Gatekeeper phases (wider volleys, summons, bolt ring), teleports around its room and cannot be backstabbed |
 
 ## 6. The marine
 

@@ -6920,6 +6920,46 @@
         "h": 16
       }
     },
+    "fx_bolt_0": {
+      "frame": {
+        "x": 733,
+        "y": 687,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    "fx_bolt_1": {
+      "frame": {
+        "x": 750,
+        "y": 687,
+        "w": 16,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      }
+    },
     "fx_burst_0": {
       "frame": {
         "x": 532,
@@ -7082,7 +7122,7 @@
     },
     "fx_fireball_0": {
       "frame": {
-        "x": 733,
+        "x": 767,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7102,7 +7142,7 @@
     },
     "fx_fireball_1": {
       "frame": {
-        "x": 750,
+        "x": 784,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7122,7 +7162,7 @@
     },
     "fx_flame_0": {
       "frame": {
-        "x": 767,
+        "x": 801,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7142,7 +7182,7 @@
     },
     "fx_flame_1": {
       "frame": {
-        "x": 784,
+        "x": 818,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7162,7 +7202,7 @@
     },
     "fx_flame_2": {
       "frame": {
-        "x": 801,
+        "x": 835,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7182,7 +7222,7 @@
     },
     "fx_grenade_0": {
       "frame": {
-        "x": 818,
+        "x": 852,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7202,7 +7242,7 @@
     },
     "fx_grenade_1": {
       "frame": {
-        "x": 835,
+        "x": 869,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7222,7 +7262,7 @@
     },
     "fx_muzzle_0": {
       "frame": {
-        "x": 852,
+        "x": 886,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7282,7 +7322,7 @@
     },
     "fx_puff_0": {
       "frame": {
-        "x": 869,
+        "x": 903,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7302,7 +7342,7 @@
     },
     "fx_puff_1": {
       "frame": {
-        "x": 886,
+        "x": 920,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7322,7 +7362,7 @@
     },
     "fx_puff_2": {
       "frame": {
-        "x": 903,
+        "x": 937,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7442,7 +7482,7 @@
     },
     "fx_wisp_0": {
       "frame": {
-        "x": 920,
+        "x": 954,
         "y": 687,
         "w": 16,
         "h": 16
@@ -7462,7 +7502,7 @@
     },
     "fx_wisp_1": {
       "frame": {
-        "x": 937,
+        "x": 971,
         "y": 687,
         "w": 16,
         "h": 16
@@ -8002,7 +8042,7 @@
     },
     "ledge_rim_h": {
       "frame": {
-        "x": 333,
+        "x": 366,
         "y": 720,
         "w": 32,
         "h": 2
@@ -8042,7 +8082,7 @@
     },
     "ledge_side": {
       "frame": {
-        "x": 331,
+        "x": 364,
         "y": 720,
         "w": 1,
         "h": 12
@@ -8062,7 +8102,7 @@
     },
     "raised_face_concrete_0": {
       "frame": {
-        "x": 954,
+        "x": 988,
         "y": 687,
         "w": 32,
         "h": 12
@@ -8082,26 +8122,6 @@
     },
     "raised_face_concrete_1": {
       "frame": {
-        "x": 987,
-        "y": 687,
-        "w": 32,
-        "h": 12
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 32,
-        "h": 12
-      },
-      "sourceSize": {
-        "w": 32,
-        "h": 12
-      }
-    },
-    "raised_face_concrete_2": {
-      "frame": {
         "x": 1,
         "y": 720,
         "w": 32,
@@ -8120,7 +8140,7 @@
         "h": 12
       }
     },
-    "raised_face_grate_0": {
+    "raised_face_concrete_2": {
       "frame": {
         "x": 34,
         "y": 720,
@@ -8140,7 +8160,7 @@
         "h": 12
       }
     },
-    "raised_face_grate_1": {
+    "raised_face_grate_0": {
       "frame": {
         "x": 67,
         "y": 720,
@@ -8160,7 +8180,7 @@
         "h": 12
       }
     },
-    "raised_face_grate_2": {
+    "raised_face_grate_1": {
       "frame": {
         "x": 100,
         "y": 720,
@@ -8180,7 +8200,7 @@
         "h": 12
       }
     },
-    "raised_face_metal_0": {
+    "raised_face_grate_2": {
       "frame": {
         "x": 133,
         "y": 720,
@@ -8200,7 +8220,7 @@
         "h": 12
       }
     },
-    "raised_face_metal_1": {
+    "raised_face_metal_0": {
       "frame": {
         "x": 166,
         "y": 720,
@@ -8220,7 +8240,7 @@
         "h": 12
       }
     },
-    "raised_face_metal_2": {
+    "raised_face_metal_1": {
       "frame": {
         "x": 199,
         "y": 720,
@@ -8240,7 +8260,7 @@
         "h": 12
       }
     },
-    "raised_face_rock_0": {
+    "raised_face_metal_2": {
       "frame": {
         "x": 232,
         "y": 720,
@@ -8260,7 +8280,7 @@
         "h": 12
       }
     },
-    "raised_face_rock_1": {
+    "raised_face_rock_0": {
       "frame": {
         "x": 265,
         "y": 720,
@@ -8280,9 +8300,29 @@
         "h": 12
       }
     },
-    "raised_face_rock_2": {
+    "raised_face_rock_1": {
       "frame": {
         "x": 298,
+        "y": 720,
+        "w": 32,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 12
+      }
+    },
+    "raised_face_rock_2": {
+      "frame": {
+        "x": 331,
         "y": 720,
         "w": 32,
         "h": 12
