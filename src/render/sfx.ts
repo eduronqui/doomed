@@ -68,6 +68,22 @@ export class Sfx {
         n(0.08, 'bandpass', 2600, 900, 0.75, 0, 0.9);
         o('square', 160, 70, 0.05, 0.25);
         break;
+      case 'launcher':
+        n(0.12, 'lowpass', 900, 200, 0.8, 0, 1.2);
+        o('triangle', 140, 60, 0.12, 0.35);
+        break;
+      case 'flame':
+        n(0.11, 'bandpass', 700, 1200, 0.35, 0, 0.8);
+        break;
+      case 'arc':
+        o('sawtooth', 1400, 300, 0.12, 0.18);
+        n(0.1, 'highpass', 3000, 5000, 0.4, 0, 1);
+        break;
+      case 'rift':
+        o('sine', 90, 30, 0.7, 0.5);
+        o('sawtooth', 600, 80, 0.5, 0.15);
+        n(0.6, 'lowpass', 1200, 150, 0.6, 0, 1);
+        break;
       case 'knife':
         n(0.13, 'bandpass', 2500, 6000, 0.45, 0, 2);
         break;

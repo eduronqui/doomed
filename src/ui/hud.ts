@@ -1,5 +1,5 @@
 import type { KeyColor } from '../sim/defs';
-import { MAX_AMMO, WEAPONS, WEAPON_ORDER, type WeaponId } from '../weapons';
+import { AMMO_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
 import type { MessageTone, World } from '../sim/world';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string): T => {
@@ -14,6 +14,8 @@ export function formatTime(seconds: number): string {
 }
 
 const KEY_COLORS: KeyColor[] = ['red', 'blue', 'yellow'];
+export const AMMO_ICON: Record<AmmoType, string> = { bullets: 'item_clip', shells: 'item_shells', grenades: 'item_grenades', fuel: 'item_fuel', cells: 'item_cells' };
+const AMMO_NAME: Record<AmmoType, string> = { bullets: 'Bullets', shells: 'Shells', grenades: 'Grenades', fuel: 'Fuel', cells: 'Cells' };
 
 const MINIMAP_COLORS = {
   wall: '#8a8478',
@@ -32,6 +34,7 @@ const MINIMAP_COLORS = {
 export class Hud {
   private cache = new Map<string, string>();
   private slots = new Map<WeaponId, { root: HTMLElement; ammo: HTMLElement }>();
+  private ammoViews = new Map<AmmoType, { slot: HTMLElement; value: HTMLElement }>();
   private minimap: HTMLCanvasElement;
   private explored: Uint8Array = new Uint8Array(0);
   private minimapTimer = 0;
@@ -72,8 +75,20 @@ export class Hud {
       slotRoot.append(root);
       this.slots.set(id, { root, ammo });
     }
-    $('inv-bullets').replaceChildren(this.icon(icons, 'item_clip'));
-    $('inv-shells').replaceChildren(this.icon(icons, 'item_shells'));
+    const ammoRoot = $('ammo-list');
+    ammoRoot.replaceChildren();
+    for (const type of AMMO_ORDER) {
+      const entry = document.createElement('div');
+      entry.className = 'ammo-entry';
+      entry.title = AMMO_NAME[type];
+      const slot = document.createElement('span');
+      slot.className = 'slot';
+      slot.append(this.icon(icons, AMMO_ICON[type]));
+      const value = document.createElement('b');
+      entry.append(slot, value);
+      ammoRoot.append(entry);
+      this.ammoViews.set(type, { slot, value });
+    }
     for (const color of KEY_COLORS) $(`inv-key-${color}`).replaceChildren(this.icon(icons, `item_${color}key`));
   }
 
@@ -103,11 +118,6 @@ export class Hud {
     this.hurt.style.opacity = '0';
   }
 
-  private setText(id: string, value: string): void {
-    if (this.cache.get(id) === value) return;
-    this.cache.set(id, value);
-    $(id).textContent = value;
-  }
 
   private setBar(cls: string, value: number, max: number, label: string): void {
     const key = `bar-${cls}`;
@@ -132,8 +142,12 @@ export class Hud {
       const ammoText = owned && ammoType ? String(p.ammo[ammoType]) : '';
       if (slot.ammo.textContent !== ammoText) slot.ammo.textContent = ammoText;
     }
-    this.setText('ammo-bullets', `${p.ammo.bullets}/${MAX_AMMO.bullets}`);
-    this.setText('ammo-shells', `${p.ammo.shells}/${MAX_AMMO.shells}`);
+    for (const [type, view] of this.ammoViews) {
+      const text = `${p.ammo[type]}/${MAX_AMMO[type]}`;
+      if (view.value.textContent !== text) view.value.textContent = text;
+      const cls = p.ammo[type] > 0 ? 'slot' : 'slot empty';
+      if (view.slot.className !== cls) view.slot.className = cls;
+    }
     for (const color of KEY_COLORS) {
       const cls = p.keys.has(color) ? 'slot' : 'slot empty';
       const slot = $(`inv-key-${color}`);

@@ -66,6 +66,13 @@ const SPAWNS: Record<string, SpawnKind> = {
   t: 'brazier',
   x: 'gore',
   z: 'body',
+  n: 'grenades',
+  u: 'fuel',
+  e: 'cells',
+  L: 'launcher',
+  F: 'flamer',
+  A: 'arc',
+  Q: 'rift',
 };
 
 const DOOR_CHARS: Record<string, DoorKind> = { D: 'normal', R: 'red', B: 'blue', Y: 'yellow', X: 'secret', T: 'trap' };

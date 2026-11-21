@@ -124,7 +124,7 @@ describe('parseLevel', () => {
   });
 
   it('rejects unknown characters', () => {
-    expect(() => parseLevel('bad', '###\n#Q#\n###')).toThrow(/Unknown map char/);
+    expect(() => parseLevel('bad', '###\n#!#\n###')).toThrow(/Unknown map char/);
   });
 
   it('copies floor and secret flag from the left neighbour to entity cells', () => {

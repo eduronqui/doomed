@@ -165,7 +165,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | --- | --- | --- | --- |
 | `P` | Player start | `+` | Stimpack |
 | `h` | Husk | `m` | Medikit |
-| `H` | Shotgun Husk | | |
+| `H` | Shotgun Husk | `n` | Box of grenades |
 | `f` | Fiend | `a` | Combat vest |
 | `b` | Brute | `v` | Vital sphere |
 | `g` | Shade | `c` | Clip of bullets |
@@ -175,6 +175,10 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `t` | Brazier (thin post, light) | `k` | Red keycard |
 | `x` | Gore decal | `j` | Blue keycard |
 | `z` | Body decal | `y` | Yellow keycard |
+| `u` | Fuel canister | `L` | Grenade launcher |
+| `e` | Energy cell pack | `F` | Flamer |
+| | | `A` | Arc rifle |
+| | | `Q` | Rift cannon |
 
 ### Rules
 

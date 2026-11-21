@@ -14,7 +14,7 @@ export const TRAINING: LevelInfo = {
   load: () => parseLevel('Boot Camp', TRAINING_MAP),
   training: true,
   alertOnEntry: ['brute'],
-  startCarry: { health: 25, armor: 0, ammo: { bullets: 50, shells: 0 }, weapons: ['knife', 'pistol'], weapon: 'pistol' },
+  startCarry: { health: 25, armor: 0, ammo: { bullets: 50, shells: 0, grenades: 0, fuel: 0, cells: 0 }, weapons: ['knife', 'pistol'], weapon: 'pistol' },
   tips: [
     {
       area: [1, 1, 12, 11],

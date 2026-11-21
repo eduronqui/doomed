@@ -8,6 +8,7 @@ import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from
 import { FOOT_OFFSET, type Door } from '../sim/grid';
 import { looksLikeWall, type Tile } from '../sim/level';
 import { dist } from '../sim/types';
+import type { ProjectileLook } from '../weapons';
 import { IDLE_INPUT, World, keyColorOf, type Carry, type EffectKind, type GameEvent, type Input, type Monster } from '../sim/world';
 import type { Hud } from '../ui/hud';
 import type { Screens } from '../ui/screens';
@@ -60,6 +61,7 @@ interface Tracer {
   y2: number;
   age: number;
   hostile: boolean;
+  beam: boolean;
 }
 
 interface ActorView {
@@ -82,8 +84,16 @@ function floorVariant(t: Tile, x: number, y: number): number {
 
 const KEY_RGB: Record<'red' | 'blue' | 'yellow', [number, number, number]> = { red: [255, 40, 40], blue: [60, 130, 255], yellow: [255, 220, 60] };
 
-const FX_FRAMES: Record<EffectKind, number> = { puff: 3, blood: 3, explosion: 4, burst: 4 };
-const FX_TIME: Record<EffectKind, number> = { puff: 0.06, blood: 0.07, explosion: 0.09, burst: 0.06 };
+const FX_FRAMES: Record<EffectKind, number> = { puff: 3, blood: 3, explosion: 4, burst: 4, flame: 3, riftblast: 4 };
+const FX_TIME: Record<EffectKind, number> = { puff: 0.06, blood: 0.07, explosion: 0.09, burst: 0.06, flame: 0.07, riftblast: 0.11 };
+const ADDITIVE_FX: ReadonlySet<EffectKind> = new Set<EffectKind>(['explosion', 'burst', 'flame', 'riftblast']);
+const TRACER_LIFE = 0.06;
+const BEAM_LIFE = 0.12;
+const PROJECTILE_LIGHT: Record<ProjectileLook, Light | null> = {
+  fireball: { x: 0, y: 0, r: 2.6, a: 0.9, color: [255, 130, 30], glow: 0.45 },
+  orb: { x: 0, y: 0, r: 4, a: 1, color: [190, 90, 255], glow: 0.55 },
+  grenade: null,
+};
 
 export class GameScene extends Phaser.Scene {
   private deps!: GameDeps;
@@ -457,7 +467,7 @@ export class GameScene extends Phaser.Scene {
 
   private setupInput(): void {
     const kb = this.input.keyboard!;
-    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,M,N,ESC,P,R,Q') as Record<string, Phaser.Input.Keyboard.Key>;
+    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,M,N,ESC,P,R,Q') as Record<string, Phaser.Input.Keyboard.Key>;
     kb.addCapture('SPACE,UP,DOWN,LEFT,RIGHT');
     this.input.mouse?.disableContextMenu();
     this.input.on('pointerdown', (ptr: Phaser.Input.Pointer) => {
@@ -483,6 +493,10 @@ export class GameScene extends Phaser.Scene {
     onDown('TWO', () => (this.slotQueued = 2));
     onDown('THREE', () => (this.slotQueued = 3));
     onDown('FOUR', () => (this.slotQueued = 4));
+    onDown('FIVE', () => (this.slotQueued = 5));
+    onDown('SIX', () => (this.slotQueued = 6));
+    onDown('SEVEN', () => (this.slotQueued = 7));
+    onDown('EIGHT', () => (this.slotQueued = 8));
     onDown('Q', () => (this.wheel += 1));
     onDown('M', () => {
       const muted = this.deps.sfx.toggleMute();
@@ -660,7 +674,10 @@ export class GameScene extends Phaser.Scene {
         break;
       case 'tracer':
         if (!this.world.isRevealedAt(e.x1, e.y1) && !this.world.isRevealedAt(e.x2, e.y2)) break;
-        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: e.hostile });
+        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: e.hostile, beam: false });
+        break;
+      case 'beam':
+        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: false, beam: true });
         break;
       case 'effect':
         if (!this.world.isRevealedAt(e.x, e.y)) break;
@@ -688,9 +705,9 @@ export class GameScene extends Phaser.Scene {
   private spawnFx(name: EffectKind, x: number, y: number): void {
     const lift = this.lift(x, y);
     const sprite = this.add.image(x * TILE, y * TILE - (name === 'blood' ? 10 : 6) - lift, ATLAS, key.fx(name, 0)).setDepth(this.raisedDepth(x, y, y * TILE + 20));
-    if (name === 'explosion' || name === 'burst') sprite.setBlendMode(Phaser.BlendModes.ADD);
+    if (ADDITIVE_FX.has(name)) sprite.setBlendMode(Phaser.BlendModes.ADD);
     this.fx.push({ sprite, name, frames: FX_FRAMES[name], age: 0, frameTime: FX_TIME[name] });
-    if (name === 'explosion') {
+    if (name === 'explosion' || name === 'riftblast') {
       this.add.image(x * TILE, y * TILE - lift, ATLAS, key.fx('scorch', 0)).setDepth(this.raisedDepth(x, y, DECAL_DEPTH + 1));
       const d = dist(x, y, this.world.player.x, this.world.player.y);
       if (d < 9) this.cameras.main.shake(220, 0.012 * (1 - d / 9));
@@ -750,7 +767,7 @@ export class GameScene extends Phaser.Scene {
         .setFrame(key.actor(m.kind, m.dir, m.state === 'pain' ? 0 : f))
         .setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - mLift)
         .setDepth(this.raisedDepth(m.x, m.y + ACTOR_FOOT, (m.y + ACTOR_FOOT) * TILE));
-      v.sprite.setTint(m.hurtTime > 0 || m.state === 'pain' ? 0xff7070 : 0xffffff);
+      v.sprite.setTint(m.hurtTime > 0 || m.state === 'pain' ? 0xff7070 : m.burn > 0 ? 0xffb070 : 0xffffff);
       if (m.def.stealth) {
         if (m.hurtTime > 0) v.exposedUntil = this.animClock + 1.5;
         v.sprite.setAlpha(m.hurtTime > 0 ? 0.7 : 0.37 + 0.12 * Math.sin(this.animClock * 7 + m.id));
@@ -788,11 +805,12 @@ export class GameScene extends Phaser.Scene {
       live.add(pr.id);
       let img = this.projectileViews.get(pr.id);
       if (!img) {
-        img = this.add.image(0, 0, ATLAS, key.fx('fireball', 0)).setBlendMode(Phaser.BlendModes.ADD);
+        img = this.add.image(0, 0, ATLAS, key.fx(pr.look, 0));
+        if (pr.look !== 'grenade') img.setBlendMode(Phaser.BlendModes.ADD);
         this.projectileViews.set(pr.id, img);
       }
       img
-        .setFrame(key.fx('fireball', Math.floor(this.animClock / 0.08) % 2))
+        .setFrame(key.fx(pr.look, Math.floor(this.animClock / 0.08) % 2))
         .setPosition(pr.x * TILE, pr.y * TILE - 12 - this.lift(pr.x, pr.y))
         .setDepth(this.raisedDepth(pr.x, pr.y, pr.y * TILE + 12))
         .setVisible(w.isRevealedAt(pr.x, pr.y));
@@ -839,7 +857,7 @@ export class GameScene extends Phaser.Scene {
     }
     this.floaters = this.floaters.filter((f) => f.text.active);
     for (const t of this.tracers) t.age += dt;
-    this.tracers = this.tracers.filter((t) => t.age < 0.06);
+    this.tracers = this.tracers.filter((t) => t.age < (t.beam ? BEAM_LIFE : TRACER_LIFE));
   }
 
   private drawSight(view: Phaser.Geom.Rectangle): void {
@@ -934,8 +952,18 @@ export class GameScene extends Phaser.Scene {
     const w = this.world;
     g.clear();
     for (const t of this.tracers) {
+      const x1 = t.x1 * TILE;
+      const y1 = t.y1 * TILE - GUN_HEIGHT_PX - this.lift(t.x1, t.y1 + ACTOR_FOOT);
+      const x2 = t.x2 * TILE;
+      const y2 = t.y2 * TILE - GUN_HEIGHT_PX - this.lift(t.x2, t.y2);
+      if (t.beam) {
+        const fade = 1 - t.age / BEAM_LIFE;
+        g.lineStyle(3, 0x4ad0ff, 0.7 * fade).lineBetween(x1, y1, x2, y2);
+        g.lineStyle(1, 0xffffff, fade).lineBetween(x1, y1, x2, y2);
+        continue;
+      }
       g.lineStyle(1, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
-      g.lineBetween(t.x1 * TILE, t.y1 * TILE - GUN_HEIGHT_PX - this.lift(t.x1, t.y1 + ACTOR_FOOT), t.x2 * TILE, t.y2 * TILE - GUN_HEIGHT_PX - this.lift(t.x2, t.y2));
+      g.lineBetween(x1, y1, x2, y2);
     }
 
     const view = this.cameras.main.worldView;
@@ -960,10 +988,16 @@ export class GameScene extends Phaser.Scene {
     const p = w.player;
     lights.push({ x: p.x, y: p.y, r: p.flash > 0 ? 7.5 : 5.2, a: 0.95, color: [255, 220, 160], glow: p.flash > 0 ? 0.25 : 0 });
     for (const l of this.staticLights) lights.push(l);
-    for (const pr of w.projectiles) lights.push({ x: pr.x, y: pr.y - 0.3, r: 2.6, a: 0.9, color: [255, 130, 30], glow: 0.45 });
+    for (const pr of w.projectiles) {
+      const light = PROJECTILE_LIGHT[pr.look];
+      if (light) lights.push({ ...light, x: pr.x, y: pr.y - 0.3 });
+    }
+    for (const t of this.tracers) if (t.beam) lights.push({ x: t.x2, y: t.y2, r: 2.4, a: 0.8, color: [80, 200, 255], glow: 0.35 });
     for (const f of this.fx) {
       if (f.name === 'explosion') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 6, a: 1, color: [255, 150, 50], glow: 0.6 * (1 - f.age / 0.36) });
       if (f.name === 'burst') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 3, a: 0.9, color: [255, 120, 40], glow: 0.4 });
+      if (f.name === 'flame') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 2.4, a: 0.85, color: [255, 140, 40], glow: 0.3 });
+      if (f.name === 'riftblast') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 9, a: 1, color: [190, 90, 255], glow: 0.7 * (1 - f.age / 0.44) });
     }
     for (const it of w.items) {
       if (it.taken) continue;

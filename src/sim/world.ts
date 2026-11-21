@@ -1,6 +1,6 @@
 import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
-import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
+import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type Blast, type ProjectileLook, type WeaponDef, type WeaponId } from '../weapons';
 import { FOOT_OFFSET, Grid, type Door } from './grid';
 import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
@@ -114,6 +114,9 @@ export interface Monster {
   pauseTime: number;
   lookAround: number;
   turnTo: number;
+  burn: number;
+  burnDamage: number;
+  burnFx: number;
 }
 
 export interface Item {
@@ -151,10 +154,16 @@ export interface Projectile {
   damage: [number, number];
   ownerId: number;
   alive: boolean;
+  look: ProjectileLook;
+  fromPlayer: boolean;
+  overCover: boolean;
+  blast: Blast | null;
+  travel: number;
+  range: number;
 }
 
 export type MessageTone = 'info' | 'pickup' | 'warn' | 'secret';
-export type EffectKind = 'puff' | 'blood' | 'explosion' | 'burst';
+export type EffectKind = 'puff' | 'blood' | 'explosion' | 'burst' | 'flame' | 'riftblast';
 
 export type GameEvent =
   | { type: 'sound'; sound: SoundId; x: number; y: number }
@@ -162,6 +171,7 @@ export type GameEvent =
   | { type: 'damage'; x: number; y: number; amount: number; toPlayer: boolean }
   | { type: 'heal'; x: number; y: number; amount: number }
   | { type: 'tracer'; x1: number; y1: number; x2: number; y2: number; hostile: boolean }
+  | { type: 'beam'; x1: number; y1: number; x2: number; y2: number }
   | { type: 'effect'; effect: EffectKind; x: number; y: number };
 
 export type GameStatus = 'playing' | 'dead' | 'won';
@@ -193,6 +203,20 @@ const LOUD_FLOORS: ReadonlySet<FloorKind> = new Set<FloorKind>(['metal', 'grate'
 const EXPLOSION_RADIUS = 2.6;
 const EXPLOSION_DAMAGE = 110;
 const FIREBALL_SPEED = 7.5;
+const FIREBALL_RANGE = 40;
+const BURN_TIME = 3;
+const BURN_DPS = 8;
+const BURN_TICK = 4;
+const BURN_FX_EVERY = 0.3;
+const FLAME_FX_PER_SHOT = 2;
+const PICKUP_AMMO: Partial<Record<ItemKind, [AmmoType, number]>> = {
+  clip: ['bullets', 10],
+  shells: ['shells', 8],
+  grenades: ['grenades', 4],
+  fuel: ['fuel', 50],
+  cells: ['cells', 40],
+};
+const WEAPON_PICKUP_AMMO: Record<WeaponId, number> = { knife: 0, pistol: 10, shotgun: 8, rotary: 20, launcher: 6, flamer: 60, arc: 40, rift: 80 };
 const MAX_STEP = 1 / 30;
 export const REST_DELAY = 10;
 const CLOSE_SENSE = 1.5;
@@ -467,8 +491,8 @@ export class World {
   }
 
   private hasAmmoFor(w: WeaponId): boolean {
-    const ammo = WEAPONS[w].ammo;
-    return ammo === null || this.player.ammo[ammo] > 0;
+    const { ammo, ammoPerShot } = WEAPONS[w];
+    return ammo === null || this.player.ammo[ammo] >= ammoPerShot;
   }
 
   private bestWeapon(): WeaponId {
@@ -486,21 +510,32 @@ export class World {
       this.selectWeapon(this.bestWeapon());
       return;
     }
-    if (w.ammo && !this.infiniteAmmo) p.ammo[w.ammo]--;
+    if (w.ammo && !this.infiniteAmmo) p.ammo[w.ammo] -= w.ammoPerShot;
     p.cooldown = w.cooldown;
     p.attackTime = 0.15;
     this.sound(w.sound, p.x, p.y);
 
-    if (w.id === 'knife') {
+    if (w.kind === 'melee') {
       this.playerMelee();
       return;
     }
-    p.flash = 0.07;
+    p.flash = w.kind === 'flame' ? 0.03 : 0.07;
     if (w.noise) this.alertNearby(p.x, p.y, NOISE_RANGE);
+    if (w.kind === 'hitscan') this.playerHitscan(w);
+    else if (w.kind === 'projectile') this.playerProjectile(w);
+    else if (w.kind === 'flame') this.playerFlame(w);
+    else this.playerBeam(w);
+  }
 
+  private muzzle(): Vec {
+    const p = this.player;
+    return { x: p.x + Math.cos(p.angle) * 0.45, y: p.y + Math.sin(p.angle) * 0.45 };
+  }
+
+  private playerHitscan(w: WeaponDef): void {
+    const p = this.player;
     const totals = new Map<Monster | Barrel, number>();
-    const mx = p.x + Math.cos(p.angle) * 0.45;
-    const my = p.y + Math.sin(p.angle) * 0.45;
+    const { x: mx, y: my } = this.muzzle();
     for (let i = 0; i < w.pellets; i++) {
       const a = p.angle + this.rng.range(-w.spread, w.spread);
       const hit = this.hitscan(p.x, p.y, a, w.range, null);
@@ -519,6 +554,71 @@ export class World {
       if (isMonster(target)) this.damageMonster(target, dmg, true);
       else this.damageBarrel(target, dmg);
     }
+  }
+
+  private playerProjectile(w: WeaponDef): void {
+    const p = this.player;
+    const spec = w.projectile!;
+    const a = p.angle + this.rng.range(-w.spread, w.spread);
+    const { x, y } = this.muzzle();
+    this.projectiles.push({
+      id: this.nextId++,
+      x,
+      y,
+      vx: Math.cos(a) * spec.speed,
+      vy: Math.sin(a) * spec.speed,
+      damage: w.damage,
+      ownerId: -1,
+      alive: true,
+      look: spec.look,
+      fromPlayer: true,
+      overCover: spec.overCover,
+      blast: spec.blast,
+      travel: 0,
+      range: w.range,
+    });
+  }
+
+  private playerFlame(w: WeaponDef): void {
+    const p = this.player;
+    const reach = this.grid.raycast(p.x, p.y, Math.cos(p.angle), Math.sin(p.angle), w.range).dist;
+    const inCone = (x: number, y: number, r: number): boolean => {
+      const d = dist(p.x, p.y, x, y) - r;
+      return d <= reach && Math.abs(angleDiff(Math.atan2(y - p.y, x - p.x), p.angle)) <= w.spread && this.grid.lineOfFire(p.x, p.y, x, y);
+    };
+    for (const m of this.monsters) {
+      if (m.state === 'dead' || !inCone(m.x, m.y, m.r)) continue;
+      m.burn = BURN_TIME;
+      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true);
+    }
+    for (const b of this.barrels) if (!b.exploded && inCone(b.x, b.y, b.r)) this.damageBarrel(b, this.rng.int(w.damage[0], w.damage[1]));
+    for (let i = 0; i < FLAME_FX_PER_SHOT; i++) {
+      const a = p.angle + this.rng.range(-w.spread, w.spread) * 0.6;
+      const d = this.rng.range(0.6, Math.max(0.7, reach - 0.2));
+      this.effect('flame', p.x + Math.cos(a) * d, p.y + Math.sin(a) * d);
+    }
+  }
+
+  private playerBeam(w: WeaponDef): void {
+    const p = this.player;
+    const a = p.angle + this.rng.range(-w.spread, w.spread);
+    const dx = Math.cos(a);
+    const dy = Math.sin(a);
+    const end = this.grid.raycast(p.x, p.y, dx, dy, w.range).dist;
+    for (const m of this.monsters) {
+      if (m.state === 'dead') continue;
+      const t = rayCircle(p.x, p.y, dx, dy, m.x, m.y, m.r);
+      if (t < 0 || t > end) continue;
+      this.effect('blood', m.x, m.y);
+      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true);
+    }
+    for (const b of this.barrels) {
+      if (b.exploded) continue;
+      const t = rayCircle(p.x, p.y, dx, dy, b.x, b.y, b.r);
+      if (t >= 0 && t <= end) this.damageBarrel(b, this.rng.int(w.damage[0], w.damage[1]));
+    }
+    const { x, y } = this.muzzle();
+    this.events.push({ type: 'beam', x1: x, y1: y, x2: p.x + dx * end, y2: p.y + dy * end });
   }
 
   private playerMelee(): void {
@@ -731,15 +831,24 @@ export class World {
         p.armor = 100;
         break;
       case 'clip':
-        if (!this.giveAmmo('bullets', this.scaledAmmo(item.dropped ? DROPPED_AMMO : 10))) return;
-        break;
       case 'shells':
-        if (!this.giveAmmo('shells', this.scaledAmmo(item.dropped ? DROPPED_AMMO : 8))) return;
+      case 'grenades':
+      case 'fuel':
+      case 'cells': {
+        const [type, amount] = PICKUP_AMMO[item.kind]!;
+        const dropped = item.dropped && (type === 'bullets' || type === 'shells');
+        if (!this.giveAmmo(type, this.scaledAmmo(dropped ? DROPPED_AMMO : amount))) return;
         break;
+      }
       case 'shotgun':
-      case 'rotary': {
+      case 'rotary':
+      case 'launcher':
+      case 'flamer':
+      case 'arc':
+      case 'rift': {
         const isNew = !p.weapons.has(item.kind);
-        const gave = this.giveAmmo(item.kind === 'shotgun' ? 'shells' : 'bullets', this.scaledAmmo(item.kind === 'shotgun' ? 8 : 20));
+        const ammo = WEAPONS[item.kind].ammo!;
+        const gave = this.giveAmmo(ammo, this.scaledAmmo(WEAPON_PICKUP_AMMO[item.kind]));
         if (!isNew && !gave) return;
         p.weapons.add(item.kind);
         if (isNew) this.selectWeapon(item.kind);
@@ -836,6 +945,9 @@ export class World {
       pauseTime: 0,
       lookAround: this.rng.range(0, MONSTERS[kind].lookEvery[1]),
       turnTo: Math.PI / 2,
+      burn: 0,
+      burnDamage: 0,
+      burnFx: 0,
     };
     this.monsters.push(m);
     return m;
@@ -878,8 +990,25 @@ export class World {
     }
   }
 
+  private updateBurning(m: Monster, dt: number): boolean {
+    if (m.burn <= 0) return false;
+    m.burn -= dt;
+    m.burnDamage += BURN_DPS * dt;
+    m.burnFx -= dt;
+    if (m.burnFx <= 0) {
+      m.burnFx = BURN_FX_EVERY;
+      this.effect('flame', m.x + this.rng.range(-0.2, 0.2), m.y + this.rng.range(-0.2, 0.2));
+    }
+    if (m.burnDamage >= BURN_TICK) {
+      m.burnDamage -= BURN_TICK;
+      this.damageMonster(m, BURN_TICK, true);
+    }
+    return m.state === 'dead';
+  }
+
   private updateMonster(m: Monster, dt: number): void {
     if (m.state === 'dead') return;
+    if (this.updateBurning(m, dt)) return;
     const p = this.player;
     m.stateTime -= dt;
     m.cooldown -= dt;
@@ -1169,6 +1298,12 @@ export class World {
         damage: m.def.rangedDamage,
         ownerId: m.id,
         alive: true,
+        look: 'fireball',
+        fromPlayer: false,
+        overCover: false,
+        blast: null,
+        travel: 0,
+        range: FIREBALL_RANGE,
       });
     }
   }
@@ -1260,43 +1395,72 @@ export class World {
   }
 
   private updateProjectiles(dt: number): void {
-    const p = this.player;
     for (const pr of this.projectiles) {
       if (!pr.alive) continue;
       pr.x += pr.vx * dt;
       pr.y += pr.vy * dt;
-      const burst = (): void => {
-        pr.alive = false;
-        this.effect('burst', pr.x, pr.y);
-        this.sound('explode', pr.x, pr.y);
-      };
-      if (this.grid.isShotBlocker(Math.floor(pr.x), Math.floor(pr.y))) {
+      pr.travel += Math.hypot(pr.vx, pr.vy) * dt;
+      const cx = Math.floor(pr.x);
+      const cy = Math.floor(pr.y);
+      if (pr.overCover ? this.grid.isOpaque(cx, cy) : this.grid.isShotBlocker(cx, cy)) {
         pr.x -= pr.vx * dt * 0.5;
         pr.y -= pr.vy * dt * 0.5;
-        burst();
+        this.detonate(pr, null);
         continue;
       }
-      const dmg = this.rng.int(pr.damage[0], pr.damage[1]);
-      if (dist(pr.x, pr.y, p.x, p.y) < p.r + 0.15) {
-        burst();
-        this.hurtPlayerByEnemy(dmg);
-        continue;
-      }
-      const m = this.monsters.find((o) => o.id !== pr.ownerId && o.state !== 'dead' && dist(pr.x, pr.y, o.x, o.y) < o.r + 0.15);
-      if (m) {
-        burst();
-        this.damageMonster(m, dmg);
-        continue;
-      }
-      const b = this.barrels.find((o) => !o.exploded && dist(pr.x, pr.y, o.x, o.y) < o.r + 0.15);
-      if (b) {
-        burst();
-        this.damageBarrel(b, dmg);
-      }
+      const target = this.projectileTarget(pr);
+      if (target) this.detonate(pr, target);
+      else if (pr.travel >= pr.range) this.detonate(pr, null);
     }
     for (let i = this.projectiles.length - 1; i >= 0; i--) {
       if (!this.projectiles[i].alive) this.projectiles.splice(i, 1);
     }
+  }
+
+  private projectileTarget(pr: Projectile): Player | Monster | Barrel | null {
+    const p = this.player;
+    if (!pr.fromPlayer && dist(pr.x, pr.y, p.x, p.y) < p.r + 0.15) return p;
+    const m = this.monsters.find((o) => o.id !== pr.ownerId && o.state !== 'dead' && dist(pr.x, pr.y, o.x, o.y) < o.r + 0.15);
+    if (m) return m;
+    return this.barrels.find((o) => !o.exploded && dist(pr.x, pr.y, o.x, o.y) < o.r + 0.15) ?? null;
+  }
+
+  private detonate(pr: Projectile, target: Player | Monster | Barrel | null): void {
+    pr.alive = false;
+    const dmg = this.rng.int(pr.damage[0], pr.damage[1]);
+    if (target === this.player) this.hurtPlayerByEnemy(dmg);
+    else if (target && isMonster(target)) this.damageMonster(target, dmg, pr.fromPlayer);
+    else if (target && isBarrel(target)) this.damageBarrel(target, dmg);
+    if (pr.blast) {
+      this.blast(pr.x, pr.y, pr.blast, pr.fromPlayer, pr.look === 'orb' ? 'riftblast' : 'explosion');
+      return;
+    }
+    this.effect('burst', pr.x, pr.y);
+    this.sound('explode', pr.x, pr.y);
+  }
+
+  private blast(x: number, y: number, b: Blast, byPlayer: boolean, effect: EffectKind, source: Barrel | null = null): void {
+    this.effect(effect, x, y);
+    this.sound('explode', x, y);
+    this.alertNearby(x, y, NOISE_RANGE);
+    const hurt = (tx: number, ty: number): number => {
+      const d = dist(x, y, tx, ty);
+      if (d >= b.radius || !this.grid.lineOfFire(x, y, tx, ty)) return 0;
+      return Math.round(b.damage * (1 - d / b.radius));
+    };
+    for (const m of this.monsters) {
+      if (m.state === 'dead') continue;
+      const dmg = hurt(m.x, m.y);
+      if (dmg > 0) this.damageMonster(m, dmg, byPlayer);
+    }
+    for (const o of this.barrels) {
+      if (o === source) continue;
+      const dmg = hurt(o.x, o.y);
+      if (dmg > 0) this.damageBarrel(o, dmg);
+    }
+    if (!b.hurtsPlayer) return;
+    const pd = hurt(this.player.x, this.player.y);
+    if (pd > 0) this.damagePlayer(pd);
   }
 
   damageBarrel(b: Barrel, amount: number): void {
@@ -1315,26 +1479,7 @@ export class World {
 
   private explode(b: Barrel): void {
     b.exploded = true;
-    this.effect('explosion', b.x, b.y);
-    this.sound('explode', b.x, b.y);
-    this.alertNearby(b.x, b.y, NOISE_RANGE);
-    const hurt = (x: number, y: number): number => {
-      const d = dist(b.x, b.y, x, y);
-      if (d >= EXPLOSION_RADIUS || !this.grid.lineOfFire(b.x, b.y, x, y)) return 0;
-      return Math.round(EXPLOSION_DAMAGE * (1 - d / EXPLOSION_RADIUS));
-    };
-    for (const m of this.monsters) {
-      if (m.state === 'dead') continue;
-      const dmg = hurt(m.x, m.y);
-      if (dmg > 0) this.damageMonster(m, dmg);
-    }
-    for (const o of this.barrels) {
-      if (o === b) continue;
-      const dmg = hurt(o.x, o.y);
-      if (dmg > 0) this.damageBarrel(o, dmg);
-    }
-    const pd = hurt(this.player.x, this.player.y);
-    if (pd > 0) this.damagePlayer(pd);
+    this.blast(b.x, b.y, { radius: EXPLOSION_RADIUS, damage: EXPLOSION_DAMAGE, hurtsPlayer: true }, false, 'explosion', b);
   }
 
   // ---------- physics helpers ----------

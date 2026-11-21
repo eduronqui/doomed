@@ -60,7 +60,7 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 | Mouse | Aim. The last input wins: when you start walking or change direction with the keys, the Marine looks (and shoots with Space) where he walks. When you move the mouse or hold its button, he looks at the cursor, also while he keeps walking. |
 | Left mouse button or Space (hold) | Fire (a mouse click must start inside the play area) |
 | E or Space | Use (doors, secret walls, exit switch). Space also fires, so one press both shoots and uses. |
-| 1 to 4 | Select weapon slot |
+| 1 to 8 | Select weapon slot |
 | Mouse wheel | Next or previous weapon |
 | Q | Next weapon |
 | N | Turn the music on or off (remembered in localStorage) |
@@ -123,14 +123,22 @@ When your health reaches 0, you die. The level music stops. After 1.4 seconds th
 | 2 | Sidearm | 1 bullet | 5 to 15 | 1 | 0.38 s | 22 tiles | loud |
 | 3 | Pump Shotgun | 1 shell | 5 to 15 | 7 | 0.95 s | 18 tiles | loud |
 | 4 | Rotary Gun | 1 bullet | 5 to 15 | 1 | 0.11 s | 22 tiles | loud |
+| 5 | Grenade Launcher | 1 grenade | 10 to 20 on a direct hit, plus a blast | 1 | 0.80 s | 14 tiles of flight | loud |
+| 6 | Flamer | 1 fuel | 2 to 4, plus burning | cone | 0.09 s | 3.4 tiles | loud |
+| 7 | Arc Rifle | 1 cell | 16 to 24 to every enemy in the line | beam | 0.30 s | 24 tiles | loud |
+| 8 | Rift Cannon | 40 cells | 40 to 60 on a direct hit, plus a big blast | 1 | 1.50 s | 30 tiles of flight | loud |
 
 - Aim at the head or the body of an enemy. The line of aim goes through the cursor at gun height, so shots at the legs miss.
 - Guns hit instantly along the line of aim (hitscan). Each pellet spreads a little. The rotary gun spreads more than the sidearm. The shotgun spreads the most.
 - The knife hits the nearest enemy or barrel in front of you, inside a wide arc.
+- **Grenade launcher.** The grenade flies over crates but explodes on walls and doors, on the first enemy or barrel it touches, or at the end of its flight. The blast does up to 95 damage within 2.4 tiles, less at the edge. It hurts you too if you stand inside it.
+- **Flamer.** A short cone of fire (40° wide) in front of you. It does not go through walls. Every enemy in the cone catches fire and burns for 3 seconds, 8 damage per second. Each new hit restarts the 3 seconds. The flames light the area around them.
+- **Arc rifle.** An energy beam that hits every enemy and barrel along the line, up to the first wall.
+- **Rift cannon.** A slow orb that explodes on the first wall, enemy or barrel. The blast does up to 300 damage within 4.5 tiles. It does not hurt you.
 - **Backstab.** A knife hit kills a calm enemy at once if you stand in its back arc (120° wide) and it does not see you. Calm means idle, wandering, holding or walking home, not hunting you. It works on every enemy kind, also the Brute and the Shade. The kill makes only a soft thud instead of the death scream, and no other enemy wakes up. The message "Silent kill." shows.
 - Any other knife kill is loud: the enemy screams, and the scream wakes all enemies within 13 tiles, like a gunshot.
 - **Loud** weapons wake all enemies within 13 tiles, even through walls. The knife swing is silent, but a knife kill that is not a backstab is loud.
-- When a gun is empty, you switch to your best weapon that has ammo. The order is shotgun, rotary gun, sidearm, knife.
+- When a gun is empty, you switch to your best weapon that has ammo. The order is arc rifle, shotgun, rotary gun, flamer, sidearm, knife. You never switch to the grenade launcher or the rift cannon by yourself.
 - When you pick up a new weapon, you switch to it at once.
 - The marine sprite shows the selected weapon from all four directions.
 
@@ -140,6 +148,9 @@ When your health reaches 0, you die. The level music stops. After 1.4 seconds th
 | --- | --- |
 | Bullets | 200 |
 | Shells | 50 |
+| Grenades | 30 |
+| Fuel | 200 |
+| Cells | 300 |
 
 ## Items
 
@@ -155,6 +166,13 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Box of shells | +8 shells (+5 if a Shotgun Husk dropped it) |
 | Pump shotgun | Gives the shotgun and 8 shells |
 | Rotary gun | Gives the rotary gun and 20 bullets |
+| Box of grenades | +4 grenades |
+| Fuel canister | +50 fuel |
+| Energy cell pack | +40 cells |
+| Grenade launcher | Gives the grenade launcher and 6 grenades |
+| Flamer | Gives the flamer and 60 fuel |
+| Arc rifle | Gives the arc rifle and 40 cells |
+| Rift cannon | Gives the rift cannon and 80 cells (two shots) |
 | Red, blue or yellow keycard | Opens doors of the same color in this level |
 
 The "Items" stat counts the items placed in the map. Items that enemies drop do not count: ammo from Husks and Shotgun Husks, and stimpacks from Brutes and Shades.
@@ -378,7 +396,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 - **Names and bars:** each creature shows its name and a health bar, like your own "Marine" label.
 - **Floating numbers:** red numbers show damage, and green "+1" numbers show healing.
 - **Map panel:** the minimap shows the area within 7 tiles of every place you visited. Colors: gray floor, light walls, red-brown stone, green slime, orange lava, yellow doors, red locked doors, green exit.
-- **Status panel:** health and armor bars, weapon slots with ammo counts, bullets, shells and keycard.
+- **Status panel:** health and armor bars, 8 weapon slots in two rows with ammo counts, the five ammo types (bullets, shells, grenades, fuel, cells) and the keycards.
 - **Server Log:** the bottom panel shows the last 7 game messages with the level time, for example pickups, keycard warnings and secrets. Pickups are green, warnings red, secrets yellow. Important messages also show in the center of the screen.
 - **Red screen edge:** shows when you take damage, and it pulses when your health is below 25.
 

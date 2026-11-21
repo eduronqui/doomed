@@ -85,6 +85,10 @@ src/
     pistol.ts         PISTOL                       pistol.art.ts   PISTOL_ART
     shotgun.ts        SHOTGUN                      shotgun.art.ts  SHOTGUN_ART
     rotary.ts         ROTARY                       rotary.art.ts   ROTARY_ART
+    launcher.ts       LAUNCHER                     launcher.art.ts LAUNCHER_ART
+    flamer.ts         FLAMER                       flamer.art.ts   FLAMER_ART
+    arc.ts            ARC                          arc.art.ts      ARC_ART
+    rift.ts           RIFT                         rift.art.ts     RIFT_ART
   levels/
     index.ts          LEVELS (play order), TRAINING, ALL_LEVELS, levelInfo()
     types.ts          LevelInfo and Tip types
@@ -166,6 +170,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `level.test.ts`: for every level: one start, enough monsters, a secret and one exit. No floor touches the void. The exit faces a room. Every keycard is reachable without its own door, and the exit needs the keycards. All entities are reachable. Also map parsing of colored doors, keycards and shades.
 - `grid.test.ts`: collision, sliding along walls, raycasts, door timing, door groups, path search.
 - `devParams.test.ts`: the dev URL parameters, also bad values.
+- `weapons.test.ts`: the grenade launcher (over crates, splash, self-damage), the flamer (cone, range, burning), the arc rifle (piercing), the rift cannon (cell cost, blast, no self-damage), the new pickups and slots 5 to 8.
 - `heights.test.ts`: the height map, ledges, stairs, shots and melee across heights, and monster paths over stairs.
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.

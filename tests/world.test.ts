@@ -362,12 +362,12 @@ describe('World', () => {
     const map = '#####\n#P..#\n#####';
     const fresh = DIFFICULTIES.map((d) => new World(parseLevel('t', map), 1, d).player.ammo);
     expect(fresh).toEqual([
-      { bullets: 60, shells: 0 },
-      { bullets: 40, shells: 0 },
-      { bullets: 20, shells: 0 },
+      { bullets: 60, shells: 0, grenades: 0, fuel: 0, cells: 0 },
+      { bullets: 40, shells: 0, grenades: 0, fuel: 0, cells: 0 },
+      { bullets: 20, shells: 0, grenades: 0, fuel: 0, cells: 0 },
     ]);
-    const carry = { health: 80, armor: 10, ammo: { bullets: 123, shells: 7 }, weapons: ['knife', 'pistol'] as WeaponId[], weapon: 'pistol' as const };
-    expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7 });
+    const carry = { health: 80, armor: 10, ammo: { bullets: 123, shells: 7, grenades: 2, fuel: 0, cells: 9 }, weapons: ['knife', 'pistol'] as WeaponId[], weapon: 'pistol' as const };
+    expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7, grenades: 2, fuel: 0, cells: 9 });
   });
 
   describe('key ambush', () => {

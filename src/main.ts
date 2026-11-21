@@ -3,7 +3,8 @@ import { Sfx } from './render/sfx';
 import { Music } from './render/music';
 import { GameScene, VIEW_H, VIEW_W, type GameDeps } from './render/GameScene';
 import { ATLAS, ATLAS_DATA, ATLAS_IMAGE, frameCanvas, key } from './render/atlas';
-import { WEAPON_ORDER } from './weapons';
+import { AMMO_ORDER, WEAPON_ORDER } from './weapons';
+import { AMMO_ICON } from './ui/hud';
 import { Hud } from './ui/hud';
 import { Screens } from './ui/screens';
 
@@ -17,7 +18,7 @@ class BootScene extends Phaser.Scene {
   }
 
   create(): void {
-    const iconNames = [...WEAPON_ORDER.map((w) => key.weaponIcon(w)), 'item_clip', 'item_shells', 'item_redkey', 'item_bluekey', 'item_yellowkey'];
+    const iconNames = [...WEAPON_ORDER.map((w) => key.weaponIcon(w)), ...AMMO_ORDER.map((a) => AMMO_ICON[a]), 'item_redkey', 'item_bluekey', 'item_yellowkey'];
     const canvases = new Map(iconNames.map((name) => [name, frameCanvas(this, name)]));
     const sfx = new Sfx();
     const deps: GameDeps = { sfx, music: new Music(sfx), hud: new Hud(canvases), screens: new Screens(sfx) };

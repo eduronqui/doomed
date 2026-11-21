@@ -8,7 +8,7 @@ import type { Pix } from '../pixel';
 import { packSheet, type Sheet } from '../sheet';
 import { CHARACTERS, CHARACTER_ART, DIRS, FRAMES } from '../../characters/art';
 import { FLOOR_VARIANTS, WALL_VARIANTS, key } from '../atlas';
-import { barrelTexture, bloodFx, decoTexture, explosion, fireball, itemTexture, muzzle, puff, scorch } from './items';
+import { barrelTexture, bloodFx, decoTexture, explosion, fireball, flameFx, grenadeShot, itemTexture, muzzle, puff, riftBlast, riftOrb, scorch } from './items';
 import { RAISED_FLOORS, STAIR_DIRS, STAIR_FLOORS, ledgeRimTexture, ledgeSideTexture, raisedFaceTexture, raisedTopTexture, stairsTexture } from './raised';
 import { doorPiece, exitTexture, floorTexture, hiddenPiece, wallTexture } from './tiles';
 
@@ -62,10 +62,16 @@ export function buildArt(): Map<string, Pix> {
     art.set(key.fx('puff', f), puff(f));
     art.set(key.fx('blood', f), bloodFx(f));
   }
-  for (let f = 0; f < 2; f++) art.set(key.fx('fireball', f), fireball(f));
+  for (let f = 0; f < 2; f++) {
+    art.set(key.fx('fireball', f), fireball(f));
+    art.set(key.fx('grenade', f), grenadeShot(f));
+    art.set(key.fx('orb', f), riftOrb(f));
+  }
+  for (let f = 0; f < 3; f++) art.set(key.fx('flame', f), flameFx(f));
   for (let f = 0; f < 4; f++) {
     art.set(key.fx('explosion', f), explosion(f));
     art.set(key.fx('burst', f), explosion(f, 24));
+    art.set(key.fx('riftblast', f), riftBlast(f));
   }
   art.set(key.fx('scorch', 0), scorch());
   art.set(key.fx('muzzle', 0), muzzle());
