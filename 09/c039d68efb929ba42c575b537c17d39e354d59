@@ -1,0 +1,21 @@
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_be2d76fda30395 376
+src/ui/screens.ts
+  s_e549dc79ddcbfe::t_1adc2a07de0ef4 14,176,213,215
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "09c039d68efb929ba42c575b537c17d39e354d59",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
