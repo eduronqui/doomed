@@ -90,6 +90,7 @@ src/
     types.ts          LevelInfo and Tip types
     levelN.ts         Level N settings (N = 1 to 3): title, briefing, darkness, par, music, loader
     levelN.map.ts     Level N ASCII map
+    level1.heights.ts E1 height map (raised floor and stairs)
     levelN.music.ts   Level N music track
     training.ts       Training settings (tips, start loadout, alert-on-entry), shown once
     training.map.ts   Training ASCII map
@@ -100,6 +101,7 @@ src/
   render/             Everything visual and audible
     GameScene.ts      Builds the map sprites, syncs them with the world, effects, input
     lighting.ts       Darkness overlay and colored glow
+    heights.ts        Raised floor rows, stairs and ledge shadows
     devParams.ts      Dev-only URL parameters (the production build drops them)
     atlas.ts          Atlas paths, frame names, frame-to-canvas helper
     sheet.ts          Packs sprites into one RGBA sheet and its atlas data
@@ -108,6 +110,7 @@ src/
     pixel.ts          Small pixel canvas with outline, mirror and shading helpers
     art/tiles.ts      Floors, walls, doors, exit switch
     art/items.ts      Items, decorations, barrels, effects
+    art/raised.ts     Stairs and raised floor pieces
     sfx.ts            WebAudio sound effects (class Sfx)
     music.ts          Music engine: look-ahead step sequencer, guitar, bass, lead and drum voices
     tracks.ts         Track type, pattern parser and validation
@@ -162,6 +165,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `level.test.ts`: for every level: one start, enough monsters, a secret and one exit. No floor touches the void. The exit faces a room. Every keycard is reachable without its own door, and the exit needs the keycards. All entities are reachable. Also map parsing of colored doors, keycards and shades.
 - `grid.test.ts`: collision, sliding along walls, raycasts, door timing, door groups, path search.
 - `devParams.test.ts`: the dev URL parameters, also bad values.
+- `heights.test.ts`: the height map, ledges, stairs, shots and melee across heights, and monster paths over stairs.
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.

@@ -1,4 +1,5 @@
 import { parseLevel } from '../sim/level';
+import { LEVEL1_HEIGHTS } from './level1.heights';
 import { LEVEL1_MAP } from './level1.map';
 import { LEVEL1_MUSIC } from './level1.music';
 import type { LevelInfo } from './types';
@@ -12,5 +13,5 @@ export const LEVEL1: LevelInfo = {
   par: 240,
   music: LEVEL1_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'hhff', veteran: 'hhff', doomed: 'hhff' } },
-  load: () => parseLevel('Outpost Breach', LEVEL1_MAP),
+  load: () => parseLevel('Outpost Breach', LEVEL1_MAP, LEVEL1_HEIGHTS),
 };
