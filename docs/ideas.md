@@ -7,7 +7,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Achievements](#achievements) | Under discussion, not built |
 | [Stealth enemy behaviors](#stealth-enemy-behaviors) | Under discussion, not built |
 | [Enemies that break habits](#enemies-that-break-habits) | Under discussion, not built |
-| [Level 4 and a boss](#level-4-and-a-boss) | Under discussion, not built |
+| [Campaign roadmap: 12 levels, 8 weapons, a boss](#campaign-roadmap-12-levels-8-weapons-a-boss) | Planned, not built |
 | [Level select](#level-select) | Under discussion, not built |
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
@@ -94,12 +94,67 @@ Goal: one new rule per level keeps the levels fresh.
 - **Flanker.** A fast Husk that does not run straight at you. It moves around you to attack from the side.
 - **Door Brute.** A Brute that can open doors. Then a closed door is no longer always safe.
 
-## Level 4 and a boss
+## Campaign roadmap: 12 levels, 8 weapons, a boss
 
-Goal: give the episode a proper end. Today it ends at level 3 with no climax.
+Goal: grow the game to 12 levels that end with a boss. There are no bosses between the start and level 12. The enemies get stronger as stronger weapons become available.
 
-- A boss arena with phases, for example a new attack or adds at each health threshold.
-- The boss is a new character in `src/characters/` with its own art.
+**Main rule:** each new weapon arrives one level before the enemy that needs it. You feel stronger first, then the game pushes back.
+
+### Weapons (8 slots, two rows of 4)
+
+| Slot | Weapon | Status | Role | Ammo |
+| --- | --- | --- | --- | --- |
+| 1 | Knife | Built | Silent, backstab | None |
+| 2 | Pistol | Built | Reliable, accurate | Bullets |
+| 3 | Pump shotgun | Built | Close burst | Shells |
+| 4 | Rotary gun | Built | Sustained fire | Bullets |
+| 5 | Grenade launcher | New | Splash damage. Fires over raised floor, good against groups and porches | Grenades |
+| 6 | Flamer | New | Short cone of fire, burns over time, lights the area around the flames. Good against fast enemies that circle you | Fuel |
+| 7 | Arc rifle | New | Energy beam that goes through all enemies in a line | Cells |
+| 8 | Rift cannon | New | Rare, slow orb that clears a room. Mostly for the boss | Cells (heavy use) |
+
+Three close-range weapons (knife, shotgun, flamer), each of a different kind. New ammo types: grenades, fuel, cells. They scale by difficulty like bullets and shells.
+
+### New enemies (4) and the boss
+
+| Enemy | Idea | Counters |
+| --- | --- | --- |
+| Gunner | Heavy Husk with a rotary gun. Long bursts that pin you down | Cover, grenade launcher |
+| Stalker | Fast leaper (the "Flanker" idea). Circles you and attacks from the side | Flamer, staying near walls |
+| Warden | Armored, with a front shield: little damage from the front | Flanking, backstab, arc rifle |
+| Hollow | Floats, so it ignores ledges and hazards. Fires slow homing orbs | Arc rifle, line-of-sight control |
+| **Boss** (level 12) | Gate guardian in its own arena, with phases (new attacks or adds at health thresholds) | Everything, rift cannon |
+
+Names and designs stay original. No recreations of well-known weapons or bosses from other games.
+
+### Levels: one new thing per level
+
+| Level | New weapon | New enemy |
+| --- | --- | --- |
+| 1 (built) | Shotgun, rotary gun in the secret | Husk, Shotgun Husk, Fiend, Brute |
+| 2 (built) | | Shade |
+| 3 (built) | | Lava, more of the above |
+| 4 | Grenade launcher | |
+| 5 | | Gunner |
+| 6 | Flamer | |
+| 7 | | Stalker |
+| 8 | Arc rifle | |
+| 9 | | Warden |
+| 10 | | Hollow |
+| 11 | Rift cannon | Gauntlet: all enemies mixed |
+| 12 | | **Boss** |
+
+### Order of work
+
+1. **Engine:** 8 weapon slots in the HUD (two rows of 4) and on keys 1 to 8, the new ammo types, splash damage, piercing damage, burning.
+2. **Pairs:** one weapon or enemy and the level that introduces it. Each level is a full map with music, par time, docs and tests.
+3. **Boss last:** arena, phases and art.
+
+### Open points
+
+- 3 episodes of 4 levels (outpost, deep facility, gate and hell), each with its own look, or one run of 12.
+- The boss's look, attacks and phases.
+- How the levels use raised floor, for example Hollows over pits and Gunners on porches.
 
 ## Level select
 
