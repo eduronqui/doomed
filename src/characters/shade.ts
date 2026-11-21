@@ -17,7 +17,7 @@ export const SHADE: MonsterDef = {
   windup: 0.3,
   cooldown: 0.9,
   alertSound: 'alertBrute',
-  drop: null,
+  drop: 'stimpack',
   lost: 'track',
   trackTime: 8,
   fov: (100 * Math.PI) / 180,

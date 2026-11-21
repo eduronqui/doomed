@@ -56,6 +56,24 @@ describe('World', () => {
     expect(w.items.some((i) => i.kind === 'clip' && i.dropped)).toBe(true);
   });
 
+  it.each([
+    ['brute', 'b'],
+    ['shade', 'g'],
+  ])('makes a dead %s drop a stimpack that heals and does not count as an item', (_name, char) => {
+    const w = new World(parseLevel('t', `##########\n#P....${char}..#\n##########`));
+    const monster = w.monsters[0];
+    w.damageMonster(monster, 1000);
+    const stimpack = w.items.find((i) => i.kind === 'stimpack' && i.dropped)!;
+    expect(stimpack).toBeDefined();
+    w.player.health = 50;
+    w.player.x = stimpack.x;
+    w.player.y = stimpack.y;
+    run(w, 0.1);
+    expect(stimpack.taken).toBe(true);
+    expect(w.player.health).toBe(60);
+    expect(w.stats.items).toBe(0);
+  });
+
   it('wakes monsters that hear gunfire and they chase the player', () => {
     const w = new World(parseLevel('t', '#############\n#P....#....b#\n#...........#\n#############'), 3);
     const brute = w.monsters[0];

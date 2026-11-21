@@ -157,7 +157,7 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Rotary gun | Gives the rotary gun and 20 bullets |
 | Red, blue or yellow keycard | Opens doors of the same color in this level |
 
-The "Items" stat counts the items placed in the map. Ammo dropped by Husks and Shotgun Husks does not count.
+The "Items" stat counts the items placed in the map. Items that enemies drop do not count: ammo from Husks and Shotgun Husks, and stimpacks from Brutes and Shades.
 
 ## Enemies
 
@@ -182,7 +182,7 @@ All enemies show their name and a health bar above them. The name color changes 
 | Sight range, hunting | 9 tiles | 9 tiles | 12 tiles | 7.5 tiles | 9 tiles |
 | Crates block its sight | no | no | **yes** | no | no |
 | After it loses sight of you | Goes to where it last saw you, then wanders | Same as the Husk | Stops and holds | Tracks you for 6 s, then goes home | Tracks you for 8 s, then goes home |
-| Drops | Clip (5 bullets) | Shells (5 shells) | nothing | nothing | nothing |
+| Drops | Clip (5 bullets) | Shells (5 shells) | nothing | Stimpack | Stimpack |
 | First appears in | Level 1 | Level 1 | Level 1 | Level 1 | Level 2 |
 
 The time between attacks varies at random from 70% to 130% of the value in the table.
@@ -260,6 +260,7 @@ A hunched red horned demon with tusks and claws. It is fast, tough and fights on
 - **Trait: it tracks you.** When it loses sight of you, it still knows where you are for 6 seconds and follows you around corners. Then it gives up and walks back to its start position at 70% speed. There it guards again. If it hears a loud noise while it walks home or guards, it hunts you again.
 - You are faster than a Brute. Move back while you shoot it.
 - A closed door is the best way to escape from a Brute.
+- When it dies, it drops a stimpack.
 
 ### Shade
 
@@ -270,6 +271,7 @@ A transparent Brute. It is a pale blue ghost of a Brute, and you can see through
 - **Trait: it tracks you longer.** After it loses sight of you, it follows you for 8 seconds, then walks back to its start position.
 - Its corpse stays half transparent.
 - Listen for it. Its growl is the same as the Brute's.
+- When it dies, it drops a stimpack, like a Brute.
 
 ## Sight layer
 

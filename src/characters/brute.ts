@@ -17,7 +17,7 @@ export const BRUTE: MonsterDef = {
   windup: 0.3,
   cooldown: 0.9,
   alertSound: 'alertBrute',
-  drop: null,
+  drop: 'stimpack',
   lost: 'track',
   trackTime: 6,
   fov: (90 * Math.PI) / 180,
