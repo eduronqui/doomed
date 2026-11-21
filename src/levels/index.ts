@@ -6,6 +6,7 @@ import { LEVEL5 } from './level5';
 import { LEVEL6 } from './level6';
 import { LEVEL7 } from './level7';
 import { LEVEL8 } from './level8';
+import { LEVEL9 } from './level9';
 import { TRAINING } from './training';
 import type { LevelInfo } from './types';
 
@@ -14,7 +15,7 @@ export { TRAINING };
 
 export const TRAINING_INDEX = -1;
 
-export const LEVELS: LevelInfo[] = [LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, LEVEL6, LEVEL7, LEVEL8];
+export const LEVELS: LevelInfo[] = [LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, LEVEL6, LEVEL7, LEVEL8, LEVEL9];
 
 export const ALL_LEVELS: LevelInfo[] = [TRAINING, ...LEVELS];
 
