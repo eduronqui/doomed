@@ -12,6 +12,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
 | [Positional enemy footsteps](#positional-enemy-footsteps) | Under discussion, not built |
+| [Minimum loadout at level start](#minimum-loadout-at-level-start) | Under discussion, not built |
 | [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Under discussion, not built |
 | [Mobile play](#mobile-play) | Under discussion, not built |
 
@@ -128,6 +129,23 @@ Goal: hear an enemy before you see it.
 
 - Nearby enemies make footstep sounds, panned left or right and quieter with distance.
 - Each kind can have its own step sound, so you know a Brute from a Husk.
+
+## Minimum loadout at level start
+
+Problem: health, armor, ammo and weapons carry over to the next level, and a restart after death uses the loadout you entered the level with. If you finish a level low, for example 60 health, 25 bullets and 10 shells, every attempt at the next level starts that low. On Doomed you can get stuck on a level you cannot win from that start.
+
+### Leaning towards
+
+- **Health on Recruit and Veteran:** health is at least 100 when a level starts. It is a minimum, not a reset: health above 100 from a vital sphere carries over.
+- **Health on Doomed:** health carries over as it is. To stop the trap, after a death in a level, retries start at 100. The retry uses the health you had when the level started, not the health at death.
+- **Bullets:** the same pattern. On Recruit and Veteran, bullets are at least the difficulty's start amount (60 or 40). Doomed keeps the raw carry, and after a death it uses its start amount (20).
+- **Weapons, armor and extra ammo** carry over as they are. High carry is not capped, so a great run still pays off.
+
+### Open points
+
+- Shells: no minimum, or a minimum only if you own the shotgun.
+- Doomed alternatives: a small health minimum (for example 25) instead of the reset after a death, or accept the trap, since the difficulty picker shows from the 3rd death.
+- Show the change: a Server Log line such as "Resupplied: +40 health, +15 bullets", so the jump does not look like a bug.
 
 ## Multiplayer over WebRTC
 
