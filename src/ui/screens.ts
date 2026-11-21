@@ -11,6 +11,7 @@ interface Counter {
   target: number;
   step: number;
   format: (v: number) => string;
+  isInstant?: boolean;
 }
 
 const TICK_MS = 33;
@@ -172,7 +173,7 @@ export class Screens {
       { label: 'Items', target: pct(stats.items, stats.totalItems), step: 2, format: (v) => `${v}%` },
       { label: 'Secrets', target: pct(stats.secrets, stats.totalSecrets), step: 2, format: (v) => `${v}%` },
       { label: 'Time', target: Math.floor(time), step: 3, format: formatTime },
-      { label: 'Par', target: par, step: 3, format: formatTime },
+      { label: 'Par', target: par, step: 3, format: formatTime, isInstant: true },
     ];
     const table = el('table', undefined, 'tally');
     const cells = counters.map((c) => {
@@ -209,9 +210,9 @@ export class Screens {
     const tick = (): void => {
       const c = counters[line];
       cells[line].row.style.visibility = 'visible';
-      value = Math.min(c.target, value + c.step);
+      value = c.isInstant ? c.target : Math.min(c.target, value + c.step);
       cells[line].value.textContent = c.format(value);
-      if (ticks++ % SHOT_EVERY === 0) this.sfx.play('pistol', 0.45);
+      if (!c.isInstant && ticks++ % SHOT_EVERY === 0) this.sfx.play('pistol', 0.45);
       if (value >= c.target) {
         this.sfx.play('explode', 0.7);
         line++;

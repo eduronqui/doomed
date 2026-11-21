@@ -373,7 +373,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 
 ## Victory tally
 
-When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages), your Time and the Par time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Click or press Enter or Space to skip to the final numbers. Then pick a button with the mouse or with the arrow keys or W A S D and Enter or Space, or press R.
+When you use the exit switch, the victory screen counts up each stat one by one: Kills, Items, Secrets (as percentages) and your Time. A gunshot sounds while a line counts. An explosion sounds when a line finishes. Then the Par time appears at once, with an explosion. Click or press Enter or Space to skip to the final numbers. Then pick a button with the mouse or with the arrow keys or W A S D and Enter or Space, or press R.
 
 ## Level 1: Outpost Breach
 
