@@ -3,7 +3,7 @@ import type { SoundId } from '../sim/defs';
 export type WeaponId = 'knife' | 'pistol' | 'shotgun' | 'rotary' | 'launcher' | 'flamer' | 'arc' | 'rift';
 export type AmmoType = 'bullets' | 'shells' | 'grenades' | 'fuel' | 'cells';
 export type FireKind = 'melee' | 'hitscan' | 'projectile' | 'flame' | 'beam';
-export type ProjectileLook = 'fireball' | 'grenade' | 'orb';
+export type ProjectileLook = 'fireball' | 'grenade' | 'orb' | 'wisp';
 
 export interface Blast {
   radius: number;

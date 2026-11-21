@@ -93,7 +93,10 @@ const PROJECTILE_LIGHT: Record<ProjectileLook, Light | null> = {
   fireball: { x: 0, y: 0, r: 2.6, a: 0.9, color: [255, 130, 30], glow: 0.45 },
   orb: { x: 0, y: 0, r: 4, a: 1, color: [190, 90, 255], glow: 0.55 },
   grenade: null,
+  wisp: { x: 0, y: 0, r: 2.2, a: 0.85, color: [150, 230, 255], glow: 0.4 },
 };
+const FLOAT_PX = 7;
+const LABEL_HEIGHT: Partial<Record<string, number>> = { brute: 28, warden: 28, shade: 28, gatekeeper: 60 };
 
 export class GameScene extends Phaser.Scene {
   private deps!: GameDeps;
@@ -445,6 +448,15 @@ export class GameScene extends Phaser.Scene {
     this.itemViews.set(id, img);
   }
 
+  private monsterView(m: Monster): ActorView {
+    let v = this.monsterViews.get(m.id);
+    if (!v) {
+      v = this.makeActor(m.kind, m.def.name, m.x, m.y);
+      this.monsterViews.set(m.id, v);
+    }
+    return v;
+  }
+
   private makeActor(kind: CharacterKind, name: string, x: number, y: number): ActorView {
     const texture = kind === 'marine' ? key.marine('pistol', 's', 0) : key.actor(kind, 's', 0);
     const sprite = this.add.image(x * TILE, (y + ACTOR_FOOT) * TILE, ATLAS, texture).setOrigin(0.5, 30 / 32);
@@ -750,7 +762,7 @@ export class GameScene extends Phaser.Scene {
     this.syncReveal();
 
     for (const m of w.monsters) {
-      const v = this.monsterViews.get(m.id)!;
+      const v = this.monsterView(m);
       v.sprite.setVisible(w.isRevealedAt(m.x, m.y));
       if (m.state === 'dead') {
         if (!v.dead) {
@@ -762,7 +774,7 @@ export class GameScene extends Phaser.Scene {
         continue;
       }
       const f = this.actorFrame(m.moving, m.walkTime, m.state === 'windup' && m.stateTime < 0.25);
-      const mLift = this.lift(m.x, m.y + ACTOR_FOOT);
+      const mLift = m.def.floats ? FLOAT_PX + Math.sin(this.animClock * 3 + m.id) * 2 : this.lift(m.x, m.y + ACTOR_FOOT);
       v.sprite
         .setFrame(key.actor(m.kind, m.dir, m.state === 'pain' ? 0 : f))
         .setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - mLift)
@@ -773,7 +785,7 @@ export class GameScene extends Phaser.Scene {
         v.sprite.setAlpha(m.hurtTime > 0 ? 0.7 : 0.37 + 0.12 * Math.sin(this.animClock * 7 + m.id));
       }
       const ratio = m.hp / m.def.hp;
-      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (m.kind === 'brute' ? 28 : 31) - mLift);
+      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (LABEL_HEIGHT[m.kind] ?? 31) - mLift);
       v.name.setColor(ratio > 0.6 ? '#30d030' : ratio > 0.3 ? '#e0d030' : '#e03020');
     }
 
@@ -902,7 +914,7 @@ export class GameScene extends Phaser.Scene {
   private isExposed(m: Monster): boolean {
     if (!m.def.stealth) return true;
     const p = this.world.player;
-    return Math.hypot(m.x - p.x, m.y - p.y) < STEALTH_EXPOSE_RANGE || this.monsterViews.get(m.id)!.exposedUntil > this.animClock;
+    return Math.hypot(m.x - p.x, m.y - p.y) < STEALTH_EXPOSE_RANGE || this.monsterView(m).exposedUntil > this.animClock;
   }
 
   private hiddenCells(view: Phaser.Geom.Rectangle): [number, number, number][] {
@@ -975,7 +987,7 @@ export class GameScene extends Phaser.Scene {
     };
     for (const m of w.monsters) {
       if (m.state === 'dead') continue;
-      const v = this.monsterViews.get(m.id)!;
+      const v = this.monsterView(m);
       const onScreen = view.contains(m.x * TILE, m.y * TILE) && w.isRevealedAt(m.x, m.y) && this.isExposed(m);
       v.name.setVisible(onScreen);
       if (onScreen) bar(m.x * TILE, v.name.y + 1, m.hp / m.def.hp);

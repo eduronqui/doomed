@@ -178,7 +178,11 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `u` | Fuel canister | `L` | Grenade launcher |
 | `e` | Energy cell pack | `F` | Flamer |
 | | | `A` | Arc rifle |
-| | | `Q` | Rift cannon |
+| `M` | Gunner | `Q` | Rift cannon |
+| `S` | Stalker | | |
+| `w` | Warden | | |
+| `V` | Hollow | | |
+| `Z` | Gatekeeper (boss) | | |
 
 ### Rules
 
@@ -273,6 +277,13 @@ The simulation, sight cones, names, health bars and corpses work for the new kin
 | `coverBlocksSight` | If true, crates hide the player from it (like the Fiend) |
 | `stealth` | If true, it is drawn almost invisible, and its name and cone show only up close (like the Shade) |
 | `lookEvery`, `lookSwing`, `turnSpeed` | How often, how far and how fast it looks around while calm |
+| `shot` | Optional. Its projectile for `ranged: 'fireball'`: look (`'fireball'`, `'wisp'`), speed, count, spread between shots, homing turn rate (radians per second) and range. The default is one plain fireball |
+| `burst`, `burstGap` | Optional. Shots per hitscan attack and the seconds between them (like the Gunner) |
+| `flank` | Optional. If true, it circles to the player's side at mid range (like the Stalker) |
+| `leap` | Optional. `{ range, speed, time }`: it leaps at the player from up to `range` tiles |
+| `frontArmor` | Optional. Part of the damage (0 to 1) that its front shield blocks. The shield turns at `turnSpeed` (like the Warden) |
+| `floats` | Optional. If true, it ignores ledges and hazards and hovers above the floor (like the Hollow) |
+| `boss` | Optional. If true, it has the three Gatekeeper phases (wider volleys, summons, fireball ring), never staggers on backstabs and cannot be backstabbed |
 
 ## 6. The marine
 

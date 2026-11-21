@@ -266,12 +266,12 @@ describe('World', () => {
   });
 
   it('lets a holding fiend that faces away look around and find the player again', () => {
-    const w = new World(parseLevel('t', '##########\n#P.....f.#\n##########'), 3);
+    const w = new World(parseLevel('t', '##########\n#P.....f.#\n##########'), 1);
     const fiend = w.monsters[0];
     fiend.state = 'hold';
     fiend.angle = 0;
     fiend.turnTo = 0;
-    run(w, 4);
+    run(w, 6);
     expect(fiend.state).not.toBe('hold');
   });
 

@@ -41,6 +41,7 @@ export type SoundId =
   | 'alertHusk'
   | 'alertFiend'
   | 'alertBrute'
+  | 'alertBoss'
   | 'monsterPain'
   | 'monsterDeath'
   | 'playerPain'

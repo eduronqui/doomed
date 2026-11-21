@@ -171,6 +171,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `grid.test.ts`: collision, sliding along walls, raycasts, door timing, door groups, path search.
 - `devParams.test.ts`: the dev URL parameters, also bad values.
 - `weapons.test.ts`: the grenade launcher (over crates, splash, self-damage), the flamer (cone, range, burning), the arc rifle (piercing), the rift cannon (cell cost, blast, no self-damage), the new pickups and slots 5 to 8.
+- `enemies.test.ts`: the Gunner burst, the Stalker leap, the Warden shield, the Hollow floating and homing wisps, and the Gatekeeper phases (no backstab, summons that do not count, the fireball ring).
 - `heights.test.ts`: the height map, ledges, stairs, shots and melee across heights, and monster paths over stairs.
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.

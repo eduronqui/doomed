@@ -203,6 +203,19 @@ All enemies show their name and a health bar above them. The name color changes 
 | Drops | Clip (5 bullets) | Shells (5 shells) | nothing | Stimpack | Stimpack |
 | First appears in | Level 1 | Level 1 | Level 1 | Level 1 | Level 2 |
 
+### Later enemies
+
+| | Gunner | Stalker | Warden | Hollow | Gatekeeper (boss) |
+| --- | --- | --- | --- | --- | --- |
+| Health | 70 | 80 | 220 | 90 | 2500 |
+| Speed (tiles/s) | 1.9 | 4.2 | 1.7 | 2.2 (floats) | 1.6 |
+| Attack | Rotary gun bursts of 6 shots | Claw, and a leap from up to 3.5 tiles | Claw, or a fireball | Slow homing wisp | Fireball volleys and a stomp |
+| Damage | 3 to 8 per shot | 8 to 22 | Claw 10 to 30, fireball 8 to 16 | 8 to 14 | Fireball 10 to 20, stomp 20 to 40 |
+| Attack range | 16 tiles | Contact | Fireball 10 tiles | 14 tiles | 20 tiles |
+| Special | Pins you down with long bursts | Circles you, then leaps in | Front shield blocks 80% of the damage | Ignores ledges, slime and lava | Three phases, cannot be backstabbed |
+| Drops | Clip (5 bullets) | nothing | Energy cell pack | nothing | nothing |
+| First appears in | Level 5 | Level 7 | Level 9 | Level 10 | Level 12 |
+
 The time between attacks varies at random from 70% to 130% of the value in the table.
 
 ### Rules for all enemies
@@ -291,6 +304,46 @@ A transparent Brute. It is a pale blue ghost of a Brute, and you can see through
 - Its corpse stays half transparent.
 - Listen for it. Its growl is the same as the Brute's.
 - When it dies, it drops a stimpack, like a Brute.
+
+### Gunner
+
+A heavy Husk in dark armor with a red visor and a rotary gun.
+
+- Each attack is a burst of 6 shots, 0.12 seconds apart. The burst stops when it loses sight of you.
+- Its burst can pin you behind cover. A grenade lobbed over the cover is the classic answer.
+
+### Stalker
+
+A lean, dark violet demon with claws and spikes. It is the fastest enemy.
+
+- **Trait: it flanks.** At mid range it does not run straight at you. It circles to your side and switches sides every 1 to 2.5 seconds.
+- **Trait: it leaps.** From up to 3.5 tiles away, with a clear path, it leaps at you, then attacks with its claws. It can leap once every 1.6 seconds.
+- Stay near walls to cut down its angles. The flamer's wide cone catches it while it circles.
+
+### Warden
+
+A steel-gray Brute in armor with a large shield.
+
+- **Trait: front shield.** Damage that comes from the front (a 120° arc) is cut by 80%. Burning ignores the shield.
+- The shield turns slowly, at about 90° per second. Circle the Warden to hit it from the side or the back, or backstab it while it is calm.
+- The arc rifle hits it from any angle you can reach, and it hits everything behind it in the same line.
+
+### Hollow
+
+A hooded, floating shape with glowing eyes.
+
+- **Trait: it floats.** It ignores ledges, slime and lava, and it flies straight over pits and hazards to reach you.
+- Its wisps are slow, but they turn toward you while they fly. Break line of sight or shoot the Hollow first.
+
+### Gatekeeper (boss)
+
+A giant obsidian demon with burning cracks. It guards the gate in level 12.
+
+- It cannot be backstabbed and never staggers. It always knows where you are once it wakes.
+- **Phase 1 (full health to two thirds):** volleys of 3 fireballs, and a stomp at close range.
+- **Phase 2 (below two thirds):** volleys of 5 fireballs. Every 12 seconds it summons two Fiends at its sides, up to 4 at a time.
+- **Phase 3 (below one third):** volleys of 7 fireballs. It summons Stalkers instead of Fiends, and every 7 seconds it fires a ring of 12 fireballs in all directions.
+- Summoned enemies do not count in the kill total.
 
 ## Sight layer
 

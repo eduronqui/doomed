@@ -256,11 +256,19 @@ export class Grid {
     return closing;
   }
 
-  move(x: number, y: number, r: number, dx: number, dy: number, solid: (cx: number, cy: number) => boolean = (cx, cy) => this.isSolid(cx, cy)): MoveResult {
+  move(
+    x: number,
+    y: number,
+    r: number,
+    dx: number,
+    dy: number,
+    solid: (cx: number, cy: number) => boolean = (cx, cy) => this.isSolid(cx, cy),
+    ignoreHeight = false,
+  ): MoveResult {
     const bumped: number[] = [];
     const from = this.standHeight(x, y);
-    const rise = (cx: number, cy: number): boolean => this.heightAt(cx, cy) - from > MAX_STEP;
-    const drop = (cx: number, cy: number): boolean => from - this.heightAt(cx, cy) > MAX_STEP;
+    const rise = (cx: number, cy: number): boolean => !ignoreHeight && this.heightAt(cx, cy) - from > MAX_STEP;
+    const drop = (cx: number, cy: number): boolean => !ignoreHeight && from - this.heightAt(cx, cy) > MAX_STEP;
     const fy = y + FOOT_OFFSET;
     let nx = this.sweepX(x, y, dx, r, solid, bumped);
     nx = this.sweepX(x, y, nx - x, r, rise, bumped);

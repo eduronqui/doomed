@@ -1,5 +1,5 @@
 import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
-import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
+import { MARINE, MONSTERS, type MonsterDef, type MonsterKind, type ShotSpec } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type Blast, type ProjectileLook, type WeaponDef, type WeaponId } from '../weapons';
 import { FOOT_OFFSET, Grid, type Door } from './grid';
 import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
@@ -117,6 +117,16 @@ export interface Monster {
   burn: number;
   burnDamage: number;
   burnFx: number;
+  burstLeft: number;
+  burstTimer: number;
+  leapTime: number;
+  leapAngle: number;
+  flankSide: number;
+  flankTimer: number;
+  shieldAngle: number;
+  summonTimer: number;
+  slamTimer: number;
+  summoned: boolean;
 }
 
 export interface Item {
@@ -160,6 +170,7 @@ export interface Projectile {
   blast: Blast | null;
   travel: number;
   range: number;
+  homing: number;
 }
 
 export type MessageTone = 'info' | 'pickup' | 'warn' | 'secret';
@@ -204,6 +215,15 @@ const EXPLOSION_RADIUS = 2.6;
 const EXPLOSION_DAMAGE = 110;
 const FIREBALL_SPEED = 7.5;
 const FIREBALL_RANGE = 40;
+const FIREBALL_SHOT: ShotSpec = { look: 'fireball', speed: FIREBALL_SPEED, count: 1, spread: 0, homing: 0, range: FIREBALL_RANGE };
+const FRONT_ARC = Math.PI / 3;
+const FLANK_DISTANCE = 2.5;
+const FLANK_SWITCH: [number, number] = [1.2, 2.4];
+const LEAP_COOLDOWN = 1.6;
+const BOSS_SUMMON_EVERY = 12;
+const BOSS_SLAM_EVERY = 7;
+const BOSS_MAX_ADDS = 4;
+const BOSS_RING = 12;
 const BURN_TIME = 3;
 const BURN_DPS = 8;
 const BURN_TICK = 4;
@@ -551,7 +571,7 @@ export class World {
       }
     }
     for (const [target, dmg] of totals) {
-      if (isMonster(target)) this.damageMonster(target, dmg, true);
+      if (isMonster(target)) this.damageMonster(target, dmg, true, p);
       else this.damageBarrel(target, dmg);
     }
   }
@@ -576,6 +596,7 @@ export class World {
       blast: spec.blast,
       travel: 0,
       range: w.range,
+      homing: 0,
     });
   }
 
@@ -589,7 +610,7 @@ export class World {
     for (const m of this.monsters) {
       if (m.state === 'dead' || !inCone(m.x, m.y, m.r)) continue;
       m.burn = BURN_TIME;
-      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true);
+      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true, p);
     }
     for (const b of this.barrels) if (!b.exploded && inCone(b.x, b.y, b.r)) this.damageBarrel(b, this.rng.int(w.damage[0], w.damage[1]));
     for (let i = 0; i < FLAME_FX_PER_SHOT; i++) {
@@ -610,7 +631,7 @@ export class World {
       const t = rayCircle(p.x, p.y, dx, dy, m.x, m.y, m.r);
       if (t < 0 || t > end) continue;
       this.effect('blood', m.x, m.y);
-      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true);
+      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true, p);
     }
     for (const b of this.barrels) {
       if (b.exploded) continue;
@@ -650,7 +671,7 @@ export class World {
   }
 
   private canBackstab(m: Monster): boolean {
-    return isCalm(m) && !m.seesPlayer && this.isBehind(m);
+    return !m.def.boss && isCalm(m) && !m.seesPlayer && this.isBehind(m);
   }
 
   private backstab(m: Monster): void {
@@ -948,6 +969,16 @@ export class World {
       burn: 0,
       burnDamage: 0,
       burnFx: 0,
+      burstLeft: 0,
+      burstTimer: 0,
+      leapTime: 0,
+      leapAngle: 0,
+      flankSide: this.rng.chance(0.5) ? 1 : -1,
+      flankTimer: 0,
+      shieldAngle: Math.PI / 2,
+      summonTimer: BOSS_SUMMON_EVERY,
+      slamTimer: BOSS_SLAM_EVERY,
+      summoned: false,
     };
     this.monsters.push(m);
     return m;
@@ -1009,6 +1040,8 @@ export class World {
   private updateMonster(m: Monster, dt: number): void {
     if (m.state === 'dead') return;
     if (this.updateBurning(m, dt)) return;
+    this.turnShield(m, dt);
+    this.updateBoss(m, dt);
     const p = this.player;
     m.stateTime -= dt;
     m.cooldown -= dt;
@@ -1022,6 +1055,7 @@ export class World {
       m.seesPlayer = this.canSee(m, d);
     }
     if (m.seesPlayer) m.lastKnown = { x: p.x, y: p.y };
+    if (this.updateLeap(m, dt) || this.updateBurst(m, dt)) return;
 
     switch (m.state) {
       case 'idle':
@@ -1078,7 +1112,31 @@ export class World {
       }
       m.cooldown = 0.4;
     }
-    if (gap < 0.05 || this.navigate(m, p.x, p.y, dt, 1) !== 'moving') this.face(m, Math.atan2(p.y - m.y, p.x - m.x));
+    const leap = m.def.leap;
+    if (leap && m.cooldown <= 0 && d < leap.range && gap > 0.4 && canReach && this.grid.lineOfFire(m.x, m.y, p.x, p.y)) {
+      m.leapTime = leap.time;
+      m.leapAngle = Math.atan2(p.y - m.y, p.x - m.x);
+      m.cooldown = LEAP_COOLDOWN;
+      this.face(m, m.leapAngle);
+      return;
+    }
+    const [tx, ty] = this.chaseTarget(m, dt);
+    if (gap < 0.05 || this.navigate(m, tx, ty, dt, 1) !== 'moving') this.face(m, Math.atan2(p.y - m.y, p.x - m.x));
+  }
+
+  private chaseTarget(m: Monster, dt: number): [number, number] {
+    const p = this.player;
+    const d = dist(m.x, m.y, p.x, p.y);
+    if (!m.def.flank || d < (m.def.leap?.range ?? 0) * 0.8 || d > 9) return [p.x, p.y];
+    m.flankTimer -= dt;
+    if (m.flankTimer <= 0) {
+      m.flankTimer = this.rng.range(FLANK_SWITCH[0], FLANK_SWITCH[1]);
+      m.flankSide = -m.flankSide;
+    }
+    const a = Math.atan2(m.y - p.y, m.x - p.x) + m.flankSide * 0.9;
+    const tx = p.x + Math.cos(a) * FLANK_DISTANCE;
+    const ty = p.y + Math.sin(a) * FLANK_DISTANCE;
+    return this.monsterPassable(Math.floor(tx), Math.floor(ty)) ? [tx, ty] : [p.x, p.y];
   }
 
   sightRange(m: Monster, alert: boolean): number {
@@ -1190,7 +1248,8 @@ export class World {
     let ty = gy;
     const goalCell = this.grid.index(Math.floor(gx), Math.floor(gy + FOOT_OFFSET));
     const ownCell = this.grid.index(Math.floor(m.x), Math.floor(m.y + FOOT_OFFSET));
-    if (ownCell !== goalCell && !(d < 7 && this.clearWalk(m.x, m.y, gx, gy, m.r))) {
+    const floats = m.def.floats === true;
+    if (ownCell !== goalCell && !(d < 7 && this.clearWalk(m.x, m.y, gx, gy, m.r, floats))) {
       m.pathTimer -= dt;
       if (m.pathTimer <= 0 || m.path.length === 0 || m.goalCell !== goalCell) {
         m.pathTimer = this.rng.range(0.5, 0.9);
@@ -1198,19 +1257,19 @@ export class World {
         const path = findPath(
           this.grid.width,
           this.grid.height,
-          (cx, cy) => this.monsterPassable(cx, cy),
+          (cx, cy) => this.monsterPassable(cx, cy, floats),
           Math.floor(m.x),
           Math.floor(m.y + FOOT_OFFSET),
           Math.floor(gx),
           Math.floor(gy + FOOT_OFFSET),
           undefined,
-          (ax, ay, bx, by) => this.grid.canStep(ax, ay, bx, by),
+          (ax, ay, bx, by) => floats || this.grid.canStep(ax, ay, bx, by),
         );
         m.path = path ?? [];
         if (!path) return 'blocked';
       }
       while (m.path.length > 0 && dist(m.x, m.y, m.path[0].x, m.path[0].y) < 0.2) m.path.shift();
-      if (m.path.length === 0 || this.grid.hazardAt(m.path[0].x, m.path[0].y) > 0) return 'blocked';
+      if (m.path.length === 0 || (!floats && this.grid.hazardAt(m.path[0].x, m.path[0].y) > 0)) return 'blocked';
       tx = m.path[0].x;
       ty = m.path[0].y;
     }
@@ -1218,31 +1277,33 @@ export class World {
     const a = Math.atan2(ty - m.y, tx - m.x);
     this.face(m, a);
     const step = Math.min(m.def.speed * this.difficulty.enemySpeed * speedMul * dt, dist(m.x, m.y, tx, ty));
-    const res = this.grid.move(m.x, m.y, m.r, Math.cos(a) * step, Math.sin(a) * step, this.monsterSolid);
+    const solid = floats ? this.floatSolid : this.monsterSolid;
+    const res = this.grid.move(m.x, m.y, m.r, Math.cos(a) * step, Math.sin(a) * step, solid, floats);
     const moved = Math.hypot(res.x - m.x, res.y - m.y);
     m.x = res.x;
     m.y = res.y;
-    this.pushOutOfObstacles(m, m, this.monsterSolid);
+    this.pushOutOfObstacles(m, m, solid, floats);
     if (moved < step * 0.1 && res.bumped.length > 0) return 'blocked';
     m.moving = true;
     m.walkTime += dt;
     return 'moving';
   }
 
-  private monsterPassable(cx: number, cy: number): boolean {
+  private monsterPassable(cx: number, cy: number, floats = false): boolean {
     const t = this.grid.tile(cx, cy);
     if (!t) return false;
     if (t.type === 'floor') {
       const cell = this.grid.index(cx, cy);
-      return !this.grid.blockers.has(cell) && !this.postCells.has(cell) && FLOOR_HAZARD[t.floor] === 0;
+      return !this.grid.blockers.has(cell) && !this.postCells.has(cell) && (floats || FLOOR_HAZARD[t.floor] === 0);
     }
     if (t.type === 'door') return !this.grid.isSolid(cx, cy);
     return false;
   }
 
   private readonly monsterSolid = (cx: number, cy: number): boolean => this.grid.isSolid(cx, cy) || this.grid.hazardAt(cx + 0.5, cy + 0.5) > 0;
+  private readonly floatSolid = (cx: number, cy: number): boolean => this.grid.isSolid(cx, cy);
 
-  private clearWalk(ax: number, ay: number, bx: number, by: number, r: number): boolean {
+  private clearWalk(ax: number, ay: number, bx: number, by: number, r: number, floats = false): boolean {
     const d = Math.hypot(bx - ax, by - ay);
     if (d < 1e-6) return true;
     const nx = -(by - ay) / d;
@@ -1252,13 +1313,13 @@ export class World {
     for (let t = 0; t <= d; t += 0.25) {
       const x = ax + ((bx - ax) * t) / d;
       const y = ay + ((by - ay) * t) / d;
-      if (!this.grid.canStep(px, py, x, y)) return false;
+      if (!floats && !this.grid.canStep(px, py, x, y)) return false;
       px = x;
       py = y;
       for (const o of [-r, 0, r]) {
         const ox = x + nx * o;
         const oy = y + ny * o;
-        if (!this.monsterPassable(Math.floor(ox), Math.floor(oy)) || !this.grid.canStep(x, y, ox, oy)) return false;
+        if (!this.monsterPassable(Math.floor(ox), Math.floor(oy), floats) || (!floats && !this.grid.canStep(x, y, ox, oy))) return false;
       }
     }
     return true;
@@ -1287,25 +1348,106 @@ export class World {
     }
     if (m.def.ranged === 'hitscan') {
       this.enemyGunfire(m, a);
+      m.burstLeft = (m.def.burst ?? 1) - 1;
+      m.burstTimer = m.def.burstGap ?? 0;
     } else if (m.def.ranged === 'fireball') {
+      const shot = m.def.shot ?? FIREBALL_SHOT;
+      const count = shot.count + (m.def.boss ? this.bossPhase(m) * 2 : 0);
       this.sound('fireball', m.x, m.y);
-      this.projectiles.push({
-        id: this.nextId++,
-        x: m.x + Math.cos(a) * (m.r + 0.1),
-        y: m.y + Math.sin(a) * (m.r + 0.1),
-        vx: Math.cos(a) * FIREBALL_SPEED * this.difficulty.projectileSpeed,
-        vy: Math.sin(a) * FIREBALL_SPEED * this.difficulty.projectileSpeed,
-        damage: m.def.rangedDamage,
-        ownerId: m.id,
-        alive: true,
-        look: 'fireball',
-        fromPlayer: false,
-        overCover: false,
-        blast: null,
-        travel: 0,
-        range: FIREBALL_RANGE,
-      });
+      for (let i = 0; i < count; i++) this.enemyShot(m, a + (i - (count - 1) / 2) * shot.spread, shot);
     }
+  }
+
+  private enemyShot(m: Monster, a: number, shot: ShotSpec): void {
+    const speed = shot.speed * this.difficulty.projectileSpeed;
+    this.projectiles.push({
+      id: this.nextId++,
+      x: m.x + Math.cos(a) * (m.r + 0.1),
+      y: m.y + Math.sin(a) * (m.r + 0.1),
+      vx: Math.cos(a) * speed,
+      vy: Math.sin(a) * speed,
+      damage: m.def.rangedDamage,
+      ownerId: m.id,
+      alive: true,
+      look: shot.look,
+      fromPlayer: false,
+      overCover: false,
+      blast: null,
+      travel: 0,
+      range: shot.range,
+      homing: shot.homing,
+    });
+  }
+
+  private bossPhase(m: Monster): number {
+    const ratio = m.hp / m.def.hp;
+    return ratio > 2 / 3 ? 0 : ratio > 1 / 3 ? 1 : 2;
+  }
+
+  private updateBoss(m: Monster, dt: number): void {
+    if (!m.def.boss || isCalm(m)) return;
+    const phase = this.bossPhase(m);
+    if (phase >= 1) {
+      m.summonTimer -= dt;
+      const adds = this.monsters.filter((o) => o.summoned && o.state !== 'dead').length;
+      if (m.summonTimer <= 0 && adds < BOSS_MAX_ADDS) {
+        m.summonTimer = BOSS_SUMMON_EVERY;
+        for (const side of [-1, 1]) {
+          const a = m.angle + side * Math.PI / 2;
+          const x = m.x + Math.cos(a) * 1.6;
+          const y = m.y + Math.sin(a) * 1.6;
+          if (!this.monsterPassable(Math.floor(x), Math.floor(y))) continue;
+          const add = this.spawnMonster(phase === 1 ? 'fiend' : 'stalker', x, y);
+          add.summoned = true;
+          this.wake(add);
+          this.effect('riftblast', x, y);
+        }
+      }
+    }
+    if (phase >= 2) {
+      m.slamTimer -= dt;
+      if (m.slamTimer <= 0) {
+        m.slamTimer = BOSS_SLAM_EVERY;
+        this.sound('rift', m.x, m.y);
+        for (let i = 0; i < BOSS_RING; i++) this.enemyShot(m, (i / BOSS_RING) * Math.PI * 2, FIREBALL_SHOT);
+      }
+    }
+  }
+
+  private updateBurst(m: Monster, dt: number): boolean {
+    if (m.burstLeft <= 0) return false;
+    const p = this.player;
+    if (!m.seesPlayer || !this.grid.lineOfFire(m.x, m.y, p.x, p.y)) {
+      m.burstLeft = 0;
+      return false;
+    }
+    this.face(m, Math.atan2(p.y - m.y, p.x - m.x));
+    m.burstTimer -= dt;
+    if (m.burstTimer <= 0) {
+      m.burstTimer = m.def.burstGap ?? 0;
+      m.burstLeft--;
+      this.enemyGunfire(m, m.angle);
+    }
+    return true;
+  }
+
+  private updateLeap(m: Monster, dt: number): boolean {
+    if (m.leapTime <= 0 || !m.def.leap) return false;
+    m.leapTime -= dt;
+    const step = m.def.leap.speed * dt;
+    const res = this.grid.move(m.x, m.y, m.r, Math.cos(m.leapAngle) * step, Math.sin(m.leapAngle) * step, this.monsterSolid);
+    m.x = res.x;
+    m.y = res.y;
+    m.moving = true;
+    m.walkTime += dt;
+    if (res.bumped.length > 0) m.leapTime = 0;
+    return true;
+  }
+
+  private turnShield(m: Monster, dt: number): void {
+    if (!m.def.frontArmor) return;
+    const diff = angleDiff(m.angle, m.shieldAngle);
+    m.shieldAngle += Math.sign(diff) * Math.min(Math.abs(diff), m.def.turnSpeed * dt);
   }
 
   private enemyGunfire(m: Monster, aim: number): void {
@@ -1329,8 +1471,12 @@ export class World {
     }
   }
 
-  damageMonster(m: Monster, amount: number, byPlayer = false): void {
+  damageMonster(m: Monster, amount: number, byPlayer = false, from: Vec | null = null): void {
     if (m.state === 'dead') return;
+    if (m.def.frontArmor && from && Math.abs(angleDiff(Math.atan2(from.y - m.y, from.x - m.x), m.shieldAngle)) < FRONT_ARC) {
+      amount = Math.max(1, Math.round(amount * (1 - m.def.frontArmor)));
+      this.effect('puff', m.x + Math.cos(m.shieldAngle) * m.r, m.y + Math.sin(m.shieldAngle) * m.r);
+    }
     m.hp -= amount;
     m.hurtTime = 0.15;
     this.events.push({ type: 'damage', x: m.x, y: m.y, amount, toPlayer: false });
@@ -1354,7 +1500,7 @@ export class World {
     m.hp = 0;
     m.deathTime = this.time;
     m.path = [];
-    this.stats.kills++;
+    if (!m.summoned) this.stats.kills++;
     this.sound(silent ? 'backstab' : 'monsterDeath', m.x, m.y);
     if (m.def.drop) this.items.push({ id: this.nextId++, kind: m.def.drop, x: m.x, y: m.y, taken: false, dropped: true });
   }
@@ -1397,6 +1543,7 @@ export class World {
   private updateProjectiles(dt: number): void {
     for (const pr of this.projectiles) {
       if (!pr.alive) continue;
+      if (pr.homing > 0) this.steer(pr, dt);
       pr.x += pr.vx * dt;
       pr.y += pr.vy * dt;
       pr.travel += Math.hypot(pr.vx, pr.vy) * dt;
@@ -1417,6 +1564,16 @@ export class World {
     }
   }
 
+  private steer(pr: Projectile, dt: number): void {
+    const p = this.player;
+    const speed = Math.hypot(pr.vx, pr.vy);
+    const current = Math.atan2(pr.vy, pr.vx);
+    const diff = angleDiff(Math.atan2(p.y - pr.y, p.x - pr.x), current);
+    const a = current + Math.sign(diff) * Math.min(Math.abs(diff), pr.homing * dt);
+    pr.vx = Math.cos(a) * speed;
+    pr.vy = Math.sin(a) * speed;
+  }
+
   private projectileTarget(pr: Projectile): Player | Monster | Barrel | null {
     const p = this.player;
     if (!pr.fromPlayer && dist(pr.x, pr.y, p.x, p.y) < p.r + 0.15) return p;
@@ -1429,7 +1586,7 @@ export class World {
     pr.alive = false;
     const dmg = this.rng.int(pr.damage[0], pr.damage[1]);
     if (target === this.player) this.hurtPlayerByEnemy(dmg);
-    else if (target && isMonster(target)) this.damageMonster(target, dmg, pr.fromPlayer);
+    else if (target && isMonster(target)) this.damageMonster(target, dmg, pr.fromPlayer, { x: pr.x - pr.vx * 0.05, y: pr.y - pr.vy * 0.05 });
     else if (target && isBarrel(target)) this.damageBarrel(target, dmg);
     if (pr.blast) {
       this.blast(pr.x, pr.y, pr.blast, pr.fromPlayer, pr.look === 'orb' ? 'riftblast' : 'explosion');
@@ -1451,7 +1608,7 @@ export class World {
     for (const m of this.monsters) {
       if (m.state === 'dead') continue;
       const dmg = hurt(m.x, m.y);
-      if (dmg > 0) this.damageMonster(m, dmg, byPlayer);
+      if (dmg > 0) this.damageMonster(m, dmg, byPlayer, { x, y });
     }
     for (const o of this.barrels) {
       if (o === source) continue;
@@ -1484,7 +1641,7 @@ export class World {
 
   // ---------- physics helpers ----------
 
-  private pushOutOfObstacles(e: { x: number; y: number; r: number }, self: Monster | null, solid?: (cx: number, cy: number) => boolean): void {
+  private pushOutOfObstacles(e: { x: number; y: number; r: number }, self: Monster | null, solid?: (cx: number, cy: number) => boolean, ignoreHeight = false): void {
     const solids: { x: number; y: number; r: number }[] = [];
     for (const m of this.monsters) if (m !== self && m.state !== 'dead') solids.push(m);
     for (const b of this.barrels) if (!b.exploded) solids.push(b);
@@ -1499,7 +1656,7 @@ export class World {
       const nx = d > 1e-6 ? dx / d : 1;
       const ny = d > 1e-6 ? dy / d : 0;
       const push = clamp(min - d, 0, 0.3);
-      const res = this.grid.move(e.x, e.y, e.r, nx * push, ny * push, solid);
+      const res = this.grid.move(e.x, e.y, e.r, nx * push, ny * push, solid, ignoreHeight);
       e.x = res.x;
       e.y = res.y;
     }

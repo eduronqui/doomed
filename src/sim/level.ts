@@ -73,6 +73,11 @@ const SPAWNS: Record<string, SpawnKind> = {
   F: 'flamer',
   A: 'arc',
   Q: 'rift',
+  M: 'gunner',
+  S: 'stalker',
+  w: 'warden',
+  V: 'hollow',
+  Z: 'gatekeeper',
 };
 
 const DOOR_CHARS: Record<string, DoorKind> = { D: 'normal', R: 'red', B: 'blue', Y: 'yellow', X: 'secret', T: 'trap' };
@@ -205,7 +210,7 @@ function applyHeights(name: string, tiles: Tile[], width: number, height: number
 }
 
 export const EXIT_GUARD_RADIUS = 5;
-const MONSTER_KINDS: ReadonlySet<SpawnKind> = new Set<SpawnKind>(['husk', 'shotgunner', 'fiend', 'brute', 'shade']);
+const MONSTER_KINDS: ReadonlySet<SpawnKind> = new Set<SpawnKind>(['husk', 'shotgunner', 'fiend', 'brute', 'shade', 'gunner', 'stalker', 'warden', 'hollow', 'gatekeeper']);
 
 function hasGuard(tiles: Tile[], spawns: Spawn[], width: number, height: number, fx: number, fy: number): boolean {
   const room = new Set<number>([fy * width + fx]);

@@ -141,6 +141,10 @@ export class Sfx {
         n(0.6, 'lowpass', 1000, 220, 0.65, 0.03);
         o('sine', 58, 32, 0.5, 0.55);
         break;
+      case 'alertBoss':
+        c('sawtooth', [55, 90, 40], 1.4, 0.55, [4, 8]);
+        o('sine', 45, 30, 1.2, 0.4);
+        break;
       case 'monsterPain':
         o('sawtooth', 320, 170, 0.22, 0.28);
         break;

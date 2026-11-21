@@ -207,6 +207,16 @@ export function grenadeShot(frame: number): Pix {
   return p.outline(0x141a10);
 }
 
+export function wisp(frame: number): Pix {
+  const p = new Pix(16, 16);
+  const r = frame === 0 ? 4 : 4.6;
+  p.ellipse(8, 8, r, r, (_x, _y, nx, ny) => {
+    const d = Math.hypot(nx, ny);
+    return d < 0.4 ? 0xffffff : d < 0.75 ? 0xb8f0ff : 0x4a90c0;
+  });
+  return p;
+}
+
 export function riftOrb(frame: number): Pix {
   const p = new Pix(24, 24);
   const r = frame === 0 ? 8 : 9;
