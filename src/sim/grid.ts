@@ -1,4 +1,4 @@
-import { FLOOR_HAZARD, type DoorKind, type LevelData, type Tile } from './level';
+import { FLOOR_HAZARD, STAIR_HEIGHT, type DoorKind, type LevelData, type Tile } from './level';
 
 export type DoorPhase = 'closed' | 'opening' | 'open' | 'closing';
 
@@ -30,6 +30,9 @@ const DOOR_SPEED = 2.5;
 const DOOR_STAY_OPEN = 4;
 const PASSABLE_OPENNESS = 0.85;
 const EPS = 1e-4;
+const MAX_STEP = 0.5;
+const FOOT = 0.1;
+export const FOOT_OFFSET = 0.28;
 
 export class Grid {
   readonly width: number;
@@ -165,6 +168,30 @@ export class Grid {
     return true;
   }
 
+  heightAt(x: number, y: number): number {
+    return this.tile(Math.floor(x), Math.floor(y))?.height ?? 0;
+  }
+
+  elevation(x: number, y: number): number {
+    const cx = Math.floor(x);
+    const cy = Math.floor(y);
+    const h = this.tile(cx, cy)?.height ?? 0;
+    if (h !== STAIR_HEIGHT) return h;
+    const raised = (dx: number, dy: number): boolean => (this.tile(cx + dx, cy + dy)?.height ?? 0) > STAIR_HEIGHT;
+    if (raised(0, -1)) return 1 - (y - cy);
+    if (raised(0, 1)) return y - cy;
+    if (raised(-1, 0)) return 1 - (x - cx);
+    return x - cx;
+  }
+
+  standHeight(x: number, y: number): number {
+    return this.heightAt(x, y + FOOT_OFFSET);
+  }
+
+  canStep(ax: number, ay: number, bx: number, by: number): boolean {
+    return Math.abs(this.standHeight(ax, ay) - this.standHeight(bx, by)) <= MAX_STEP;
+  }
+
   isOpaque(x: number, y: number): boolean {
     const t = this.tile(x, y);
     if (!t) return true;
@@ -231,31 +258,39 @@ export class Grid {
 
   move(x: number, y: number, r: number, dx: number, dy: number, solid: (cx: number, cy: number) => boolean = (cx, cy) => this.isSolid(cx, cy)): MoveResult {
     const bumped: number[] = [];
-    let nx = x + dx;
-    if (dx !== 0) {
-      const edge = dx > 0 ? nx + r : nx - r;
-      const cx = Math.floor(edge);
-      for (let cy = Math.floor(y - r); cy <= Math.floor(y + r - EPS); cy++) {
-        if (solid(cx, cy)) {
-          bumped.push(this.index(cx, cy));
-          nx = dx > 0 ? cx - r - EPS : cx + 1 + r + EPS;
-          break;
-        }
-      }
-    }
-    let ny = y + dy;
-    if (dy !== 0) {
-      const edge = dy > 0 ? ny + r : ny - r;
-      const cy = Math.floor(edge);
-      for (let cx = Math.floor(nx - r); cx <= Math.floor(nx + r - EPS); cx++) {
-        if (solid(cx, cy)) {
-          bumped.push(this.index(cx, cy));
-          ny = dy > 0 ? cy - r - EPS : cy + 1 + r + EPS;
-          break;
-        }
-      }
-    }
+    const from = this.standHeight(x, y);
+    const rise = (cx: number, cy: number): boolean => this.heightAt(cx, cy) - from > MAX_STEP;
+    const drop = (cx: number, cy: number): boolean => from - this.heightAt(cx, cy) > MAX_STEP;
+    const fy = y + FOOT_OFFSET;
+    let nx = this.sweepX(x, y, dx, r, solid, bumped);
+    nx = this.sweepX(x, y, nx - x, r, rise, bumped);
+    nx = this.sweepX(x, fy, nx - x, FOOT, drop, bumped);
+    let ny = this.sweepY(nx, y, dy, r, solid, bumped);
+    ny = this.sweepY(nx, y, ny - y, r, rise, bumped);
+    ny = this.sweepY(nx, fy, ny - y, FOOT, drop, bumped) - FOOT_OFFSET;
     return { x: nx, y: ny, bumped };
+  }
+
+  private sweepX(x: number, y: number, dx: number, r: number, block: (cx: number, cy: number) => boolean, bumped: number[]): number {
+    if (dx === 0) return x;
+    const cx = Math.floor(dx > 0 ? x + dx + r : x + dx - r);
+    for (let cy = Math.floor(y - r); cy <= Math.floor(y + r - EPS); cy++) {
+      if (!block(cx, cy)) continue;
+      bumped.push(this.index(cx, cy));
+      return dx > 0 ? cx - r - EPS : cx + 1 + r + EPS;
+    }
+    return x + dx;
+  }
+
+  private sweepY(x: number, y: number, dy: number, r: number, block: (cx: number, cy: number) => boolean, bumped: number[]): number {
+    if (dy === 0) return y;
+    const cy = Math.floor(dy > 0 ? y + dy + r : y + dy - r);
+    for (let cx = Math.floor(x - r); cx <= Math.floor(x + r - EPS); cx++) {
+      if (!block(cx, cy)) continue;
+      bumped.push(this.index(cx, cy));
+      return dy > 0 ? cy - r - EPS : cy + 1 + r + EPS;
+    }
+    return y + dy;
   }
 
   raycast(ox: number, oy: number, dx: number, dy: number, maxDist: number, blocks: (cx: number, cy: number) => boolean = (cx, cy) => this.isShotBlocker(cx, cy)): RayHit {

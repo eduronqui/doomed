@@ -1,7 +1,7 @@
 import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type WeaponId } from '../weapons';
-import { Grid, type Door } from './grid';
+import { FOOT_OFFSET, Grid, type Door } from './grid';
 import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
 import { Rng } from './rng';
@@ -515,7 +515,7 @@ export class World {
     const candidates: (Monster | Barrel)[] = [...this.monsters.filter((m) => m.state !== 'dead'), ...this.barrels.filter((b) => !b.exploded)];
     for (const t of candidates) {
       const d = dist(p.x, p.y, t.x, t.y) - t.r;
-      if (d > w.range - p.r + 0.3 || d >= bestD) continue;
+      if (d > w.range - p.r + 0.3 || d >= bestD || !this.grid.canStep(p.x, p.y, t.x, t.y)) continue;
       const diff = Math.atan2(Math.sin(Math.atan2(t.y - p.y, t.x - p.x) - p.angle), Math.cos(Math.atan2(t.y - p.y, t.x - p.x) - p.angle));
       if (Math.abs(diff) > 0.9) continue;
       best = t;
@@ -918,11 +918,12 @@ export class World {
     m.lostTime = 0;
 
     const gap = d - m.r - p.r;
-    if (m.def.meleeDamage && gap < 0.4 && m.cooldown <= 0) {
+    const canReach = this.grid.canStep(m.x, m.y, p.x, p.y);
+    if (m.def.meleeDamage && gap < 0.4 && m.cooldown <= 0 && canReach) {
       this.startAttack(m, 'melee');
       return;
     }
-    if (m.def.ranged && m.def.ranged !== 'melee' && d < m.def.rangedRange && m.cooldown <= 0 && (gap > 0.4 || !m.def.meleeDamage) && this.grid.lineOfFire(m.x, m.y, p.x, p.y)) {
+    if (m.def.ranged && m.def.ranged !== 'melee' && d < m.def.rangedRange && m.cooldown <= 0 && (gap > 0.4 || !m.def.meleeDamage || !canReach) && this.grid.lineOfFire(m.x, m.y, p.x, p.y)) {
       if (this.rng.chance(m.def.rangedChance)) {
         this.startAttack(m, 'ranged');
         return;
@@ -1039,8 +1040,8 @@ export class World {
     if (d < 0.2) return 'arrived';
     let tx = gx;
     let ty = gy;
-    const goalCell = this.grid.index(Math.floor(gx), Math.floor(gy));
-    const ownCell = this.grid.index(Math.floor(m.x), Math.floor(m.y));
+    const goalCell = this.grid.index(Math.floor(gx), Math.floor(gy + FOOT_OFFSET));
+    const ownCell = this.grid.index(Math.floor(m.x), Math.floor(m.y + FOOT_OFFSET));
     if (ownCell !== goalCell && !(d < 7 && this.clearWalk(m.x, m.y, gx, gy, m.r))) {
       m.pathTimer -= dt;
       if (m.pathTimer <= 0 || m.path.length === 0 || m.goalCell !== goalCell) {
@@ -1051,9 +1052,11 @@ export class World {
           this.grid.height,
           (cx, cy) => this.monsterPassable(cx, cy),
           Math.floor(m.x),
-          Math.floor(m.y),
+          Math.floor(m.y + FOOT_OFFSET),
           Math.floor(gx),
-          Math.floor(gy),
+          Math.floor(gy + FOOT_OFFSET),
+          undefined,
+          (ax, ay, bx, by) => this.grid.canStep(ax, ay, bx, by),
         );
         m.path = path ?? [];
         if (!path) return 'blocked';
@@ -1096,11 +1099,18 @@ export class World {
     if (d < 1e-6) return true;
     const nx = -(by - ay) / d;
     const ny = (bx - ax) / d;
+    let px = ax;
+    let py = ay;
     for (let t = 0; t <= d; t += 0.25) {
       const x = ax + ((bx - ax) * t) / d;
       const y = ay + ((by - ay) * t) / d;
+      if (!this.grid.canStep(px, py, x, y)) return false;
+      px = x;
+      py = y;
       for (const o of [-r, 0, r]) {
-        if (!this.monsterPassable(Math.floor(x + nx * o), Math.floor(y + ny * o))) return false;
+        const ox = x + nx * o;
+        const oy = y + ny * o;
+        if (!this.monsterPassable(Math.floor(ox), Math.floor(oy)) || !this.grid.canStep(x, y, ox, oy)) return false;
       }
     }
     return true;
@@ -1121,7 +1131,7 @@ export class World {
     const p = this.player;
     const a = Math.atan2(p.y - m.y, p.x - m.x);
     if (m.attack === 'melee') {
-      if (dist(m.x, m.y, p.x, p.y) - m.r - p.r < 0.65 && m.def.meleeDamage) {
+      if (dist(m.x, m.y, p.x, p.y) - m.r - p.r < 0.65 && m.def.meleeDamage && this.grid.canStep(m.x, m.y, p.x, p.y)) {
         this.sound('claw', m.x, m.y);
         this.hurtPlayerByEnemy(this.rng.int(m.def.meleeDamage[0], m.def.meleeDamage[1]));
       }

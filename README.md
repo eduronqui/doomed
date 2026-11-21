@@ -149,6 +149,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?pos=x,y` | Start the player on map cell (x, y) |
 | `?level=n` | Start on level n (1 to 3), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
+| `?noMonster` | Remove every monster at the start, to look around a level in peace |
 
 Example: `http://localhost:5173/?autostart&god&pos=50,26` starts in the hell vault.
 

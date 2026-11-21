@@ -5,7 +5,7 @@ import { LEVELS, TRAINING_INDEX, levelInfo } from '../levels';
 import { DEATH_MUSIC } from '../levels/death.music';
 import { isTrainingDone, markTrainingDone } from '../ui/progress';
 import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from '../sim/defs';
-import type { Door } from '../sim/grid';
+import { FOOT_OFFSET, type Door } from '../sim/grid';
 import { looksLikeWall, type Tile } from '../sim/level';
 import { dist } from '../sim/types';
 import { IDLE_INPUT, World, keyColorOf, type Carry, type EffectKind, type GameEvent, type Input, type Monster } from '../sim/world';
@@ -16,6 +16,7 @@ import type { Music } from './music';
 import { TILE, WALL_HEIGHT } from './art/tiles';
 import { Lighting, type Light } from './lighting';
 import { parseDevParams } from './devParams';
+import { RAISE, drawLowShadows, drawRaisedRow, rowHasHeight } from './heights';
 import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
 
 export const VIEW_W = 1024;
@@ -27,7 +28,7 @@ const DECAL_DEPTH = -90000;
 const CORPSE_DEPTH = -80000;
 const OVERLAY_DEPTH = 1_000_000;
 const NAME_DEPTH = 2_000_000;
-const ACTOR_FOOT = 0.28;
+const ACTOR_FOOT = FOOT_OFFSET;
 const GUN_HEIGHT_PX = 10;
 const STEALTH_EXPOSE_RANGE = 3;
 const DEATHS_BEFORE_DIFFICULTY_PICK = 3;
@@ -72,6 +73,11 @@ function hash(x: number, y: number): number {
   let h = Math.imul(x * 374761393 + y * 668265263, 1274126177);
   h ^= h >>> 13;
   return (h >>> 0) % 1000;
+}
+
+function floorVariant(t: Tile, x: number, y: number): number {
+  if (t.floor === 'slime' || t.floor === 'lava') return 0;
+  return hash(x, y) < 700 ? 0 : hash(x, y) % FLOOR_VARIANTS;
 }
 
 const KEY_RGB: Record<'red' | 'blue' | 'yellow', [number, number, number]> = { red: [255, 40, 40], blue: [60, 130, 255], yellow: [255, 220, 60] };
@@ -197,6 +203,14 @@ export class GameScene extends Phaser.Scene {
       }
       if (dev.god) this.world.player.health = 9999;
       if (dev.sight) this.showSight = true;
+      if (dev.noMonster) {
+        for (const v of this.monsterViews.values()) {
+          v.sprite.destroy();
+          v.name.destroy();
+        }
+        this.monsterViews.clear();
+        this.world.monsters.length = 0;
+      }
       (window as unknown as { __doomed: { world: World; scene: Phaser.Scene } }).__doomed = { world: this.world, scene: this };
     }
     if (this.started) this.beginPlay();
@@ -236,9 +250,7 @@ export class GameScene extends Phaser.Scene {
       for (let x = 0; x < W; x++) {
         const t = g.tiles[g.index(x, y)];
         if (t.type === 'floor' || t.type === 'door') {
-          const v = hash(x, y) % FLOOR_VARIANTS;
-          const variant = t.floor === 'slime' || t.floor === 'lava' ? 0 : hash(x, y) < 700 ? 0 : v;
-          const fr = this.textures.getFrame(ATLAS, key.floor(t.floor, variant));
+          const fr = this.textures.getFrame(ATLAS, key.floor(t.floor, floorVariant(t, x, y)));
           ctx.drawImage(fr.source.image as CanvasImageSource, fr.cutX, fr.cutY, TILE, TILE, x * TILE, y * TILE, TILE, TILE);
           if (t.floor === 'slime' || t.floor === 'lava') {
             const img = this.add.image(x * TILE, y * TILE, ATLAS, key.floor(t.floor, 0)).setOrigin(0).setDepth(FLOOR_DEPTH + 1);
@@ -259,8 +271,10 @@ export class GameScene extends Phaser.Scene {
         }
       }
     }
+    drawLowShadows(ctx, g);
     tex.refresh();
     this.add.image(0, 0, 'floor_static').setOrigin(0).setDepth(FLOOR_DEPTH);
+    this.buildRaisedRows();
     this.buildDoorPieces();
     const closet = this.world.hiddenCloset();
     for (const i of closet?.embedded ? closet.cells : []) {
@@ -291,6 +305,42 @@ export class GameScene extends Phaser.Scene {
         }
       }
     }
+  }
+
+  private buildRaisedRows(): void {
+    const g = this.world.grid;
+    for (let y = 0; y < g.height; y++) {
+      const name = `raised_${y}`;
+      if (this.textures.exists(name)) this.textures.remove(name);
+      if (!rowHasHeight(g, y)) continue;
+      const tex = this.textures.createCanvas(name, g.width * TILE, TILE + RAISE)!;
+      const ctx = tex.context;
+      ctx.imageSmoothingEnabled = false;
+      const draw = (frameKey: string, sx: number, sy: number, w: number, h: number, dx: number, dy: number): void => {
+        const fr = this.textures.getFrame(ATLAS, frameKey);
+        ctx.drawImage(fr.source.image as CanvasImageSource, fr.cutX + sx, fr.cutY + sy, w, h, dx, dy, w, h);
+      };
+      drawRaisedRow(
+        ctx,
+        g,
+        y,
+        (cx, cy, sx, sy, w, h, dx, dy) => {
+          const t = g.tiles[g.index(cx, cy)];
+          draw(key.floor(t.floor, floorVariant(t, cx, cy)), sx, sy, w, h, dx, dy);
+        },
+        (floor, sx, sy, w, h, dx, dy) => draw(key.floor(floor, 0), sx, sy, w, h, dx, dy),
+      );
+      tex.refresh();
+      this.add.image(0, y * TILE - RAISE, name).setOrigin(0).setDepth((y + 1) * TILE);
+    }
+  }
+
+  private lift(x: number, y: number): number {
+    return this.world.grid.elevation(x, y) * RAISE;
+  }
+
+  private raisedDepth(x: number, y: number, depth: number): number {
+    return this.world.grid.elevation(x, y) > 0 ? Math.max(depth + TILE, (Math.floor(y) + 1) * TILE + 0.5) : depth;
   }
 
   private buildDoorPieces(): void {
@@ -347,7 +397,8 @@ export class GameScene extends Phaser.Scene {
     const w = this.world;
     for (const d of w.decos) this.addDeco(d.kind, d.x, d.y);
     for (const b of w.barrels) {
-      this.barrelViews.set(b.id, this.add.image(b.x * TILE, (b.y + 0.32) * TILE, ATLAS, key.barrel(0)).setOrigin(0.5, 1).setDepth((b.y + 0.32) * TILE));
+      const lift = this.lift(b.x, b.y);
+      this.barrelViews.set(b.id, this.add.image(b.x * TILE, (b.y + 0.32) * TILE - lift, ATLAS, key.barrel(0)).setOrigin(0.5, 1).setDepth(this.raisedDepth(b.x, b.y, (b.y + 0.32) * TILE)));
     }
     for (const it of w.items) this.addItem(it.id, it.kind, it.x, it.y);
     for (const m of w.monsters) this.monsterViews.set(m.id, this.makeActor(m.kind, m.def.name, m.x, m.y));
@@ -356,17 +407,18 @@ export class GameScene extends Phaser.Scene {
 
   private addDeco(kind: DecoKind, x: number, y: number): void {
     const cx = x * TILE;
-    const bottom = Math.floor(y) * TILE + TILE;
+    const lift = this.lift(x, y);
+    const bottom = Math.floor(y) * TILE + TILE - lift;
     switch (kind) {
       case 'lamp':
-        this.decoViews.push({ img: this.add.image(cx, bottom - 2, ATLAS, key.deco('lamp', 0)).setOrigin(0.5, 1).setDepth((y + ACTOR_FOOT) * TILE), x, y });
+        this.decoViews.push({ img: this.add.image(cx, bottom - 2, ATLAS, key.deco('lamp', 0)).setOrigin(0.5, 1).setDepth(this.raisedDepth(x, y, (y + ACTOR_FOOT) * TILE)), x, y });
         this.staticLights.push({ x, y: y - 0.3, r: 4.6, a: 0.92, color: [170, 225, 255], glow: 0.1 });
         break;
       case 'crate':
-        this.decoViews.push({ img: this.add.image(cx, bottom, ATLAS, key.deco('crate', 0)).setOrigin(0.5, 1).setDepth(bottom), x, y });
+        this.decoViews.push({ img: this.add.image(cx, bottom, ATLAS, key.deco('crate', 0)).setOrigin(0.5, 1).setDepth(this.raisedDepth(x, y, bottom + lift)), x, y });
         break;
       case 'brazier': {
-        const img = this.add.image(cx, bottom - 1, ATLAS, key.deco('brazier', 0)).setOrigin(0.5, 1).setDepth(bottom);
+        const img = this.add.image(cx, bottom - 1, ATLAS, key.deco('brazier', 0)).setOrigin(0.5, 1).setDepth(this.raisedDepth(x, y, bottom + lift));
         this.braziers.push(img);
         this.decoViews.push({ img, x, y });
         this.staticLights.push({ x, y: y - 0.3, r: 4.4, a: 0.9, color: [255, 120, 30], glow: 0.3, flicker: true });
@@ -374,13 +426,13 @@ export class GameScene extends Phaser.Scene {
       }
       case 'gore':
       case 'body':
-        this.decoViews.push({ img: this.add.image(cx, y * TILE, ATLAS, key.deco(kind, 0)).setDepth(DECAL_DEPTH), x, y });
+        this.decoViews.push({ img: this.add.image(cx, y * TILE - lift, ATLAS, key.deco(kind, 0)).setDepth(this.raisedDepth(x, y, DECAL_DEPTH)), x, y });
         break;
     }
   }
 
   private addItem(id: number, kind: string, x: number, y: number): void {
-    const img = this.add.image(x * TILE, y * TILE - 4, ATLAS, `item_${kind}`).setDepth(y * TILE);
+    const img = this.add.image(x * TILE, y * TILE - 4 - this.lift(x, y), ATLAS, `item_${kind}`).setDepth(this.raisedDepth(x, y, y * TILE));
     if (kind === 'sphere' || kind === 'redkey') {
       this.tweens.add({ targets: img, y: img.y - 3, duration: 700, yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
     }
@@ -500,6 +552,12 @@ export class GameScene extends Phaser.Scene {
     this.scene.restart({ deps: this.deps, started: true, difficulty, levelIndex, carry });
   }
 
+  private aimRow(px: number, py: number): number {
+    const y = (py + GUN_HEIGHT_PX) / TILE;
+    const raisedY = y + RAISE / TILE;
+    return this.world.grid.elevation(px / TILE, raisedY) > 0 ? raisedY : y;
+  }
+
   private readInput(): Input {
     const k = this.keys;
     const cam = this.cameras.main;
@@ -521,7 +579,7 @@ export class GameScene extends Phaser.Scene {
       moveX,
       moveY,
       aimX: this.aimByKeys ? p.x + Math.cos(this.keyAim) : wp.x / TILE,
-      aimY: this.aimByKeys ? p.y + Math.sin(this.keyAim) : (wp.y + GUN_HEIGHT_PX) / TILE,
+      aimY: this.aimByKeys ? p.y + Math.sin(this.keyAim) : this.aimRow(wp.x, wp.y),
       fire: mouseFire || k.SPACE.isDown,
       use: this.useQueued,
       weaponSlot: this.slotQueued,
@@ -632,11 +690,12 @@ export class GameScene extends Phaser.Scene {
   }
 
   private spawnFx(name: EffectKind, x: number, y: number): void {
-    const sprite = this.add.image(x * TILE, y * TILE - (name === 'blood' ? 10 : 6), ATLAS, key.fx(name, 0)).setDepth(y * TILE + 20);
+    const lift = this.lift(x, y);
+    const sprite = this.add.image(x * TILE, y * TILE - (name === 'blood' ? 10 : 6) - lift, ATLAS, key.fx(name, 0)).setDepth(this.raisedDepth(x, y, y * TILE + 20));
     if (name === 'explosion' || name === 'burst') sprite.setBlendMode(Phaser.BlendModes.ADD);
     this.fx.push({ sprite, name, frames: FX_FRAMES[name], age: 0, frameTime: FX_TIME[name] });
     if (name === 'explosion') {
-      this.add.image(x * TILE, y * TILE, ATLAS, key.fx('scorch', 0)).setDepth(DECAL_DEPTH + 1);
+      this.add.image(x * TILE, y * TILE - lift, ATLAS, key.fx('scorch', 0)).setDepth(this.raisedDepth(x, y, DECAL_DEPTH + 1));
       const d = dist(x, y, this.world.player.x, this.world.player.y);
       if (d < 9) this.cameras.main.shake(220, 0.012 * (1 - d / 9));
     }
@@ -653,24 +712,26 @@ export class GameScene extends Phaser.Scene {
     const p = w.player;
     const pv = this.playerView;
     const pf = this.actorFrame(p.moving, p.walkTime, p.attackTime > 0);
-    pv.sprite.setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE).setDepth((p.y + ACTOR_FOOT) * TILE);
+    const pLift = this.lift(p.x, p.y + ACTOR_FOOT);
+    const pDepth = this.raisedDepth(p.x, p.y + ACTOR_FOOT, (p.y + ACTOR_FOOT) * TILE);
+    pv.sprite.setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE - pLift).setDepth(pDepth);
     if (w.status === 'dead') {
       if (!pv.dead) {
         pv.dead = true;
-        pv.sprite.setFrame(key.corpse('marine')).setOrigin(0.5, 0.7).setDepth(CORPSE_DEPTH + p.y);
+        pv.sprite.setFrame(key.corpse('marine')).setOrigin(0.5, 0.7).setDepth(this.raisedDepth(p.x, p.y + ACTOR_FOOT, CORPSE_DEPTH + p.y));
         pv.name.setVisible(false);
       }
     } else {
       pv.sprite.setFrame(key.marine(p.weapon, p.dir, pf));
       pv.sprite.setTint(p.hurtTime > 0.2 ? 0xff9090 : 0xffffff);
-      pv.name.setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE - 31);
+      pv.name.setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE - 31 - pLift);
     }
 
     if (p.flash > 0 && w.status === 'playing') {
       this.muzzle
         .setVisible(true)
-        .setPosition((p.x + Math.cos(p.angle) * 0.62) * TILE, (p.y + Math.sin(p.angle) * 0.62) * TILE - GUN_HEIGHT_PX)
-        .setDepth((p.y + ACTOR_FOOT) * TILE + (p.dir === 'n' ? -1 : 1));
+        .setPosition((p.x + Math.cos(p.angle) * 0.62) * TILE, (p.y + Math.sin(p.angle) * 0.62) * TILE - GUN_HEIGHT_PX - pLift)
+        .setDepth(pDepth + (p.dir === 'n' ? -1 : 1));
     } else this.muzzle.setVisible(false);
 
     this.syncReveal();
@@ -681,24 +742,25 @@ export class GameScene extends Phaser.Scene {
       if (m.state === 'dead') {
         if (!v.dead) {
           v.dead = true;
-          v.sprite.setFrame(key.corpse(m.kind)).setOrigin(0.5, 0.7).clearTint().setAlpha(m.def.stealth ? 0.45 : 1).setDepth(CORPSE_DEPTH + m.y);
-          v.sprite.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE);
+          v.sprite.setFrame(key.corpse(m.kind)).setOrigin(0.5, 0.7).clearTint().setAlpha(m.def.stealth ? 0.45 : 1).setDepth(this.raisedDepth(m.x, m.y + ACTOR_FOOT, CORPSE_DEPTH + m.y));
+          v.sprite.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - this.lift(m.x, m.y + ACTOR_FOOT));
           v.name.setVisible(false);
         }
         continue;
       }
       const f = this.actorFrame(m.moving, m.walkTime, m.state === 'windup' && m.stateTime < 0.25);
+      const mLift = this.lift(m.x, m.y + ACTOR_FOOT);
       v.sprite
         .setFrame(key.actor(m.kind, m.dir, m.state === 'pain' ? 0 : f))
-        .setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE)
-        .setDepth((m.y + ACTOR_FOOT) * TILE);
+        .setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - mLift)
+        .setDepth(this.raisedDepth(m.x, m.y + ACTOR_FOOT, (m.y + ACTOR_FOOT) * TILE));
       v.sprite.setTint(m.hurtTime > 0 || m.state === 'pain' ? 0xff7070 : 0xffffff);
       if (m.def.stealth) {
         if (m.hurtTime > 0) v.exposedUntil = this.animClock + 1.5;
         v.sprite.setAlpha(m.hurtTime > 0 ? 0.7 : 0.37 + 0.12 * Math.sin(this.animClock * 7 + m.id));
       }
       const ratio = m.hp / m.def.hp;
-      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (m.kind === 'brute' ? 28 : 31));
+      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (m.kind === 'brute' ? 28 : 31) - mLift);
       v.name.setColor(ratio > 0.6 ? '#30d030' : ratio > 0.3 ? '#e0d030' : '#e03020');
     }
 
@@ -735,8 +797,8 @@ export class GameScene extends Phaser.Scene {
       }
       img
         .setFrame(key.fx('fireball', Math.floor(this.animClock / 0.08) % 2))
-        .setPosition(pr.x * TILE, pr.y * TILE - 12)
-        .setDepth(pr.y * TILE + 12)
+        .setPosition(pr.x * TILE, pr.y * TILE - 12 - this.lift(pr.x, pr.y))
+        .setDepth(this.raisedDepth(pr.x, pr.y, pr.y * TILE + 12))
         .setVisible(w.isRevealedAt(pr.x, pr.y));
     }
     for (const [id, img] of this.projectileViews) {
@@ -877,7 +939,7 @@ export class GameScene extends Phaser.Scene {
     g.clear();
     for (const t of this.tracers) {
       g.lineStyle(1, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
-      g.lineBetween(t.x1 * TILE, t.y1 * TILE - GUN_HEIGHT_PX, t.x2 * TILE, t.y2 * TILE - GUN_HEIGHT_PX);
+      g.lineBetween(t.x1 * TILE, t.y1 * TILE - GUN_HEIGHT_PX - this.lift(t.x1, t.y1 + ACTOR_FOOT), t.x2 * TILE, t.y2 * TILE - GUN_HEIGHT_PX - this.lift(t.x2, t.y2));
     }
 
     const view = this.cameras.main.worldView;
