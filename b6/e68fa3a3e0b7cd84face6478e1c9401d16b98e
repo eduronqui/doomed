@@ -1,0 +1,27 @@
+docs/extending.md
+  s_e549dc79ddcbfe::t_c6ec92b31a1220 174
+docs/gameplay.md
+  s_e549dc79ddcbfe::t_c3809ff9f1e0ef 365
+src/sim/defs.ts
+  s_e549dc79ddcbfe::t_acda6fbc071e5e 59-63
+tests/level.test.ts
+  s_e549dc79ddcbfe::t_e4e48453703c7b 6
+tests/world.test.ts
+  s_e549dc79ddcbfe::t_c7ba470b0b26eb 99-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b6e68fa3a3e0b7cd84face6478e1c9401d16b98e",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
