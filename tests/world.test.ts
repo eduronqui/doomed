@@ -359,6 +359,15 @@ describe('World', () => {
       expect(() => new World(parseLevel('t', narrow), 1, DIFFICULTIES[1], undefined, { ambush })).toThrow(/as wide as its closet/);
     });
 
+    it('treats a closet that sticks out of the room as unknown area', () => {
+      expect(make().hiddenCloset()!.embedded).toBe(false);
+    });
+
+    it('treats a closet walled in by rooms as part of the wall', () => {
+      const inside = '#########\n#P.k....#\n#..#T#..#\n#..#.#..#\n#..#.#..#\n#..###..#\n#.......#\n#########';
+      expect(new World(parseLevel('t', inside), 1, DIFFICULTIES[1], undefined, { ambush }).hiddenCloset()!.embedded).toBe(true);
+    });
+
     it('keeps the trap door shut against use and bumps', () => {
       const w = make();
       w.player.x = 5.5;

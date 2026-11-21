@@ -35,7 +35,7 @@ export class Lighting {
     this.glowImg = scene.add.image(0, 0, 'light_glow').setOrigin(0).setScale(RES).setDepth(depth - 1).setBlendMode(Phaser.BlendModes.ADD);
   }
 
-  render(view: Phaser.Geom.Rectangle, lights: Light[], clock: number, hidden: [number, number][] = []): void {
+  render(view: Phaser.Geom.Rectangle, lights: Light[], clock: number, hidden: [number, number, number][] = []): void {
     const ox = Math.floor(view.x / RES) * RES - RES;
     const oy = Math.floor(view.y / RES) * RES - RES;
     this.darkImg.setPosition(ox, oy);
@@ -78,11 +78,11 @@ export class Lighting {
     dctx.fillStyle = '#000';
     gctx.globalCompositeOperation = 'destination-out';
     gctx.fillStyle = '#000';
-    for (const [cx, cy] of hidden) {
+    for (const [cx, cy, height] of hidden) {
       const x = (cx * TILE - ox) / RES;
       const y = (cy * TILE - oy) / RES;
-      dctx.fillRect(x, y, cell, cell);
-      gctx.fillRect(x, y, cell, cell);
+      dctx.fillRect(x, y, cell, height / RES);
+      gctx.fillRect(x, y, cell, height / RES);
     }
     this.dark.refresh();
     this.glow.refresh();

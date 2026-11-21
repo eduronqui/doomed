@@ -263,7 +263,7 @@ export class GameScene extends Phaser.Scene {
     this.add.image(0, 0, 'floor_static').setOrigin(0).setDepth(FLOOR_DEPTH);
     this.buildDoorPieces();
     const closet = this.world.hiddenCloset();
-    for (const i of closet?.cells ?? []) {
+    for (const i of closet?.embedded ? closet.cells : []) {
       const x = i % W;
       const y = Math.floor(i / W);
       this.closetCovers.push(this.add.image(x * TILE, y * TILE - WALL_HEIGHT, ATLAS, key.wall(closet!.wall, 0)).setOrigin(0).setDepth((y + 1) * TILE));
@@ -829,22 +829,27 @@ export class GameScene extends Phaser.Scene {
     return Math.hypot(m.x - p.x, m.y - p.y) < STEALTH_EXPOSE_RANGE || this.monsterViews.get(m.id)!.exposedUntil > this.animClock;
   }
 
-  private hiddenCells(view: Phaser.Geom.Rectangle): [number, number][] {
-    const g = this.world.grid;
-    const closet = this.world.hiddenCloset();
-    const out: [number, number][] = [];
+  private hiddenCells(view: Phaser.Geom.Rectangle): [number, number, number][] {
+    const out: [number, number, number][] = [];
     for (let y = Math.floor(view.y / TILE) - 1; y <= Math.ceil(view.bottom / TILE) + 1; y++) {
       for (let x = Math.floor(view.x / TILE) - 1; x <= Math.ceil(view.right / TILE) + 1; x++) {
-        const t = g.tile(x, y);
-        if (!t || t.type === 'void') out.push([x, y]);
-        else if (closet?.cells.has(g.index(x, y))) {
-          if (!closet.outerRooms.some((r) => this.world.revealedRooms.has(r))) out.push([x, y]);
-        } else if (t.type === 'floor' || t.type === 'door') {
-          if (!this.world.isRevealedAt(x + 0.5, y + 0.5)) out.push([x, y]);
-        } else if (!this.roomsAround(x, y).some((r) => this.world.revealedRooms.has(r))) out.push([x, y]);
+        if (!this.isCellHidden(x, y)) continue;
+        const below = this.world.grid.tile(x, y + 1);
+        const capBelow = below && below.type !== 'void' && below.type !== 'floor' && !this.isCellHidden(x, y + 1);
+        out.push([x, y, capBelow ? TILE - WALL_HEIGHT : TILE]);
       }
     }
     return out;
+  }
+
+  private isCellHidden(x: number, y: number): boolean {
+    const g = this.world.grid;
+    const t = g.tile(x, y);
+    if (!t || t.type === 'void') return true;
+    const closet = this.world.hiddenCloset();
+    if (closet?.cells.has(g.index(x, y))) return !closet.embedded || !closet.outerRooms.some((r) => this.world.revealedRooms.has(r));
+    if (t.type === 'floor' || t.type === 'door') return !this.world.isRevealedAt(x + 0.5, y + 0.5);
+    return !this.roomsAround(x, y).some((r) => this.world.revealedRooms.has(r));
   }
 
   private syncReveal(): void {

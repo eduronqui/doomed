@@ -297,7 +297,7 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 
 ### Key ambush
 
-Each level has one trap door. It looks exactly like a plain wall, with no scratches. Behind it, a closed room holds a group of enemies. Until the door opens, the door and the whole room look like a solid block of wall, on screen and on the minimap. The trap door is as wide as that room, so nothing stays hidden inside when it opens.
+Each level has one trap door. It looks exactly like a plain wall, with no scratches. Behind it, a closed room holds a group of enemies. Until the door opens, the door looks like wall. If rooms surround the closet, the whole closet looks like a solid block of wall, on screen and on the minimap. If the closet is outside the rooms, it stays unknown area, as dark as the void, until the door opens. The trap door is as wide as that room, so nothing stays hidden inside when it opens.
 
 - When you take the trap keycard, the trap door opens with the normal door sound, stays open, and the whole group comes out to hunt you.
 - You cannot open a trap door any other way, and enemies cannot open it.

@@ -33,6 +33,7 @@ export interface HiddenCloset {
   cells: ReadonlySet<number>;
   outerRooms: readonly number[];
   wall: WallKind;
+  embedded: boolean;
 }
 
 export interface WorldOptions {
@@ -620,8 +621,26 @@ export class World {
       door,
       monsters,
       sprung: false,
-      closet: { cells: new Set(closet), outerRooms: trapRooms.filter((r) => r !== closetRoom), wall: this.grid.tiles[door.index].wall },
+      closet: {
+        cells: new Set(closet),
+        outerRooms: trapRooms.filter((r) => r !== closetRoom),
+        wall: this.grid.tiles[door.index].wall,
+        embedded: this.isEmbedded(closet, closetRoom),
+      },
     };
+  }
+
+  private isEmbedded(closet: number[], closetRoom: number): boolean {
+    const g = this.grid;
+    const near = (i: number): number[] => {
+      const x = i % g.width;
+      const y = Math.floor(i / g.width);
+      const out: number[] = [];
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (g.inBounds(x + dx, y + dy)) out.push(g.index(x + dx, y + dy));
+      return out;
+    };
+    const shell = new Set(closet.flatMap(near).filter((i) => g.rooms[i] < 0));
+    return [...shell].every((i) => near(i).some((n) => g.rooms[n] >= 0 && g.rooms[n] !== closetRoom));
   }
 
   private doorSpansCloset(door: Door[], closet: number[]): boolean {
