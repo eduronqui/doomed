@@ -56,8 +56,11 @@ export const ITEM_NAMES: Record<ItemKind, string> = {
   yellowkey: 'a yellow keycard',
 };
 
-export const SOLID_DECOS: ReadonlySet<DecoKind> = new Set<DecoKind>(['crate', 'brazier']);
-export const DECO_POSTS: ReadonlyMap<DecoKind, number> = new Map<DecoKind, number>([['lamp', 0.18]]);
+export const SOLID_DECOS: ReadonlySet<DecoKind> = new Set<DecoKind>(['crate']);
+export const DECO_POSTS: ReadonlyMap<DecoKind, number> = new Map<DecoKind, number>([
+  ['lamp', 0.18],
+  ['brazier', 0.22],
+]);
 
 export type DifficultyId = 'recruit' | 'veteran' | 'doomed';
 

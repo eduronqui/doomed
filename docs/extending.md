@@ -171,7 +171,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `o` | Barrel | `s` | Box of shells |
 | `l` | Lamp (thin post, light) | `G` | Pump shotgun |
 | `C` | Crate (solid, blocks shots) | `W` | Rotary gun |
-| `t` | Brazier (solid, light) | `k` | Red keycard |
+| `t` | Brazier (thin post, light) | `k` | Red keycard |
 | `x` | Gore decal | `j` | Blue keycard |
 | `z` | Body decal | `y` | Yellow keycard |
 

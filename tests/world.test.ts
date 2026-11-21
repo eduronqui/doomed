@@ -96,6 +96,18 @@ describe('World', () => {
     expect(headOn.player.x).toBeGreaterThan(3);
   });
 
+  it('treats a brazier as a post you can walk close around', () => {
+    const map = '#######\n#.....#\n#P.t..#\n#.....#\n#######';
+    const past = new World(parseLevel('t', map));
+    past.player.y = 1.95;
+    run(past, 0.8, { moveX: 1 });
+    expect(past.player.x).toBeGreaterThan(4);
+    const headOn = new World(parseLevel('t', map));
+    run(headOn, 0.8, { moveX: 1 });
+    expect(headOn.player.x).toBeLessThan(3.5 - 0.5);
+    expect(headOn.player.x).toBeGreaterThan(2.9);
+  });
+
   it('stops bullets and fireballs at crates', () => {
     const w = new World(parseLevel('t', '##########\n#P..C..h.#\n##########'), 2);
     const husk = w.monsters[0];
