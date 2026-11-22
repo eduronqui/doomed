@@ -214,7 +214,10 @@ export class GameScene extends Phaser.Scene {
     this.deps.hud.reset(this.world, `${info.title} (${this.difficulty.name})`);
     if (import.meta.env.DEV) {
       const dev = parseDevParams(window.location.search, LEVELS.length);
-      if (dev.autostart) this.started = true;
+      if (dev.autostart) {
+        this.started = true;
+        this.unlockAudioOnFirstInput();
+      }
       if (dev.pos) {
         this.world.player.x = dev.pos.x + 0.5;
         this.world.player.y = dev.pos.y + 0.5;
@@ -242,6 +245,17 @@ export class GameScene extends Phaser.Scene {
         this.restart(d);
       });
     }
+  }
+
+  private unlockAudioOnFirstInput(): void {
+    const unlock = (): void => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+      this.deps.sfx.unlock();
+      if (!this.paused) this.deps.music.resume();
+    };
+    window.addEventListener('pointerdown', unlock);
+    window.addEventListener('keydown', unlock);
   }
 
   private beginPlay(): void {

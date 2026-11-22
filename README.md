@@ -153,7 +153,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 
 | Parameter | Effect |
 | --- | --- |
-| `?autostart` | Skip the title screen |
+| `?autostart` | Skip the title screen. Sound starts at your first click or key press, because browsers allow audio only after one |
 | `?god` | Take no damage; health and armor items stay on the floor |
 | `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |
 | `?overview` | Show the whole level from above: every room revealed, no darkness, the camera zoomed out to fit the map |
