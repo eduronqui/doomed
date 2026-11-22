@@ -109,6 +109,17 @@ describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_tit
     });
   });
 
+  it('keeps doors away from raised floor, since the marine cannot drop off a ledge', () => {
+    level.tiles.forEach((t, i) => {
+      if (t.type !== 'door') return;
+      const x = i % level.width;
+      const y = Math.floor(i / level.width);
+      for (const n of [i + 1, i - 1, i + level.width, i - level.width]) {
+        expect(level.tiles[n]?.height === 1, `door ${x},${y} touches raised floor`).toBe(false);
+      }
+    });
+  });
+
   it('puts the exit switch on a north wall that faces a room', () => {
     expect(level.tiles[exitIdx + level.width].type).toBe('floor');
   });

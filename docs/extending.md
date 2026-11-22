@@ -214,6 +214,7 @@ A level can pass an optional height map as the third argument of `parseLevel`: `
 - Stairs must touch low floor and raised floor. The stairs face the raised side, and they take the look of the raised floor (grate stairs use metal).
 - Raised areas do not need stairs. A 1 x 1 pillar with an enemy on top is fine.
 - Blank rows count: the height map keeps empty first and last rows, so its rows line up with the map.
+- No door may touch raised floor. The marine cannot drop off a ledge, so a door against a platform would trap him or block the way. The level tests check this.
 
 `parseLevel` throws an error when a height breaks these rules. The rules for movement, shots and melee are in [gameplay.md](gameplay.md#raised-floor).
 
