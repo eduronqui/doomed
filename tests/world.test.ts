@@ -710,6 +710,16 @@ describe('World', () => {
     expect(w.player.ammo).toEqual(MAX_AMMO);
   });
 
+  it('lets the player push out of a ring of enemies', () => {
+    const map = ['#############', '#...........#', '#....bbb....#', '#....bPb....#', '#....bbb....#', '#...........#', '#############'].join('\n');
+    const w = new World(parseLevel('t', map), 3);
+    w.god = true;
+    run(w, 1.5, { aimX: 9, aimY: 3.5 });
+    const start = w.player.x;
+    run(w, 1, { moveX: 1, aimX: 9, aimY: 3.5 });
+    expect(w.player.x - start).toBeGreaterThan(3);
+  });
+
   it('wins when the player uses the exit switch', () => {
     const w = new World(parseLevel('t', '##E##\n#.P.#\n#..h#\n#####'));
     w.update(1 / 60, { ...IDLE_INPUT, use: true, aimX: 2.5, aimY: 0 });

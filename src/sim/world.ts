@@ -187,6 +187,8 @@ const SHOUT_RANGE = 10;
 const CRY_GAP = 0.5;
 const FOOTSTEP_RANGE = 4;
 const STEP_INTERVAL = 0.35;
+const SHOVE_REACH = 0.05;
+const SHOVE_SPEED = 0.8;
 const LOUD_FLOORS: ReadonlySet<FloorKind> = new Set<FloorKind>(['metal', 'grate']);
 const EXPLOSION_RADIUS = 2.6;
 const EXPLOSION_DAMAGE = 110;
@@ -387,6 +389,7 @@ export class World {
       const res = this.grid.move(p.x, p.y, p.r, mx, my);
       p.x = res.x;
       p.y = res.y;
+      this.shoveAside(mx, my, dt);
       p.walkTime += dt;
       this.stepTimer += dt;
       if (this.stepTimer >= STEP_INTERVAL) {
@@ -1354,6 +1357,24 @@ export class World {
       const res = this.grid.move(e.x, e.y, e.r, nx * push, ny * push, solid);
       e.x = res.x;
       e.y = res.y;
+    }
+  }
+
+  private shoveAside(mx: number, my: number, dt: number): void {
+    const p = this.player;
+    const len = Math.hypot(mx, my);
+    const fx = mx / len;
+    const fy = my / len;
+    for (const m of this.monsters) {
+      if (m.state === 'dead') continue;
+      const dx = m.x - p.x;
+      const dy = m.y - p.y;
+      if (Math.hypot(dx, dy) >= p.r + m.r + SHOVE_REACH || dx * fx + dy * fy <= 0) continue;
+      const side = Math.sign(dy * fx - dx * fy) || (m.id % 2 ? 1 : -1);
+      const step = MARINE.speed * SHOVE_SPEED * dt;
+      const res = this.grid.move(m.x, m.y, m.r, (-fy * side + fx * 0.3) * step, (fx * side + fy * 0.3) * step, this.monsterSolid);
+      m.x = res.x;
+      m.y = res.y;
     }
   }
 

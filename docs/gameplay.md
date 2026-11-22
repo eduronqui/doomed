@@ -221,6 +221,7 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 - Enemies **never open doors**. A closed door stops them. They can walk through a door that is already open.
 - Enemies never step on slime or lava. If you stand in a hazard, they wait at the edge.
 - Enemies push each other apart and do not walk through you.
+- When you walk into an enemy, it is pushed to the side. A mob cannot hold you in place.
 
 **Friendly fire**
 - Husk bullets, Shotgun Husk pellets and Fiend fireballs can hit other enemies and barrels. A hit enemy does not turn on its attacker.
