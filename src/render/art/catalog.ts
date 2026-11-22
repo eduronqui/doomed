@@ -10,7 +10,7 @@ import { CHARACTERS, CHARACTER_ART, DIRS, FRAMES } from '../../characters/art';
 import { FLOOR_VARIANTS, WALL_VARIANTS, key } from '../atlas';
 import { barrelTexture, bloodFx, decoTexture, explosion, bolt, fireball, flameFx, wisp, grenadeShot, itemTexture, muzzle, puff, riftBlast, riftOrb, scorch } from './items';
 import { RAISED_FLOORS, STAIR_DIRS, STAIR_FLOORS, ledgeRimTexture, ledgeSideTexture, raisedFaceTexture, raisedTopTexture, stairsTexture } from './raised';
-import { doorPiece, exitTexture, floorTexture, hiddenPiece, wallTexture } from './tiles';
+import { doorPiece, exitTexture, floorTexture, hiddenPiece, switchTexture, wallTexture } from './tiles';
 
 function addDoorPieces(art: Map<string, Pix>): void {
   for (const info of ALL_LEVELS) {
@@ -46,6 +46,8 @@ export function buildArt(): Map<string, Pix> {
   for (const wall of ['tech', 'stone'] as const) {
     art.set(key.exit(wall, false), exitTexture(wall, false));
     art.set(key.exit(wall, true), exitTexture(wall, true));
+    art.set(key.switch(wall, false), switchTexture(wall, false));
+    art.set(key.switch(wall, true), switchTexture(wall, true));
   }
   for (const c of CHARACTERS) {
     const look = CHARACTER_ART[c];

@@ -126,7 +126,8 @@ A level is three files plus one line in the level list.
 | `par` | Par time in seconds, shown on the victory tally |
 | `startMessage` | Optional. Text after "Welcome to ..." in the first Server Log message. Do not use it for hints about the level; only the training uses it. |
 | `music` | The level's `Track` |
-| `load` | Returns the parsed map |
+| `load` | Returns the parsed map. Pass the switch links as the fourth argument of `parseLevel`: `[{ at: [x, y], gates: [[x, y], ...] }]`. `at` is the `K` cell, and each gate entry is any one cell of a `J` door. Each switch needs a link, each gate needs a switch, and a switch must sit on a top wall with floor below it. |
+| `watchDoors` | Optional. Each map enemy starts facing the nearest door of its room, and its head turns sweep around that door. The levels from E4 on use it. |
 | `startCarry` | Optional. The marine's loadout at the start. Only the training uses it. Other levels get the loadout from the previous level. |
 | `alertOnEntry` | Optional. Monster kinds that wake up as soon as the player steps into their room |
 | `ambush` | Optional. `{ key, groups }`: taking the keycard of color `key` opens the level's one trap door (`T`). `groups` maps each difficulty to a string of monster map chars, for example `{ recruit: 'hhff', veteran: 'hhffHb', doomed: 'hhffHbg' }`. The game places them on the floor of the empty closet behind the door, nearest to the door first. The game also puts two medikits on the back row of the closet, the row farthest from the door, symmetric around its middle. The back row must have at least two free cells. The closet must be a room with no map spawns, big enough for the largest group, and the `T` door must cover one whole side of it, so that every enemy inside can see out when it opens. The game throws an error otherwise. While the door is shut, the closet is hidden on the screen and the minimap. If every wall around the closet also touches another room, the closet is drawn as solid wall, so it can stand inside a room as a pillar or housing. Otherwise it stays unknown area until the door opens. |
@@ -157,6 +158,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `Y` | Yellow door (yellow keycard) | `=` | Lava (10 damage/s) |
 | `X` | Secret wall (opens with E) | `?` | Metal floor in a secret area |
 | `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | | |
+| `J` | Gate (cyan; only its wall switch opens it) | `K` | Wall switch (part of a top wall, floor below) |
 | `E` | Exit switch (part of a wall) | space | Void outside the level |
 
 ### Entities

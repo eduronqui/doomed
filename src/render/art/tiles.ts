@@ -239,12 +239,17 @@ export function wallTexture(kind: 'tech' | 'stone', variant: number): Pix {
   return p;
 }
 
-const HAZARD: Record<DoorKind, number> = { normal: 0xd8b02a, red: 0xc42020, blue: 0x2a5ad8, yellow: 0xf0d020, secret: 0xd8b02a, trap: 0xd8b02a };
+const HAZARD: Record<DoorKind, number> = { normal: 0xd8b02a, red: 0xc42020, blue: 0x2a5ad8, yellow: 0xf0d020, secret: 0xd8b02a, trap: 0xd8b02a, gate: 0x28b8c8 };
 
 export const KEY_LIGHT: Record<'red' | 'blue' | 'yellow', { light: number; dark: number }> = {
   red: { light: 0xff3a3a, dark: 0x5a0a0a },
   blue: { light: 0x6ab0ff, dark: 0x0a1a5a },
   yellow: { light: 0xfff070, dark: 0x5a4a0a },
+};
+
+const DOOR_LIGHT: Record<'red' | 'blue' | 'yellow' | 'gate', { light: number; dark: number }> = {
+  ...KEY_LIGHT,
+  gate: { light: 0x70f0ff, dark: 0x0a3a44 },
 };
 
 export function doorTexture(kind: DoorKind, wall: 'tech' | 'stone'): Pix {
@@ -316,6 +321,21 @@ export function exitTexture(wall: 'tech' | 'stone', on: boolean): Pix {
   return p;
 }
 
+export function switchTexture(wall: 'tech' | 'stone', on: boolean): Pix {
+  const p = wallTexture(wall, 0);
+  const { light, dark } = DOOR_LIGHT.gate;
+  const rim = on ? light : 0x28b8c8;
+  p.rect(6, 33, 20, 21, 0x15171a);
+  p.rect(6, 33, 20, 1, rim).rect(6, 53, 20, 1, rim).rect(6, 33, 1, 21, rim).rect(25, 33, 1, 21, rim);
+  p.rect(8, 35, 16, 17, 0x26292e);
+  bevel(p, 8, 35, 16, 17, 0x26292e, 0.2, -0.3);
+  p.rect(10, 37, 12, 3, on ? light : dark);
+  p.rect(13, 42, 6, 9, 0x0c0d0f);
+  if (on) p.rect(15, 46, 2, 4, 0x9aa1ab).rect(13, 48, 6, 3, light);
+  else p.rect(15, 43, 2, 4, 0x9aa1ab).rect(13, 42, 6, 3, 0x28b8c8);
+  return p;
+}
+
 export function doorPiece(kind: Exclude<DoorKind, 'secret' | 'trap'>, cellsW: number, cellsH: number): Pix {
   const rng = seeded(`doorpiece${kind}${cellsW}x${cellsH}`);
   const w = cellsW * 32;
@@ -337,7 +357,7 @@ export function doorPiece(kind: Exclude<DoorKind, 'secret' | 'trap'>, cellsW: nu
   if (cellsW >= cellsH) for (let x = 8; x < w - 8; x += 6) p.rect(x, 6, 1, topH - 12, shade(top, -0.25)).rect(x + 1, 6, 1, topH - 12, shade(top, 0.1));
   else for (let y = 8; y < topH - 8; y += 6) p.rect(6, y, w - 12, 1, shade(top, -0.25)).rect(6, y + 1, w - 12, 1, shade(top, 0.1));
   if (kind !== 'normal') {
-    const { light, dark } = KEY_LIGHT[kind];
+    const { light, dark } = DOOR_LIGHT[kind];
     const cx = Math.floor(w / 2);
     const cy = Math.floor(topH / 2);
     p.rect(cx - 4, cy - 4, 8, 8, dark).rect(cx - 3, cy - 3, 6, 6, light);
@@ -355,7 +375,7 @@ export function doorPiece(kind: Exclude<DoorKind, 'secret' | 'trap'>, cellsW: nu
   }
   p.rect(0, y0 + 22, w, 2, 0x26292e);
   if (kind !== 'normal') {
-    const { light, dark } = KEY_LIGHT[kind];
+    const { light, dark } = DOOR_LIGHT[kind];
     const cx = Math.floor(w / 2);
     p.rect(cx - 5, y0 + 5, 10, 4, dark).rect(cx - 4, y0 + 6, 8, 2, light);
   }

@@ -29,6 +29,8 @@ const MINIMAP_COLORS = {
   blue: '#3a7aff',
   yellow: '#ffe040',
   exit: '#40e050',
+  gate: '#40d8e8',
+  switch: '#40d8e8',
 };
 
 export class Hud {
@@ -205,10 +207,11 @@ export class Hud {
         const t = g.tiles[g.index(x, y)];
         let color: string | null = null;
         if (closet?.embedded && closet.cells.has(g.index(x, y))) color = closet.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
+        else if (t.switchId >= 0) color = MINIMAP_COLORS.switch;
         else if (t.type === 'wall') color = t.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
         else if (t.type === 'door') {
           const hidden = t.door === 'secret' || (t.door === 'trap' && g.doors.get(g.index(x, y))!.openness === 0);
-          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' ? MINIMAP_COLORS[t.door] : hidden ? MINIMAP_COLORS.wall : MINIMAP_COLORS.door;
+          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' || t.door === 'gate' ? MINIMAP_COLORS[t.door] : hidden ? MINIMAP_COLORS.wall : MINIMAP_COLORS.door;
         }
         else if (t.type === 'exit') color = MINIMAP_COLORS.exit;
         else if (t.type === 'floor') color = t.floor === 'slime' ? MINIMAP_COLORS.slime : t.floor === 'lava' ? MINIMAP_COLORS.lava : t.floor === 'rock' ? MINIMAP_COLORS.rock : MINIMAP_COLORS.floor;

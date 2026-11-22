@@ -5,7 +5,32 @@ import { parseLevel, type DoorKind, type LevelData } from '../src/sim/level';
 const KEY_OF: Record<string, DoorKind> = { redkey: 'red', bluekey: 'blue', yellowkey: 'yellow' };
 const SOLID_DECOS = ['crate'];
 
-function reachable(level: LevelData, from: { x: number; y: number }, keys: Set<DoorKind>): Set<number> {
+function gateCells(level: LevelData, from: [number, number]): number[] {
+  const start = from[1] * level.width + from[0];
+  const cells = [start];
+  const seen = new Set(cells);
+  for (let k = 0; k < cells.length; k++) {
+    const i = cells[k];
+    for (const n of [i + 1, i - 1, i + level.width, i - level.width]) {
+      if (!seen.has(n) && level.tiles[n]?.door === 'gate') {
+        seen.add(n);
+        cells.push(n);
+      }
+    }
+  }
+  return cells;
+}
+
+function openedGates(level: LevelData, area: Set<number>): Set<number> {
+  const open = new Set<number>();
+  for (const link of level.switches) {
+    if (!area.has((link.at[1] + 1) * level.width + link.at[0])) continue;
+    for (const g of link.gates) for (const c of gateCells(level, g)) open.add(c);
+  }
+  return open;
+}
+
+function reachable(level: LevelData, from: { x: number; y: number }, keys: Set<DoorKind>, gates = new Set<number>()): Set<number> {
   const seen = new Set<number>();
   const start = Math.floor(from.y) * level.width + Math.floor(from.x);
   const stack = [start];
@@ -24,7 +49,7 @@ function reachable(level: LevelData, from: { x: number; y: number }, keys: Set<D
       const t = level.tiles[ni];
       if (!t || seen.has(ni) || nx < 0 || nx >= level.width) continue;
       const door = t.type === 'door' ? t.door! : null;
-      const passable = t.type === 'floor' || door === 'normal' || door === 'secret' || (door !== null && keys.has(door));
+      const passable = t.type === 'floor' || door === 'normal' || door === 'secret' || (door === 'gate' ? gates.has(ni) : door !== null && keys.has(door));
       if (passable) {
         seen.add(ni);
         stack.push(ni);
@@ -32,6 +57,20 @@ function reachable(level: LevelData, from: { x: number; y: number }, keys: Set<D
     }
   }
   return seen;
+}
+
+function solve(level: LevelData, from: { x: number; y: number }, startKeys: DoorKind[], collect: { kind: string; x: number; y: number }[] = []): Set<number> {
+  const keys = new Set<DoorKind>(startKeys);
+  let gates = new Set<number>();
+  let area = reachable(level, from, keys, gates);
+  for (;;) {
+    const found = collect.filter((s) => area.has(Math.floor(s.y) * level.width + Math.floor(s.x)) && !keys.has(KEY_OF[s.kind]));
+    for (const s of found) keys.add(KEY_OF[s.kind]);
+    const nextGates = openedGates(level, area);
+    if (found.length === 0 && nextGates.size === gates.size) return area;
+    gates = nextGates;
+    area = reachable(level, from, keys, gates);
+  }
 }
 
 describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_title, info) => {
@@ -78,8 +117,8 @@ describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_tit
     for (const color of lockedColors) {
       const key = keySpawns.find((s) => KEY_OF[s.kind] === color);
       expect(key, `${color} key`).toBeDefined();
-      const others = new Set<DoorKind>([...lockedColors].filter((c) => c !== color));
-      expect(reachable(level, player, others).has(cellOf(key!)), `${color} key behind its own door`).toBe(true);
+      const others = [...lockedColors].filter((c) => c !== color);
+      expect(solve(level, player, [...others]).has(cellOf(key!)), `${color} key behind its own door`).toBe(true);
     }
   });
 
@@ -89,19 +128,13 @@ describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_tit
       const none = reachable(level, player, new Set());
       expect(exitNeighbours.some((n) => none.has(n))).toBe(false);
     }
-    const keys = new Set<DoorKind>();
-    let area = reachable(level, player, keys);
-    for (;;) {
-      const found = keySpawns.filter((s) => area.has(cellOf(s)) && !keys.has(KEY_OF[s.kind]));
-      if (found.length === 0) break;
-      for (const s of found) keys.add(KEY_OF[s.kind]);
-      area = reachable(level, player, keys);
-    }
+    const area = solve(level, player, [], keySpawns);
     expect(exitNeighbours.some((n) => area.has(n))).toBe(true);
   });
 
-  it('places every non-solid spawn on reachable ground', () => {
-    const all = reachable(level, player, new Set(['red', 'blue', 'yellow']));
+  it('places every non-solid spawn and every switch on reachable ground', () => {
+    const all = solve(level, player, ['red', 'blue', 'yellow']);
+    for (const link of level.switches) expect(all.has((link.at[1] + 1) * level.width + link.at[0]), `switch at ${link.at}`).toBe(true);
     for (const s of level.spawns) {
       if (SOLID_DECOS.includes(s.kind)) continue;
       expect(all.has(cellOf(s)), `${s.kind} at ${s.x},${s.y}`).toBe(true);

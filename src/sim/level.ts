@@ -3,7 +3,7 @@ import type { DecoKind, ItemKind } from './defs';
 
 export type FloorKind = 'metal' | 'concrete' | 'grate' | 'rock' | 'slime' | 'lava';
 export type WallKind = 'tech' | 'stone';
-export type DoorKind = 'normal' | 'red' | 'blue' | 'yellow' | 'secret' | 'trap';
+export type DoorKind = 'normal' | 'red' | 'blue' | 'yellow' | 'secret' | 'trap' | 'gate';
 export type TileType = 'void' | 'floor' | 'wall' | 'door' | 'exit';
 
 export interface Tile {
@@ -13,6 +13,7 @@ export interface Tile {
   door: DoorKind | null;
   secretId: number;
   height: number;
+  switchId: number;
 }
 
 export type SpawnKind = 'player' | 'barrel' | MonsterKind | ItemKind | DecoKind;
@@ -30,6 +31,12 @@ export interface LevelData {
   tiles: Tile[];
   spawns: Spawn[];
   secretCount: number;
+  switches: SwitchLink[];
+}
+
+export interface SwitchLink {
+  at: [number, number];
+  gates: [number, number][];
 }
 
 const FLOORS: Record<string, FloorKind> = {
@@ -80,7 +87,7 @@ const SPAWNS: Record<string, SpawnKind> = {
   Z: 'gatekeeper',
 };
 
-const DOOR_CHARS: Record<string, DoorKind> = { D: 'normal', R: 'red', B: 'blue', Y: 'yellow', X: 'secret', T: 'trap' };
+const DOOR_CHARS: Record<string, DoorKind> = { D: 'normal', R: 'red', B: 'blue', Y: 'yellow', X: 'secret', T: 'trap', J: 'gate' };
 
 export function monsterOfChar(c: string): MonsterKind | null {
   const kind = SPAWNS[c];
@@ -101,7 +108,7 @@ export const FLOOR_HAZARD: Record<FloorKind, number> = {
 };
 
 function floorTile(floor: FloorKind, secretId = -1): Tile {
-  return { type: 'floor', floor, wall: 'tech', door: null, secretId, height: 0 };
+  return { type: 'floor', floor, wall: 'tech', door: null, secretId, height: 0, switchId: -1 };
 }
 
 export const STAIR_HEIGHT = 0.5;
@@ -125,7 +132,7 @@ function mapRows(map: string): string[] {
   return map.split('\n').filter((r, i, all) => !(r.trim() === '' && (i === 0 || i === all.length - 1)));
 }
 
-export function parseLevel(name: string, map: string, heightMap?: string): LevelData {
+export function parseLevel(name: string, map: string, heightMap?: string, switches: SwitchLink[] = []): LevelData {
   const rows = mapRows(map);
   const height = rows.length;
   const width = Math.max(...rows.map((r) => r.length));
@@ -136,8 +143,9 @@ export function parseLevel(name: string, map: string, heightMap?: string): Level
     for (let x = 0; x < width; x++) {
       const c = rows[y][x] ?? ' ';
       let tile: Tile;
-      if (c === ' ') tile = { type: 'void', floor: 'metal', wall: 'tech', door: null, secretId: -1, height: 0 };
-      else if (c === '#' || c === '%') tile = { type: 'wall', floor: 'metal', wall: c === '%' ? 'stone' : 'tech', door: null, secretId: -1, height: 0 };
+      if (c === ' ') tile = { type: 'void', floor: 'metal', wall: 'tech', door: null, secretId: -1, height: 0, switchId: -1 };
+      else if (c === '#' || c === '%') tile = { type: 'wall', floor: 'metal', wall: c === '%' ? 'stone' : 'tech', door: null, secretId: -1, height: 0, switchId: -1 };
+      else if (c === 'K') tile = { type: 'wall', floor: 'metal', wall: wallOfNeighbours(rows, x, y), door: null, secretId: -1, height: 0, switchId: 0 };
       else if (c in DOOR_CHARS) {
         const under = tiles[y * width + x - 1];
         tile = {
@@ -147,8 +155,9 @@ export function parseLevel(name: string, map: string, heightMap?: string): Level
           door: DOOR_CHARS[c],
           secretId: -1,
           height: 0,
+          switchId: -1,
         };
-      } else if (c === 'E') tile = { type: 'exit', floor: 'metal', wall: wallOfNeighbours(rows, x, y), door: null, secretId: -1, height: 0 };
+      } else if (c === 'E') tile = { type: 'exit', floor: 'metal', wall: wallOfNeighbours(rows, x, y), door: null, secretId: -1, height: 0, switchId: -1 };
       else if (FLOORS[c]) tile = floorTile(FLOORS[c], c === '?' ? 0 : -1);
       else if (SPAWNS[c]) {
         const left = x > 0 ? tiles[y * width + x - 1] : undefined;
@@ -172,8 +181,28 @@ export function parseLevel(name: string, map: string, heightMap?: string): Level
     }
   });
 
+  linkSwitches(name, tiles, width, switches);
   const secretCount = labelSecrets(tiles, width, height);
-  return { name, width, height, tiles, spawns, secretCount };
+  return { name, width, height, tiles, spawns, secretCount, switches };
+}
+
+function linkSwitches(name: string, tiles: Tile[], width: number, switches: SwitchLink[]): void {
+  const at = (x: number, y: number): Tile | undefined => (x >= 0 && x < width ? tiles[y * width + x] : undefined);
+  switches.forEach((link, id) => {
+    const [x, y] = link.at;
+    const t = at(x, y);
+    if (!t || t.switchId < 0) throw new Error(`Switch link ${id} of ${name} points at ${x},${y}, which is not a switch`);
+    if (at(x, y + 1)?.type !== 'floor') throw new Error(`Switch at ${x},${y} in ${name} must sit on a top wall, with floor below it`);
+    if (link.gates.length === 0) throw new Error(`Switch at ${x},${y} in ${name} opens no gate`);
+    for (const [gx, gy] of link.gates) {
+      if (at(gx, gy)?.door !== 'gate') throw new Error(`Switch at ${x},${y} in ${name} links to ${gx},${gy}, which is not a gate`);
+    }
+    t.switchId = id + 1;
+  });
+  tiles.forEach((t, i) => {
+    if (t.switchId === 0) throw new Error(`Switch at ${i % width},${Math.floor(i / width)} in ${name} has no link`);
+    if (t.switchId > 0) t.switchId--;
+  });
 }
 
 function applyHeights(name: string, tiles: Tile[], width: number, height: number, rows: string[]): void {

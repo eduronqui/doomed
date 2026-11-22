@@ -234,6 +234,7 @@ The time between attacks varies at random from 70% to 130% of the value in the t
 - It also senses you within 1.5 tiles, except from behind. Its back arc is 120° wide (60° each side of straight back).
 - A hunting enemy sees in all directions, up to 1.5 times its calm range.
 - Walls and closed doors block sight. Crates block sight for Fiends only.
+- From E4 on, a calm enemy starts facing the nearest door of its room, and its head turns sweep around that door.
 - A calm enemy turns its head from time to time, so its cone sweeps the room. Husks, Brutes and Shades turn every 2 to 5 seconds, by up to 108° each way, at about 90° per second. Fiends are restless: they turn every 0.7 to 1.6 seconds, by up to 180° each way, at about 180° per second.
 
 **What wakes an enemy**
@@ -374,11 +375,13 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 | Red, blue or yellow (colored stripes and a colored light) | Walk into it, or press E, with the keycard of the same color | Cannot open it |
 | Secret wall | Press E while you face it | Cannot open it |
 | Trap door | Nothing opens it. It opens by itself when you take the level's trap keycard | Cannot open it |
+| Gate (cyan stripes and a cyan light) | Find its wall switch (a cyan panel) and press E while you face it | Cannot open it |
 
 - A door opens in about 0.4 seconds. You can pass when it is 85% open.
 - A wide door, or a wide secret wall, opens and closes as one piece.
 - Normal and red doors close again 4 seconds after they open. They do not close while you or an enemy stand in them.
-- A secret wall stays open.
+- A secret wall stays open. A gate stays open after its switch.
+- From E2 on, each level has a gate. Its switch can be in the same room or far away.
 
 ### Key ambush
 

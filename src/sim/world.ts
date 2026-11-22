@@ -39,6 +39,7 @@ export interface HiddenCloset {
 export interface WorldOptions {
   alertOnEntry?: MonsterKind[];
   ambush?: Ambush;
+  watchDoors?: boolean;
 }
 
 export interface Carry {
@@ -113,6 +114,7 @@ export interface Monster {
   goalCell: number;
   pauseTime: number;
   lookAround: number;
+  restAngle: number | null;
   turnTo: number;
   burn: number;
   burnDamage: number;
@@ -306,6 +308,7 @@ export class World {
   infiniteAmmo = false;
   time = 0;
   exitActivated = false;
+  readonly switchesOn = new Set<number>();
   private events: GameEvent[] = [];
   private nextId = 1;
   private foundSecrets = new Set<number>();
@@ -368,6 +371,8 @@ export class World {
     }));
     this.updateReveal();
     if (options.ambush) this.setUpAmbush(options.ambush);
+    this.checkGates();
+    if (options.watchDoors) this.watchDoors();
 
     this.stats = {
       kills: 0,
@@ -701,7 +706,8 @@ export class World {
     for (let cy = Math.floor(p.y) - 1; cy <= Math.floor(p.y) + 1; cy++) {
       for (let cx = Math.floor(p.x) - 1; cx <= Math.floor(p.x) + 1; cx++) {
         const t = this.grid.tile(cx, cy);
-        if (!t || (t.type !== 'door' && t.type !== 'exit')) continue;
+        if (!t || (t.type !== 'door' && t.type !== 'exit' && t.switchId < 0)) continue;
+        if (t.switchId >= 0 && cy >= Math.floor(p.y)) continue;
         const d = dist(p.x, p.y, cx + 0.5, cy + 0.5);
         if (d > 1.5) continue;
         const dot = ((cx + 0.5 - p.x) * cos + (cy + 0.5 - p.y) * sin) / d;
@@ -716,6 +722,7 @@ export class World {
     if (!best) return;
     const t = this.grid.tile(best.x, best.y)!;
     if (t.type === 'exit') this.activateExit();
+    else if (t.switchId >= 0) this.activateSwitch(t.switchId, best.x, best.y);
     else this.tryDoor(this.grid.doorAt(best.x, best.y)!, true, true);
   }
 
@@ -725,6 +732,42 @@ export class World {
     this.sound('switch', this.player.x, this.player.y);
     this.message('Exit switch activated.', 'info');
     this.status = 'won';
+  }
+
+  private activateSwitch(id: number, x: number, y: number): void {
+    if (this.switchesOn.has(id)) return;
+    this.switchesOn.add(id);
+    this.sound('switch', x + 0.5, y + 1);
+    for (const [gx, gy] of this.level.switches[id].gates) {
+      const gate = this.grid.doorAt(gx, gy)!;
+      if (this.grid.openDoor(gate)) this.sound('door', gx + 0.5, gy + 0.5);
+    }
+    this.message('A gate opens somewhere.', 'info');
+  }
+
+  private checkGates(): void {
+    const linked = new Set(this.level.switches.flatMap((s) => s.gates.map(([x, y]) => this.grid.doorAt(x, y)!.group)));
+    for (const group of this.grid.doorGroups) {
+      if (group[0].kind === 'gate' && !linked.has(group)) throw new Error(`Gate at ${group[0].x},${group[0].y} in ${this.level.name} has no switch`);
+    }
+  }
+
+  private watchDoors(): void {
+    for (const m of this.monsters) {
+      const room = this.grid.rooms[this.grid.index(Math.floor(m.x), Math.floor(m.y))];
+      let best: { x: number; y: number } | null = null;
+      for (const { group, rooms } of this.doorRooms) {
+        if (!rooms.includes(room) || group[0].kind === 'secret' || group[0].kind === 'trap') continue;
+        const mid = group[Math.floor(group.length / 2)];
+        const door = { x: mid.x + 0.5, y: mid.y + 0.5 };
+        if (!best || dist(m.x, m.y, door.x, door.y) < dist(m.x, m.y, best.x, best.y)) best = door;
+      }
+      if (!best) continue;
+      const angle = Math.atan2(best.y - m.y, best.x - m.x);
+      m.restAngle = angle;
+      m.turnTo = angle;
+      this.face(m, angle);
+    }
   }
 
   private setUpAmbush(ambush: Ambush): void {
@@ -825,6 +868,13 @@ export class World {
 
   private tryDoor(door: Door, byPlayer: boolean, explicit: boolean): void {
     if (door.kind === 'trap') return;
+    if (door.kind === 'gate') {
+      if (byPlayer && explicit && this.throttled('gate', 1.5)) {
+        this.message('This gate opens from a switch.', 'warn');
+        this.sound('noway', door.x + 0.5, door.y + 0.5);
+      }
+      return;
+    }
     if (door.kind === 'secret' && !(byPlayer && explicit)) return;
     const color = keyColorOf(door.kind);
     if (color) {
@@ -973,6 +1023,7 @@ export class World {
       pauseTime: 0,
       lookAround: this.rng.range(0, MONSTERS[kind].lookEvery[1]),
       turnTo: Math.PI / 2,
+      restAngle: null,
       burn: 0,
       burnDamage: 0,
       burnFx: 0,
@@ -1193,7 +1244,7 @@ export class World {
     m.lookAround -= dt;
     if (m.lookAround <= 0) {
       m.lookAround = this.rng.range(m.def.lookEvery[0], m.def.lookEvery[1]);
-      m.turnTo = m.angle + this.rng.range(-m.def.lookSwing, m.def.lookSwing);
+      m.turnTo = (m.restAngle ?? m.angle) + this.rng.range(-m.def.lookSwing, m.def.lookSwing);
     }
     const diff = angleDiff(m.turnTo, m.angle);
     if (Math.abs(diff) > 0.01) this.face(m, m.angle + Math.sign(diff) * Math.min(Math.abs(diff), m.def.turnSpeed * dt));

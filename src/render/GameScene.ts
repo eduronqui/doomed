@@ -114,6 +114,7 @@ export class GameScene extends Phaser.Scene {
   private liquids: { img: Phaser.GameObjects.Image; kind: 'slime' | 'lava' }[] = [];
   private braziers: Phaser.GameObjects.Image[] = [];
   private exitView: Phaser.GameObjects.Image | null = null;
+  private switchViews: { img: Phaser.GameObjects.Image; id: number; wall: 'tech' | 'stone'; x: number; y: number }[] = [];
   private exitWall: 'tech' | 'stone' = 'tech';
   private exitRooms: number[] = [];
   private fx: Fx[] = [];
@@ -169,12 +170,14 @@ export class GameScene extends Phaser.Scene {
     this.world = new World(info.load(), (Date.now() & 0xffff) + 1, this.difficulty, this.startCarry ?? info.startCarry, {
       alertOnEntry: info.alertOnEntry,
       ambush: info.ambush,
+      watchDoors: info.watchDoors,
     });
     this.monsterViews.clear();
     this.itemViews.clear();
     this.barrelViews.clear();
     this.projectileViews.clear();
     this.doorViews = [];
+    this.switchViews = [];
     this.walls = [];
     this.closetCovers = [];
     this.decoViews = [];
@@ -308,6 +311,12 @@ export class GameScene extends Phaser.Scene {
         const depth = (y + 1) * TILE;
         if (t.type === 'wall') {
           if (!this.touchesOpen(x, y)) continue;
+          if (t.switchId >= 0) {
+            const img = this.add.image(px, py, ATLAS, key.switch(t.wall, false)).setOrigin(0).setDepth(depth);
+            this.walls.push({ img, rooms: this.roomsAround(x, y) });
+            this.switchViews.push({ img, id: t.switchId, wall: t.wall, x: x + 0.5, y: y + 1.1 });
+            continue;
+          }
           const variant = this.wallVariant(t, x, y);
           this.walls.push({ img: this.add.image(px, py, ATLAS, key.wall(t.wall, variant)).setOrigin(0).setDepth(depth), rooms: this.roomsAround(x, y) });
           if (t.wall === 'tech' && variant === 1 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 2.2, a: 0.45, color: [120, 230, 255], glow: 0.12 });
@@ -368,6 +377,7 @@ export class GameScene extends Phaser.Scene {
       this.doorViews.push({ img, lead, top, height: ch * TILE + WALL_HEIGHT, width: cw * TILE });
       const color = keyColorOf(kind);
       if (color) this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.45, color: KEY_RGB[color], glow: 0.25 });
+      if (kind === 'gate') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.4, color: [90, 230, 255], glow: 0.2 });
     }
   }
 
@@ -847,6 +857,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     if (this.exitView && w.exitActivated) this.exitView.setFrame(key.exit(this.exitWall, true));
+    for (const v of this.switchViews) if (w.switchesOn.has(v.id)) v.img.setFrame(key.switch(v.wall, true));
 
     for (const l of this.liquids) l.img.setFrame(key.floor(l.kind, frame3));
     const bf = Math.floor(this.animClock / 0.12) % 3;
@@ -1020,6 +1031,9 @@ export class GameScene extends Phaser.Scene {
     }
     for (const m of w.monsters) {
       if (m.kind === 'fiend' && m.state === 'windup' && m.attack === 'ranged') lights.push({ x: m.x, y: m.y - 0.4, r: 2, a: 0.7, color: [255, 140, 40], glow: 0.4 });
+    }
+    for (const v of this.switchViews) {
+      if (v.img.visible) lights.push({ x: v.x, y: v.y, r: 1.6, a: w.switchesOn.has(v.id) ? 0.5 : 0.3, color: [90, 230, 255], glow: 0.15 });
     }
     if (this.exitView) {
       const ex = this.exitView.x / TILE + 0.5;
