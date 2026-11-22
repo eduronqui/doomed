@@ -1,0 +1,29 @@
+README.md
+  s_e549dc79ddcbfe::t_b129fc2ed0a69f 159
+docs/extending.md
+  s_e549dc79ddcbfe::t_fa5ae18411fecb 47
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_d32cbcce2c488b 26,118,226,368-381,1061
+src/render/devParams.ts
+  s_e549dc79ddcbfe::t_faf10c9d385d76 7,23
+src/render/lighting.ts
+  s_e549dc79ddcbfe::t_7797f40872ba95 38-42
+tests/devParams.test.ts
+  s_e549dc79ddcbfe::t_986beeb0179a87 6,12,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "502a45b477c61eceea615f1d6785f13cee49db8f",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
