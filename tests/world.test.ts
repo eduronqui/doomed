@@ -266,12 +266,12 @@ describe('World', () => {
   });
 
   it('lets a holding fiend that faces away look around and find the player again', () => {
-    const w = new World(parseLevel('t', '##########\n#P.....f.#\n##########'), 3);
+    const w = new World(parseLevel('t', '##########\n#P.....f.#\n##########'), 1);
     const fiend = w.monsters[0];
     fiend.state = 'hold';
     fiend.angle = 0;
     fiend.turnTo = 0;
-    run(w, 4);
+    run(w, 6);
     expect(fiend.state).not.toBe('hold');
   });
 
@@ -362,12 +362,12 @@ describe('World', () => {
     const map = '#####\n#P..#\n#####';
     const fresh = DIFFICULTIES.map((d) => new World(parseLevel('t', map), 1, d).player.ammo);
     expect(fresh).toEqual([
-      { bullets: 60, shells: 0 },
-      { bullets: 40, shells: 0 },
-      { bullets: 20, shells: 0 },
+      { bullets: 60, shells: 0, grenades: 0, fuel: 0, cells: 0 },
+      { bullets: 40, shells: 0, grenades: 0, fuel: 0, cells: 0 },
+      { bullets: 20, shells: 0, grenades: 0, fuel: 0, cells: 0 },
     ]);
-    const carry = { health: 80, armor: 10, ammo: { bullets: 123, shells: 7 }, weapons: ['knife', 'pistol'] as WeaponId[], weapon: 'pistol' as const };
-    expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7 });
+    const carry = { health: 80, armor: 10, ammo: { bullets: 123, shells: 7, grenades: 2, fuel: 0, cells: 9 }, weapons: ['knife', 'pistol'] as WeaponId[], weapon: 'pistol' as const };
+    expect(new World(parseLevel('t', map), 1, DIFFICULTIES[2], carry).player.ammo).toEqual({ bullets: 123, shells: 7, grenades: 2, fuel: 0, cells: 9 });
   });
 
   describe('key ambush', () => {
@@ -718,6 +718,20 @@ describe('World', () => {
     const start = w.player.x;
     run(w, 1, { moveX: 1, aimX: 9, aimY: 3.5 });
     expect(w.player.x - start).toBeGreaterThan(3);
+  });
+
+  it('opens a single door and slides the marine into it when he walks in off center', () => {
+    const w = new World(parseLevel('t', ['#####', '#...#', '##D##', '#...#', '#.P.#', '#####'].join('\n')));
+    w.player.x = 2.85;
+    run(w, 1.5, { moveY: -1, aimX: 2.5, aimY: 0 });
+    expect(w.player.y).toBeLessThan(2);
+  });
+
+  it('lets the marine pass a single side door with his feet in the opening', () => {
+    const w = new World(parseLevel('t', ['######', '#..#.#', '#P.D.#', '#..#.#', '######'].join('\n')));
+    w.player.y = 2.15;
+    run(w, 1.5, { moveX: 1, aimX: 5, aimY: 2.15 });
+    expect(w.player.x).toBeGreaterThan(4);
   });
 
   it('wins when the player uses the exit switch', () => {

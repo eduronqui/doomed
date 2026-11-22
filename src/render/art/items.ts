@@ -52,10 +52,26 @@ export function itemTexture(kind: ItemKind): Pix {
       p.rect(10, 18, 12, 2, 0xd8a030);
       for (let x = 10; x < 22; x += 3) p.set(x, 18, 0xf0d070);
       break;
+    case 'grenades':
+      box(p, 9, 16, 14, 9, 0x4a5638);
+      for (let x = 11; x < 21; x += 3) p.ellipse(x + 1, 15, 1.4, 1.4, 0x7a8a60);
+      p.rect(11, 20, 10, 1, 0xd8b02a);
+      break;
+    case 'fuel':
+      box(p, 11, 13, 10, 13, 0xa8321e);
+      p.rect(13, 11, 4, 2, 0x50535a).rect(13, 17, 6, 4, 0xd8b02a).rect(15, 18, 2, 2, 0x2a1a10);
+      break;
+    case 'cells':
+      box(p, 10, 15, 12, 10, 0x3a4250);
+      p.rect(12, 17, 8, 2, 0x4ad0ff).rect(12, 21, 8, 2, 0x4ad0ff).rect(14, 13, 4, 2, 0x50535a);
+      break;
     case 'shotgun':
-      return WEAPON_ART.shotgun.icon();
     case 'rotary':
-      return WEAPON_ART.rotary.icon();
+    case 'launcher':
+    case 'flamer':
+    case 'arc':
+    case 'rift':
+      return WEAPON_ART[kind].icon();
     case 'redkey':
     case 'bluekey':
     case 'yellowkey':
@@ -181,6 +197,69 @@ export function fireball(frame: number): Pix {
     return d < 0.35 ? 0xfff4b0 : d < 0.6 ? 0xffc040 : d < 0.85 ? 0xff7a20 : 0xd8301a;
   });
   if (frame === 1) p.set(3, 4, 0xff7a20).set(12, 12, 0xff7a20);
+  return p;
+}
+
+export function grenadeShot(frame: number): Pix {
+  const p = new Pix(16, 16);
+  p.ellipse(8, 8, 3, 2.5, 0x4a5638).ellipse(7, 7, 1.2, 1, 0x7a8a60);
+  p.set(frame === 0 ? 11 : 5, frame === 0 ? 6 : 10, 0xff9030);
+  return p.outline(0x141a10);
+}
+
+export function wisp(frame: number): Pix {
+  const p = new Pix(16, 16);
+  const r = frame === 0 ? 4 : 4.6;
+  p.ellipse(8, 8, r, r, (_x, _y, nx, ny) => {
+    const d = Math.hypot(nx, ny);
+    return d < 0.4 ? 0xffffff : d < 0.75 ? 0xb8f0ff : 0x4a90c0;
+  });
+  return p;
+}
+
+export function bolt(frame: number): Pix {
+  const p = new Pix(16, 16);
+  p.ellipse(8, 8, frame === 0 ? 4.5 : 5, 3, (_x, _y, nx, ny) => {
+    const d = Math.hypot(nx, ny);
+    return d < 0.4 ? 0xfff0ff : d < 0.75 ? 0xf060d0 : 0x8a1070;
+  });
+  return p;
+}
+
+export function riftOrb(frame: number): Pix {
+  const p = new Pix(24, 24);
+  const r = frame === 0 ? 8 : 9;
+  p.ellipse(12, 12, r, r, (_x, _y, nx, ny) => {
+    const d = Math.hypot(nx, ny);
+    return d < 0.3 ? 0xffffff : d < 0.55 ? 0xf0c8ff : d < 0.8 ? 0xb050ff : 0x5a1a9a;
+  });
+  return p;
+}
+
+export function flameFx(frame: number): Pix {
+  const p = new Pix(16, 16);
+  const rng = seeded(`flame${frame}`);
+  const r = 3 + frame * 1.4;
+  p.ellipse(8, 9 - frame, r, r * 0.9, (_x, _y, nx, ny) => {
+    const d = Math.hypot(nx, ny) + rng.range(-0.15, 0.15);
+    if (frame === 2) return d < 0.5 ? 0xff7020 : 0x8a2810;
+    return d < 0.35 ? 0xfff0a0 : d < 0.65 ? 0xffb030 : 0xff6018;
+  }, frame === 2 ? 170 : 255);
+  return p;
+}
+
+export function riftBlast(frame: number): Pix {
+  const size = 64;
+  const p = new Pix(size, size);
+  const rng = seeded(`rift${frame}`);
+  const c = size / 2;
+  const r = (size / 2 - 2) * (0.35 + frame * 0.22);
+  const fade = frame >= 3;
+  p.ellipse(c, c, r, r, (x, y, nx, ny) => {
+    const d = Math.hypot(nx, ny) + rng.range(-0.12, 0.12);
+    if (fade) return d < 0.5 ? 0x4a3a5a : 0x2a2234;
+    return d < 0.3 + frame * 0.05 ? 0xffffff : d < 0.55 ? 0xf0c8ff : d < 0.8 ? 0xb050ff : (x + y) % 2 === 0 ? 0x6a20b0 : 0x3a1060;
+  }, fade ? 150 : 255);
   return p;
 }
 

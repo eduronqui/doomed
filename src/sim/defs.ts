@@ -8,6 +8,13 @@ export type ItemKind =
   | 'shells'
   | 'shotgun'
   | 'rotary'
+  | 'grenades'
+  | 'fuel'
+  | 'cells'
+  | 'launcher'
+  | 'flamer'
+  | 'arc'
+  | 'rift'
   | 'redkey'
   | 'bluekey'
   | 'yellowkey';
@@ -17,6 +24,10 @@ export type SoundId =
   | 'pistol'
   | 'shotgun'
   | 'rotary'
+  | 'launcher'
+  | 'flame'
+  | 'arc'
+  | 'rift'
   | 'knife'
   | 'backstab'
   | 'footstep'
@@ -30,6 +41,7 @@ export type SoundId =
   | 'alertHusk'
   | 'alertFiend'
   | 'alertBrute'
+  | 'alertBoss'
   | 'monsterPain'
   | 'monsterDeath'
   | 'playerPain'
@@ -51,6 +63,13 @@ export const ITEM_NAMES: Record<ItemKind, string> = {
   shells: 'a box of shells',
   shotgun: 'the pump shotgun',
   rotary: 'the rotary gun',
+  grenades: 'a box of grenades',
+  fuel: 'a fuel canister',
+  cells: 'an energy cell pack',
+  launcher: 'the grenade launcher',
+  flamer: 'the flamer',
+  arc: 'the arc rifle',
+  rift: 'the rift cannon',
   redkey: 'a red keycard',
   bluekey: 'a blue keycard',
   yellowkey: 'a yellow keycard',

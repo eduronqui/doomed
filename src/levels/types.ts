@@ -18,6 +18,7 @@ export interface LevelInfo {
   tips?: Tip[];
   alertOnEntry?: MonsterKind[];
   ambush?: Ambush;
+  watchDoors?: boolean;
 }
 
 export interface Tip {

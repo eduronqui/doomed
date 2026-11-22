@@ -377,6 +377,33 @@ body {
   color: #f4f0e8;
 }
 
+#ammo-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 8px;
+  margin-bottom: 4px;
+}
+
+.ammo-entry {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ammo-entry .slot {
+  width: 28px;
+}
+
+.ammo-entry .slot img {
+  width: 24px;
+  height: 24px;
+}
+
+.ammo-entry b {
+  color: #f4f0e8;
+  font-size: 11px;
+}
+
 .slot.empty img {
   opacity: 0.15;
   filter: grayscale(1);

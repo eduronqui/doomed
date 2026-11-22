@@ -8,6 +8,7 @@ import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from
 import { FOOT_OFFSET, type Door } from '../sim/grid';
 import { looksLikeWall, type Tile } from '../sim/level';
 import { dist } from '../sim/types';
+import type { ProjectileLook } from '../weapons';
 import { IDLE_INPUT, World, keyColorOf, type Carry, type EffectKind, type GameEvent, type Input, type Monster } from '../sim/world';
 import type { Hud } from '../ui/hud';
 import type { Screens } from '../ui/screens';
@@ -22,6 +23,7 @@ import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
 export const VIEW_W = 1024;
 export const VIEW_H = 704;
 export const ZOOM = 2;
+const OVERVIEW_MARGIN = 1;
 
 const FLOOR_DEPTH = -100000;
 const DECAL_DEPTH = -90000;
@@ -60,6 +62,7 @@ interface Tracer {
   y2: number;
   age: number;
   hostile: boolean;
+  beam: boolean;
 }
 
 interface ActorView {
@@ -82,8 +85,20 @@ function floorVariant(t: Tile, x: number, y: number): number {
 
 const KEY_RGB: Record<'red' | 'blue' | 'yellow', [number, number, number]> = { red: [255, 40, 40], blue: [60, 130, 255], yellow: [255, 220, 60] };
 
-const FX_FRAMES: Record<EffectKind, number> = { puff: 3, blood: 3, explosion: 4, burst: 4 };
-const FX_TIME: Record<EffectKind, number> = { puff: 0.06, blood: 0.07, explosion: 0.09, burst: 0.06 };
+const FX_FRAMES: Record<EffectKind, number> = { puff: 3, blood: 3, explosion: 4, burst: 4, flame: 3, riftblast: 4 };
+const FX_TIME: Record<EffectKind, number> = { puff: 0.06, blood: 0.07, explosion: 0.09, burst: 0.06, flame: 0.07, riftblast: 0.11 };
+const ADDITIVE_FX: ReadonlySet<EffectKind> = new Set<EffectKind>(['explosion', 'burst', 'flame', 'riftblast']);
+const TRACER_LIFE = 0.06;
+const BEAM_LIFE = 0.12;
+const PROJECTILE_LIGHT: Record<ProjectileLook, Light | null> = {
+  fireball: { x: 0, y: 0, r: 2.6, a: 0.9, color: [255, 130, 30], glow: 0.45 },
+  orb: { x: 0, y: 0, r: 4, a: 1, color: [190, 90, 255], glow: 0.55 },
+  grenade: null,
+  wisp: { x: 0, y: 0, r: 2.2, a: 0.85, color: [150, 230, 255], glow: 0.4 },
+  bolt: { x: 0, y: 0, r: 2.4, a: 0.9, color: [230, 60, 200], glow: 0.45 },
+};
+const FLOAT_PX = 7;
+const LABEL_HEIGHT: Partial<Record<string, number>> = { brute: 28, warden: 28, shade: 28, gatekeeper: 62 };
 
 export class GameScene extends Phaser.Scene {
   private deps!: GameDeps;
@@ -100,6 +115,8 @@ export class GameScene extends Phaser.Scene {
   private liquids: { img: Phaser.GameObjects.Image; kind: 'slime' | 'lava' }[] = [];
   private braziers: Phaser.GameObjects.Image[] = [];
   private exitView: Phaser.GameObjects.Image | null = null;
+  private overview = false;
+  private switchViews: { img: Phaser.GameObjects.Image; id: number; wall: 'tech' | 'stone'; x: number; y: number }[] = [];
   private exitWall: 'tech' | 'stone' = 'tech';
   private exitRooms: number[] = [];
   private fx: Fx[] = [];
@@ -155,12 +172,14 @@ export class GameScene extends Phaser.Scene {
     this.world = new World(info.load(), (Date.now() & 0xffff) + 1, this.difficulty, this.startCarry ?? info.startCarry, {
       alertOnEntry: info.alertOnEntry,
       ambush: info.ambush,
+      watchDoors: info.watchDoors,
     });
     this.monsterViews.clear();
     this.itemViews.clear();
     this.barrelViews.clear();
     this.projectileViews.clear();
     this.doorViews = [];
+    this.switchViews = [];
     this.walls = [];
     this.closetCovers = [];
     this.decoViews = [];
@@ -204,6 +223,7 @@ export class GameScene extends Phaser.Scene {
       if (dev.god) this.world.god = true;
       if (dev.arsenal) this.world.giveArsenal();
       if (dev.sight) this.showSight = true;
+      if (dev.overview) this.showOverview();
       if (dev.noMonster) {
         for (const v of this.monsterViews.values()) {
           v.sprite.destroy();
@@ -294,6 +314,12 @@ export class GameScene extends Phaser.Scene {
         const depth = (y + 1) * TILE;
         if (t.type === 'wall') {
           if (!this.touchesOpen(x, y)) continue;
+          if (t.switchId >= 0) {
+            const img = this.add.image(px, py, ATLAS, key.switch(t.wall, false)).setOrigin(0).setDepth(depth);
+            this.walls.push({ img, rooms: this.roomsAround(x, y) });
+            this.switchViews.push({ img, id: t.switchId, wall: t.wall, x: x + 0.5, y: y + 1.1 });
+            continue;
+          }
           const variant = this.wallVariant(t, x, y);
           this.walls.push({ img: this.add.image(px, py, ATLAS, key.wall(t.wall, variant)).setOrigin(0).setDepth(depth), rooms: this.roomsAround(x, y) });
           if (t.wall === 'tech' && variant === 1 && !isWallLike(x, y + 1)) this.staticLights.push({ x: x + 0.5, y: y + 1.1, r: 2.2, a: 0.45, color: [120, 230, 255], glow: 0.12 });
@@ -339,6 +365,20 @@ export class GameScene extends Phaser.Scene {
     return this.world.grid.elevation(x, y) > 0 ? Math.max(depth + TILE, (Math.floor(y) + 1) * TILE + 0.5) : depth;
   }
 
+  private showOverview(): void {
+    const g = this.world.grid;
+    this.overview = true;
+    for (const r of g.rooms) if (r >= 0) this.world.revealedRooms.add(r);
+    this.lighting.setVisible(false);
+    const cam = this.cameras.main;
+    const w = (g.width + OVERVIEW_MARGIN * 2) * TILE;
+    const h = (g.height + OVERVIEW_MARGIN * 2) * TILE;
+    cam.stopFollow();
+    cam.removeBounds();
+    cam.setZoom(Math.min(cam.width / w, cam.height / h));
+    cam.centerOn((g.width * TILE) / 2, (g.height * TILE) / 2 - WALL_HEIGHT / 2);
+  }
+
   private buildDoorPieces(): void {
     for (const group of this.world.grid.doorGroups) {
       const lead = group[0];
@@ -354,6 +394,8 @@ export class GameScene extends Phaser.Scene {
       this.doorViews.push({ img, lead, top, height: ch * TILE + WALL_HEIGHT, width: cw * TILE });
       const color = keyColorOf(kind);
       if (color) this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.45, color: KEY_RGB[color], glow: 0.25 });
+      if (kind === 'seal') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2.4, a: 0.5, color: [190, 90, 255], glow: 0.3 });
+      if (kind === 'gate') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.4, color: [90, 230, 255], glow: 0.2 });
     }
   }
 
@@ -435,6 +477,15 @@ export class GameScene extends Phaser.Scene {
     this.itemViews.set(id, img);
   }
 
+  private monsterView(m: Monster): ActorView {
+    let v = this.monsterViews.get(m.id);
+    if (!v) {
+      v = this.makeActor(m.kind, m.def.name, m.x, m.y);
+      this.monsterViews.set(m.id, v);
+    }
+    return v;
+  }
+
   private makeActor(kind: CharacterKind, name: string, x: number, y: number): ActorView {
     const texture = kind === 'marine' ? key.marine('pistol', 's', 0) : key.actor(kind, 's', 0);
     const sprite = this.add.image(x * TILE, (y + ACTOR_FOOT) * TILE, ATLAS, texture).setOrigin(0.5, 30 / 32);
@@ -457,7 +508,7 @@ export class GameScene extends Phaser.Scene {
 
   private setupInput(): void {
     const kb = this.input.keyboard!;
-    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,M,N,ESC,P,R,Q') as Record<string, Phaser.Input.Keyboard.Key>;
+    this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,M,N,ESC,P,R,Q') as Record<string, Phaser.Input.Keyboard.Key>;
     kb.addCapture('SPACE,UP,DOWN,LEFT,RIGHT');
     this.input.mouse?.disableContextMenu();
     this.input.on('pointerdown', (ptr: Phaser.Input.Pointer) => {
@@ -483,6 +534,10 @@ export class GameScene extends Phaser.Scene {
     onDown('TWO', () => (this.slotQueued = 2));
     onDown('THREE', () => (this.slotQueued = 3));
     onDown('FOUR', () => (this.slotQueued = 4));
+    onDown('FIVE', () => (this.slotQueued = 5));
+    onDown('SIX', () => (this.slotQueued = 6));
+    onDown('SEVEN', () => (this.slotQueued = 7));
+    onDown('EIGHT', () => (this.slotQueued = 8));
     onDown('Q', () => (this.wheel += 1));
     onDown('M', () => {
       const muted = this.deps.sfx.toggleMute();
@@ -660,7 +715,10 @@ export class GameScene extends Phaser.Scene {
         break;
       case 'tracer':
         if (!this.world.isRevealedAt(e.x1, e.y1) && !this.world.isRevealedAt(e.x2, e.y2)) break;
-        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: e.hostile });
+        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: e.hostile, beam: false });
+        break;
+      case 'beam':
+        this.tracers.push({ x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, age: 0, hostile: false, beam: true });
         break;
       case 'effect':
         if (!this.world.isRevealedAt(e.x, e.y)) break;
@@ -688,9 +746,9 @@ export class GameScene extends Phaser.Scene {
   private spawnFx(name: EffectKind, x: number, y: number): void {
     const lift = this.lift(x, y);
     const sprite = this.add.image(x * TILE, y * TILE - (name === 'blood' ? 10 : 6) - lift, ATLAS, key.fx(name, 0)).setDepth(this.raisedDepth(x, y, y * TILE + 20));
-    if (name === 'explosion' || name === 'burst') sprite.setBlendMode(Phaser.BlendModes.ADD);
+    if (ADDITIVE_FX.has(name)) sprite.setBlendMode(Phaser.BlendModes.ADD);
     this.fx.push({ sprite, name, frames: FX_FRAMES[name], age: 0, frameTime: FX_TIME[name] });
-    if (name === 'explosion') {
+    if (name === 'explosion' || name === 'riftblast') {
       this.add.image(x * TILE, y * TILE - lift, ATLAS, key.fx('scorch', 0)).setDepth(this.raisedDepth(x, y, DECAL_DEPTH + 1));
       const d = dist(x, y, this.world.player.x, this.world.player.y);
       if (d < 9) this.cameras.main.shake(220, 0.012 * (1 - d / 9));
@@ -733,7 +791,7 @@ export class GameScene extends Phaser.Scene {
     this.syncReveal();
 
     for (const m of w.monsters) {
-      const v = this.monsterViews.get(m.id)!;
+      const v = this.monsterView(m);
       v.sprite.setVisible(w.isRevealedAt(m.x, m.y));
       if (m.state === 'dead') {
         if (!v.dead) {
@@ -745,18 +803,18 @@ export class GameScene extends Phaser.Scene {
         continue;
       }
       const f = this.actorFrame(m.moving, m.walkTime, m.state === 'windup' && m.stateTime < 0.25);
-      const mLift = this.lift(m.x, m.y + ACTOR_FOOT);
+      const mLift = m.def.floats ? FLOAT_PX + Math.sin(this.animClock * 3 + m.id) * 2 : this.lift(m.x, m.y + ACTOR_FOOT);
       v.sprite
         .setFrame(key.actor(m.kind, m.dir, m.state === 'pain' ? 0 : f))
         .setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - mLift)
         .setDepth(this.raisedDepth(m.x, m.y + ACTOR_FOOT, (m.y + ACTOR_FOOT) * TILE));
-      v.sprite.setTint(m.hurtTime > 0 || m.state === 'pain' ? 0xff7070 : 0xffffff);
+      v.sprite.setTint(m.hurtTime > 0 || m.state === 'pain' ? 0xff7070 : m.burn > 0 ? 0xffb070 : 0xffffff);
       if (m.def.stealth) {
         if (m.hurtTime > 0) v.exposedUntil = this.animClock + 1.5;
         v.sprite.setAlpha(m.hurtTime > 0 ? 0.7 : 0.37 + 0.12 * Math.sin(this.animClock * 7 + m.id));
       }
       const ratio = m.hp / m.def.hp;
-      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (m.kind === 'brute' ? 28 : 31) - mLift);
+      v.name.setPosition(m.x * TILE, (m.y + ACTOR_FOOT) * TILE - (LABEL_HEIGHT[m.kind] ?? 31) - mLift);
       v.name.setColor(ratio > 0.6 ? '#30d030' : ratio > 0.3 ? '#e0d030' : '#e03020');
     }
 
@@ -788,11 +846,12 @@ export class GameScene extends Phaser.Scene {
       live.add(pr.id);
       let img = this.projectileViews.get(pr.id);
       if (!img) {
-        img = this.add.image(0, 0, ATLAS, key.fx('fireball', 0)).setBlendMode(Phaser.BlendModes.ADD);
+        img = this.add.image(0, 0, ATLAS, key.fx(pr.look, 0));
+        if (pr.look !== 'grenade') img.setBlendMode(Phaser.BlendModes.ADD);
         this.projectileViews.set(pr.id, img);
       }
       img
-        .setFrame(key.fx('fireball', Math.floor(this.animClock / 0.08) % 2))
+        .setFrame(key.fx(pr.look, Math.floor(this.animClock / 0.08) % 2))
         .setPosition(pr.x * TILE, pr.y * TILE - 12 - this.lift(pr.x, pr.y))
         .setDepth(this.raisedDepth(pr.x, pr.y, pr.y * TILE + 12))
         .setVisible(w.isRevealedAt(pr.x, pr.y));
@@ -816,6 +875,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     if (this.exitView && w.exitActivated) this.exitView.setFrame(key.exit(this.exitWall, true));
+    for (const v of this.switchViews) if (w.switchesOn.has(v.id)) v.img.setFrame(key.switch(v.wall, true));
 
     for (const l of this.liquids) l.img.setFrame(key.floor(l.kind, frame3));
     const bf = Math.floor(this.animClock / 0.12) % 3;
@@ -839,7 +899,7 @@ export class GameScene extends Phaser.Scene {
     }
     this.floaters = this.floaters.filter((f) => f.text.active);
     for (const t of this.tracers) t.age += dt;
-    this.tracers = this.tracers.filter((t) => t.age < 0.06);
+    this.tracers = this.tracers.filter((t) => t.age < (t.beam ? BEAM_LIFE : TRACER_LIFE));
   }
 
   private drawSight(view: Phaser.Geom.Rectangle): void {
@@ -884,7 +944,7 @@ export class GameScene extends Phaser.Scene {
   private isExposed(m: Monster): boolean {
     if (!m.def.stealth) return true;
     const p = this.world.player;
-    return Math.hypot(m.x - p.x, m.y - p.y) < STEALTH_EXPOSE_RANGE || this.monsterViews.get(m.id)!.exposedUntil > this.animClock;
+    return Math.hypot(m.x - p.x, m.y - p.y) < STEALTH_EXPOSE_RANGE || this.monsterView(m).exposedUntil > this.animClock;
   }
 
   private hiddenCells(view: Phaser.Geom.Rectangle): [number, number, number][] {
@@ -934,8 +994,18 @@ export class GameScene extends Phaser.Scene {
     const w = this.world;
     g.clear();
     for (const t of this.tracers) {
+      const x1 = t.x1 * TILE;
+      const y1 = t.y1 * TILE - GUN_HEIGHT_PX - this.lift(t.x1, t.y1 + ACTOR_FOOT);
+      const x2 = t.x2 * TILE;
+      const y2 = t.y2 * TILE - GUN_HEIGHT_PX - this.lift(t.x2, t.y2);
+      if (t.beam) {
+        const fade = 1 - t.age / BEAM_LIFE;
+        g.lineStyle(3, 0x4ad0ff, 0.7 * fade).lineBetween(x1, y1, x2, y2);
+        g.lineStyle(1, 0xffffff, fade).lineBetween(x1, y1, x2, y2);
+        continue;
+      }
       g.lineStyle(1, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
-      g.lineBetween(t.x1 * TILE, t.y1 * TILE - GUN_HEIGHT_PX - this.lift(t.x1, t.y1 + ACTOR_FOOT), t.x2 * TILE, t.y2 * TILE - GUN_HEIGHT_PX - this.lift(t.x2, t.y2));
+      g.lineBetween(x1, y1, x2, y2);
     }
 
     const view = this.cameras.main.worldView;
@@ -947,7 +1017,7 @@ export class GameScene extends Phaser.Scene {
     };
     for (const m of w.monsters) {
       if (m.state === 'dead') continue;
-      const v = this.monsterViews.get(m.id)!;
+      const v = this.monsterView(m);
       const onScreen = view.contains(m.x * TILE, m.y * TILE) && w.isRevealedAt(m.x, m.y) && this.isExposed(m);
       v.name.setVisible(onScreen);
       if (onScreen) bar(m.x * TILE, v.name.y + 1, m.hp / m.def.hp);
@@ -960,10 +1030,16 @@ export class GameScene extends Phaser.Scene {
     const p = w.player;
     lights.push({ x: p.x, y: p.y, r: p.flash > 0 ? 7.5 : 5.2, a: 0.95, color: [255, 220, 160], glow: p.flash > 0 ? 0.25 : 0 });
     for (const l of this.staticLights) lights.push(l);
-    for (const pr of w.projectiles) lights.push({ x: pr.x, y: pr.y - 0.3, r: 2.6, a: 0.9, color: [255, 130, 30], glow: 0.45 });
+    for (const pr of w.projectiles) {
+      const light = PROJECTILE_LIGHT[pr.look];
+      if (light) lights.push({ ...light, x: pr.x, y: pr.y - 0.3 });
+    }
+    for (const t of this.tracers) if (t.beam) lights.push({ x: t.x2, y: t.y2, r: 2.4, a: 0.8, color: [80, 200, 255], glow: 0.35 });
     for (const f of this.fx) {
       if (f.name === 'explosion') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 6, a: 1, color: [255, 150, 50], glow: 0.6 * (1 - f.age / 0.36) });
       if (f.name === 'burst') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 3, a: 0.9, color: [255, 120, 40], glow: 0.4 });
+      if (f.name === 'flame') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 2.4, a: 0.85, color: [255, 140, 40], glow: 0.3 });
+      if (f.name === 'riftblast') lights.push({ x: f.sprite.x / TILE, y: f.sprite.y / TILE, r: 9, a: 1, color: [190, 90, 255], glow: 0.7 * (1 - f.age / 0.44) });
     }
     for (const it of w.items) {
       if (it.taken) continue;
@@ -974,12 +1050,15 @@ export class GameScene extends Phaser.Scene {
     for (const m of w.monsters) {
       if (m.kind === 'fiend' && m.state === 'windup' && m.attack === 'ranged') lights.push({ x: m.x, y: m.y - 0.4, r: 2, a: 0.7, color: [255, 140, 40], glow: 0.4 });
     }
+    for (const v of this.switchViews) {
+      if (v.img.visible) lights.push({ x: v.x, y: v.y, r: 1.6, a: w.switchesOn.has(v.id) ? 0.5 : 0.3, color: [90, 230, 255], glow: 0.15 });
+    }
     if (this.exitView) {
       const ex = this.exitView.x / TILE + 0.5;
       const ey = (this.exitView.y + WALL_HEIGHT) / TILE + 1;
       lights.push({ x: ex, y: ey, r: 2.2, a: 0.6, color: w.exitActivated ? [60, 255, 80] : [255, 50, 40], glow: 0.25 });
     }
     const visibleLights = lights.filter((l, i) => i === 0 || w.isRevealedAt(l.x, l.y));
-    this.lighting.render(view, visibleLights, this.animClock, this.hiddenCells(view));
+    if (!this.overview) this.lighting.render(view, visibleLights, this.animClock, this.hiddenCells(view));
   }
 }

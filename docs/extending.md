@@ -40,10 +40,11 @@ Dev mode helps you test a change fast. These URL parameters work only with `npm 
 | Parameter | Effect |
 | --- | --- |
 | `?autostart` | Skip the title screen (default difficulty) |
-| `?level=n` | Start on level n (1 to 3), or 0 for the training |
+| `?level=n` | Start on level n (1 to 12), or 0 for the training |
 | `?pos=x,y` | Put the player on map cell (x, y) |
 | `?god` | Take no damage; health and armor items stay on the floor |
 | `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |
+| `?overview` | Show the whole level from above: every room revealed, no darkness, the camera zoomed out to fit the map |
 | `?sight` | Show the enemy sight layer (view cones) |
 
 Example: `http://localhost:5173/?autostart&god&level=2&pos=28,24`.
@@ -126,7 +127,8 @@ A level is three files plus one line in the level list.
 | `par` | Par time in seconds, shown on the victory tally |
 | `startMessage` | Optional. Text after "Welcome to ..." in the first Server Log message. Do not use it for hints about the level; only the training uses it. |
 | `music` | The level's `Track` |
-| `load` | Returns the parsed map |
+| `load` | Returns the parsed map. Pass the switch links as the fourth argument of `parseLevel`: `[{ at: [x, y], gates: [[x, y], ...] }]`. `at` is the `K` cell, and each gate entry is any one cell of a `J` door. Each switch needs a link, each gate needs a switch, and a switch must sit on a top wall with floor below it. |
+| `watchDoors` | Optional. Each map enemy starts facing the nearest door of its room, and its head turns sweep around that door. The levels from E4 on use it. |
 | `startCarry` | Optional. The marine's loadout at the start. Only the training uses it. Other levels get the loadout from the previous level. |
 | `alertOnEntry` | Optional. Monster kinds that wake up as soon as the player steps into their room |
 | `ambush` | Optional. `{ key, groups }`: taking the keycard of color `key` opens the level's one trap door (`T`). `groups` maps each difficulty to a string of monster map chars, for example `{ recruit: 'hhff', veteran: 'hhffHb', doomed: 'hhffHbg' }`. The game places them on the floor of the empty closet behind the door, nearest to the door first. The game also puts two medikits on the back row of the closet, the row farthest from the door, symmetric around its middle. The back row must have at least two free cells. The closet must be a room with no map spawns, big enough for the largest group, and the `T` door must cover one whole side of it, so that every enemy inside can see out when it opens. The game throws an error otherwise. While the door is shut, the closet is hidden on the screen and the minimap. If every wall around the closet also touches another room, the closet is drawn as solid wall, so it can stand inside a room as a pillar or housing. Otherwise it stays unknown area until the door opens. |
@@ -157,6 +159,8 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `Y` | Yellow door (yellow keycard) | `=` | Lava (10 damage/s) |
 | `X` | Secret wall (opens with E) | `?` | Metal floor in a secret area |
 | `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | | |
+| `J` | Gate (cyan; only its lever opens it) | `K` | Lever (part of a top wall, floor below) |
+| `U` | Rift seal (violet; breaks when every boss on the level is dead; the level needs a boss) | | |
 | `E` | Exit switch (part of a wall) | space | Void outside the level |
 
 ### Entities
@@ -165,7 +169,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | --- | --- | --- | --- |
 | `P` | Player start | `+` | Stimpack |
 | `h` | Husk | `m` | Medikit |
-| `H` | Shotgun Husk | | |
+| `H` | Shotgun Husk | `n` | Box of grenades |
 | `f` | Fiend | `a` | Combat vest |
 | `b` | Brute | `v` | Vital sphere |
 | `g` | Shade | `c` | Clip of bullets |
@@ -175,6 +179,14 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `t` | Brazier (thin post, light) | `k` | Red keycard |
 | `x` | Gore decal | `j` | Blue keycard |
 | `z` | Body decal | `y` | Yellow keycard |
+| `u` | Fuel canister | `L` | Grenade launcher |
+| `e` | Energy cell pack | `F` | Flamer |
+| | | `A` | Arc rifle |
+| `M` | Gunner | `Q` | Rift cannon |
+| `S` | Stalker | | |
+| `w` | Warden | | |
+| `V` | Hollow | | |
+| `Z` | Gatekeeper (boss) | | |
 
 ### Rules
 
@@ -202,6 +214,7 @@ A level can pass an optional height map as the third argument of `parseLevel`: `
 - Stairs must touch low floor and raised floor. The stairs face the raised side, and they take the look of the raised floor (grate stairs use metal).
 - Raised areas do not need stairs. A 1 x 1 pillar with an enemy on top is fine.
 - Blank rows count: the height map keeps empty first and last rows, so its rows line up with the map.
+- No door may touch raised floor. The marine cannot drop off a ledge, so a door against a platform would trap him or block the way. The level tests check this.
 
 `parseLevel` throws an error when a height breaks these rules. The rules for movement, shots and melee are in [gameplay.md](gameplay.md#raised-floor).
 
@@ -269,6 +282,13 @@ The simulation, sight cones, names, health bars and corpses work for the new kin
 | `coverBlocksSight` | If true, crates hide the player from it (like the Fiend) |
 | `stealth` | If true, it is drawn almost invisible, and its name and cone show only up close (like the Shade) |
 | `lookEvery`, `lookSwing`, `turnSpeed` | How often, how far and how fast it looks around while calm |
+| `shot` | Optional. Its projectile for `ranged: 'fireball'`: look (`'fireball'`, `'wisp'`), speed, count, spread between shots, homing turn rate (radians per second) and range. The default is one plain fireball |
+| `burst`, `burstGap` | Optional. Shots per hitscan attack and the seconds between them (like the Gunner) |
+| `flank` | Optional. If true, it circles to the player's side at mid range (like the Stalker) |
+| `leap` | Optional. `{ range, speed, time }`: it leaps at the player from up to `range` tiles |
+| `frontArmor` | Optional. Part of the damage (0 to 1) that its front shield blocks. The shield turns at `turnSpeed` (like the Warden) |
+| `floats` | Optional. If true, it ignores ledges and hazards and hovers above the floor (like the Hollow) |
+| `boss` | Optional. If true, it has the three Gatekeeper phases (wider volleys, summons, bolt ring), teleports around its room and cannot be backstabbed |
 
 ## 6. The marine
 
@@ -528,6 +548,10 @@ The box shows the tip of the area that holds the player. Use `tips` only in the 
 | No walkable cell touches the void | `tests/level.test.ts` |
 | Keycards are reachable without their own door, and the exit needs them | `tests/level.test.ts` |
 | Every non-solid entity is reachable | `tests/level.test.ts` |
+| The start room is safe: a door stands between the start and every enemy | `tests/level.test.ts` |
+| No door touches raised floor | `tests/level.test.ts` |
+| Every lever is reachable, each lever links to a gate, and each gate has a lever | `parseLevel`, `World`, `tests/level.test.ts` |
+| A rift seal needs a boss on the level | `World` |
 | Every music track is whole bars with matching parts, one track per level | `tests/music.test.ts` |
 | The committed sprite sheet matches the art code, with no overlapping frames | `tests/sprites.test.mjs` |
 | The simulation never imports Phaser, the DOM or art files | Convention: keep `src/sim/` and `src/characters/*.ts` (not `*.art.ts`) pure |

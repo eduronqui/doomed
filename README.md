@@ -6,7 +6,7 @@ All sprites are drawn in code and baked into one sprite sheet (`public/assets/sp
 
 **Play it:** https://doomed-nine.vercel.app/
 
-- Game rules, enemies, weapons, items and walkthroughs of all three levels: [docs/gameplay.md](docs/gameplay.md)
+- Game rules, enemies, weapons, items and walkthroughs of all twelve levels: [docs/gameplay.md](docs/gameplay.md)
 - How to add levels, characters, sprites, sounds, music and more: [docs/extending.md](docs/extending.md)
 - Ideas and plans under discussion (not built yet): [docs/ideas.md](docs/ideas.md)
 
@@ -85,19 +85,25 @@ src/
     pistol.ts         PISTOL                       pistol.art.ts   PISTOL_ART
     shotgun.ts        SHOTGUN                      shotgun.art.ts  SHOTGUN_ART
     rotary.ts         ROTARY                       rotary.art.ts   ROTARY_ART
+    launcher.ts       LAUNCHER                     launcher.art.ts LAUNCHER_ART
+    flamer.ts         FLAMER                       flamer.art.ts   FLAMER_ART
+    arc.ts            ARC                          arc.art.ts      ARC_ART
+    rift.ts           RIFT                         rift.art.ts     RIFT_ART
   levels/
     index.ts          LEVELS (play order), TRAINING, ALL_LEVELS, levelInfo()
     types.ts          LevelInfo and Tip types
-    levelN.ts         Level N settings (N = 1 to 3): title, briefing, darkness, par, music, loader
+    levelN.ts         Level N settings (N = 1 to 12): title, briefing, darkness, par, music, loader
     levelN.map.ts     Level N ASCII map
-    level1.heights.ts E1 height map (raised floor and stairs)
+    levelN.heights.ts Level N height map (raised floor and stairs), where the level has one
     levelN.music.ts   Level N music track
     training.ts       Training settings (tips, start loadout, alert-on-entry), shown once
     training.map.ts   Training ASCII map
     training.music.ts Training music track
     death.music.ts    Death screen music loop
 
-    Levels: 1 = E1: Outpost Breach, 2 = E2: Toxin Refinery, 3 = E3: Ember Gate.
+    Levels: 1 = E1: Outpost Breach, 2 = E2: Toxin Refinery, 3 = E3: Ember Gate, 4 = E4: Freight Lift,
+    5 = E5: Coolant Works, 6 = E6: Furnace Deck, 7 = E7: Hunting Grounds, 8 = E8: Arc Foundry,
+    9 = E9: Iron Bastion, 10 = E10: Drowned Pit, 11 = E11: The Gauntlet, 12 = E12: The Gate (boss).
   render/             Everything visual and audible
     GameScene.ts      Builds the map sprites, syncs them with the world, effects, input
     lighting.ts       Darkness overlay and colored glow
@@ -150,8 +156,9 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?autostart` | Skip the title screen |
 | `?god` | Take no damage; health and armor items stay on the floor |
 | `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |
+| `?overview` | Show the whole level from above: every room revealed, no darkness, the camera zoomed out to fit the map |
 | `?pos=x,y` | Start the player on map cell (x, y) |
-| `?level=n` | Start on level n (1 to 3), or 0 for the training |
+| `?level=n` | Start on level n (1 to 12), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
 | `?noMonster` | Remove every monster at the start, to look around a level in peace |
 
@@ -166,10 +173,13 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `level.test.ts`: for every level: one start, enough monsters, a secret and one exit. No floor touches the void. The exit faces a room. Every keycard is reachable without its own door, and the exit needs the keycards. All entities are reachable. Also map parsing of colored doors, keycards and shades.
 - `grid.test.ts`: collision, sliding along walls, raycasts, door timing, door groups, path search.
 - `devParams.test.ts`: the dev URL parameters, also bad values.
+- `weapons.test.ts`: the grenade launcher (over crates, splash, self-damage), the flamer (cone, range, burning), the arc rifle (piercing), the rift cannon (cell cost, blast, no self-damage), the new pickups and slots 5 to 8.
+- `enemies.test.ts`: the Gunner burst, the Stalker leap, the Warden shield, the Hollow floating and homing wisps, and the Gatekeeper phases (no backstab, summons that do not count, the fireball ring).
 - `heights.test.ts`: the height map, ledges, stairs, shots and melee across heights, and monster paths over stairs.
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
+- `puzzles.test.ts`: levers open their gates for good, gates refuse the player and monsters and point to their lever, link errors, enemies that face the doors, and the boss seal that breaks when the boss dies.
 - `sprites.test.mjs`: the committed sprite sheet and favicons match the art code, and no frames overlap.
 - `world.test.ts`: pickups, weapons, ammo fallback, combat, armor, hazards, barrels, doors and keys, secrets, death, exit, resting, view cones, crate cover, knife backstabs, the lost-sight behavior of each enemy kind, monsters and doors, difficulty scaling, room reveal, colored keycards, carry-over between levels and the Shade.
 

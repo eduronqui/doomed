@@ -33,6 +33,11 @@ const EPS = 1e-4;
 const MAX_STEP = 0.5;
 const FOOT = 0.1;
 export const FOOT_OFFSET = 0.28;
+const MIN_REACH_UP = 0.05;
+
+export function reachUp(r: number): number {
+  return Math.max(MIN_REACH_UP, r - FOOT_OFFSET);
+}
 
 export class Grid {
   readonly width: number;
@@ -231,7 +236,7 @@ export class Grid {
       if (phase === 'opening') {
         openness = Math.min(1, openness + DOOR_SPEED * dt);
         if (openness >= 1) phase = 'open';
-      } else if (phase === 'open' && lead.kind !== 'secret' && lead.kind !== 'trap') {
+      } else if (phase === 'open' && lead.kind !== 'secret' && lead.kind !== 'trap' && lead.kind !== 'gate' && lead.kind !== 'seal') {
         timer -= dt;
         if (timer <= 0) {
           if (busy()) timer = 0.5;
@@ -256,40 +261,53 @@ export class Grid {
     return closing;
   }
 
-  move(x: number, y: number, r: number, dx: number, dy: number, solid: (cx: number, cy: number) => boolean = (cx, cy) => this.isSolid(cx, cy)): MoveResult {
+  move(
+    x: number,
+    y: number,
+    r: number,
+    dx: number,
+    dy: number,
+    solid: (cx: number, cy: number) => boolean = (cx, cy) => this.isSolid(cx, cy),
+    ignoreHeight = false,
+  ): MoveResult {
     const bumped: number[] = [];
     const from = this.standHeight(x, y);
-    const rise = (cx: number, cy: number): boolean => this.heightAt(cx, cy) - from > MAX_STEP;
-    const drop = (cx: number, cy: number): boolean => from - this.heightAt(cx, cy) > MAX_STEP;
+    const rise = (cx: number, cy: number): boolean => !ignoreHeight && this.heightAt(cx, cy) - from > MAX_STEP;
+    const drop = (cx: number, cy: number): boolean => !ignoreHeight && from - this.heightAt(cx, cy) > MAX_STEP;
     const fy = y + FOOT_OFFSET;
-    let nx = this.sweepX(x, y, dx, r, solid, bumped);
+    const up = reachUp(r);
+    let nx = this.sweepX(x, y, dx, r, solid, bumped, up);
     nx = this.sweepX(x, y, nx - x, r, rise, bumped);
     nx = this.sweepX(x, fy, nx - x, FOOT, drop, bumped);
-    let ny = this.sweepY(nx, y, dy, r, solid, bumped);
+    let ny = this.sweepY(nx, y, dy, r, solid, bumped, up);
     ny = this.sweepY(nx, y, ny - y, r, rise, bumped);
     ny = this.sweepY(nx, fy, ny - y, FOOT, drop, bumped) - FOOT_OFFSET;
     return { x: nx, y: ny, bumped };
   }
 
-  private sweepX(x: number, y: number, dx: number, r: number, block: (cx: number, cy: number) => boolean, bumped: number[]): number {
+  private sweepX(x: number, y: number, dx: number, r: number, block: (cx: number, cy: number) => boolean, bumped: number[], up = r): number {
     if (dx === 0) return x;
     const cx = Math.floor(dx > 0 ? x + dx + r : x + dx - r);
-    for (let cy = Math.floor(y - r); cy <= Math.floor(y + r - EPS); cy++) {
+    let hit = false;
+    for (let cy = Math.floor(y - up); cy <= Math.floor(y + r - EPS); cy++) {
       if (!block(cx, cy)) continue;
       bumped.push(this.index(cx, cy));
-      return dx > 0 ? cx - r - EPS : cx + 1 + r + EPS;
+      hit = true;
     }
+    if (hit) return dx > 0 ? cx - r - EPS : cx + 1 + r + EPS;
     return x + dx;
   }
 
-  private sweepY(x: number, y: number, dy: number, r: number, block: (cx: number, cy: number) => boolean, bumped: number[]): number {
+  private sweepY(x: number, y: number, dy: number, r: number, block: (cx: number, cy: number) => boolean, bumped: number[], up = r): number {
     if (dy === 0) return y;
-    const cy = Math.floor(dy > 0 ? y + dy + r : y + dy - r);
+    const cy = Math.floor(dy > 0 ? y + dy + r : y + dy - up);
+    let hit = false;
     for (let cx = Math.floor(x - r); cx <= Math.floor(x + r - EPS); cx++) {
       if (!block(cx, cy)) continue;
       bumped.push(this.index(cx, cy));
-      return dy > 0 ? cy - r - EPS : cy + 1 + r + EPS;
+      hit = true;
     }
+    if (hit) return dy > 0 ? cy - r - EPS : cy + 1 + up + EPS;
     return y + dy;
   }
 

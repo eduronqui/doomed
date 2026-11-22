@@ -12,5 +12,5 @@ export const LEVEL3: LevelInfo = {
   par: 360,
   music: LEVEL3_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'hhfffg', veteran: 'hhfffgHHb', doomed: 'hhfffgHHbgb' } },
-  load: () => parseLevel('Ember Gate', LEVEL3_MAP),
+  load: () => parseLevel('Ember Gate', LEVEL3_MAP, undefined, [{ at: [55, 10], gates: [[45, 3]] }]),
 };

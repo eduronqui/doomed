@@ -3,6 +3,11 @@ import type { Dir } from '../sim/types';
 import type { Pix } from '../render/pixel';
 import { BRUTE_ART } from './brute.art';
 import { FIEND_ART } from './fiend.art';
+import { GATEKEEPER_ART } from './gatekeeper.art';
+import { GUNNER_ART } from './gunner.art';
+import { HOLLOW_ART } from './hollow.art';
+import { STALKER_ART } from './stalker.art';
+import { WARDEN_ART } from './warden.art';
 import { HUSK_ART } from './husk.art';
 import type { Frame } from './humanoid.art';
 import { MARINE_ART } from './marine.art';
@@ -26,6 +31,11 @@ export const CHARACTER_ART: Record<CharacterKind, CharacterArt> = {
   fiend: FIEND_ART,
   brute: BRUTE_ART,
   shade: SHADE_ART,
+  gunner: GUNNER_ART,
+  stalker: STALKER_ART,
+  warden: WARDEN_ART,
+  hollow: HOLLOW_ART,
+  gatekeeper: GATEKEEPER_ART,
 };
 
 export const CHARACTERS = Object.keys(CHARACTER_ART) as CharacterKind[];
