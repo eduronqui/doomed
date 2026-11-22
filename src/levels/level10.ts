@@ -10,8 +10,9 @@ export const LEVEL10: LevelInfo = {
   briefing:
     'The gate drains into a pit of slime. Shapes drift over it without touching the surface, and their light follows you. The red keycard waits on the platform in the middle.',
   darkness: 0.82,
-  par: 390,
+  par: 480,
   music: LEVEL10_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'Vhh', veteran: 'VVhh', doomed: 'VVhhS' } },
-  load: () => parseLevel('Drowned Pit', LEVEL10_MAP, LEVEL10_HEIGHTS),
+  watchDoors: true,
+  load: () => parseLevel('Drowned Pit', LEVEL10_MAP, LEVEL10_HEIGHTS, [{ at: [59, 38], gates: [[57, 9]] }]),
 };

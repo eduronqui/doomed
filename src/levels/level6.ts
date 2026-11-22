@@ -10,8 +10,9 @@ export const LEVEL6: LevelInfo = {
   briefing:
     'The furnaces that forge the gate still burn. Packs of the dead crowd the deck. Take the flamer from the alcove by the start and set them alight.',
   darkness: 0.78,
-  par: 330,
+  par: 390,
   music: LEVEL6_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'hhhf', veteran: 'hhhff', doomed: 'hhhffb' } },
-  load: () => parseLevel('Furnace Deck', LEVEL6_MAP, LEVEL6_HEIGHTS),
+  watchDoors: true,
+  load: () => parseLevel('Furnace Deck', LEVEL6_MAP, LEVEL6_HEIGHTS, [{ at: [59, 0], gates: [[30, 13]] }]),
 };

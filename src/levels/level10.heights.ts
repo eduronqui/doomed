@@ -4,6 +4,7 @@ export const LEVEL10_HEIGHTS = String.raw`
 
 
 
+                                                    11
 
 
 
@@ -17,23 +18,20 @@ export const LEVEL10_HEIGHTS = String.raw`
 
 
 
-                            111
-                            111
-                            111
 
-                                  1111111
-                                  1111111
-                                  1111111
-                                 /1111111/
-                                  1111111
-                                  1111111
-                                  1111111 111
-                                          111
-                                          111
+                                      11
 
 
 
 
+                                                      11
+                                                     /11
+
+
+
+              11
+             /11
+                                 11
 
 
 

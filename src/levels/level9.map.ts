@@ -1,46 +1,44 @@
 export const LEVEL9_MAP = String.raw`
-
-
-
-
-                    %%%%%%%%%%%%%%%%%%%%E%%%%
-                    %rmrrrrrrrrrrrrrtrrrrrrt%
-                    %rrrrrrrrrrrrrrrrrrrrrrr%
-                    %rrrrrrrrrrrrrrrrrwrrrrr%
-    %%%%%%%         %rrrrrrrrrSrrrrrrrrrrrrr%
-    %rrrrr%         %rrrrrrrrrrrrrrrrrrrrrrr%
-    %rrrrr%         %rrrMrrrrrrrrrrrrrrrrrrr%
-    %rrrrr%         %rrrrrrrrrrrrrrrrrrrrrrr%
-    %rrrrr%         %rrrrrrrrrrrrrrrrrrrrrbr%
-    %rrrrr%         %rrrrrrrrrrrrrrrrrrrrrrr%
-  %%%TTTTT%%%%%%%   %%%%%%%%%%%DDD%%%%%%%%%%%   %%%%%%%%%%%%%%%
-  %rrrrrrrrrrrfr%             %rrr%             %trrrrrrrrrrrr%
-  %rjrrrrrrrrrrr%             %rrr%             %rrrrrrrrrrryr%
-  %rrrrrrrrrrrrr%             %rrr%             %rrrSrrrrrrrrr%
-  %rrrrrrrrrSrrr%             %rrr%             %rrrrrrrrrrrrr%
-  %rrrrrrrrrrrrr%             %rrr%             %rrrrrrrrrrrrr%
-  %rrrrrrrrrrrrr%%%%%%%%%%%%%%%YYY%%%%%%%%%%%%%%%rrrrrwrrrrrrr%
-  %rrrrrrrrrrrrr%rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%rrrrrrrrrrrrr%
-  %rrrrrwrrrrrrr%rrrMrrrrrrrrrrrrrrrrrrrrrrrHrrr%rrrrrrrrrrrrr%
-  %rrrrrrrrrrrrr%rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%rrrrrrrrrrrfr%
-  %rrrrrrrrrrrrr%rrrrrrrrrrrrrhrrrrrrrnrrrrrrrrr%rrrrrrrrrrrrr%
-  %rrrrrrrrrrrrrDrrrrrrrrrrrrrrrsrrrrrrrrrrrrrrrBrrrrrrrrrrrrr%
-  %rrrrrrrrrrrrrDrrrrrrrwrrrrrrrrrrrrrrrrrrrrrerBrrrrrrrrrrrrr%
-  %rrrrrrrrrrrrrDrrrrrrrrrrr%rrrrrrr%rrrrrrrrrrrBrrrrrrrrrMrrr%
-  %rhrrrrrrrrrrr%rrrrrrrrrrrrrrrrrrrrrrrwrrrrrrr%rrrhrrrrrrrrr%
-  %mrrrrrrrrrrrt%rrrrr%rrrrrrrrrrrrrrrrrrrrrrrrr%rrrrrrrrrrrre%
-  %%%%%%%%%%%%%%%rrrrrrrrrrrrrrr%rrrrrrrrr%rrrrr%%%%%%%%%%%%%%%
-                %rrrfrrrrrrrrrrrrrhrrrrrrrrrrrrr%
-                %rerrrrrrrmrrrrrrrrrrrrrrrrrSrrr%
-                %trrrrrrrrrrrrrrrrrrrrrrrrrrrrrt%
-                %%%%%%%%%%%%%%%DDD%%%%%%%%%%%%%%%
-                          %rrrrrrrrrrr%
-                          %rerrrrrrr+r%%%%%%%
-                          %rrrrrrrrrrr%?e???%
-                          %rrrrrrrrrrrX?????%
-                          %rrrrrPrrrrrX??v??%
-                          %rrrrrrrrrrrX?????%
-                          %rcrrrrrrrcr%???n?%
-                          %trrrrrrrrrt%%%%%%%
-                          %%%%%%%%%%%%%
+########    ######      ####E#####        ###############
+#l.....#    #....#      #,,,e,,ul#        #l#....#l,,,,,#
+#.M....#    #....#      #,cw,,,,,#        #.#....#,,,CC,#
+#..eS..#    #....#      #,,,,,,,,#        #.#TTTT#,,,,,,#
+#l.....#    #lw..#      #,,,,,,,,#        #..wCjo#,,P,,,#
+####D###########D########DDD######        #...e.l#,,,,,,#
+#M,,,,l#l,,,#l,w,#,,,,,l#,,,,,,,,##########DD#####,,,,,,#
+#,f,,M,#,,,,#,,,,D,,,,,o#,,,,w,,,#,,,,,,,,#,,,,,,#,,,,,,#
+#o,,,,,D,,,,#,,,,D,,,,,,#,,,C,,,,D,,,,,,,o#,,,,,,D,,,,,l######
+#,,,,,,D,,,,#,,,,#,,,,,,#,,,,,,,,#,,,,,,,,#,,,,,,########,,,,#
+###D#######D####Y##D##############,,,,,,,,#,,,M,,#,,,,,l#fh,,#
+#,,,,D....#,,,,#,#w,,,,o#,,,,,,,,#,,,,,,C,#,,,,,,#,,,,h,#,,,,#
+#,,,,D....#,,,,D,#,,,,,,#,,,,,,,,D,,,M,,C,#,,,,,,#,n,,,,D,,,,#
+########DD########,,,e,,#,,,C,M,,#,,,,,,,,#,,,,,,#,,,,,,#,,,l#
+      #....#,n,,,#,,,,,l#,,,,,,,,#,,,,,,,l######D#DD##########
+      #....D,,,C,###D##########D###########,,,l#....#
+      #....D,,,,,#cM,,D,,,,,D,,,,,,#......D,,,,#..C.#
+      #.h..#,,,,,######,,,,,#,,,,,o#..C...D,,,M#w.C.#
+      #....#of,,,#????#f,,,,#,CC,,,#......D,,,,#....#
+#######...l#,m,,,#?e?nX,,,,,#,,,,,,#......#,,,,#....#
+#,,,,l##D#####JJJ#????#######,,,,,,#......#,,,,#....#
+#n,,c,#,,,l#l,,,,#????#l,,,l#,,,,,,#......#,,,,#....##########
+#,w,,,D,,n,#,,,,,#????#,,,,,#,,,a,,#......#,,,l#l...D,,,,,,,,#
+#,,,C,D,,,,#,,,,,#????#,,,,,##########D####DD########,f,C,,,,#
+#,,,,,#,sc,#,,,,H#????#,,,,,#......l#,,,,,#....#,,,,D,,,,,,,,#
+#l,,,l#,,o,#,,,,l#????#,,,,,D......o#,,,,,#....#,,,,D,,,,,,,,#
+########D###D#####????#,,,,w#.......#,,,,,#.+..#,,,,#,,,,,,,,#
+     #,,,,#..e...#?v??#,,,,,#l.....l#,,,,,#....D,,,l#l,,,,,,,#
+     #b,,,#####D########DD#D#####D######BB####################
+     #,,,,#l.....#.b......#,,,l#,,,,,#.o..D..#,,,S,,,h#
+     #,,,,#..H...D..g..f..D,,s,#o,,,,D....D..D,,,,,,,,#
+     #ly,,#......D........D,,,,#,,,s,#....#m.#,,,,,,,m#
+     ######...C..#........#,,,,#l,,,f#....#..#,,,,,,,,#
+          #u...S.#l.......############g...#..#,,,,,,,,#
+          #......########D#          #M...####,,,,,,,l###K####
+          #......D,,,,,,,,#          #l...#  ###DD#####......#
+          ######D#,,,M,,,,#          ###DD#  #.b...o.l#......#
+          #l.f...#,M,,,,,,#          #H,,,#  #...S....#......#
+          #....n.#,,,,,,,,#          #,,,,#  #.....CC.#......#
+          #......#,,,,,,,,#          #,He,#  #.....C..D......#
+          #o..e..#,,,,,,,l#          #l,,l#  #...w....#......#
+          #################          ######  #################
 `;

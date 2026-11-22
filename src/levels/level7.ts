@@ -10,8 +10,9 @@ export const LEVEL7: LevelInfo = {
   briefing:
     'The caverns below the furnaces are dark and wide. Something fast hunts here. It will not come at you straight. Keep your back to the rock.',
   darkness: 0.84,
-  par: 360,
+  par: 420,
   music: LEVEL7_MUSIC,
   ambush: { key: 'yellow', groups: { recruit: 'Shh', veteran: 'SShh', doomed: 'SShhf' } },
-  load: () => parseLevel('Hunting Grounds', LEVEL7_MAP, LEVEL7_HEIGHTS),
+  watchDoors: true,
+  load: () => parseLevel('Hunting Grounds', LEVEL7_MAP, LEVEL7_HEIGHTS, [{ at: [2, 0], gates: [[17, 6]] }]),
 };

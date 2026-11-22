@@ -10,8 +10,9 @@ export const LEVEL9: LevelInfo = {
   briefing:
     'Past the foundry stands a bastion of black stone. Its wardens carry shields that turn your shots aside. They turn slowly. Get around them.',
   darkness: 0.8,
-  par: 390,
+  par: 450,
   music: LEVEL9_MUSIC,
   ambush: { key: 'blue', groups: { recruit: 'whh', veteran: 'wwh', doomed: 'wwhS' } },
-  load: () => parseLevel('Iron Bastion', LEVEL9_MAP, LEVEL9_HEIGHTS),
+  watchDoors: true,
+  load: () => parseLevel('Iron Bastion', LEVEL9_MAP, LEVEL9_HEIGHTS, [{ at: [57, 34], gates: [[14, 20]] }]),
 };

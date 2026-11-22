@@ -10,8 +10,9 @@ export const LEVEL8: LevelInfo = {
   briefing:
     'The foundry that built the gate machines runs on stolen power. Long galleries, long lines of enemies. The arc rifle in the side room cuts through all of them at once.',
   darkness: 0.76,
-  par: 360,
+  par: 450,
   music: LEVEL8_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'SMh', veteran: 'SSMh', doomed: 'SSMMh' } },
-  load: () => parseLevel('Arc Foundry', LEVEL8_MAP, LEVEL8_HEIGHTS),
+  watchDoors: true,
+  load: () => parseLevel('Arc Foundry', LEVEL8_MAP, LEVEL8_HEIGHTS, [{ at: [3, 0], gates: [[26, 31]] }]),
 };

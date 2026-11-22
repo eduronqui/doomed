@@ -10,8 +10,9 @@ export const LEVEL12: LevelInfo = {
   briefing:
     'The gate stands open at the bottom of the world. Its keeper waits in front of it, a sorcerer who bends the rift to his will. Stock up in the supply room. Then end this.',
   darkness: 0.8,
-  par: 420,
+  par: 480,
   music: LEVEL12_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'wSh', veteran: 'wSSh', doomed: 'wwSSV' } },
-  load: () => parseLevel('The Gate', LEVEL12_MAP, LEVEL12_HEIGHTS),
+  watchDoors: true,
+  load: () => parseLevel('The Gate', LEVEL12_MAP, LEVEL12_HEIGHTS, [{ at: [6, 0], gates: [[41, 13]] }]),
 };

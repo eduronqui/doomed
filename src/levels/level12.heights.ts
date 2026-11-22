@@ -4,6 +4,8 @@ export const LEVEL12_HEIGHTS = String.raw`
 
 
 
+                                                          /11
+                                                           11
 
 
 
@@ -12,27 +14,23 @@ export const LEVEL12_HEIGHTS = String.raw`
 
 
 
+         11
+         11/
+
+
+
+
+
+ 11/                                          11/     11/
+ 11                                           11      11
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-                                        111111
-                                       /111111
-                                        111111
-
-
-
-
+                                          /11
+                                           11
 
 
 
