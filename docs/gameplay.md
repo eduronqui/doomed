@@ -24,21 +24,21 @@ The first time you play, the game starts with a short training level, "Training:
 
 ## Episode and progression
 
-The twelve levels form four chapters of three levels. Chapter 1 (E1 to E3) has a few big rooms. Each later chapter has more and smaller rooms, more dead ends, and more enemies, and its enemies wait closer to the doors.
+The twelve levels form four chapters of three levels. From chapter 2 (E4) on, enemies start facing the doors of their rooms, and every level up to E11 has a lever and gate, dead ends and side rooms. Each chapter brings more and tougher enemies. E12 is a short walk to the boss arena.
 
 | Level | Title | Keycards | Par |
 | --- | --- | --- | --- |
 | 1 | E1: Outpost Breach | red | 4:00 |
 | 2 | E2: Toxin Refinery | blue | 5:00 |
 | 3 | E3: Ember Gate | yellow, then red | 6:00 |
-| 4 | E4: Freight Lift | blue, then yellow | 6:00 |
-| 5 | E5: Coolant Works | blue, then red | 6:30 |
-| 6 | E6: Furnace Deck | red, then blue | 6:30 |
-| 7 | E7: Hunting Grounds | blue, then yellow | 7:00 |
-| 8 | E8: Arc Foundry | red, then yellow | 7:30 |
-| 9 | E9: Iron Bastion | blue, then yellow | 7:30 |
-| 10 | E10: Drowned Pit | red, then blue | 8:00 |
-| 11 | E11: The Gauntlet | red, then yellow, then blue | 9:00 |
+| 4 | E4: Freight Lift | blue, then yellow | 5:00 |
+| 5 | E5: Coolant Works | blue, then red | 5:30 |
+| 6 | E6: Furnace Deck | red, then blue | 5:30 |
+| 7 | E7: Hunting Grounds | blue, then yellow | 6:00 |
+| 8 | E8: Arc Foundry | red, then yellow | 6:00 |
+| 9 | E9: Iron Bastion | blue, then yellow | 6:30 |
+| 10 | E10: Drowned Pit | red, then blue | 6:30 |
+| 11 | E11: The Gauntlet | red, then yellow, then blue | 7:00 |
 | 12 | E12: The Gate | none | 4:00 |
 
 - When you continue to the next level, your health, armor, ammo, weapons and selected weapon carry over. Keycards do not carry over.
@@ -583,26 +583,24 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 2 |
-| Rooms | 24 |
-| Enemies | 42: 19 Husks, 10 Shotgun Husks, 8 Fiends, 2 Brutes, 3 Shades |
-| Map items | 30 |
-| Barrels | 8 |
+| Rooms | 10 and a secret |
+| Enemies | 31: 14 Husks, 6 Shotgun Husks, 7 Fiends, 2 Brutes, 2 Shades |
+| Map items | 21 |
+| Barrels | 5 |
 | Secrets | 1 |
-| Par time | 6:00 |
+| Par time | 5:00 |
 
-### Layout
+### Route
 
-- New in this level: the **grenade launcher**.
-- The grenade launcher lies in a side room near the start (north-west).
-- Start in the south-west. The exit room is in the south-east.
-- On the way to the exit you pass the blue door, then the gate, then the yellow door.
-- The blue keycard is in a side room in the north-west.
-- The yellow keycard is in a side room in the north. Taking it opens the trap door in that room.
-- A long corridor runs down the middle and along the south edge.
-- The gate leads into the yellow keycard room. Its lever is on the north wall of the room in front of it.
-- A secret wall in the north-east hides a small room with extra items.
-- Raised porches in some corners hold ranged enemies.
-- Enemies start facing the doors of their rooms.
+1. Start in the **lift car** (south-west). The door opens on the **loading dock**: crates for cover, Husks facing the lift.
+2. The **dock office** east of the dock holds the **blue keycard**. Two Husks wait right beside its door.
+3. The service corridor runs north. Off it, the **armory** (a dead end) has the **grenade launcher**. A scratched wall in its north wall hides a stash with a vital sphere.
+4. The **cargo hall** has two close groups, good first grenade targets, and two Shotgun Husks on a raised porch.
+5. The **blue door** in the east wall of the hall leads to **lift control**. Its **lever** is on the north wall, right in front of the **gate**.
+6. The gate opens on **storage**: the **yellow keycard**, and the trap closet in the north-east corner.
+7. The **yellow door** in the south wall of storage opens on the **freight lift**: the exit, guarded by a Brute.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 5: Coolant Works
 
@@ -611,25 +609,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 2 |
-| Rooms | 22 |
-| Enemies | 38: 8 Husks, 5 Shotgun Husks, 7 Fiends, 3 Brutes, 3 Shades, 12 Gunners |
-| Map items | 28 |
-| Barrels | 7 |
+| Rooms | 7 and a secret |
+| Enemies | 30: 12 Husks, 5 Shotgun Husks, 5 Fiends, 1 Brute, 1 Shade, 6 Gunners |
+| Map items | 18 |
+| Barrels | 1 |
 | Secrets | 1 |
-| Par time | 6:30 |
+| Par time | 5:30 |
 
-### Layout
+### Route
 
-- New in this level: the **Gunner**.
-- Start in the north-west. The exit room is in the north-west.
-- On the way to the exit you pass the blue door, then the gate, then the red door.
-- The blue keycard is in a side room in the west. Taking it opens the trap door in that room.
-- The red keycard is in a side room in the south-east.
-- The gate is in the center. Its lever is on the north wall of a room in the south-west.
-- A secret wall in the center hides a small room with extra items.
-- Some bigger rooms have a slime pool in the middle.
-- Raised porches in some corners hold ranged enemies.
-- Enemies start facing the doors of their rooms.
+1. Start in the **intake** (west). A scratched panel in its north wall hides a stash.
+2. The **pump hall** is split by a slime channel with one grate bridge. A **Gunner** fires from a raised porch in its north-east corner.
+3. A passage leads north to the **valve room**. Its **lever** opens the **gate** in the east wall of the pump hall.
+4. The gate opens on the **coolant tanks**: two slime tanks, the **blue keycard**, and the trap closet in the south-west corner.
+5. The **blue door** leads east onto the **catwalks** over a slime pit, with Gunners at both ends. The **red keycard** is in the room north of the catwalks.
+6. Go back to the tanks. The **red door** in their north wall opens on **pump control**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 6: Furnace Deck
 
@@ -638,26 +634,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 2 |
-| Rooms | 22 |
-| Enemies | 40: 14 Husks, 8 Shotgun Husks, 7 Fiends, 6 Brutes, 1 Shade, 4 Gunners |
-| Map items | 31 |
-| Barrels | 7 |
+| Rooms | 8 and a secret |
+| Enemies | 32: 13 Husks, 3 Shotgun Husks, 8 Fiends, 3 Brutes, 2 Shades, 3 Gunners |
+| Map items | 21 |
+| Barrels | 1 |
 | Secrets | 1 |
-| Par time | 6:30 |
+| Par time | 5:30 |
 
-### Layout
+### Route
 
-- New in this level: the **flamer**.
-- The flamer lies in a side room near the start (south).
-- Start in the south-east. The exit room is in the west.
-- On the way to the exit you pass the red door, then the gate, then the blue door.
-- The red keycard is in a side room in the south-east. Taking it opens the trap door in that room.
-- The blue keycard is in a side room in the south.
-- The gate is in the center. Its lever is on the north wall of a room in the center.
-- A secret wall in the north-east hides a small room with extra items.
-- Some bigger rooms have a lava pool in the middle.
-- Raised porches in some corners hold ranged enemies.
-- Enemies start facing the doors of their rooms.
+1. Start in the **crew quarters** (south). A scratched panel in the east wall hides a stash with a vital sphere.
+2. The **locker room** west of the start (a dead end) holds the **flamer** and fuel. Two Husks wait beside its door.
+3. The **furnace hall** has two lava furnaces, a raised dais with a Gunner, and packs of Husks and Fiends that stand close together: flamer work.
+4. North of the hall, the **burner booth** has the **lever**. The **gate** in its east wall opens on the **red furnace**: the **red keycard**, and the trap closet in the north-east corner.
+5. The **red door** in the east wall of the hall opens on the **slag line**, split by a lava channel with one bridge. The **blue keycard** is in the room north of it.
+6. The **blue door** in the west wall of the hall opens on the **control room**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 7: Hunting Grounds
 
@@ -666,24 +659,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 25 |
-| Enemies | 44: 6 Husks, 5 Shotgun Husks, 5 Fiends, 2 Brutes, 4 Shades, 7 Gunners, 15 Stalkers |
-| Map items | 30 |
-| Barrels | 3 |
+| Rooms | 8 and a secret |
+| Enemies | 35: 8 Husks, 5 Shotgun Husks, 6 Fiends, 2 Brutes, 2 Shades, 12 Stalkers |
+| Map items | 17 |
+| Barrels | 0 |
 | Secrets | 1 |
-| Par time | 7:00 |
+| Par time | 6:00 |
 
-### Layout
+### Route
 
-- New in this level: the **Stalker**.
-- Start in the south-east. The exit room is in the north-west.
-- On the way to the exit you pass the blue door, then the yellow door, then the gate.
-- The blue keycard is in a side room in the south-east.
-- The yellow keycard is in a side room in the north-east. Taking it opens the trap door in that room.
-- The gate is in the west. Its lever is on the north wall of a room in the center.
-- A secret wall in the east hides a small room with extra items.
-- Raised porches in some corners hold ranged enemies.
-- Enemies start facing the doors of their rooms.
+1. Start in a small cave (north-west). A scratched wall at the tunnel hides a niche.
+2. The tunnel opens on the **great cavern**: rock pillars, a raised ledge with Husks in the north-east, and five **Stalkers** that circle and leap.
+3. The **blue keycard** is in an alcove off the north-east corner of the cavern.
+4. The **shrine** west of the cavern has the **lever**. It opens the **gate** in the south wall of the cavern, two rooms away.
+5. The gate opens on the **den**: the **yellow keycard**, and the trap closet in the south-east corner.
+6. The **blue door** in the east wall of the cavern opens on the **bone pit**. Its **yellow door** in the south wall opens on the **sanctum**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 8: Arc Foundry
 
@@ -692,24 +684,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 27 |
-| Enemies | 45: 7 Husks, 4 Shotgun Husks, 5 Fiends, 3 Brutes, 4 Shades, 12 Gunners, 10 Stalkers |
-| Map items | 31 |
-| Barrels | 14 |
+| Rooms | 9 and a secret |
+| Enemies | 37: 17 Husks, 3 Shotgun Husks, 4 Fiends, 2 Brutes, 2 Shades, 5 Gunners, 4 Stalkers |
+| Map items | 21 |
+| Barrels | 0 |
 | Secrets | 1 |
-| Par time | 7:30 |
+| Par time | 6:00 |
 
-### Layout
+### Route
 
-- New in this level: the **arc rifle**.
-- The arc rifle lies in a side room near the start (south-west).
-- Start in the west. The exit room is in the north.
-- On the way to the exit you pass the red door, then the gate, then the yellow door.
-- The red keycard is in a side room in the south-west. Taking it opens the trap door in that room.
-- The yellow keycard is in a side room in the north.
-- The gate is in the north. Its lever is on the north wall of a room in the north-west.
-- A secret wall in the north-east hides a small room with extra items.
-- Enemies start facing the doors of their rooms.
+1. Start in the **loading bay** (south-west). The **assembly line** runs east: a long hall with Husks in a row, one behind the other.
+2. The **arc lab** north of the line (a dead end) holds the **arc rifle**. One shot goes through the whole row on the line.
+3. The **smelter hall** north of the line has a raised gallery with Gunners along its west wall, and another row of Husks.
+4. East of the smelter, **control** has the **lever**, right above the **gate** to the **red vault**: the **red keycard**, and the trap closet in the south-east corner.
+5. The **red door** in the north wall of the smelter opens on the **cooling tunnel**, one more row. The **yellow keycard** is in the vault at its west end.
+6. Go back to the start. The **yellow door** in its north wall opens on **dispatch**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 9: Iron Bastion
 
@@ -718,24 +709,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 27 |
-| Enemies | 46: 10 Husks, 2 Shotgun Husks, 3 Fiends, 1 Brute, 1 Shade, 3 Gunners, 8 Stalkers, 18 Wardens |
-| Map items | 31 |
-| Barrels | 6 |
+| Rooms | 8 and a secret |
+| Enemies | 36: 9 Husks, 4 Shotgun Husks, 4 Fiends, 1 Brute, 5 Gunners, 6 Stalkers, 7 Wardens |
+| Map items | 20 |
+| Barrels | 0 |
 | Secrets | 1 |
-| Par time | 7:30 |
+| Par time | 6:30 |
 
-### Layout
+### Route
 
-- New in this level: the **Warden**.
-- Start in the north-east. The exit room is in the north-west.
-- On the way to the exit you pass the blue door, then the gate, then the yellow door.
-- The blue keycard is in a side room in the north-east. Taking it opens the trap door in that room.
-- The yellow keycard is in a side room in the north.
-- The gate is in the center. Its lever is on the north wall of a room in the south-east.
-- A secret wall in the center hides a small room with extra items.
-- Raised porches in some corners hold ranged enemies.
-- Enemies start facing the doors of their rooms.
+1. Start in the **gatehouse** (south). A scratched panel in its west wall hides a stash with a vital sphere.
+2. The **courtyard** has four stone pillars, so you can get behind the **Wardens** and their shields.
+3. The **barracks** west of the courtyard is a dead end with ammo. The **armory** east of it has the **lever**, which opens the **gate** in the north wall of the courtyard.
+4. The gate opens on the **keep hall**. The **chapel** east of it holds the **blue keycard**, and the trap closet in the north-east corner.
+5. The **blue door** in the west wall of the keep opens on the **west tower**: the **yellow keycard**.
+6. Go back to the courtyard. The **yellow door** in its south wall opens on the **inner gate**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 10: Drowned Pit
 
@@ -744,25 +734,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 4 |
-| Rooms | 41 |
-| Enemies | 48: 13 Husks, 2 Shotgun Husks, 4 Fiends, 2 Brutes, 4 Shades, 2 Gunners, 4 Stalkers, 2 Wardens, 15 Hollows |
-| Map items | 30 |
-| Barrels | 4 |
+| Rooms | 8 and a secret |
+| Enemies | 39: 5 Husks, 3 Shotgun Husks, 3 Fiends, 2 Brutes, 1 Shade, 6 Gunners, 7 Stalkers, 4 Wardens, 8 Hollows |
+| Map items | 18 |
+| Barrels | 0 |
 | Secrets | 1 |
-| Par time | 8:00 |
+| Par time | 6:30 |
 
-### Layout
+### Route
 
-- New in this level: the **Hollow**.
-- Start in the south-west. The exit room is in the north.
-- On the way to the exit you pass the red door, then the gate, then the blue door.
-- The red keycard is in a side room in the south-west. Taking it opens the trap door in that room.
-- The blue keycard is in a side room in the north-east.
-- The gate is in the south-east. Its lever is on the north wall of a room in the south-east.
-- A secret wall in the west hides a small room with extra items.
-- Some bigger rooms have a slime pool in the middle.
-- Raised islands in the slime pools have no stairs. Hollows float to them, and you shoot from the edge.
-- Enemies start facing the doors of their rooms.
+1. Start on a small landing (north-west). A sluice tunnel leads east into **the pit**.
+2. The pit is a slime lake with a shore all around it. **Hollows** float on raised islands in the slime, where only shots reach them.
+3. The **pump station** east of the pit has the **lever**, right above the **gate** to the **red cistern**: the **red keycard**, and the trap closet in the south-east corner.
+4. The **red door** in the south wall of the pit opens on the **drowned galleries**: slime channels with one bridge each. A scratched wall in the south wall hides a stash.
+5. The **blue keycard** is in the **grotto** west of the galleries.
+6. The **blue door** in the north wall of the grotto opens on the **floodgate**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 11: The Gauntlet
 
@@ -771,27 +759,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 4 |
-| Rooms | 44 |
-| Enemies | 56: 7 Husks, 3 Shotgun Husks, 6 Fiends, 1 Brute, 5 Shades, 7 Gunners, 10 Stalkers, 7 Wardens, 10 Hollows |
-| Map items | 37 |
-| Barrels | 11 |
+| Rooms | 10 and a secret |
+| Enemies | 46: 6 Husks, 5 Shotgun Husks, 3 Fiends, 2 Brutes, 3 Shades, 7 Gunners, 9 Stalkers, 6 Wardens, 5 Hollows |
+| Map items | 26 |
+| Barrels | 0 |
 | Secrets | 1 |
-| Par time | 9:00 |
+| Par time | 7:00 |
 
-### Layout
+### Route
 
-- New in this level: the **rift cannon**, and every enemy mixed.
-- The rift cannon lies in a side room near the start (north-west).
-- Start in the north-west. The exit room is in the north.
-- On the way to the exit you pass the red door, then the yellow door, then the gate, then the blue door.
-- The red keycard is in a side room in the north-west.
-- The yellow keycard is in a side room in the west. Taking it opens the trap door in that room.
-- The blue keycard is in a side room in the north-east.
-- The gate is in the east. Its lever is on the north wall of a room in the south-east.
-- A secret wall in the north hides a small room with extra items.
-- Some bigger rooms have a lava pool in the middle.
-- Raised porches in some corners hold ranged enemies.
-- Enemies start facing the doors of their rooms.
+1. Start in the west. The **rift vault** north of the start (a dead end) holds the **rift cannon** and cells.
+2. The **first arena** has a lava pool in the middle and every kind of enemy. The **red keycard** is in the pit south of it.
+3. The **red door** in the east wall of the first arena opens on the **second arena**: four pillars, Wardens, Gunners, Stalkers and a Hollow.
+4. The **watchtower** north of the second arena has the **lever**. It opens the **gate** in the north wall of the **third arena**, two rooms away.
+5. The gate opens on the **yellow vault**: the **yellow keycard**, and the trap closet in the north-east corner. The **yellow door** in the south wall of the third arena opens on the **bone vault**: the **blue keycard**. A scratched wall in the east wall of the third arena hides a stash.
+6. Go back to the first arena. The **blue door** in its north wall opens on the **last stand**: the exit.
+
+Enemies start facing the doors of their rooms.
 
 ## Level 12: The Gate
 

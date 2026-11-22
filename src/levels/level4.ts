@@ -10,9 +10,9 @@ export const LEVEL4: LevelInfo = {
   briefing:
     'The gate has a supply line. Freight lifts haul ammunition down to the deep levels, and the dead now guard them. Find the launcher in the armory and clear the cargo hall.',
   darkness: 0.74,
-  par: 360,
+  par: 300,
   music: LEVEL4_MUSIC,
   ambush: { key: 'yellow', groups: { recruit: 'hhf', veteran: 'hhff', doomed: 'hhffH' } },
   watchDoors: true,
-  load: () => parseLevel('Freight Lift', LEVEL4_MAP, LEVEL4_HEIGHTS, [{ at: [32, 6], gates: [[29, 9]] }]),
+  load: () => parseLevel('Freight Lift', LEVEL4_MAP, LEVEL4_HEIGHTS, [{ at: [43, 2], gates: [[42, 10]] }]),
 };

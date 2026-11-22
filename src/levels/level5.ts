@@ -10,9 +10,9 @@ export const LEVEL5: LevelInfo = {
   briefing:
     'Deeper down, the coolant plant still pumps. Something heavier walks the catwalks now, and it carries a rotary gun. Keep your head down and lob grenades over the cover.',
   darkness: 0.76,
-  par: 390,
+  par: 330,
   music: LEVEL5_MUSIC,
   ambush: { key: 'blue', groups: { recruit: 'hhM', veteran: 'hhMH', doomed: 'hhMHf' } },
   watchDoors: true,
-  load: () => parseLevel('Coolant Works', LEVEL5_MAP, LEVEL5_HEIGHTS, [{ at: [2, 31], gates: [[28, 20]] }]),
+  load: () => parseLevel('Coolant Works', LEVEL5_MAP, LEVEL5_HEIGHTS, [{ at: [18, 1], gates: [[27, 15]] }]),
 };

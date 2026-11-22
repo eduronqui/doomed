@@ -1,7 +1,16 @@
 export const LEVEL5_HEIGHTS = String.raw`
 
-                                     /11
-                                      11
+
+
+
+
+
+
+
+
+
+                      /1111
+                       1111
 
 
 
@@ -16,29 +25,5 @@ export const LEVEL5_HEIGHTS = String.raw`
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                           11/
-                                           11
-
-
-                                        11
-                                       /11
 
 `;

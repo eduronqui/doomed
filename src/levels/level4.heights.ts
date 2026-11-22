@@ -2,19 +2,9 @@ export const LEVEL4_HEIGHTS = String.raw`
 
 
 
-
-
-
-
-
-
-
-
-
- 11/
- 11
-
-
+                                  1111
+                                 /1111
+                                  1111
 
 
 
@@ -26,12 +16,16 @@ export const LEVEL4_HEIGHTS = String.raw`
 
 
 
-                                                   /11
-              11                                    11
-              11/
 
-                11/
-                11
+
+
+
+
+
+
+
+
+
 
 
 
