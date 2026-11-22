@@ -142,7 +142,7 @@ export class Hud {
       const ammoType = WEAPONS[id].ammo;
       const cls = `wslot${owned ? '' : ' locked'}${p.weapon === id ? ' active' : ''}`;
       if (slot.root.className !== cls) slot.root.className = cls;
-      const ammoText = owned && ammoType ? String(p.ammo[ammoType]) : '';
+      const ammoText = owned && ammoType ? String(Math.floor(p.ammo[ammoType] / WEAPONS[id].ammoPerShot)) : '';
       if (slot.ammo.textContent !== ammoText) slot.ammo.textContent = ammoText;
     }
     for (const [type, view] of this.ammoViews) {

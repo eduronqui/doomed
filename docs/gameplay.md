@@ -468,7 +468,7 @@ Each level has its own looping track. All music is synthesized in the browser: a
 - **Names and bars:** each creature shows its name and a health bar, like your own "Marine" label.
 - **Floating numbers:** red numbers show damage, and green "+1" numbers show healing.
 - **Map panel:** the minimap shows the area within 7 tiles of every place you visited. Colors: gray floor, light walls, red-brown stone, green slime, orange lava, yellow doors, red locked doors, green exit.
-- **Status panel:** health and armor bars, 8 weapon slots in two rows with ammo counts, the five ammo types (bullets, shells, grenades, fuel, cells) and the keycards.
+- **Status panel:** health and armor bars, 8 weapon slots in two rows, each with the number of shots it has left, the five ammo types (bullets, shells, grenades, fuel, cells) and the keycards.
 - **Server Log:** the bottom panel shows the last 7 game messages with the level time, for example pickups, keycard warnings and secrets. Pickups are green, warnings red, secrets yellow. Important messages also show in the center of the screen.
 - **Red screen edge:** shows when you take damage, and it pulses when your health is below 25.
 
