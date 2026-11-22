@@ -1,0 +1,22 @@
+src/levels/index.ts
+  h_c8144e9885d225 11,20
+src/levels/level11.heights.ts
+  h_c8144e9885d225 1-46
+src/levels/level11.map.ts
+  h_c8144e9885d225 1-46
+src/levels/level11.music.ts
+  h_c8144e9885d225 1-26
+src/levels/level11.ts
+  h_c8144e9885d225 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "51206d4553cc507467dde7c547cfd386feb29ca7",
+  "prompts": {},
+  "humans": {
+    "h_c8144e9885d225": {
+      "author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}

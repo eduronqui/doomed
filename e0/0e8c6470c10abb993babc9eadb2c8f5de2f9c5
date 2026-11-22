@@ -1,0 +1,35 @@
+public/assets/sprites.json
+  s_e549dc79ddcbfe::t_2e46c4b737f912 6923-6962,7125,7145,7165,7185,7205,7225,7245,7265,7325,7345,7365,7485,7505,8045,8085,8105,8125-8126,8145,8165,8185,8205,8225,8245,8265,8285,8305,8325
+src/characters/gatekeeper.art.ts
+  s_e549dc79ddcbfe::t_3a1980f64234e3 1-2,4,6-44,52,58-65,67-68
+src/characters/gatekeeper.ts
+  s_e549dc79ddcbfe::t_947d985fd3737f 7-8,13-18,30,32
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_77423e8d6cd3f7 97,100
+src/render/art/catalog.ts
+  s_e549dc79ddcbfe::t_f1ce206f53f478 11,70
+src/render/art/items.ts
+  s_e549dc79ddcbfe::t_e3344afa4a1df7 219-227
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_5f50d1ef42e299 130-131,229-233,989-990,1421,1424-1446,1514
+src/weapons/types.ts
+  s_e549dc79ddcbfe::t_600c7c579390a8 6
+tests/enemies.test.ts
+  s_e549dc79ddcbfe::t_2ece2918b497a1 125-137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e00e8c6470c10abb993babc9eadb2c8f5de2f9c5",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}

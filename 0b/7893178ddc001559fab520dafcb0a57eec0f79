@@ -1,0 +1,29 @@
+public/assets/sprites.json
+  s_e549dc79ddcbfe::t_58179676d83e44 645,665,685,705,725,745,765,785,805,825,845,6185,6225,6265,6305,6345,6383-6402,6425,6445,6485
+src/levels/index.ts
+  s_e549dc79ddcbfe::t_c2941572521553 12,21
+src/levels/level12.heights.ts
+  s_e549dc79ddcbfe::t_67c056f13d08ab 1-46
+src/levels/level12.map.ts
+  s_e549dc79ddcbfe::t_4e68cf15248730 1-46
+src/levels/level12.music.ts
+  s_e549dc79ddcbfe::t_44d41a43d5e97f 1-26
+src/levels/level12.ts
+  s_e549dc79ddcbfe::t_e81d135473159d 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0b7893178ddc001559fab520dafcb0a57eec0f79",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
