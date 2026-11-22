@@ -23,6 +23,7 @@ import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
 export const VIEW_W = 1024;
 export const VIEW_H = 704;
 export const ZOOM = 2;
+const OVERVIEW_MARGIN = 1;
 
 const FLOOR_DEPTH = -100000;
 const DECAL_DEPTH = -90000;
@@ -114,6 +115,7 @@ export class GameScene extends Phaser.Scene {
   private liquids: { img: Phaser.GameObjects.Image; kind: 'slime' | 'lava' }[] = [];
   private braziers: Phaser.GameObjects.Image[] = [];
   private exitView: Phaser.GameObjects.Image | null = null;
+  private overview = false;
   private switchViews: { img: Phaser.GameObjects.Image; id: number; wall: 'tech' | 'stone'; x: number; y: number }[] = [];
   private exitWall: 'tech' | 'stone' = 'tech';
   private exitRooms: number[] = [];
@@ -221,6 +223,7 @@ export class GameScene extends Phaser.Scene {
       if (dev.god) this.world.god = true;
       if (dev.arsenal) this.world.giveArsenal();
       if (dev.sight) this.showSight = true;
+      if (dev.overview) this.showOverview();
       if (dev.noMonster) {
         for (const v of this.monsterViews.values()) {
           v.sprite.destroy();
@@ -360,6 +363,20 @@ export class GameScene extends Phaser.Scene {
 
   private raisedDepth(x: number, y: number, depth: number): number {
     return this.world.grid.elevation(x, y) > 0 ? Math.max(depth + TILE, (Math.floor(y) + 1) * TILE + 0.5) : depth;
+  }
+
+  private showOverview(): void {
+    const g = this.world.grid;
+    this.overview = true;
+    for (const r of g.rooms) if (r >= 0) this.world.revealedRooms.add(r);
+    this.lighting.setVisible(false);
+    const cam = this.cameras.main;
+    const w = (g.width + OVERVIEW_MARGIN * 2) * TILE;
+    const h = (g.height + OVERVIEW_MARGIN * 2) * TILE;
+    cam.stopFollow();
+    cam.removeBounds();
+    cam.setZoom(Math.min(cam.width / w, cam.height / h));
+    cam.centerOn((g.width * TILE) / 2, (g.height * TILE) / 2 - WALL_HEIGHT / 2);
   }
 
   private buildDoorPieces(): void {
@@ -1041,6 +1058,6 @@ export class GameScene extends Phaser.Scene {
       lights.push({ x: ex, y: ey, r: 2.2, a: 0.6, color: w.exitActivated ? [60, 255, 80] : [255, 50, 40], glow: 0.25 });
     }
     const visibleLights = lights.filter((l, i) => i === 0 || w.isRevealedAt(l.x, l.y));
-    this.lighting.render(view, visibleLights, this.animClock, this.hiddenCells(view));
+    if (!this.overview) this.lighting.render(view, visibleLights, this.animClock, this.hiddenCells(view));
   }
 }

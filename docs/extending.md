@@ -44,6 +44,7 @@ Dev mode helps you test a change fast. These URL parameters work only with `npm 
 | `?pos=x,y` | Put the player on map cell (x, y) |
 | `?god` | Take no damage; health and armor items stay on the floor |
 | `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |
+| `?overview` | Show the whole level from above: every room revealed, no darkness, the camera zoomed out to fit the map |
 | `?sight` | Show the enemy sight layer (view cones) |
 
 Example: `http://localhost:5173/?autostart&god&level=2&pos=28,24`.

@@ -35,6 +35,11 @@ export class Lighting {
     this.glowImg = scene.add.image(0, 0, 'light_glow').setOrigin(0).setScale(RES).setDepth(depth - 1).setBlendMode(Phaser.BlendModes.ADD);
   }
 
+  setVisible(visible: boolean): void {
+    this.darkImg.setVisible(visible);
+    this.glowImg.setVisible(visible);
+  }
+
   render(view: Phaser.Geom.Rectangle, lights: Light[], clock: number, hidden: [number, number, number][] = []): void {
     const ox = Math.floor(view.x / RES) * RES - RES;
     const oy = Math.floor(view.y / RES) * RES - RES;
