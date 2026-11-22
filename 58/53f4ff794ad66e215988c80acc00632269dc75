@@ -1,0 +1,18 @@
+docs/gameplay.md
+  h_c8144e9885d225 224
+src/sim/world.ts
+  h_c8144e9885d225 190-191,392,1363-1380
+tests/world.test.ts
+  h_c8144e9885d225 713-722
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5853f4ff794ad66e215988c80acc00632269dc75",
+  "prompts": {},
+  "humans": {
+    "h_c8144e9885d225": {
+      "author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
