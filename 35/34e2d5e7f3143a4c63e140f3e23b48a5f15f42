@@ -1,0 +1,39 @@
+src/characters/gatekeeper.ts
+  s_e549dc79ddcbfe::t_0308dd0738684f 1-32
+src/characters/gunner.ts
+  s_e549dc79ddcbfe::t_d6abd77010b715 1-32
+src/characters/hollow.ts
+  s_e549dc79ddcbfe::t_c3afa6899570de 1-32
+src/characters/index.ts
+  s_e549dc79ddcbfe::t_0b4e18cf4a6965 2-6,14,16-27
+src/characters/stalker.ts
+  s_e549dc79ddcbfe::t_cf91fe30c688cd 1-32
+src/characters/types.ts
+  s_e549dc79ddcbfe::t_73d17829ba2b2b 2,5,11-25,53-60
+src/characters/warden.ts
+  s_e549dc79ddcbfe::t_73f530bdc6161b 1-31
+src/sim/defs.ts
+  s_e549dc79ddcbfe::t_0d69085944541f 44
+src/sim/grid.ts
+  s_e549dc79ddcbfe::t_fa6ee14fb34c2b 259-267,270-271
+src/sim/level.ts
+  s_e549dc79ddcbfe::t_9cdcb469d9c33e 76-80,213
+src/weapons/types.ts
+  s_e549dc79ddcbfe::t_7340ee395e5113 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3534e2d5e7f3143a4c63e140f3e23b48a5f15f42",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
