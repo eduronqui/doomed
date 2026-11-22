@@ -4,7 +4,7 @@ import { parseLevel } from '../src/sim/level';
 import { MONSTERS } from '../src/characters';
 import { DIFFICULTIES } from '../src/sim/defs';
 import { IDLE_INPUT, World, type Input } from '../src/sim/world';
-import type { WeaponId } from '../src/weapons';
+import { MAX_AMMO, WEAPON_ORDER, type WeaponId } from '../src/weapons';
 
 function run(world: World, seconds: number, input: Partial<Input> = {}): void {
   const full = { ...IDLE_INPUT, aimX: world.player.x + 1, aimY: world.player.y, ...input };
@@ -698,6 +698,16 @@ describe('World', () => {
     expect(w.status).toBe('playing');
     expect(w.player.health).toBe(100);
     expect(w.player.armor).toBe(50);
+  });
+
+  it('gives every weapon at full ammo in arsenal mode, and firing spends none', () => {
+    const w = new World(parseLevel('t', '########\n#P....h#\n########'));
+    w.giveArsenal();
+    expect([...w.player.weapons].sort()).toEqual([...WEAPON_ORDER].sort());
+    expect(w.player.ammo).toEqual(MAX_AMMO);
+    run(w, 1, { fire: true, weaponSlot: 2, aimX: 6.5, aimY: 1.5 });
+    expect(w.monsters[0].hp).toBeLessThan(w.monsters[0].def.hp);
+    expect(w.player.ammo).toEqual(MAX_AMMO);
   });
 
   it('wins when the player uses the exit switch', () => {

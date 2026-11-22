@@ -202,6 +202,7 @@ export class GameScene extends Phaser.Scene {
         this.cameras.main.centerOn(this.world.player.x * TILE, this.world.player.y * TILE);
       }
       if (dev.god) this.world.god = true;
+      if (dev.arsenal) this.world.giveArsenal();
       if (dev.sight) this.showSight = true;
       if (dev.noMonster) {
         for (const v of this.monsterViews.values()) {

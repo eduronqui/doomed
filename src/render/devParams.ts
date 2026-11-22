@@ -1,6 +1,7 @@
 export interface DevParams {
   autostart: boolean;
   god: boolean;
+  arsenal: boolean;
   sight: boolean;
   noMonster: boolean;
   pos: { x: number; y: number } | null;
@@ -15,6 +16,7 @@ export function parseDevParams(search: string, levelCount: number): DevParams {
   return {
     autostart: params.has('autostart'),
     god: params.has('god'),
+    arsenal: params.has('arsenal'),
     sight: params.has('sight'),
     noMonster: params.has('noMonster'),
     pos: pos && pos.length === 2 && pos.every(Number.isFinite) ? { x: pos[0], y: pos[1] } : null,

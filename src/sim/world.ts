@@ -250,6 +250,7 @@ export class World {
   readonly stats: Stats;
   status: GameStatus = 'playing';
   god = false;
+  infiniteAmmo = false;
   time = 0;
   exitActivated = false;
   private events: GameEvent[] = [];
@@ -441,6 +442,13 @@ export class World {
     return this.monsters.some((m) => m.state !== 'dead' && this.grid.roomsAt(m.x, m.y).some((r) => rooms.includes(r)));
   }
 
+  giveArsenal(): void {
+    const p = this.player;
+    for (const w of WEAPON_ORDER) p.weapons.add(w);
+    for (const type of Object.keys(MAX_AMMO) as AmmoType[]) p.ammo[type] = MAX_AMMO[type];
+    this.infiniteAmmo = true;
+  }
+
   selectWeapon(w: WeaponId): void {
     const p = this.player;
     if (p.weapon === w || !p.weapons.has(w)) return;
@@ -475,7 +483,7 @@ export class World {
       this.selectWeapon(this.bestWeapon());
       return;
     }
-    if (w.ammo) p.ammo[w.ammo]--;
+    if (w.ammo && !this.infiniteAmmo) p.ammo[w.ammo]--;
     p.cooldown = w.cooldown;
     p.attackTime = 0.15;
     this.sound(w.sound, p.x, p.y);

@@ -149,6 +149,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | --- | --- |
 | `?autostart` | Skip the title screen |
 | `?god` | Take no damage; health and armor items stay on the floor |
+| `?arsenal` | Give all weapons at full ammo, and shots spend no ammo |
 | `?pos=x,y` | Start the player on map cell (x, y) |
 | `?level=n` | Start on level n (1 to 3), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
