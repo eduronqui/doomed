@@ -1,0 +1,40 @@
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_b2ba0d64591799 204
+  s_e549dc79ddcbfe::t_829d66bac41c70 205
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_8af3d65033d8d8 252,780-783
+  s_e549dc79ddcbfe::t_bea2ec1137f3e8 253,445-451,486
+  s_e549dc79ddcbfe::t_4376ec71b7a43c 229-230,715
+tests/world.test.ts
+  s_e549dc79ddcbfe::t_9732fe83ac5051 691-692,696-702
+  s_e549dc79ddcbfe::t_8f954bb98a900c 7,703-712
+  s_e549dc79ddcbfe::t_5750e5bf9c0e4c 689-690,693-695
+README.md
+  s_e549dc79ddcbfe::t_84d7984c1e53f4 152
+  s_e549dc79ddcbfe::t_912a1eeb3f3505 151
+docs/extending.md
+  s_e549dc79ddcbfe::t_ea2f9542352f55 46
+  s_e549dc79ddcbfe::t_96e3cd16a55c69 45
+src/render/devParams.ts
+  s_e549dc79ddcbfe::t_81e5d000359666 4,19
+tests/devParams.test.ts
+  s_e549dc79ddcbfe::t_b2447d7dc9bad1 6,9,18
+src/ui/hud.ts
+  s_e549dc79ddcbfe::t_bd45ffe61efeb4 124-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "51001132bf7bdc842ead48d2d4d927f25b9812a1",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
