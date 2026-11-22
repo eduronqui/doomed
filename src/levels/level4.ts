@@ -14,5 +14,5 @@ export const LEVEL4: LevelInfo = {
   music: LEVEL4_MUSIC,
   ambush: { key: 'yellow', groups: { recruit: 'hhf', veteran: 'hhff', doomed: 'hhffH' } },
   watchDoors: true,
-  load: () => parseLevel('Freight Lift', LEVEL4_MAP, LEVEL4_HEIGHTS, [{ at: [35, 15], gates: [[31, 21]] }]),
+  load: () => parseLevel('Freight Lift', LEVEL4_MAP, LEVEL4_HEIGHTS, [{ at: [32, 6], gates: [[29, 9]] }]),
 };

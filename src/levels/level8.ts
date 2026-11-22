@@ -1,5 +1,4 @@
 import { parseLevel } from '../sim/level';
-import { LEVEL8_HEIGHTS } from './level8.heights';
 import { LEVEL8_MAP } from './level8.map';
 import { LEVEL8_MUSIC } from './level8.music';
 import type { LevelInfo } from './types';
@@ -14,5 +13,5 @@ export const LEVEL8: LevelInfo = {
   music: LEVEL8_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'SMh', veteran: 'SSMh', doomed: 'SSMMh' } },
   watchDoors: true,
-  load: () => parseLevel('Arc Foundry', LEVEL8_MAP, LEVEL8_HEIGHTS, [{ at: [9, 0], gates: [[18, 4]] }]),
+  load: () => parseLevel('Arc Foundry', LEVEL8_MAP, undefined, [{ at: [11, 0], gates: [[18, 2]] }]),
 };

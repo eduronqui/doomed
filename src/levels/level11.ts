@@ -14,5 +14,5 @@ export const LEVEL11: LevelInfo = {
   music: LEVEL11_MUSIC,
   ambush: { key: 'yellow', groups: { recruit: 'Swh', veteran: 'SwMh', doomed: 'SSwMV' } },
   watchDoors: true,
-  load: () => parseLevel('The Gauntlet', LEVEL11_MAP, LEVEL11_HEIGHTS, [{ at: [59, 39], gates: [[48, 18]] }]),
+  load: () => parseLevel('The Gauntlet', LEVEL11_MAP, LEVEL11_HEIGHTS, [{ at: [59, 39], gates: [[49, 18]] }]),
 };

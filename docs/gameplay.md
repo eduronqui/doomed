@@ -383,7 +383,8 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 - A wide door, or a wide secret wall, opens and closes as one piece.
 - Normal and red doors close again 4 seconds after they open. They do not close while you or an enemy stand in them.
 - A secret wall stays open. A gate stays open after you pull its lever.
-- From E2 on, each level has a gate. Its lever is in the room in front of it, or a few rooms away.
+- From E2 on, most levels have a gate. Its lever is in the room in front of it, or a few rooms away.
+- Some rooms join through an open passage instead of a door.
 - If you walk into the edge of a doorway, you slide into the opening. Walls and doors stop you at your feet, so you can stand close to a north wall.
 
 ### Key ambush
@@ -582,7 +583,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 2 |
 | Rooms | 24 |
-| Enemies | 36: 15 Husks, 9 Shotgun Husks, 7 Fiends, 2 Brutes, 3 Shades |
+| Enemies | 42: 19 Husks, 10 Shotgun Husks, 8 Fiends, 2 Brutes, 3 Shades |
 | Map items | 30 |
 | Barrels | 8 |
 | Secrets | 1 |
@@ -596,7 +597,8 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 - On the way to the exit you pass the blue door, then the gate, then the yellow door.
 - The blue keycard is in a side room in the north-west.
 - The yellow keycard is in a side room in the north. Taking it opens the trap door in that room.
-- The gate is in the center. Its lever is on the north wall of a room in the center.
+- A long corridor runs down the middle and along the south edge.
+- The gate leads into the yellow keycard room. Its lever is on the north wall of the room in front of it.
 - A secret wall in the north-east hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
@@ -609,9 +611,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 2 |
 | Rooms | 22 |
-| Enemies | 38: 10 Husks, 4 Shotgun Husks, 6 Fiends, 4 Brutes, 2 Shades, 12 Gunners |
+| Enemies | 38: 8 Husks, 5 Shotgun Husks, 7 Fiends, 3 Brutes, 3 Shades, 12 Gunners |
 | Map items | 28 |
-| Barrels | 5 |
+| Barrels | 7 |
 | Secrets | 1 |
 | Par time | 6:30 |
 
@@ -636,9 +638,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 2 |
 | Rooms | 22 |
-| Enemies | 40: 14 Husks, 9 Shotgun Husks, 6 Fiends, 5 Brutes, 1 Shade, 5 Gunners |
+| Enemies | 40: 14 Husks, 8 Shotgun Husks, 7 Fiends, 6 Brutes, 1 Shade, 4 Gunners |
 | Map items | 31 |
-| Barrels | 8 |
+| Barrels | 7 |
 | Secrets | 1 |
 | Par time | 6:30 |
 
@@ -664,9 +666,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 3 |
 | Rooms | 25 |
-| Enemies | 44: 7 Husks, 2 Shotgun Husks, 8 Fiends, 2 Brutes, 5 Shades, 5 Gunners, 15 Stalkers |
+| Enemies | 44: 6 Husks, 5 Shotgun Husks, 5 Fiends, 2 Brutes, 4 Shades, 7 Gunners, 15 Stalkers |
 | Map items | 30 |
-| Barrels | 4 |
+| Barrels | 3 |
 | Secrets | 1 |
 | Par time | 7:00 |
 
@@ -690,9 +692,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 3 |
 | Rooms | 27 |
-| Enemies | 45: 14 Husks, 1 Shotgun Husk, 5 Fiends, 2 Brutes, 4 Shades, 12 Gunners, 7 Stalkers |
+| Enemies | 45: 7 Husks, 4 Shotgun Husks, 5 Fiends, 3 Brutes, 4 Shades, 12 Gunners, 10 Stalkers |
 | Map items | 31 |
-| Barrels | 6 |
+| Barrels | 14 |
 | Secrets | 1 |
 | Par time | 7:30 |
 
@@ -706,7 +708,6 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 - The yellow keycard is in a side room in the north.
 - The gate is in the north. Its lever is on the north wall of a room in the north-west.
 - A secret wall in the north-east hides a small room with extra items.
-- Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
 
 ## Level 9: Iron Bastion
@@ -716,22 +717,22 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 32 |
-| Enemies | 46: 9 Husks, 2 Shotgun Husks, 6 Fiends, 1 Brute, 3 Shades, 3 Gunners, 7 Stalkers, 15 Wardens |
+| Rooms | 27 |
+| Enemies | 46: 10 Husks, 2 Shotgun Husks, 3 Fiends, 1 Brute, 1 Shade, 3 Gunners, 8 Stalkers, 18 Wardens |
 | Map items | 31 |
-| Barrels | 3 |
+| Barrels | 6 |
 | Secrets | 1 |
 | Par time | 7:30 |
 
 ### Layout
 
 - New in this level: the **Warden**.
-- Start in the north-east. The exit room is in the south-west.
+- Start in the north-east. The exit room is in the north-west.
 - On the way to the exit you pass the blue door, then the gate, then the yellow door.
-- The blue keycard is in a side room in the south-east. Taking it opens the trap door in that room.
-- The yellow keycard is in a side room in the north-west.
-- The gate is in the west. Its lever is on the north wall of a room in the north-east.
-- A secret wall in the west hides a small room with extra items.
+- The blue keycard is in a side room in the north-east. Taking it opens the trap door in that room.
+- The yellow keycard is in a side room in the north.
+- The gate is in the center. Its lever is on the north wall of a room in the south-east.
+- A secret wall in the center hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
 
@@ -743,9 +744,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 4 |
 | Rooms | 41 |
-| Enemies | 48: 8 Husks, 3 Shotgun Husks, 4 Fiends, 3 Brutes, 2 Shades, 1 Gunner, 4 Stalkers, 5 Wardens, 18 Hollows |
+| Enemies | 48: 13 Husks, 2 Shotgun Husks, 4 Fiends, 2 Brutes, 4 Shades, 2 Gunners, 4 Stalkers, 2 Wardens, 15 Hollows |
 | Map items | 30 |
-| Barrels | 8 |
+| Barrels | 4 |
 | Secrets | 1 |
 | Par time | 8:00 |
 
@@ -770,9 +771,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 4 |
 | Rooms | 44 |
-| Enemies | 56: 5 Husks, 3 Shotgun Husks, 6 Fiends, 3 Brutes, 6 Shades, 4 Gunners, 11 Stalkers, 11 Wardens, 7 Hollows |
+| Enemies | 56: 7 Husks, 3 Shotgun Husks, 6 Fiends, 1 Brute, 5 Shades, 7 Gunners, 10 Stalkers, 7 Wardens, 10 Hollows |
 | Map items | 37 |
-| Barrels | 15 |
+| Barrels | 11 |
 | Secrets | 1 |
 | Par time | 9:00 |
 
@@ -799,9 +800,9 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- |
 | Chapter | 4 |
 | Rooms | 45 |
-| Enemies | 35: 8 Husks, 3 Fiends, 4 Shades, 1 Gunner, 6 Stalkers, 5 Wardens, 7 Hollows, 1 Gatekeeper |
+| Enemies | 35: 3 Husks, 5 Fiends, 7 Shades, 3 Gunners, 5 Stalkers, 5 Wardens, 6 Hollows, 1 Gatekeeper |
 | Map items | 31 |
-| Barrels | 3 |
+| Barrels | 11 |
 | Secrets | 1 |
 | Par time | 8:00 |
 
