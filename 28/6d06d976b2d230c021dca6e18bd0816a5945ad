@@ -1,0 +1,21 @@
+docs/extending.md
+  s_e549dc79ddcbfe::t_38c7ae99ac7f96 217
+tests/level.test.ts
+  s_e549dc79ddcbfe::t_1cde95e44a6a18 110-120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "286d06d976b2d230c021dca6e18bd0816a5945ad",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
