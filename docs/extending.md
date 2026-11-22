@@ -548,6 +548,10 @@ The box shows the tip of the area that holds the player. Use `tips` only in the 
 | No walkable cell touches the void | `tests/level.test.ts` |
 | Keycards are reachable without their own door, and the exit needs them | `tests/level.test.ts` |
 | Every non-solid entity is reachable | `tests/level.test.ts` |
+| The start room is safe: a door stands between the start and every enemy | `tests/level.test.ts` |
+| No door touches raised floor | `tests/level.test.ts` |
+| Every lever is reachable, each lever links to a gate, and each gate has a lever | `parseLevel`, `World`, `tests/level.test.ts` |
+| A rift seal needs a boss on the level | `World` |
 | Every music track is whole bars with matching parts, one track per level | `tests/music.test.ts` |
 | The committed sprite sheet matches the art code, with no overlapping frames | `tests/sprites.test.mjs` |
 | The simulation never imports Phaser, the DOM or art files | Convention: keep `src/sim/` and `src/characters/*.ts` (not `*.art.ts`) pure |

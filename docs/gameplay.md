@@ -4,7 +4,7 @@ This document describes every game rule in DOOMED. All numbers come from the cod
 
 ## Goal
 
-The episode has twelve levels. Each level from 4 to 11 brings one new weapon or one new enemy, and level 12 ends the episode with a boss. Each level has one exit switch. It always sits on the top wall of a room, and at least one monster always guards it, close to it in the same room. Find it and use it. Enemies, locked doors and hazards are in your way. When you use the switch, a tally shows your kills, items, secrets and time. Then you continue to the next level.
+The episode has twelve levels. Each level from 4 to 11 brings one new weapon or one new enemy, and level 12 ends the episode with a boss. Each level has one exit switch. It always sits on the top wall of a room, and at least one monster always guards it, close to it in the same room. Find it and use it. Enemies, locked doors and hazards are in your way. Every level starts in a safe room: a door stands between the start and the first enemy. When you use the switch, a tally shows your kills, items, secrets and time. Then you continue to the next level.
 
 ## Training (first run only)
 
@@ -559,8 +559,8 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 | Area | Enemies | Items and objects |
 | --- | --- | --- |
-| Start cave (south) | 1 Husk | Clip, box of shells |
-| Hub cavern (center, lava pools) | 3 Husks, 1 Shotgun Husk, 3 Fiends, 2 Brutes | Medikit, box of shells, 2 barrels |
+| Start cave (south) | none | Clip, box of shells |
+| Hub cavern (center, lava pools) | 4 Husks (one right inside the door from the start), 1 Shotgun Husk, 3 Fiends, 2 Brutes | Medikit, box of shells, 2 barrels |
 | East wing (lava channels with one gap each) | 2 Shotgun Husks, 2 Fiends, 3 Shades | **Yellow keycard** (north-east corner), medikit, stimpack, box of shells, clip, crates, a **lever** on the north wall |
 | Secret chamber (south of the east wing) | none | **Vital sphere**, combat vest, box of shells |
 | West wing (behind the yellow door) | 2 Husks, 2 Fiends, 3 Brutes, 1 Shade | **Red keycard** inside a lava moat (north-west), medikit, stimpack, box of shells, clip, 2 barrels |

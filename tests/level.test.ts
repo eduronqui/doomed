@@ -109,6 +109,24 @@ describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_tit
     });
   });
 
+  it('starts in a safe room: a door stands between the start and every enemy', () => {
+    const start = cellOf(player);
+    const area = new Set([start]);
+    const stack = [start];
+    while (stack.length) {
+      const i = stack.pop()!;
+      for (const n of [i + 1, i - 1, i + level.width, i - level.width]) {
+        if (!area.has(n) && level.tiles[n]?.type === 'floor') {
+          area.add(n);
+          stack.push(n);
+        }
+      }
+    }
+    const kinds = ['husk', 'shotgunner', 'fiend', 'brute', 'shade', 'gunner', 'stalker', 'warden', 'hollow', 'gatekeeper'];
+    const near = level.spawns.filter((s) => kinds.includes(s.kind) && area.has(cellOf(s)));
+    expect(near.map((s) => `${s.kind} at ${s.x},${s.y}`)).toEqual([]);
+  });
+
   it('keeps doors away from raised floor, since the marine cannot drop off a ledge', () => {
     level.tiles.forEach((t, i) => {
       if (t.type !== 'door') return;
