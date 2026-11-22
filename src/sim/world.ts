@@ -226,6 +226,8 @@ function isBarrel(t: HitResult['target']): t is Barrel {
   return t !== null && 'fuse' in t;
 }
 
+const GOD_SKIPS = new Set<ItemKind>(['stimpack', 'medkit', 'sphere', 'armor']);
+
 export class World {
   readonly level: LevelData;
   readonly grid: Grid;
@@ -247,6 +249,7 @@ export class World {
   readonly projectiles: Projectile[] = [];
   readonly stats: Stats;
   status: GameStatus = 'playing';
+  god = false;
   time = 0;
   exitActivated = false;
   private events: GameEvent[] = [];
@@ -701,6 +704,7 @@ export class World {
   private tryPickup(item: Item): void {
     const p = this.player;
     let sound: SoundId = 'pickup';
+    if (this.god && GOD_SKIPS.has(item.kind)) return;
     switch (item.kind) {
       case 'stimpack':
       case 'medkit':
@@ -765,6 +769,10 @@ export class World {
   damagePlayer(amount: number, ignoreArmor = false): void {
     if (this.status !== 'playing') return;
     const p = this.player;
+    if (this.god) {
+      p.hurtTime = 0.35;
+      return;
+    }
     let taken = amount;
     if (!ignoreArmor && p.armor > 0) {
       const saved = Math.min(p.armor, Math.floor(amount / 3));

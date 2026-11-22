@@ -686,6 +686,20 @@ describe('World', () => {
     expect(w.player.x).toBe(1.5);
   });
 
+  it('takes no damage in god mode and leaves health and armor items on the floor', () => {
+    const w = new World(parseLevel('t', '######\n#Pmva#\n######'));
+    w.god = true;
+    w.player.armor = 50;
+    run(w, 1, { moveX: 1 });
+    expect(w.player.x).toBeGreaterThan(4);
+    expect(w.items.every((i) => !i.taken)).toBe(true);
+    w.damagePlayer(500);
+    w.damagePlayer(500, true);
+    expect(w.status).toBe('playing');
+    expect(w.player.health).toBe(100);
+    expect(w.player.armor).toBe(50);
+  });
+
   it('wins when the player uses the exit switch', () => {
     const w = new World(parseLevel('t', '##E##\n#.P.#\n#..h#\n#####'));
     w.update(1 / 60, { ...IDLE_INPUT, use: true, aimX: 2.5, aimY: 0 });

@@ -121,7 +121,8 @@ export class Hud {
 
   update(world: World, dt: number): void {
     const p = world.player;
-    this.setBar('hp', p.health, p.health > 100 ? 200 : 100, `${p.health}`);
+    if (world.god) this.setBar('hp', 100, 100, '\u221e');
+    else this.setBar('hp', p.health, p.health > 100 ? 200 : 100, `${p.health}`);
     this.setBar('ar', p.armor, p.armor > 100 ? 200 : 100, `${p.armor}`);
     for (const [id, slot] of this.slots) {
       const owned = p.weapons.has(id);

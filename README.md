@@ -148,7 +148,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | Parameter | Effect |
 | --- | --- |
 | `?autostart` | Skip the title screen |
-| `?god` | Set the player health to 9999 |
+| `?god` | Take no damage; health and armor items stay on the floor |
 | `?pos=x,y` | Start the player on map cell (x, y) |
 | `?level=n` | Start on level n (1 to 3), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
