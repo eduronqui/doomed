@@ -79,3 +79,25 @@ describe('monsters watching doors', () => {
     for (const m of w.monsters) expect(m.angle).toBeCloseTo(Math.PI / 2, 5);
   });
 });
+
+describe('boss seal', () => {
+  const map = ['###E###', '#..h..#', '##UUU##', '#.....#', '#..P..#', '#..Z..#', '#######'].join('\n');
+
+  it('stays shut while the boss lives and breaks when it dies', () => {
+    const w = new World(parseLevel('t', map));
+    w.player.y = 3.4;
+    const log = run(w, 0.3, { use: true, aimX: 3.5, aimY: 2.5 });
+    expect(log).toContain('A rift seal holds this door. It breaks when its keeper dies.');
+    expect(w.grid.doorAt(3, 2)!.openness).toBe(0);
+    const boss = w.monsters.find((m) => m.def.boss)!;
+    w.damageMonster(boss, boss.hp + 1000, true);
+    const after = run(w, 1);
+    expect(after).toContain('The rift seal breaks.');
+    run(w, 10);
+    expect(w.grid.doorAt(3, 2)!.openness).toBe(1);
+  });
+
+  it('needs a boss on the level', () => {
+    expect(() => new World(parseLevel('t', map.replace('Z', '.')))).toThrow(/no boss/);
+  });
+});

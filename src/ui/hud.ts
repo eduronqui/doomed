@@ -30,6 +30,7 @@ const MINIMAP_COLORS = {
   yellow: '#ffe040',
   exit: '#40e050',
   gate: '#40d8e8',
+  seal: '#b060f0',
   switch: '#40d8e8',
 };
 
@@ -212,7 +213,7 @@ export class Hud {
         else if (t.type === 'door') {
           const hidden = t.door === 'secret' || (t.door === 'trap' && g.doors.get(g.index(x, y))!.openness === 0);
           const wall = t.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
-          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' || t.door === 'gate' ? MINIMAP_COLORS[t.door] : hidden ? wall : MINIMAP_COLORS.door;
+          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' || t.door === 'gate' || t.door === 'seal' ? MINIMAP_COLORS[t.door] : hidden ? wall : MINIMAP_COLORS.door;
         }
         else if (t.type === 'exit') color = MINIMAP_COLORS.exit;
         else if (t.type === 'floor') color = t.floor === 'slime' ? MINIMAP_COLORS.slime : t.floor === 'lava' ? MINIMAP_COLORS.lava : t.floor === 'rock' ? MINIMAP_COLORS.rock : MINIMAP_COLORS.floor;

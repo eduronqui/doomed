@@ -765,6 +765,7 @@ export class World {
     const linked = new Set(this.level.switches.flatMap((s) => s.gates.map(([x, y]) => this.grid.doorAt(x, y)!.group)));
     for (const group of this.grid.doorGroups) {
       if (group[0].kind === 'gate' && !linked.has(group)) throw new Error(`Gate at ${group[0].x},${group[0].y} in ${this.level.name} has no switch`);
+      if (group[0].kind === 'seal' && !this.monsters.some((m) => m.def.boss)) throw new Error(`Seal at ${group[0].x},${group[0].y} in ${this.level.name} has no boss to break it`);
     }
   }
 
@@ -884,6 +885,13 @@ export class World {
 
   private tryDoor(door: Door, byPlayer: boolean, explicit: boolean): void {
     if (door.kind === 'trap') return;
+    if (door.kind === 'seal') {
+      if (byPlayer && this.throttled('seal', 1.5)) {
+        this.message('A rift seal holds this door. It breaks when its keeper dies.', 'warn');
+        this.sound('noway', door.x + 0.5, door.y + 0.5);
+      }
+      return;
+    }
     if (door.kind === 'gate') {
       if (byPlayer && this.throttled('gate', 1.5)) {
         this.message(this.gateHint(door), 'warn');
@@ -1603,6 +1611,16 @@ export class World {
     if (!m.summoned) this.stats.kills++;
     this.sound(silent ? 'backstab' : 'monsterDeath', m.x, m.y);
     if (m.def.drop) this.items.push({ id: this.nextId++, kind: m.def.drop, x: m.x, y: m.y, taken: false, dropped: true });
+    if (m.def.boss && !this.monsters.some((o) => o.def.boss && o.state !== 'dead')) this.breakSeals();
+  }
+
+  private breakSeals(): void {
+    const seals = this.grid.doorGroups.filter((g) => g[0].kind === 'seal');
+    for (const group of seals) {
+      const mid = group[Math.floor(group.length / 2)];
+      if (this.grid.openDoor(mid)) this.sound('door', mid.x + 0.5, mid.y + 0.5);
+    }
+    if (seals.length > 0) this.message('The rift seal breaks.', 'info');
   }
 
   // ---------- combat helpers ----------

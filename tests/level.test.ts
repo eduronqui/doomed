@@ -49,7 +49,7 @@ function reachable(level: LevelData, from: { x: number; y: number }, keys: Set<D
       const t = level.tiles[ni];
       if (!t || seen.has(ni) || nx < 0 || nx >= level.width) continue;
       const door = t.type === 'door' ? t.door! : null;
-      const passable = t.type === 'floor' || door === 'normal' || door === 'secret' || (door === 'gate' ? gates.has(ni) : door !== null && keys.has(door));
+      const passable = t.type === 'floor' || door === 'normal' || door === 'secret' || door === 'seal' || (door === 'gate' ? gates.has(ni) : door !== null && keys.has(door));
       if (passable) {
         seen.add(ni);
         stack.push(ni);

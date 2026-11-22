@@ -394,6 +394,7 @@ export class GameScene extends Phaser.Scene {
       this.doorViews.push({ img, lead, top, height: ch * TILE + WALL_HEIGHT, width: cw * TILE });
       const color = keyColorOf(kind);
       if (color) this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.45, color: KEY_RGB[color], glow: 0.25 });
+      if (kind === 'seal') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2.4, a: 0.5, color: [190, 90, 255], glow: 0.3 });
       if (kind === 'gate') this.staticLights.push({ x: x0 + cw / 2, y: y0 + ch - 0.4, r: 2, a: 0.4, color: [90, 230, 255], glow: 0.2 });
     }
   }

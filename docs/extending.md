@@ -160,6 +160,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `X` | Secret wall (opens with E) | `?` | Metal floor in a secret area |
 | `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | | |
 | `J` | Gate (cyan; only its lever opens it) | `K` | Lever (part of a top wall, floor below) |
+| `U` | Rift seal (violet; breaks when every boss on the level is dead; the level needs a boss) | | |
 | `E` | Exit switch (part of a wall) | space | Void outside the level |
 
 ### Entities

@@ -179,7 +179,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `storage.test.ts`: the stored sound and music choices, also when storage is blocked.
 - `training.test.ts`: the localStorage flag (also when storage is blocked), the hurt start and a tip for every room and monster.
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
-- `puzzles.test.ts`: levers open their gates for good, gates refuse the player and monsters and point to their lever, link errors, and enemies that face the doors.
+- `puzzles.test.ts`: levers open their gates for good, gates refuse the player and monsters and point to their lever, link errors, enemies that face the doors, and the boss seal that breaks when the boss dies.
 - `sprites.test.mjs`: the committed sprite sheet and favicons match the art code, and no frames overlap.
 - `world.test.ts`: pickups, weapons, ammo fallback, combat, armor, hazards, barrels, doors and keys, secrets, death, exit, resting, view cones, crate cover, knife backstabs, the lost-sight behavior of each enemy kind, monsters and doors, difficulty scaling, room reveal, colored keycards, carry-over between levels and the Shade.
 

@@ -3,7 +3,7 @@ import type { DecoKind, ItemKind } from './defs';
 
 export type FloorKind = 'metal' | 'concrete' | 'grate' | 'rock' | 'slime' | 'lava';
 export type WallKind = 'tech' | 'stone';
-export type DoorKind = 'normal' | 'red' | 'blue' | 'yellow' | 'secret' | 'trap' | 'gate';
+export type DoorKind = 'normal' | 'red' | 'blue' | 'yellow' | 'secret' | 'trap' | 'gate' | 'seal';
 export type TileType = 'void' | 'floor' | 'wall' | 'door' | 'exit';
 
 export interface Tile {
@@ -87,7 +87,7 @@ const SPAWNS: Record<string, SpawnKind> = {
   Z: 'gatekeeper',
 };
 
-const DOOR_CHARS: Record<string, DoorKind> = { D: 'normal', R: 'red', B: 'blue', Y: 'yellow', X: 'secret', T: 'trap', J: 'gate' };
+const DOOR_CHARS: Record<string, DoorKind> = { D: 'normal', R: 'red', B: 'blue', Y: 'yellow', X: 'secret', T: 'trap', J: 'gate', U: 'seal' };
 
 export function monsterOfChar(c: string): MonsterKind | null {
   const kind = SPAWNS[c];

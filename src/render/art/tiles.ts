@@ -239,7 +239,7 @@ export function wallTexture(kind: 'tech' | 'stone', variant: number): Pix {
   return p;
 }
 
-const HAZARD: Record<DoorKind, number> = { normal: 0xd8b02a, red: 0xc42020, blue: 0x2a5ad8, yellow: 0xf0d020, secret: 0xd8b02a, trap: 0xd8b02a, gate: 0x28b8c8 };
+const HAZARD: Record<DoorKind, number> = { normal: 0xd8b02a, red: 0xc42020, blue: 0x2a5ad8, yellow: 0xf0d020, secret: 0xd8b02a, trap: 0xd8b02a, gate: 0x28b8c8, seal: 0x8a30c8 };
 
 export const KEY_LIGHT: Record<'red' | 'blue' | 'yellow', { light: number; dark: number }> = {
   red: { light: 0xff3a3a, dark: 0x5a0a0a },
@@ -247,9 +247,10 @@ export const KEY_LIGHT: Record<'red' | 'blue' | 'yellow', { light: number; dark:
   yellow: { light: 0xfff070, dark: 0x5a4a0a },
 };
 
-const DOOR_LIGHT: Record<'red' | 'blue' | 'yellow' | 'gate', { light: number; dark: number }> = {
+const DOOR_LIGHT: Record<'red' | 'blue' | 'yellow' | 'gate' | 'seal', { light: number; dark: number }> = {
   ...KEY_LIGHT,
   gate: { light: 0x70f0ff, dark: 0x0a3a44 },
+  seal: { light: 0xd890ff, dark: 0x2a0a44 },
 };
 
 export function doorTexture(kind: DoorKind, wall: 'tech' | 'stone'): Pix {

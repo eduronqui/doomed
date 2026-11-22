@@ -39,7 +39,7 @@ The twelve levels form four chapters of three levels. Chapter 1 (E1 to E3) has a
 | 9 | E9: Iron Bastion | blue, then yellow | 7:30 |
 | 10 | E10: Drowned Pit | red, then blue | 8:00 |
 | 11 | E11: The Gauntlet | red, then yellow, then blue | 9:00 |
-| 12 | E12: The Gate | red | 8:00 |
+| 12 | E12: The Gate | none | 4:00 |
 
 - When you continue to the next level, your health, armor, ammo, weapons and selected weapon carry over. Keycards do not carry over.
 - When you die, the level restarts with the loadout you had when you entered it. Level 1 always starts with 100 health, the knife, the sidearm and the start bullets of your difficulty (60, 40 or 20).
@@ -349,7 +349,7 @@ A hooded, floating shape with glowing eyes.
 
 ### Gatekeeper (boss)
 
-A dark sorcerer in a long red-lined cape, with a crown of horns, glowing violet eyes and a staff. He floats above the floor and guards the gate in level 12.
+A dark sorcerer in a long red-lined cape, with a crown of horns, glowing violet eyes and a staff. He floats above the floor and guards the gate in level 12. His death breaks the rift seal in front of the exit.
 
 - He cannot be backstabbed and never staggers. Once he wakes, he always knows where you are.
 - He has no melee attack. He stays at range and hurls volleys of energy bolts that turn slowly toward you.
@@ -377,6 +377,7 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 | Red, blue or yellow (colored stripes and a colored light) | Walk into it, or press E, with the keycard of the same color | Cannot open it |
 | Secret wall | Press E while you face it | Cannot open it |
 | Trap door | Nothing opens it. It opens by itself when you take the level's trap keycard | Cannot open it |
+| Rift seal (violet stripes and a violet light) | Nothing opens it. It breaks when the level's boss dies, and stays open | Cannot open it |
 | Gate (cyan stripes and a cyan light) | Find its lever (a cyan wall panel) and press E while you face it. When you walk into a gate, the Server Log tells you in which direction its lever is | Cannot open it |
 
 - A door opens in about 0.4 seconds. You can pass when it is 85% open.
@@ -799,21 +800,18 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 4 |
-| Rooms | 45 |
-| Enemies | 35: 3 Husks, 5 Fiends, 7 Shades, 3 Gunners, 5 Stalkers, 5 Wardens, 6 Hollows, 1 Gatekeeper |
-| Map items | 31 |
-| Barrels | 11 |
+| Rooms | 4 and a secret |
+| Enemies | 17: 3 Husks, 1 Shotgun Husk, 1 Fiend, 1 Shade, 2 Gunners, 3 Stalkers, 3 Wardens, 2 Hollows, 1 Gatekeeper |
+| Map items | 14 |
+| Barrels | 0 |
 | Secrets | 1 |
-| Par time | 8:00 |
+| Par time | 4:00 |
 
 ### Layout
 
 - New in this level: the **Gatekeeper**.
-- Start in the west. The exit room is in the east.
-- On the way to the exit you pass the red door, then the gate.
-- The red keycard is in a side room in the south-west. Taking it opens the trap door in that room.
-- The gate is in the south. Its lever is on the north wall of a room in the south.
-- A secret wall in the north-west hides a small room with extra items.
-- Raised porches in some corners hold ranged enemies.
-- The Gatekeeper waits in a big arena with lava strips and four pillars. The room before it is a supply room with cells, grenades, medikits, a vest and a vital sphere.
-- Enemies start facing the doors of their rooms.
+- Start in the supply room in the west: 6 cell packs, 2 boxes of grenades, 2 medikits and a combat vest. No enemies, no keycards.
+- A secret wall in the north wall of the supply room hides a small stash with a **vital sphere**, a cell pack and a box of grenades.
+- A door in the east wall leads into a short corridor, and a second door opens into the arena.
+- The arena is one big hall with two lava strips along its sides and four stone pillars. The Gatekeeper floats in its north half, with Wardens, Stalkers, Hollows, Gunners and a few weaker enemies around him. They all face the door you come through.
+- The exit is in a small room north of the arena, behind a violet rift seal. Nothing opens the seal while the Gatekeeper lives. When he dies, it breaks. One Husk waits at the exit switch.
