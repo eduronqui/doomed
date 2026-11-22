@@ -137,7 +137,7 @@ When your health reaches 0, you die. The level music stops. After 1.4 seconds th
 | 5 | Grenade Launcher | 1 grenade | 10 to 20 on a direct hit, plus a blast | 1 | 0.80 s | 14 tiles of flight | loud |
 | 6 | Flamer | 1 fuel | 2 to 4, plus burning | cone | 0.09 s | 3.4 tiles | loud |
 | 7 | Arc Rifle | 1 cell | 16 to 24 to every enemy in the line | beam | 0.30 s | 24 tiles | loud |
-| 8 | Rift Cannon | 40 cells | 40 to 60 on a direct hit, plus a big blast | 1 | 1.50 s | 30 tiles of flight | loud |
+| 8 | Rift Cannon | 20 cells | 40 to 60 on a direct hit, plus a big blast | 1 | 1.50 s | 30 tiles of flight | loud |
 
 - Aim at the head or the body of an enemy. The line of aim goes through the cursor at gun height, so shots at the legs miss.
 - Guns hit instantly along the line of aim (hitscan). Each pellet spreads a little. The rotary gun spreads more than the sidearm. The shotgun spreads the most.
@@ -183,7 +183,7 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Grenade launcher | Gives the grenade launcher and 6 grenades |
 | Flamer | Gives the flamer and 60 fuel |
 | Arc rifle | Gives the arc rifle and 40 cells |
-| Rift cannon | Gives the rift cannon and 80 cells (two shots) |
+| Rift cannon | Gives the rift cannon and 160 cells (eight shots) |
 | Red, blue or yellow keycard | Opens doors of the same color in this level |
 
 The "Items" stat counts the items placed in the map. Items that enemies drop do not count: ammo from Husks and Shotgun Husks, and stimpacks from Brutes and Shades.

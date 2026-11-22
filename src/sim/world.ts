@@ -248,7 +248,7 @@ const PICKUP_AMMO: Partial<Record<ItemKind, [AmmoType, number]>> = {
   fuel: ['fuel', 50],
   cells: ['cells', 40],
 };
-const WEAPON_PICKUP_AMMO: Record<WeaponId, number> = { knife: 0, pistol: 10, shotgun: 8, rotary: 20, launcher: 6, flamer: 60, arc: 40, rift: 80 };
+const WEAPON_PICKUP_AMMO: Record<WeaponId, number> = { knife: 0, pistol: 10, shotgun: 8, rotary: 20, launcher: 6, flamer: 60, arc: 40, rift: 160 };
 const MAX_STEP = 1 / 30;
 export const REST_DELAY = 10;
 const CLOSE_SENSE = 1.5;

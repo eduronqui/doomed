@@ -75,15 +75,15 @@ describe('arc rifle', () => {
 });
 
 describe('rift cannon', () => {
-  it('needs 40 cells for a shot', () => {
-    const w = armed('##########\n#P.....b.#\n##########', 'rift', { cells: 39 });
+  it('needs 20 cells for a shot', () => {
+    const w = armed('##########\n#P.....b.#\n##########', 'rift', { cells: 19 });
     run(w, 0.2, { fire: true, aimX: 8, aimY: 1.5 });
-    expect(w.player.ammo.cells).toBe(39);
+    expect(w.player.ammo.cells).toBe(19);
     expect(w.projectiles).toHaveLength(0);
   });
 
   it('clears a group with one orb and spares you', () => {
-    const w = armed('###########\n#P..ffff..#\n#...ffff..#\n###########', 'rift', { cells: 40 });
+    const w = armed('###########\n#P..ffff..#\n#...ffff..#\n###########', 'rift', { cells: 20 });
     fireOnce(w, 6, 1.5);
     run(w, 2);
     expect(w.player.ammo.cells).toBe(0);
@@ -98,7 +98,7 @@ describe('new pickups', () => {
       ['L', 'launcher', 'grenades', 6],
       ['F', 'flamer', 'fuel', 60],
       ['A', 'arc', 'cells', 40],
-      ['Q', 'rift', 'cells', 80],
+      ['Q', 'rift', 'cells', 160],
     ];
     for (const [char, weapon, ammo, amount] of cases) {
       const w = new World(parseLevel('t', `#####\n#P${char}.#\n#####`));

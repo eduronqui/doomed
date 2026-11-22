@@ -6,7 +6,7 @@ export const RIFT: WeaponDef = {
   slot: 8,
   kind: 'projectile',
   ammo: 'cells',
-  ammoPerShot: 40,
+  ammoPerShot: 20,
   cooldown: 1.5,
   pellets: 1,
   spread: 0,
