@@ -14,5 +14,5 @@ export const LEVEL7: LevelInfo = {
   music: LEVEL7_MUSIC,
   ambush: { key: 'yellow', groups: { recruit: 'Shh', veteran: 'SShh', doomed: 'SShhf' } },
   watchDoors: true,
-  load: () => parseLevel('Hunting Grounds', LEVEL7_MAP, LEVEL7_HEIGHTS, [{ at: [2, 0], gates: [[17, 6]] }]),
+  load: () => parseLevel('Hunting Grounds', LEVEL7_MAP, LEVEL7_HEIGHTS, [{ at: [29, 23], gates: [[11, 11]] }]),
 };

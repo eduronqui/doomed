@@ -14,5 +14,5 @@ export const LEVEL5: LevelInfo = {
   music: LEVEL5_MUSIC,
   ambush: { key: 'blue', groups: { recruit: 'hhM', veteran: 'hhMH', doomed: 'hhMHf' } },
   watchDoors: true,
-  load: () => parseLevel('Coolant Works', LEVEL5_MAP, LEVEL5_HEIGHTS, [{ at: [2, 12], gates: [[13, 35]] }]),
+  load: () => parseLevel('Coolant Works', LEVEL5_MAP, LEVEL5_HEIGHTS, [{ at: [5, 31], gates: [[29, 20]] }]),
 };

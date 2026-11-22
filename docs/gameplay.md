@@ -377,13 +377,14 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 | Red, blue or yellow (colored stripes and a colored light) | Walk into it, or press E, with the keycard of the same color | Cannot open it |
 | Secret wall | Press E while you face it | Cannot open it |
 | Trap door | Nothing opens it. It opens by itself when you take the level's trap keycard | Cannot open it |
-| Gate (cyan stripes and a cyan light) | Find its wall switch (a cyan panel) and press E while you face it | Cannot open it |
+| Gate (cyan stripes and a cyan light) | Find its lever (a cyan wall panel) and press E while you face it. When you walk into a gate, the Server Log tells you in which direction its lever is | Cannot open it |
 
 - A door opens in about 0.4 seconds. You can pass when it is 85% open.
 - A wide door, or a wide secret wall, opens and closes as one piece.
 - Normal and red doors close again 4 seconds after they open. They do not close while you or an enemy stand in them.
-- A secret wall stays open. A gate stays open after its switch.
-- From E2 on, each level has a gate. Its switch can be in the same room or far away.
+- A secret wall stays open. A gate stays open after you pull its lever.
+- From E2 on, each level has a gate. Its lever is in the room in front of it, or a few rooms away.
+- If you walk into the edge of a doorway, you slide into the opening. Walls and doors stop you at your feet, so you can stand close to a north wall.
 
 ### Key ambush
 
@@ -523,7 +524,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 | Area | Enemies | Items and objects |
 | --- | --- | --- |
-| Start room (south-west) | none | 2 clips, stimpack, a **wall switch** on the north wall |
+| Start room (south-west) | none | 2 clips, stimpack, a **lever** on the north wall |
 | Pump hall (south, slime channel with two grate bridges) | 4 Husks, 2 Fiends, 1 Brute | Box of shells, medikit, 2 barrels, crates |
 | Refinery tanks (center, big slime pool) | 2 Husks, 3 Fiends, 1 Shade | **Blue keycard** on the island in the pool, 2 boxes of shells, medikit, barrel |
 | Control room (west) | 2 Husks, 1 Fiend, 1 Shade | **Pump shotgun**, combat vest, clip, crates |
@@ -533,7 +534,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 ### Route
 
-1. The east door of the start room is a gate. Use the wall switch on the north wall to open it. Go east into the pump hall and cross the slime channel on a grate bridge.
+1. The east door of the start room is a gate. Pull the lever on the north wall to open it. Go east into the pump hall and cross the slime channel on a grate bridge.
 2. Go north through one of the two doors into the refinery tanks.
 3. Walk the grate path from the south edge of the pool to the island. Take the blue keycard. The west face of the pump housing in the slime, right next to the island, opens, and its group pours onto the island.
 4. Optional: the west door leads to the control room with a shotgun. In its north wall, three scratched panels hide the secret storage. Press E there.
@@ -558,7 +559,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | --- | --- | --- |
 | Start cave (south) | 1 Husk | Clip, box of shells |
 | Hub cavern (center, lava pools) | 3 Husks, 1 Shotgun Husk, 3 Fiends, 2 Brutes | Medikit, box of shells, 2 barrels |
-| East wing (lava channels with one gap each) | 2 Shotgun Husks, 2 Fiends, 3 Shades | **Yellow keycard** (north-east corner), medikit, stimpack, box of shells, clip, crates, a **wall switch** on the north wall |
+| East wing (lava channels with one gap each) | 2 Shotgun Husks, 2 Fiends, 3 Shades | **Yellow keycard** (north-east corner), medikit, stimpack, box of shells, clip, crates, a **lever** on the north wall |
 | Secret chamber (south of the east wing) | none | **Vital sphere**, combat vest, box of shells |
 | West wing (behind the yellow door) | 2 Husks, 2 Fiends, 3 Brutes, 1 Shade | **Red keycard** inside a lava moat (north-west), medikit, stimpack, box of shells, clip, 2 barrels |
 | Sanctum (north, behind the red door) | 1 Husk, 1 Shotgun Husk, 4 Fiends, 2 Brutes, 2 Shades | 2 medikits, box of shells, braziers |
@@ -571,7 +572,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 3. Optional: in the south wall of the east wing, three scratched panels hide the secret chamber.
 4. Go back to the hub and open the yellow door in its west wall.
 5. In the west wing, cross the lava moat at its gap in the north-west. Take the red keycard. A trap door in the north wall of the west wing, just east of the key, opens on a large group.
-6. Go back to the hub and open the red door in its north wall. Cross the sanctum to its north-east corner. The door in the east wall is a gate: if you did not use the switch in the east wing yet, go back for it. Beat the Brute in the small end room and use the exit switch.
+6. Go back to the hub and open the red door in its north wall. Cross the sanctum to its north-east corner. The door in the east wall is a gate: if you did not pull the lever in the east wing yet, go back for it. Beat the Brute in the small end room and use the exit switch.
 
 ## Level 4: Freight Lift
 
@@ -580,23 +581,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 2 |
-| Rooms | 32 |
-| Enemies | 36: 17 Husks, 8 Shotgun Husks, 6 Fiends, 3 Brutes, 2 Shades |
+| Rooms | 24 |
+| Enemies | 36: 15 Husks, 9 Shotgun Husks, 7 Fiends, 2 Brutes, 3 Shades |
 | Map items | 30 |
-| Barrels | 11 |
+| Barrels | 8 |
 | Secrets | 1 |
 | Par time | 6:00 |
 
 ### Layout
 
 - New in this level: the **grenade launcher**.
-- The grenade launcher lies in a side room near the start (south-west).
-- Start in the south-west. The exit room is in the north.
+- The grenade launcher lies in a side room near the start (north-west).
+- Start in the south-west. The exit room is in the south-east.
 - On the way to the exit you pass the blue door, then the gate, then the yellow door.
-- The blue keycard is in a side room in the south.
-- The yellow keycard is in a side room in the south-west. Taking it opens the trap door in that room.
-- The gate is in the center. Its switch is on the north wall of a room in the north-east.
-- A secret wall in the north-west hides a small room with extra items.
+- The blue keycard is in a side room in the north-west.
+- The yellow keycard is in a side room in the north. Taking it opens the trap door in that room.
+- The gate is in the center. Its lever is on the north wall of a room in the center.
+- A secret wall in the north-east hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
 
@@ -607,22 +608,22 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 2 |
-| Rooms | 41 |
-| Enemies | 38: 14 Husks, 5 Shotgun Husks, 3 Fiends, 1 Brute, 2 Shades, 13 Gunners |
+| Rooms | 22 |
+| Enemies | 38: 10 Husks, 4 Shotgun Husks, 6 Fiends, 4 Brutes, 2 Shades, 12 Gunners |
 | Map items | 28 |
-| Barrels | 14 |
+| Barrels | 5 |
 | Secrets | 1 |
 | Par time | 6:30 |
 
 ### Layout
 
 - New in this level: the **Gunner**.
-- Start in the north-west. The exit room is in the north-east.
+- Start in the north-west. The exit room is in the north-west.
 - On the way to the exit you pass the blue door, then the gate, then the red door.
-- The blue keycard is in a side room in the north-west. Taking it opens the trap door in that room.
-- The red keycard is in a side room in the south.
-- The gate is in the south-west. Its switch is on the north wall of a room in the west.
-- A secret wall in the south-west hides a small room with extra items.
+- The blue keycard is in a side room in the west. Taking it opens the trap door in that room.
+- The red keycard is in a side room in the south-east.
+- The gate is in the center. Its lever is on the north wall of a room in the south-west.
+- A secret wall in the center hides a small room with extra items.
 - Some bigger rooms have a slime pool in the middle.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
@@ -634,10 +635,10 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 2 |
-| Rooms | 36 |
-| Enemies | 40: 11 Husks, 2 Shotgun Husks, 9 Fiends, 8 Brutes, 3 Shades, 7 Gunners |
+| Rooms | 22 |
+| Enemies | 40: 14 Husks, 9 Shotgun Husks, 6 Fiends, 5 Brutes, 1 Shade, 5 Gunners |
 | Map items | 31 |
-| Barrels | 14 |
+| Barrels | 8 |
 | Secrets | 1 |
 | Par time | 6:30 |
 
@@ -645,12 +646,12 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 - New in this level: the **flamer**.
 - The flamer lies in a side room near the start (south).
-- Start in the south-east. The exit room is in the north-west.
+- Start in the south-east. The exit room is in the west.
 - On the way to the exit you pass the red door, then the gate, then the blue door.
 - The red keycard is in a side room in the south-east. Taking it opens the trap door in that room.
-- The blue keycard is in a side room in the north-west.
-- The gate is in the north. Its switch is on the north wall of a room in the north-east.
-- A secret wall in the center hides a small room with extra items.
+- The blue keycard is in a side room in the south.
+- The gate is in the center. Its lever is on the north wall of a room in the center.
+- A secret wall in the north-east hides a small room with extra items.
 - Some bigger rooms have a lava pool in the middle.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
@@ -662,21 +663,21 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 52 |
-| Enemies | 44: 4 Husks, 7 Shotgun Husks, 7 Fiends, 1 Brute, 10 Shades, 2 Gunners, 13 Stalkers |
+| Rooms | 25 |
+| Enemies | 44: 7 Husks, 2 Shotgun Husks, 8 Fiends, 2 Brutes, 5 Shades, 5 Gunners, 15 Stalkers |
 | Map items | 30 |
-| Barrels | 7 |
+| Barrels | 4 |
 | Secrets | 1 |
 | Par time | 7:00 |
 
 ### Layout
 
 - New in this level: the **Stalker**.
-- Start in the south. The exit room is in the north-east.
+- Start in the south-east. The exit room is in the north-west.
 - On the way to the exit you pass the blue door, then the yellow door, then the gate.
 - The blue keycard is in a side room in the south-east.
-- The yellow keycard is in a side room in the south-west. Taking it opens the trap door in that room.
-- The gate is in the north-west. Its switch is on the north wall of a room in the north-west.
+- The yellow keycard is in a side room in the north-east. Taking it opens the trap door in that room.
+- The gate is in the west. Its lever is on the north wall of a room in the center.
 - A secret wall in the east hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
@@ -688,10 +689,10 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 50 |
-| Enemies | 45: 18 Husks, 3 Fiends, 1 Brute, 5 Shades, 8 Gunners, 10 Stalkers |
+| Rooms | 27 |
+| Enemies | 45: 14 Husks, 1 Shotgun Husk, 5 Fiends, 2 Brutes, 4 Shades, 12 Gunners, 7 Stalkers |
 | Map items | 31 |
-| Barrels | 11 |
+| Barrels | 6 |
 | Secrets | 1 |
 | Par time | 7:30 |
 
@@ -699,11 +700,11 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 - New in this level: the **arc rifle**.
 - The arc rifle lies in a side room near the start (south-west).
-- Start in the west. The exit room is in the north-east.
+- Start in the west. The exit room is in the north.
 - On the way to the exit you pass the red door, then the gate, then the yellow door.
-- The red keycard is in a side room in the north-west. Taking it opens the trap door in that room.
-- The yellow keycard is in a side room in the south-west.
-- The gate is in the south. Its switch is on the north wall of a room in the north-west.
+- The red keycard is in a side room in the south-west. Taking it opens the trap door in that room.
+- The yellow keycard is in a side room in the north.
+- The gate is in the north. Its lever is on the north wall of a room in the north-west.
 - A secret wall in the north-east hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
@@ -715,21 +716,21 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 3 |
-| Rooms | 52 |
-| Enemies | 46: 4 Husks, 4 Shotgun Husks, 8 Fiends, 3 Brutes, 2 Shades, 11 Gunners, 4 Stalkers, 10 Wardens |
+| Rooms | 32 |
+| Enemies | 46: 9 Husks, 2 Shotgun Husks, 6 Fiends, 1 Brute, 3 Shades, 3 Gunners, 7 Stalkers, 15 Wardens |
 | Map items | 31 |
-| Barrels | 13 |
+| Barrels | 3 |
 | Secrets | 1 |
 | Par time | 7:30 |
 
 ### Layout
 
 - New in this level: the **Warden**.
-- Start in the north-east. The exit room is in the north.
+- Start in the north-east. The exit room is in the south-west.
 - On the way to the exit you pass the blue door, then the gate, then the yellow door.
-- The blue keycard is in a side room in the north-east. Taking it opens the trap door in that room.
-- The yellow keycard is in a side room in the south-west.
-- The gate is in the west. Its switch is on the north wall of a room in the south-east.
+- The blue keycard is in a side room in the south-east. Taking it opens the trap door in that room.
+- The yellow keycard is in a side room in the north-west.
+- The gate is in the west. Its lever is on the north wall of a room in the north-east.
 - A secret wall in the west hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - Enemies start facing the doors of their rooms.
@@ -741,22 +742,22 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 4 |
-| Rooms | 54 |
-| Enemies | 48: 5 Husks, 1 Shotgun Husk, 5 Fiends, 3 Brutes, 2 Shades, 6 Gunners, 10 Stalkers, 5 Wardens, 11 Hollows |
+| Rooms | 41 |
+| Enemies | 48: 8 Husks, 3 Shotgun Husks, 4 Fiends, 3 Brutes, 2 Shades, 1 Gunner, 4 Stalkers, 5 Wardens, 18 Hollows |
 | Map items | 30 |
-| Barrels | 5 |
+| Barrels | 8 |
 | Secrets | 1 |
 | Par time | 8:00 |
 
 ### Layout
 
 - New in this level: the **Hollow**.
-- Start in the south-west. The exit room is in the north-west.
+- Start in the south-west. The exit room is in the north.
 - On the way to the exit you pass the red door, then the gate, then the blue door.
 - The red keycard is in a side room in the south-west. Taking it opens the trap door in that room.
 - The blue keycard is in a side room in the north-east.
-- The gate is in the north-east. Its switch is on the north wall of a room in the south-east.
-- A secret wall in the north-west hides a small room with extra items.
+- The gate is in the south-east. Its lever is on the north wall of a room in the south-east.
+- A secret wall in the west hides a small room with extra items.
 - Some bigger rooms have a slime pool in the middle.
 - Raised islands in the slime pools have no stairs. Hollows float to them, and you shoot from the edge.
 - Enemies start facing the doors of their rooms.
@@ -768,23 +769,23 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 4 |
-| Rooms | 64 |
-| Enemies | 56: 4 Husks, 6 Fiends, 4 Brutes, 4 Shades, 4 Gunners, 15 Stalkers, 11 Wardens, 8 Hollows |
+| Rooms | 44 |
+| Enemies | 56: 5 Husks, 3 Shotgun Husks, 6 Fiends, 3 Brutes, 6 Shades, 4 Gunners, 11 Stalkers, 11 Wardens, 7 Hollows |
 | Map items | 37 |
-| Barrels | 11 |
+| Barrels | 15 |
 | Secrets | 1 |
 | Par time | 9:00 |
 
 ### Layout
 
 - New in this level: the **rift cannon**, and every enemy mixed.
-- The rift cannon lies in a side room near the start (west).
-- Start in the north-west. The exit room is in the north-west.
+- The rift cannon lies in a side room near the start (north-west).
+- Start in the north-west. The exit room is in the north.
 - On the way to the exit you pass the red door, then the yellow door, then the gate, then the blue door.
-- The red keycard is in a side room in the south-west.
-- The yellow keycard is in a side room in the south. Taking it opens the trap door in that room.
-- The blue keycard is in a side room in the east.
-- The gate is in the north. Its switch is on the north wall of a room in the north-east.
+- The red keycard is in a side room in the north-west.
+- The yellow keycard is in a side room in the west. Taking it opens the trap door in that room.
+- The blue keycard is in a side room in the north-east.
+- The gate is in the east. Its lever is on the north wall of a room in the south-east.
 - A secret wall in the north hides a small room with extra items.
 - Some bigger rooms have a lava pool in the middle.
 - Raised porches in some corners hold ranged enemies.
@@ -797,10 +798,10 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Chapter | 4 |
-| Rooms | 60 |
-| Enemies | 35: 7 Husks, 3 Fiends, 4 Shades, 4 Gunners, 7 Stalkers, 8 Wardens, 1 Hollow, 1 Gatekeeper |
+| Rooms | 45 |
+| Enemies | 35: 8 Husks, 3 Fiends, 4 Shades, 1 Gunner, 6 Stalkers, 5 Wardens, 7 Hollows, 1 Gatekeeper |
 | Map items | 31 |
-| Barrels | 7 |
+| Barrels | 3 |
 | Secrets | 1 |
 | Par time | 8:00 |
 
@@ -810,8 +811,8 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 - Start in the west. The exit room is in the east.
 - On the way to the exit you pass the red door, then the gate.
 - The red keycard is in a side room in the south-west. Taking it opens the trap door in that room.
-- The gate is in the center. Its switch is on the north wall of a room in the north-west.
-- A secret wall in the north hides a small room with extra items.
+- The gate is in the south. Its lever is on the north wall of a room in the south.
+- A secret wall in the north-west hides a small room with extra items.
 - Raised porches in some corners hold ranged enemies.
 - The Gatekeeper waits in a big arena with lava strips and four pillars. The room before it is a supply room with cells, grenades, medikits, a vest and a vital sphere.
 - Enemies start facing the doors of their rooms.

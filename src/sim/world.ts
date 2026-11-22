@@ -1,7 +1,7 @@
 import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, type DecoKind, type Difficulty, type KeyColor, type ItemKind, type SoundId } from './defs';
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind, type ShotSpec } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type Blast, type ProjectileLook, type WeaponDef, type WeaponId } from '../weapons';
-import { FOOT_OFFSET, Grid, type Door } from './grid';
+import { FOOT_OFFSET, Grid, reachUp, type Door } from './grid';
 import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
 import { Rng } from './rng';
@@ -213,6 +213,9 @@ const CRY_GAP = 0.5;
 const FOOTSTEP_RANGE = 4;
 const STEP_INTERVAL = 0.35;
 const SHOVE_REACH = 0.05;
+const GAP_PROBE = 0.05;
+const GAP_REACH = 0.85;
+const GATE_HINT_NEAR = 6;
 const SHOVE_SPEED = 0.8;
 const LOUD_FLOORS: ReadonlySet<FloorKind> = new Set<FloorKind>(['metal', 'grate']);
 const EXPLOSION_RADIUS = 2.6;
@@ -443,8 +446,10 @@ export class World {
       const mx = (input.moveX / Math.max(1, len)) * MARINE.speed * dt;
       const my = (input.moveY / Math.max(1, len)) * MARINE.speed * dt;
       const res = this.grid.move(p.x, p.y, p.r, mx, my);
+      const stuck = Math.hypot(res.x - p.x, res.y - p.y) < Math.hypot(mx, my) * 0.5;
       p.x = res.x;
       p.y = res.y;
+      if (stuck) this.slideIntoGap(mx, my);
       this.shoveAside(mx, my, dt);
       p.walkTime += dt;
       this.stepTimer += dt;
@@ -734,6 +739,17 @@ export class World {
     this.status = 'won';
   }
 
+  private gateHint(door: Door): string {
+    const link = this.level.switches.find((s) => s.gates.some(([x, y]) => this.grid.doorAt(x, y)?.group === door.group));
+    if (!link) return 'This gate opens with a lever.';
+    const dx = link.at[0] + 0.5 - (door.x + 0.5);
+    const dy = link.at[1] + 1 - (door.y + 0.5);
+    if (Math.hypot(dx, dy) < GATE_HINT_NEAR) return 'This gate opens with a lever close by.';
+    const ns = dy < -Math.abs(dx) / 2 ? 'north' : dy > Math.abs(dx) / 2 ? 'south' : '';
+    const ew = dx < -Math.abs(dy) / 2 ? 'west' : dx > Math.abs(dy) / 2 ? 'east' : '';
+    return `This gate opens with a lever to the ${ns && ew ? `${ns}-${ew}` : ns || ew}.`;
+  }
+
   private activateSwitch(id: number, x: number, y: number): void {
     if (this.switchesOn.has(id)) return;
     this.switchesOn.add(id);
@@ -742,7 +758,7 @@ export class World {
       const gate = this.grid.doorAt(gx, gy)!;
       if (this.grid.openDoor(gate)) this.sound('door', gx + 0.5, gy + 0.5);
     }
-    this.message('A gate opens somewhere.', 'info');
+    this.message('The lever opens a gate.', 'info');
   }
 
   private checkGates(): void {
@@ -869,8 +885,8 @@ export class World {
   private tryDoor(door: Door, byPlayer: boolean, explicit: boolean): void {
     if (door.kind === 'trap') return;
     if (door.kind === 'gate') {
-      if (byPlayer && explicit && this.throttled('gate', 1.5)) {
-        this.message('This gate opens from a switch.', 'warn');
+      if (byPlayer && this.throttled('gate', 1.5)) {
+        this.message(this.gateHint(door), 'warn');
         this.sound('noway', door.x + 0.5, door.y + 0.5);
       }
       return;
@@ -1744,6 +1760,27 @@ export class World {
       e.x = res.x;
       e.y = res.y;
     }
+  }
+
+  private slideIntoGap(mx: number, my: number): void {
+    const p = this.player;
+    const up = reachUp(p.r);
+    const vertical = Math.abs(my) > Math.abs(mx);
+    const ahead = vertical ? Math.floor(my > 0 ? p.y + p.r + GAP_PROBE : p.y - up - GAP_PROBE) : Math.floor(mx > 0 ? p.x + p.r + GAP_PROBE : p.x - p.r - GAP_PROBE);
+    const along = vertical ? p.x : p.y;
+    const base = Math.floor(along);
+    let best: number | null = null;
+    for (let c = base - 1; c <= base + 1; c++) {
+      const open = vertical ? !this.grid.isSolid(c, ahead) : !this.grid.isSolid(ahead, c);
+      if (!open) continue;
+      const target = vertical ? c + 0.5 : c + 0.5 + (up - p.r) / 2;
+      if (Math.abs(target - along) < GAP_REACH && (best === null || Math.abs(target - along) < Math.abs(best - along))) best = target;
+    }
+    if (best === null) return;
+    const step = Math.sign(best - along) * Math.min(Math.abs(best - along), Math.hypot(mx, my));
+    const res = this.grid.move(p.x, p.y, p.r, vertical ? step : 0, vertical ? 0 : step);
+    p.x = res.x;
+    p.y = res.y;
   }
 
   private shoveAside(mx: number, my: number, dt: number): void {

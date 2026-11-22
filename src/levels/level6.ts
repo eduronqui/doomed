@@ -14,5 +14,5 @@ export const LEVEL6: LevelInfo = {
   music: LEVEL6_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'hhhf', veteran: 'hhhff', doomed: 'hhhffb' } },
   watchDoors: true,
-  load: () => parseLevel('Furnace Deck', LEVEL6_MAP, LEVEL6_HEIGHTS, [{ at: [59, 0], gates: [[30, 13]] }]),
+  load: () => parseLevel('Furnace Deck', LEVEL6_MAP, LEVEL6_HEIGHTS, [{ at: [34, 13], gates: [[29, 16]] }]),
 };

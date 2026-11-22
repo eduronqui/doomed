@@ -14,5 +14,5 @@ export const LEVEL9: LevelInfo = {
   music: LEVEL9_MUSIC,
   ambush: { key: 'blue', groups: { recruit: 'whh', veteran: 'wwh', doomed: 'wwhS' } },
   watchDoors: true,
-  load: () => parseLevel('Iron Bastion', LEVEL9_MAP, LEVEL9_HEIGHTS, [{ at: [57, 34], gates: [[14, 20]] }]),
+  load: () => parseLevel('Iron Bastion', LEVEL9_MAP, LEVEL9_HEIGHTS, [{ at: [47, 3], gates: [[21, 15]] }]),
 };

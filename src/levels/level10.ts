@@ -14,5 +14,5 @@ export const LEVEL10: LevelInfo = {
   music: LEVEL10_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'Vhh', veteran: 'VVhh', doomed: 'VVhhS' } },
   watchDoors: true,
-  load: () => parseLevel('Drowned Pit', LEVEL10_MAP, LEVEL10_HEIGHTS, [{ at: [59, 38], gates: [[57, 9]] }]),
+  load: () => parseLevel('Drowned Pit', LEVEL10_MAP, LEVEL10_HEIGHTS, [{ at: [51, 39], gates: [[46, 35]] }]),
 };

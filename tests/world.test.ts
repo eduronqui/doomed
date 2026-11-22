@@ -720,6 +720,20 @@ describe('World', () => {
     expect(w.player.x - start).toBeGreaterThan(3);
   });
 
+  it('opens a single door and slides the marine into it when he walks in off center', () => {
+    const w = new World(parseLevel('t', ['#####', '#...#', '##D##', '#...#', '#.P.#', '#####'].join('\n')));
+    w.player.x = 2.85;
+    run(w, 1.5, { moveY: -1, aimX: 2.5, aimY: 0 });
+    expect(w.player.y).toBeLessThan(2);
+  });
+
+  it('lets the marine pass a single side door with his feet in the opening', () => {
+    const w = new World(parseLevel('t', ['######', '#..#.#', '#P.D.#', '#..#.#', '######'].join('\n')));
+    w.player.y = 2.15;
+    run(w, 1.5, { moveX: 1, aimX: 5, aimY: 2.15 });
+    expect(w.player.x).toBeGreaterThan(4);
+  });
+
   it('wins when the player uses the exit switch', () => {
     const w = new World(parseLevel('t', '##E##\n#.P.#\n#..h#\n#####'));
     w.update(1 / 60, { ...IDLE_INPUT, use: true, aimX: 2.5, aimY: 0 });

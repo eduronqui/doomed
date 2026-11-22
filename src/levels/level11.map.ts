@@ -1,44 +1,44 @@
 export const LEVEL11_MAP = String.raw`
-%%%%%%     %%%E%%%% %%%%%%%%%%%%%%%      %%K%%
-%rrDr%     %,,,w,t% %rrarrrr%?????%      %t,t%
-%rrDr%     %,,b,,,% %rrrrrrr%????e%      %,,,%
-%rr%r%     %,,,,,,% %rr===rr%?????%      %,,,%
-%rr%D%     %t,,,,,% %rr===rrX??v??%%%%%%%%D%%%%%%%%%
-%D%%r%     %%%%DDD%%%rM===rr%?e???%,,,,,,DrbrDrrurr%
-%rr%r%     %trrrrr%,Drr===rr%?????%JJ%%%%%%%%%D%%%%%%%%%%%%%%%
-%rr%e%     %rrrrbr%,Drr===rr%%%%%%%,,,,,,,,%rrrrrrrD,,,c,,,,,%
-%rr%r%%%%%%%trrrrrD,%rr===rr%trrrrD,,,,,S,,%rrrrrrrD,,,,,,,,,%
-%Vr%r%trrrt%%%%%%%%e%rrrrrrr%rrrfr%%%%%%%%%%rrrrrrrD,,,,,,,,,%
-%cr%r%rrrrr%t,o,,S%,%rrrrrrt%rrrrr%,,,,,,,,%rrrrrrr%%%%%%%DD%%
-%rr%D%rrPrr%,,,,S,%,%%%%%%%%%rrrrr%,,,S,,,,%rrrrrrf%rrrrrrrrr%
-%D%%,%rrrrr%,,,,,,%D%rrrrrwr%rrrrr%,,,,,,,,%rrrrrrr%rVrrgrrrr%
-%rr%,%rrrrr%,,,,V,D,%rrrrrrrDrrrrr%,,,,,,,,%rrrrrrr%rrrrrrrrr%
-%rr%,%rrrrr%t,,,,e%s%trrrrrrDrrrrt%,b,,,,,t%trrorrr%rrrrrrrrr%
-%rr%%%D%%%%%%%DD%%%%%%%%%%DD%%%%%%%%%%DD%%%%%%%%%%%%rrrrrrrrr%
-%rrDr%rrrrrt%rrrrSrrrDrer%,,,,,Drr%trrrrrrr%,,,,,,t%trrrrrrrr%
-%rr%n%rrrrrr%rrrSrrrrDrrr%,,,g,%rr%orrrrrrrD,m,,,,j%%%%%%%%%D%
-%hr%r%rrrrrr%rrrrrrrr%rrs%,n,,,%rrDrrrrrMrrD,s,,V,,%t,,,,o,%r%
-%rr%D%rrrrrr%rrfrrrrr%rrr%,,,,h%rr%%%%%%%%%%%%%%%%%%a,,,w,,%r%
-%%%%r%rrrrrr%rrrrrrro%rrt%t,,o,%DD%rrrrrrD,,,,,%tSt%,,,,,,,Yr%
-   %r%rrrrrr%rrrrrrrr%%%%%%%%%%%rr%rrrrrrD,,,,S%rrr%,,,,,,,Yr%
-   %r%rrrrrr%rrrrrrrrDrrw%rrrrr%rr%rrrrSrD,,,,o%rrrD,,,,,,,%r%
-   %r%rrrrrr%rrrrcrrrDrrr%rrrrrBrr%rerrrr%,,,,,DrrV%DDD%%%%%%%
-   %r%rrrrrr%rrrrrrrrDrrrDrrrMrBrr%rrrrrr%,V,,,%rhr%,,,%
-   %D%rrrrrr%%%%%%%%%%%%%%%%%%%%%%%rrrSrt%,,,,,%%%%%,,,%
-   %r%rrrrrrD,,,,u,%,,%rrrrrSr%,,,%%D%%%%%%%%%%%tht%w,,%
-   %r%%%%%%%%,,,Q,o%,,%rrrrrrrR,,,D,,,,t%,,,,,,%,,,%,,,%
-   %V%,,,,,,D,,,,,,%,,DrrorrrrR,,S%,,,w,%,,,,,,%,,,%,,,%
-%%%%n%,,,,,,D,,,,,,%DD%%%%%%%%%,,f%,,,,,%,g,,,,%D%%%DD%%%%%%%%
-%e,Dr%,,g,,,%%%%%DD%,,%rrrr%erD,,,%,,,,,%tS,,,,Drrm%rrurfrrrr%
-%n,DrD,,,,,,D,,M,,,%,,%rrrr%rrD,,,%%%%%%%%%%%DD%%%%%rrrwrrrrr%
-%ke%D%%D%%%%%,,,,,,%,,%TTTT%rrD,,e%         %rrrrrr%rrrrrrrrr%
-%%%%r%rrrrrr%V,f,,,D,,%rrerrro%,,w%         %rrrrrr%Srrrrrrrr%
-   %rDrrrrSr%,,,,,,D,,%rwrrrrr%,,,%         %rrrrrr%rrrrrrrrr%
-   %rDrrrrrt%,,,,,,%,,%rrrrrrr%,,,%         %rrrrrr%rrrrrrrrr%
-   %r%%%%%%%%,,,,,,%,,%yrrrrrr%,,t%         %orrrrr%rrrrrrrrr%
-   %r%      %,,,,,,%%%%%%%%%%%%%%%%         %rrrrrr%rrrrrrrrr%
-   %r%      %w,,,,,%                        %rrrwrr%D%%%%%%D%%
-%%%%r%      %,,,,,,%                        %rrrrrrDrrDrmrrrr%
-%nrDr%      %t,,,,,%                        %trrrrrDrrDrrrrrm%
-%%%%%%      %%%%%%%%                        %%%%%%%%%%%%%%%%%%
+%%%%%%%%            %%%E%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%t,,,,,%            %t,,,wt%rrrrrrrenrr%trrrrro%t,,,,,%rrrrrr%
+%,,P,,,%            %,,,,,,%rrrrrrrrrrr%rrrrrrr%,,g,,,%rrrrrr%
+%,,,,,,%            %oc,e,,%rrrrrrrrrrr%rrrrrrr%,,,,,,DrrSrrr%
+%t,,,,,%            %,,,,,t%rrrrrrrrrrrBrrrrrrr%,,,,,,Drrrrrr%
+%%%%%%D%%%%%%%%%%%%%%%DDD%%%orrHrrrrrrrBrrrrrrr%,,,,,f%rrrrrr%
+%rrrr%,,,,,,,,,%trrr%rrrr%,%trrrrrrfSrrBrrgrrrr%,,,,,,%orrrrr%
+%rVrrD,,,,,,,,,%rrQr%rrrr%,%%%D%%%%%%%%%%%%%%D%%,f,,,,%brrjrr%
+%rrrrD,,,,,,,,,%rrrr%rrrS%,%w,,o%???e??%rhrrrrrD,,,,,t%rrrrrt%
+%rrgr%,,,,,,,,,%rrrr%rrrr%,%,,,,%??e???%rrrrrrr%%%DD%%%%%%%%%%
+%rrrr%w,,,,,,,,%rrrr%rrrr%,%,,,,%??????%rrrrrrr%,,,,,%
+%rrrr%,,,,,,,,,%rrrr%rrrr%,%,,,,%??????%rrrrrrrD,,,,,%
+%rrrr%,,,,,,,,,%rrSn%rrrr%,%,,,,%??????%rrrrrrr%,,,,,%
+%rkrr%,,,,,,,,,Drrrr%rrrS%m%,,,,%?????v%rrrrrrr%,,,,,%
+%rrrr%,,,,,,,,,%rrrr%rrrV%,%DDD%%%%%X%%%rrrrrrr%,,,M,%
+%trut%t,,,,,,,t%rrrr%rrre%,Drrrrt%t,,,t%rrrrrrr%,,,,,%
+%%%%%%%%%%%%%%%%%DD%%%DD%%D%rrrrM%,,,,,%rrrrrrr%%%%%D%%%%%%%%%
+          %trrrrrrr%wrrrrrr%rrrrr%,,,fo%rrrrrrr%rrrrrrrrDrrae%
+          %rrrrrrrr%rrrrrgr%rrrrr%,,,,,%rrrrrrr%JJ%%%%%%%%%%%%
+          %rrrSrrVr%rrrrrrr%rrrrr%%DDD%%trrrrrt%,,,w,,t%
+          %rrrrrrrr%rrrrrrr%rrbrs%Srrrr%%%%%%%%%,,S,,,,%
+          %rrrrrrrr%rrrrrrr%rrrrrDrrrro%trrrrrr%,,,,,,,%
+%%%%%%%%%%%trrrrrrr%rrrrrrr%rrrrr%rrrrr%rrrrrrr%,,,,V,t%
+%rrrr%rrrt%%%DDD%%%%%%%%%%%%rrrrr%rrrrr%rVrrrrr%%DD%%%%%%%%%%%
+%rrrr%rrrr%rrrrrrrrt%,,,,,,%rrrrr%rrrrr%Vrrrrrr%,,,,,,,,,,D,,%
+%TTTT%rryr%rrrrrrrrr%,M,,s,%trrrr%rrrrt%rrrrrrt%,,,,,,,,,,D,h%
+%oMrrrrrur%rrrrrrrrr%,,,,,,%%%%%%%%%%%%%%D%YY%%%%%%%%%%%%%%,,%
+%twrrrrrrr%rrfrrSrrrD,,,,m,%,,,,o%t,,,,,,,%,,,,%rrrrrrrrrt%,,%
+%%%DD%%%%%%rrrrrrrrr%,,,s,,%m,,,,%,,,,,,,,%,,,,%rrrrrrrrHo%,,%
+%rrrrrrrrr%%%%%%%%%%%R%%%%%%,,w,,D,,,,,,,,%o,,,%rrrrrrrrrr%,,%
+%rrrrrrrrr%rrrrrrDrurrD,,,,D,,,,,D,,,,,h,,%,w,,%rrrrrrrrrrD,,%
+%rrrrrrrro%rrrrrr%%%%%%,,,,D,,,,,%%%%%%%%%%,,,,%rrrVrrrrrrD,e%
+%rrrrrrrrr%rrrrrr%    %w,,,%%%%%%%,,,,h,,,%,,,,%rrrrrrrrrr%,,%
+%rrrrrrrhr%rHrrrr%    %o,,,%e,,,,D,,,,,,,,%,,,,%trrrrrrrrt%%%%
+%rrgrrrrrr%rrrrrr%    %,,,,%e,,,,D,,,,,,,,%,,,,%%%%%%%%D%%%
+%trrrrrrrrDrrrrrr%    %,,c,%,w,,,D,,,,,,,,%e,,,D,,,,,,n,,t%
+%%%%DD%%%%%rrrrrr%    %,n,,%,,,,c%,,,,,,,,%,,,,%,g,,,,,,,,%
+%rrrrrrrrr%rrrrrr%    %,,,,%to,,w%t,,,,,,,%,,,,%,,e,,,,,,,%
+%rerrrrrra%brrrrr%    %,,,,%%%%%%%%%%%%%%D%%%%%%,,o,,,S,,,%
+%rrrrfrrrr%rrrrrr%    %,,,,%            %,,,,,,%%%%%%%%%DD%K%%
+%tnrrrrrrt%rrrrrr%    %,,,,%            %S,,,,,D,m,,,,,Drrrrr%
+%%%%%%%%%%%%%%%%%%    %%%%%%            %%%%%%%%%%%%%%%%%%%%%%
 `;

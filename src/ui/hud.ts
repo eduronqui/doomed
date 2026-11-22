@@ -211,7 +211,8 @@ export class Hud {
         else if (t.type === 'wall') color = t.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
         else if (t.type === 'door') {
           const hidden = t.door === 'secret' || (t.door === 'trap' && g.doors.get(g.index(x, y))!.openness === 0);
-          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' || t.door === 'gate' ? MINIMAP_COLORS[t.door] : hidden ? MINIMAP_COLORS.wall : MINIMAP_COLORS.door;
+          const wall = t.wall === 'stone' ? MINIMAP_COLORS.stone : MINIMAP_COLORS.wall;
+          color = t.door === 'red' || t.door === 'blue' || t.door === 'yellow' || t.door === 'gate' ? MINIMAP_COLORS[t.door] : hidden ? wall : MINIMAP_COLORS.door;
         }
         else if (t.type === 'exit') color = MINIMAP_COLORS.exit;
         else if (t.type === 'floor') color = t.floor === 'slime' ? MINIMAP_COLORS.slime : t.floor === 'lava' ? MINIMAP_COLORS.lava : t.floor === 'rock' ? MINIMAP_COLORS.rock : MINIMAP_COLORS.floor;

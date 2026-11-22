@@ -24,7 +24,7 @@ describe('switches and gates', () => {
     const log = run(w, 0.1, { use: true, aimX: 4.5, aimY: 2.5 });
     run(w, 1);
     expect(w.grid.doorAt(4, 2)!.openness).toBe(0);
-    expect(log).toContain('This gate opens from a switch.');
+    expect(log).toContain('This gate opens with a lever close by.');
   });
 
   it('opens the linked gate for good when you use the switch', () => {
@@ -33,9 +33,18 @@ describe('switches and gates', () => {
     w.player.y = 1.5;
     const log = run(w, 0.1, { use: true, aimX: 2.5, aimY: 0.5 });
     expect(w.switchesOn.has(0)).toBe(true);
-    expect(log).toContain('A gate opens somewhere.');
+    expect(log).toContain('The lever opens a gate.');
     run(w, 15);
     expect(w.grid.doorAt(4, 2)!.openness).toBe(1);
+  });
+
+  it('points to a far lever when you bump into its gate', () => {
+    const far = ['############K##', '#P..#.........#', '#...J.........#', '#...#.........#', '###############'].join('\n');
+    const w = new World(parseLevel('t', far, undefined, [{ at: [12, 0], gates: [[4, 2]] }]));
+    w.player.x = 3.5;
+    w.player.y = 2.3;
+    const log = run(w, 0.3, { moveX: 1, aimX: 6, aimY: 2.3 });
+    expect(log).toContain('This gate opens with a lever to the east.');
   });
 
   it('does not let monsters open a gate', () => {

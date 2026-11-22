@@ -1,44 +1,44 @@
 export const LEVEL7_MAP = String.raw`
-%%K%%%%%    %%%%%%      %%%%%%%%%%        %%%E%%%%%%%%%%%
-%rrrrrr%    %rrrr%      %grrrrrrt%        %tSrrrr%rrrrrt%
-%rrurrr%    %Srrr%      %rrrrrrrr%        %orrgHm%rrrgrr%
-%rrrSrH%    %rrrr%      %rcrmrnrr%        %rrrrrrDrrrrrr%
-%trrrrr%    %rrrt%      %trrrrrrr%        %rrrrrr%rrrrrr%
-%%%%%D%%%%%%%DD%%%%%%%%%%%%%%%DD%%        %rrrrrr%rrrrrr%
-%trrrrr%rrrr%rrrrJrrHrrr%rrrrrrrr%%%%%%%%%%%%%%%%%rrrrhr%
-%grrrsr%rrrr%rrrrJrrrrrr%rrrrrrrr%rrrrrrrrDrrrfrr%rrrrrr%
-%rrrrgr%rrrrDrrSr%rrrrnr%rrrrrrrrDrrrrrHrrDrrrrrrDrrrrrt%%%%%%
-%rrrrrrDrrrr%rrrr%rrrrrt%trrrrrrr%rrrrrrrrDrrrrrr%%%DD%%%rrrr%
-%%DD%%%%%%%D%%%%%%D%%%%%%%%%D%%%%%rrrrrrrr%rrrrSr%rrrrrt%rrrr%
-%rrrrDrrur%rrrrDr%rrrrrr%rrrrrrrr%rrrrrgrr%rrrrrr%Hrrrrr%rrrr%
-%rrrr%rrrr%rrrrDr%rrrrrr%rrSrrrrr%rrrrrrrr%rrrrrr%rrrrrrDrrrg%
-%%%%%%%%%%%%%%%%D%rSrrrrDrrrrrrrr%rrrrrrrr%rrrrrr%rnrrrrDrrrt%
-      %trrrDrrrrr%rrrrrr%rrrrrrrt%rrrrrrrr%%%%%%%%D%%%%%%%%%%%
-      %rrrrDrrrrr%%%D%%%%%%%%%%%%%%%%%%%%%%tort%trrr%
-      %rrrr%rrrrr%rrrr%rrrrr%rgrrfr%trrror%rrrr%rrsr%
-      %rasr%rrrrr%%%%%%frrrrDrrrrrr%rrrrrr%rrcr%rcrr%
-      %crrr%rrrrr%trrr%rrrrr%rrrrrrBrrrrrr%rrrr%rrrr%
-%%%%%%%rrrh%trrrr%rrrrDrrgrr%rrrrrrBrrrrrr%rrrH%rrrr%
-%trrrr%YY%%%%%%%%%rrrr%%%%%%%rrrrrrBrrrrrr%rrrr%rrrr%
-%rrrrrDrrrr%trrrr%rMrr%rrrrr%rrrrrr%rrrrrr%rhrr%rrrr%%%%%%%%%%
-%rrrrrDrrrr%rfrrrDrrrrDrrrru%rrrrrr%rrrrrt%rrrrDrrrrDrrrMrrrr%
-%rrrrr%rrrr%rrrrr%rrrrDrrrrr%%D%%%%%%D%%%%%%%%%%%%%%%rrrrrrrr%
-%rrrrr%rrfr%rrrrr%rrrrDrrrSr%rrcrrrr%rrrrr%rrrt%??n?%rrrrrrrr%
-%rrrrt%rrrr%trrrr%rrrr%rrrrr%rrrrrrr%rrrrrDrrrr%??s?%rrrrrrrr%
-%%%%%%%DD%%%%%D%%%rrrr%rrrro%rrrrrrr%rrrrrDrrrr%??a?Xrrrhrrrr%
-     %rrrrDrrrrrr%trrt%rrrrrDrrrrrrr%rrrrrDrrrr%????%rrrrrrrr%
-     %rrro%%%%%%%%%%%%%DDD%%%%%%%%D%%%%%%%%%%%D%%%%%%%%%%%%%%%
-     %rrrrDrrrSrr%trrrrrrrDrrrrDrrrrr%rrrr%+r%rrrrrrrr%
-     %rrrrDrrHrrr%rrrrrrrrDrrrrDrrrrr%rrrrDrr%rrrrrrr+%
-     %trrr%rrerrrDrrSrrrrr%frrr%rrrrr%rrrrDrr%rrrSrrrr%
-     %%%%%%SrrrrrDrrrrrrrr%rrrt%trrrr%rrrr%rrDrnrrrrrr%
-          %rrrrrr%rrrsrrrr%%%%%%%%%%%%rrro%rr%rfrrrrrr%
-          %rrrrrr%%DD%%%%%%          %rrrr%%%%trrrrror%%%%%%%%
-          %trrrrr%rrrrrrrr%          %trrr%  %%%%D%%%%%trrrrt%
-          %%%%%%%%rrrrrrrr%          %%%D%%  %rrrrrrrr%rrrrrr%
-          %tynrgm%rbrrrrrr%          %trrr%  %rrrrrrrrDrrrrrr%
-          %TTTT%rDrrrrrrrr%          %rPrr%  %rrrrrrrr%rrrrrr%
-          %rrrr%rDrrrsrrrr%          %rrrr%  %rrrrrrrr%rrrrrr%
-          %rrrr%rDrrrrrrrr%          %rrrt%  %trrrSrrr%rrrrrj%
-          %%%%%%%%%%%%%%%%%          %%%%%%  %%%%%%%%%%%%%%%%%
+          %%%%%E%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%     %%%%%%%%
+          %rrrmrrrrrr%rrrrrrrrrrrrrt%trrrrrrrrrr%     %rrrr%t%
+          %rrrrSrrrrr%rrbrrrrrrrfrrr%rrrrrrrrrrr%     %rrrr%c%
+          %rrrrrrrrrrDrcrrrrrrrrrnrr%rrrrrrrrrrr%     %TTTT%r%
+          %rrrrrrrrrrDrrrrrrrrrrrrrr%rrrrrrrrrrr%     %rrrrrr%
+          %orrrrrrrrr%rrgrrrrrrrrrrr%rrrrrrrrrrr%     %srsryr%
+          %rrurrrrrrr%trrrrrrrrrrrrr%rrrrrrrrrrr%     %rrrrrr%
+          %rrrrrrrrrr%%%%%%%%%%%DDD%%rrrrrrrrrrr%     %nrrrrr%
+          %rrrrrrrrrr%thrrrrDrrrrrrr%rrrrrrrrMrr%%%%%%%%DDD%%%
+          %rrrrrrrrrr%rrrrrrDrrrrrrr%rrrrrrrrrrrDrrrrrDrrrrrt%
+%%%%%%%%%%%%%%%%%%%%%%rrrhrrDrrrrrrr%rrrrrrrrrrrDrfrSrDrrrrrr%
+%n%rrrrrrrrJrrrrrrgrr%rrrrrr%rrrrrrr%rrrrrrrrrrr%rrerrDrrrrrr%
+%r%rrrrrrrrJrrrrrrrrrDrrrrrr%rrrrrrr%rrrrrrrrrrr%rrrrr%rrrrrg%
+%r%rrrrrrrrJrrrrrrrrrDrrrrrr%rrrrrrr%rrrrrrrrrMr%rrrrr%rrarrr%
+%r%rrrrrrrS%rrrrrrrrrDrrrrrt%trSrrrt%grrrrSrrrrr%rfrrr%rrrrrr%
+%r%orrrrrrr%rrrrrrrrr%%%%%%%%%%%%%%%%%%%D%%%%%%%%rrrrr%rrrrrr%
+%r%rrrrrrrr%rrrrrrrrf%rrrrrrrYrrSrr%mrrrrrrrrrrr%%%BBB%%%%%%X%
+%r%rrrrrrrr%rrrrrrrrS%rrrrrrrYrrrrr%rrrrrhrrrrrr%rrrrrr%??s??%
+%rDrrrrrrrr%rrrrrrrrr%rrrrSrrYrrrrrDrrrSrrrrrrrr%rfrrrr%?????%
+%rDrrrrrrrr%rrrrrrSrr%rrrrrrr%rrrMrDrrrrrrrrrrrr%rrrrrr%?????%
+%r%rrrrrrrr%Hrrrrrrrt%rrrrrrr%rrrrS%rrrrrrr+rrrr%rrrrrr%?n???%
+%%%%DDD%%%%%%%%%%%%%%%rrhrrrr%rrrrr%%%%%%%%%%%%%%rrsrrr%?????%
+%rrrrrrror%trrrrrrrrrDrrrSrrt%trrrt%rrrrrrrrrrrt%rrrrrr%?????%
+%rrrrrrrrr%rrrrrrrrrr%%%%%%%%K%%%%%%rrrrrrrrrrrr%rrrrrr%??a??%
+%rrrrrrHrr%rrrrrrrhrr%rrrrrrrrrrrrt%rhrrrrrrrrrr%%%%%%D%%%%%%%
+%rrrrrrrrr%rrrrrrrrrrDrrrrMrrrrrrrr%rrrrrrrrrrrr%rrrrrr%
+%rrrrrrrrr%rrrrrrrrrrDrrrsrrrrrrrrr%rrrrrrrrrrrr%rrrmrr%
+%rrrrrrrrr%rrrrrrrrrrDrrrrrrrrrrrrr%rrrrrfrrrrrr%rrrrrr%
+%rrrrrrrrr%rrrrrrrrrr%rrrrrrrrfrrrr%rrrrrrrrrrgr%rrfrrc%
+%rrrrrrrrr%rrrrrrrrMr%rrrrrrrrcrrrr%rrrrrrrrSrrrDrrrr+t%
+%rrrrrrrrr%rrrrrrrrrr%rrrrrrrrrrrrr%rrrrrrrrrrrr%%%D%%%%%%%%%%
+%rrrrrrhrr%rrrrrrrrrr%rrrrrrrrrrrrr%trrrrrrrrrrr%rrrrrrrrr%rj%
+%rrrrrrrrr%rrrrrrrrrr%%%%%%%%%%%%%%%%%%%%%%%%DD%%rrrrrrrrr%sr%
+%rrrrrrrrr%rrrrrrrrrt%                 %rrrrrrrr%rrrrrrrrr%rr%
+%%%%%%%%D%%D%%%%%%%%%%                 %rrrrrrro%rrrrrrrrr%ur%
+%rrrrrrrrrrr%                          %rrrrrrrr%rrrrrrcrr%rr%
+%rrrrrrrrrrr%                          %rrrPrrrr%rrrnrrrrr%rr%
+%rrrrrrSrrSr%                          %rrrrrrrr%rrrrrrrrr%rr%
+%rrrrrrrrrrr%                          %rrrrrrrr%rrrrrrbrr%rr%
+%rrrrrrrrrrr%                          %rrrrrrrr%rrrrrrrrrDrr%
+%rrrrrrrrrrr%                          %rrrrrrrr%rrrrrrrrr%nu%
+%%%%%%%%%%%%%                          %%%%%%%%%%%%%%%%%%%%%%%
 `;

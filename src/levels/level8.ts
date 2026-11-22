@@ -14,5 +14,5 @@ export const LEVEL8: LevelInfo = {
   music: LEVEL8_MUSIC,
   ambush: { key: 'red', groups: { recruit: 'SMh', veteran: 'SSMh', doomed: 'SSMMh' } },
   watchDoors: true,
-  load: () => parseLevel('Arc Foundry', LEVEL8_MAP, LEVEL8_HEIGHTS, [{ at: [3, 0], gates: [[26, 31]] }]),
+  load: () => parseLevel('Arc Foundry', LEVEL8_MAP, LEVEL8_HEIGHTS, [{ at: [9, 0], gates: [[18, 4]] }]),
 };

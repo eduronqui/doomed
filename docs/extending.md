@@ -158,7 +158,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `Y` | Yellow door (yellow keycard) | `=` | Lava (10 damage/s) |
 | `X` | Secret wall (opens with E) | `?` | Metal floor in a secret area |
 | `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | | |
-| `J` | Gate (cyan; only its wall switch opens it) | `K` | Wall switch (part of a top wall, floor below) |
+| `J` | Gate (cyan; only its lever opens it) | `K` | Lever (part of a top wall, floor below) |
 | `E` | Exit switch (part of a wall) | space | Void outside the level |
 
 ### Entities
