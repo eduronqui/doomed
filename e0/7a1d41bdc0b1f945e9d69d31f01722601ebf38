@@ -1,0 +1,33 @@
+docs/gameplay.md
+  s_ce430adf87d846::t_8bd13806a6ef2a 96-97
+src/levels/training.ts
+  s_ce430adf87d846::t_123c060e447dab 22,38
+src/render/GameScene.ts
+  s_ce430adf87d846::t_33cfc1cf99b716 682
+src/sim/world.ts
+  s_ce430adf87d846::t_09612fe83fd3ec 21-22,707-716,738-742
+src/style.css
+  s_ce430adf87d846::t_e0f60c46e46ecb 606,610,614,877-896
+src/ui/touch.ts
+  s_ce430adf87d846::t_f85731d03106cd 1,8,53-54,104,112-133
+tests/puzzles.test.ts
+  s_ce430adf87d846::t_58da3e23a7d4bf 104-114
+tests/world.test.ts
+  s_ce430adf87d846::t_2f9a336b721f70 749-769
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e07a1d41bdc0b1f945e9d69d31f01722601ebf38",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
