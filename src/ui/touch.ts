@@ -1,9 +1,11 @@
+import type { UseAction } from '../sim/world';
 import { knobOffset, stickVector, type StickVector } from './stick';
 
 const STICK_RADIUS = 56;
 const MOVE_DEAD_ZONE = 0.15;
 const AIM_DEAD_ZONE = 0.3;
 const FIRE_STRENGTH = 1;
+const USE_LABELS: Record<UseAction, string> = { exit: 'EXIT', switch: 'PULL' };
 
 type Role = 'move' | 'aim';
 
@@ -48,6 +50,8 @@ export class TouchControls {
   private isUseQueued = false;
   private isPauseQueued = false;
   private pauseButton: HTMLElement | null = null;
+  private useButton: HTMLButtonElement | null = null;
+  private useAction: UseAction | null = null;
   private portrait = window.matchMedia('(orientation: portrait)');
 
   constructor() {
@@ -97,13 +101,34 @@ export class TouchControls {
       layer.append(stick);
       this.sticks.set(role, stick);
     }
-    layer.append(
-    );
+    layer.append(this.createUseButton());
     layer.addEventListener('pointerdown', (e) => this.onDown(e));
     layer.addEventListener('pointermove', (e) => this.onMove(e));
     for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) layer.addEventListener(type, (e) => this.release((e as PointerEvent).pointerId));
     layer.addEventListener('contextmenu', (e) => e.preventDefault());
     document.getElementById('viewport')!.append(layer);
+  }
+
+  private createUseButton(): HTMLButtonElement {
+    const btn = make('button', '', 'USE');
+    btn.id = 'btn-use';
+    btn.type = 'button';
+    btn.hidden = true;
+    btn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      this.isUseQueued = true;
+    });
+    this.useButton = btn;
+    return btn;
+  }
+
+  showUse(action: UseAction | null): void {
+    if (action === this.useAction || !this.useButton) return;
+    this.useAction = action;
+    this.useButton.hidden = action === null;
+    if (!action) return;
+    this.useButton.textContent = USE_LABELS[action];
+    this.useButton.dataset.action = action;
   }
 
   private onDown(e: PointerEvent): void {

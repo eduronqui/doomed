@@ -101,3 +101,14 @@ describe('boss seal', () => {
     expect(() => new World(parseLevel('t', map.replace('Z', '.')))).toThrow(/no boss/);
   });
 });
+
+describe('usableAction for levers', () => {
+  it('offers a lever that is off and stops offering it once it is on', () => {
+    const w = new World(parseLevel('t', MAP, undefined, LINKS));
+    w.player.x = 2.5;
+    w.player.y = 1.5;
+    expect(w.usableAction()).toBe('switch');
+    run(w, 0.1, { use: true, aimX: 2.5, aimY: 0.5 });
+    expect(w.usableAction()).toBeNull();
+  });
+});

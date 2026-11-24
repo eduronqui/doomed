@@ -746,3 +746,24 @@ describe('World', () => {
     expect(w.stats.totalSecrets).toBe(1);
   });
 });
+
+describe('usableAction', () => {
+  it('offers the exit switch until it is used', () => {
+    const w = new World(parseLevel('t', '##E##\n#.P.#\n#..h#\n#####'));
+    expect(w.usableAction()).toBe('exit');
+    w.update(1 / 60, { ...IDLE_INPUT, use: true, aimX: 2.5, aimY: 0 });
+    expect(w.usableAction()).toBeNull();
+  });
+
+  it('offers nothing when no switch is in reach', () => {
+    const w = new World(parseLevel('t', '##E######\n#.P....h#\n#########'));
+    w.player.x = 6.5;
+    expect(w.usableAction()).toBeNull();
+  });
+
+  it.each([['a normal door', 'D'], ['a secret wall', 'X']])('does not offer %s', (_name, door) => {
+    const w = new World(parseLevel('t', `######\n#P.${door}.#\n######`));
+    w.player.x = 2.5;
+    expect(w.usableAction()).toBeNull();
+  });
+});

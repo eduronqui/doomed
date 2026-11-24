@@ -679,6 +679,7 @@ export class GameScene extends Phaser.Scene {
     const w = this.world;
     if (this.deps.touch.takePause()) this.togglePause();
     this.deps.touch.showPaused(this.paused && this.started);
+    if (this.deps.touch.isEnabled) this.deps.touch.showUse(w.status === 'playing' && !this.paused ? w.usableAction() : null);
     if (!this.paused && !this.deps.screens.visible && !this.deps.touch.isBlocked) {
       w.update(dt, this.readInput());
     } else {

@@ -18,6 +18,8 @@ export interface Input {
   cycleWeapon: number;
 }
 
+export type UseAction = 'exit' | 'switch';
+
 export const IDLE_INPUT: Input = {
   moveX: 0,
   moveY: 0,
@@ -702,7 +704,16 @@ export class World {
     return Math.abs(angleDiff(toPlayer, m.angle)) > Math.PI - BACK_ARC / 2;
   }
 
-  private playerUse(): void {
+  usableAction(): UseAction | null {
+    const target = this.findUseTarget();
+    if (!target) return null;
+    const t = this.grid.tile(target.x, target.y)!;
+    if (t.type === 'exit') return this.exitActivated ? null : 'exit';
+    if (t.switchId >= 0) return this.switchesOn.has(t.switchId) ? null : 'switch';
+    return null;
+  }
+
+  private findUseTarget(): { x: number; y: number } | null {
     const p = this.player;
     const cos = Math.cos(p.angle);
     const sin = Math.sin(p.angle);
@@ -724,6 +735,11 @@ export class World {
         }
       }
     }
+    return best;
+  }
+
+  private playerUse(): void {
+    const best = this.findUseTarget();
     if (!best) return;
     const t = this.grid.tile(best.x, best.y)!;
     if (t.type === 'exit') this.activateExit();

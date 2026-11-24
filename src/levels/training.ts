@@ -19,7 +19,7 @@ export const TRAINING: LevelInfo = {
     {
       area: [1, 1, 12, 11],
       text: 'MOVE with W A S D. AIM with the mouse. Walk over items to pick them up. Walk into the door on the right, or press E next to it, to open it.',
-      touchText: 'MOVE: drag your left thumb on the left half of the screen. AIM: drag your right thumb on the right half. Walk over items to pick them up. Walk into the door on the right, or push the right stick to its edge next to it, to open it.',
+      touchText: 'MOVE: drag your left thumb on the left half of the screen. AIM: drag your right thumb on the right half. Walk over items to pick them up. Walk into the door on the right to open it.',
     },
     {
       area: [13, 1, 28, 11],
@@ -35,7 +35,7 @@ export const TRAINING: LevelInfo = {
       area: [29, 1, 43, 11],
       text: 'FINAL: a Brute guards the exit. It is fast and hits hard, but you are faster. Back off while you shoot, and use the shotgun up close.',
       clearText: 'EXIT: press E at the red EXIT switch on the north wall to finish the training.',
-      touchClearText: 'EXIT: push the right stick to its edge at the red EXIT switch on the north wall to finish the training.',
+      touchClearText: 'EXIT: walk next to the red EXIT switch on the north wall and tap the USE button that appears, to finish the training.',
     },
   ],
 };
