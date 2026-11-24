@@ -1,0 +1,29 @@
+README.md
+  s_ce430adf87d846::t_708e725f87eecc 5,26,60-62,153
+docs/extending.md
+  s_ce430adf87d846::t_e0a316549d06be 36,314
+scripts/build-sprites.mjs
+  s_ce430adf87d846::t_b7563ea216d491 9-12
+src/render/atlas.ts
+  s_ce430adf87d846::t_098b868feaa5cb 2-3,10-11
+tests/sprites.test.mjs
+  s_ce430adf87d846::t_69f79e51dc6e2e 9-10
+vercel.json
+  s_ce430adf87d846::t_6b5398472bfe74 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6e93daaffecb0b5b66e85504f0deaf2a3060e42a",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
