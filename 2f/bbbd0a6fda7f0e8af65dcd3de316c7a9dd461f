@@ -1,0 +1,37 @@
+docs/gameplay.md
+  s_ce430adf87d846::t_71fd3c55adb44a 100-101,104
+index.html
+  s_ce430adf87d846::t_fcfcb0afd5e910 53
+src/levels/training.ts
+  s_ce430adf87d846::t_2a31e4f067481b 28,32
+src/main.ts
+  s_ce430adf87d846::t_07c1b75b1b4b4d 29-42
+src/render/GameScene.ts
+  s_ce430adf87d846::t_1397fdb2d69de5 526-529
+src/style.css
+  s_ce430adf87d846::t_c24460de4b8089 640-641,658,660,739,779-853
+src/ui/collapse.ts
+  s_ce430adf87d846::t_f1f2a8e2db7898 3,8,12-17,19
+src/ui/hud.ts
+  s_ce430adf87d846::t_f08cf2cb975c9e 52-53,82
+src/ui/touch.ts
+  s_ce430adf87d846::t_b4c874f807f5a7 62,64
+tests/collapse.test.ts
+  s_ce430adf87d846::t_b899a3c187d307 7,14,16,38,47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2fbbbd0a6fda7f0e8af65dcd3de316c7a9dd461f",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
