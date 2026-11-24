@@ -1,0 +1,25 @@
+docs/gameplay.md
+  s_ce430adf87d846::t_cf836b9c7b4aa4 22
+index.html
+  s_ce430adf87d846::t_ab056c5c1d0e34 44
+src/style.css
+  s_ce430adf87d846::t_06c82a48449b92 156-161,676,681-686
+src/ui/hud.ts
+  s_ce430adf87d846::t_fd02d4c9d49875 50,61-67,118-123,128-129
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "058e0f4e68acc7c05f63a8933c3fba3ea719c5cb",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
