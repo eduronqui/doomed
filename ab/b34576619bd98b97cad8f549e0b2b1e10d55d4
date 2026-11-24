@@ -1,0 +1,19 @@
+src/render/art/card.ts
+  s_ce430adf87d846::t_c2aa3e771f2c93 1-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "abb34576619bd98b97cad8f549e0b2b1e10d55d4",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
