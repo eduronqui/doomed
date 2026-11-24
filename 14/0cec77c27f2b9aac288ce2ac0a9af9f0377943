@@ -1,0 +1,41 @@
+README.md
+  s_ce430adf87d846::t_6649ad85cea4f2 50-52,131-135,170
+index.html
+  s_ce430adf87d846::t_548ca4f35dfddb 5-11,47,52,57,62,66,83-84
+public/manifest.webmanifest
+  s_ce430adf87d846::t_5ae72766e5b5c2 1-16
+src/levels/types.ts
+  s_ce430adf87d846::t_180201d554cc32 28-29
+src/main.ts
+  s_ce430adf87d846::t_5e7eeb4d2b0fff 10-13,28-33
+src/render/art/favicon.ts
+  s_ce430adf87d846::t_c1fd8d712d767f 105-106
+src/render/devParams.ts
+  s_ce430adf87d846::t_5ea2cfea35d89d 8,25
+src/ui/collapse.ts
+  s_ce430adf87d846::t_1ec902476c3666 1-14
+src/ui/hud.ts
+  s_ce430adf87d846::t_ebac27ea7a7007 51,73
+src/ui/install.ts
+  s_ce430adf87d846::t_e48f9f640e52c9 1-44
+tests/collapse.test.ts
+  s_ce430adf87d846::t_50a6e0717ce728 1-53
+tests/devParams.test.ts
+  s_ce430adf87d846::t_591c5a5b56b9a3 6,13,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "140cec77c27f2b9aac288ce2ac0a9af9f0377943",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
