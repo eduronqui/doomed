@@ -19,6 +19,7 @@ The first time you play, the game starts with a short training level, "Training:
 - You start the training with 25 health, below the rest cap of Recruit and Veteran, so you can see resting heal you. On Doomed there is no resting, so use the medikit.
 - When you use the exit switch, the training shows the same victory tally as the other levels (par 1:30). Then "Continue to E1: Outpost Breach" (or R) starts E1 with a fresh loadout. Nothing from the training carries over.
 - The "Skip training (Enter)" button in the box, or Enter, ends the training at once and starts E1.
+- The "Hide" button in the corner of the box removes the current hint and keeps the training going. A hint you hid stays hidden for the rest of that run. The next hint (another room, or the box after you clear the room) shows again. A restart of the training shows all hints again. Enter skips the training only while the box is visible.
 - When you reach the training exit or skip the training, the game stores `doomed.trainingDone = 1` in the browser's localStorage. After that, new games start at E1. To see the training again, remove that key (browser developer tools, Application, Local Storage). If the browser blocks localStorage, the training shows on each new game.
 - If you die in the training, it restarts.
 

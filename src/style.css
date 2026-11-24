@@ -153,6 +153,12 @@ body {
   cursor: pointer;
 }
 
+#tip .tip-actions {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
 #tip button:hover {
   color: var(--text);
 }
@@ -667,8 +673,14 @@ html.touch #viewport {
 }
 
 html.touch #tip {
-  top: 40px;
+  top: 4px;
   z-index: 8;
+  font-size: 11px;
+}
+
+html.touch #tip button {
+  min-height: 28px;
+  padding: 3px 12px;
   font-size: 11px;
 }
 

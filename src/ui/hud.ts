@@ -47,6 +47,7 @@ export class Hud {
   private log = $('log');
   private tip = $('tip');
   private tipText = '';
+  private dismissedTips = new Set<string>();
   private onSkip: (() => void) | null = null;
   onWeaponTap: ((slot: number) => void) | null = null;
 
@@ -56,6 +57,13 @@ export class Hud {
       if (e.button !== 0 || !this.onSkip) return;
       e.stopPropagation();
       this.onSkip();
+    });
+    $('tip-close').addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      e.stopPropagation();
+      this.dismissedTips.add(this.tipText);
+      this.tipText = '';
+      this.tip.classList.add('hidden');
     });
     window.addEventListener('keydown', (e) => {
       if (e.repeat || e.defaultPrevented || (e.code !== 'Enter' && e.code !== 'NumpadEnter')) return;
@@ -107,14 +115,18 @@ export class Hud {
 
   setTip(text: string | null, onSkip: (() => void) | null): void {
     this.onSkip = onSkip;
-    if (text === this.tipText) return;
-    this.tipText = text ?? '';
-    this.tip.classList.toggle('hidden', text === null);
-    $('tip-text').textContent = this.tipText;
+    const isVisible = text !== null && !this.dismissedTips.has(text);
+    const next = isVisible ? text : '';
+    if (next === this.tipText) return;
+    this.tipText = next;
+    this.tip.classList.toggle('hidden', !isVisible);
+    $('tip-text').textContent = next;
   }
 
   reset(world: World, levelTitle: string): void {
     this.cache.clear();
+    this.dismissedTips.clear();
+    this.tipText = '';
     this.log.replaceChildren();
     this.explored = new Uint8Array(world.grid.width * world.grid.height);
     this.minimap.width = world.grid.width * 3;
