@@ -92,7 +92,7 @@ The game turns on touch mode when the device has a touch screen as its main inpu
 
 | Touch | Action |
 | --- | --- |
-| Drag on the left half of the screen | Move. A stick appears under your thumb. The further you drag, the faster the Marine walks. The Marine looks where he walks. |
+| Drag on the left half of the screen | Move. A stick appears under your thumb. The Marine walks in the direction of the drag at the same speed as on the keyboard, however far you drag. The Marine looks where he walks. |
 | Drag on the right half of the screen | Aim. A stick appears under your thumb. The Marine keeps this direction after you let go, until you walk or aim again. |
 | Push the right stick to its edge (or beyond) | Fire, while you hold it there. The ring turns red. Like Space, the first push also uses what is in front of you. This is how you open a secret wall. |
 | USE (bottom right) | Shows only when the exit switch or a lever that is still off is within reach, labelled EXIT (red, like the exit sign) or PULL (cyan, like the lever). Tap it to use it, without firing. Doors open when you walk into them, and secret walls stay hidden, so they get no button. |

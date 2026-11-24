@@ -1,5 +1,5 @@
 import type { UseAction } from '../sim/world';
-import { knobOffset, stickVector, type StickVector } from './stick';
+import { heading, knobOffset, stickVector, type StickVector } from './stick';
 
 const STICK_RADIUS = 56;
 const MOVE_DEAD_ZONE = 0.15;
@@ -76,7 +76,8 @@ export class TouchControls {
 
   read(): TouchState {
     const { move, aim } = this.vectors;
-    const state: TouchState = { moveX: move.x, moveY: move.y, isAiming: aim.isActive, aimAngle: this.aimAngle, isFiring: this.isFiring, isUsing: this.isUseQueued };
+    const walk = heading(move);
+    const state: TouchState = { moveX: walk.x, moveY: walk.y, isAiming: aim.isActive, aimAngle: this.aimAngle, isFiring: this.isFiring, isUsing: this.isUseQueued };
     this.isUseQueued = false;
     return state;
   }

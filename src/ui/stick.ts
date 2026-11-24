@@ -19,3 +19,7 @@ export function knobOffset(dx: number, dy: number, radius: number): { x: number;
   const scale = length > radius ? radius / length : 1;
   return { x: dx * scale, y: dy * scale };
 }
+
+export function heading(vector: StickVector): { x: number; y: number } {
+  return vector.isActive ? { x: Math.cos(vector.angle), y: Math.sin(vector.angle) } : { x: 0, y: 0 };
+}

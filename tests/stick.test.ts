@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { knobOffset, stickVector } from '../src/ui/stick';
+import { heading, knobOffset, stickVector } from '../src/ui/stick';
 
 describe('stickVector', () => {
   it('stays idle inside the dead zone', () => {
@@ -36,5 +36,19 @@ describe('knobOffset', () => {
     const k = knobOffset(300, 400, 50);
     expect(Math.hypot(k.x, k.y)).toBeCloseTo(50);
     expect(k.x / k.y).toBeCloseTo(0.75);
+  });
+});
+
+describe('heading', () => {
+  it('has full length at any drag distance past the dead zone', () => {
+    for (const drag of [12, 30, 55, 400]) {
+      const h = heading(stickVector(drag * 0.6, drag * 0.8, 56, 0.15));
+      expect(Math.hypot(h.x, h.y)).toBeCloseTo(1);
+      expect(h.y / h.x).toBeCloseTo(4 / 3);
+    }
+  });
+
+  it('is zero inside the dead zone', () => {
+    expect(heading(stickVector(2, 1, 56, 0.15))).toEqual({ x: 0, y: 0 });
   });
 });
