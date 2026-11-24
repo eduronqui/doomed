@@ -2,7 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#1a1310" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DOOMED" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: wss:; object-src 'none'; base-uri 'self'; form-action 'none'"
@@ -38,26 +44,26 @@
           <div id="screen" class="hidden"></div>
         </div>
         <section id="console" class="frame">
-          <header><span class="tab active">Server Log</span></header>
+          <header id="console-toggle"><span class="tab active">Server Log</span><button id="pause-btn" type="button">Pause</button></header>
           <ol id="log"></ol>
         </section>
       </main>
       <aside id="panel">
-        <section class="frame">
+        <section id="panel-map" class="frame">
           <h2>Map</h2>
           <canvas id="minimap" width="168" height="120"></canvas>
           <div id="level-name" class="small"></div>
         </section>
-        <section class="frame">
+        <section id="panel-status" class="frame">
           <h2>Status</h2>
           <div class="bar hp"><span class="fill"></span><span class="label" id="hp-label">Health</span><span class="value"></span></div>
           <div class="bar ar"><span class="fill"></span><span class="label">Armor</span><span class="value"></span></div>
         </section>
-        <section class="frame">
+        <section id="panel-weapons" class="frame">
           <h2>Weapons</h2>
           <div id="slots"></div>
         </section>
-        <section class="frame">
+        <section id="panel-inventory" class="frame">
           <h2>Inventory</h2>
           <div id="inventory">
             <div id="ammo-list"></div>
@@ -74,6 +80,8 @@
         <a id="credits" href="https://github.com/eduronqui/doomed" target="_blank" rel="noopener noreferrer">vibe-coded with <svg class="heart" viewBox="0 0 9 8" width="13.5" height="12" shape-rendering="crispEdges" role="img" aria-label="love"><rect x="2" y="0" width="1" height="1" fill="#000"/><rect x="3" y="0" width="1" height="1" fill="#000"/><rect x="5" y="0" width="1" height="1" fill="#000"/><rect x="6" y="0" width="1" height="1" fill="#000"/><rect x="1" y="1" width="1" height="1" fill="#000"/><rect x="2" y="1" width="1" height="1" fill="#ff6a3a"/><rect x="3" y="1" width="1" height="1" fill="#ff6a3a"/><rect x="4" y="1" width="1" height="1" fill="#000"/><rect x="5" y="1" width="1" height="1" fill="#ff6a3a"/><rect x="6" y="1" width="1" height="1" fill="#ff6a3a"/><rect x="7" y="1" width="1" height="1" fill="#000"/><rect x="0" y="2" width="1" height="1" fill="#000"/><rect x="1" y="2" width="1" height="1" fill="#f04a22"/><rect x="2" y="2" width="1" height="1" fill="#ffe0b0"/><rect x="3" y="2" width="1" height="1" fill="#ffe0b0"/><rect x="4" y="2" width="1" height="1" fill="#f04a22"/><rect x="5" y="2" width="1" height="1" fill="#f04a22"/><rect x="6" y="2" width="1" height="1" fill="#f04a22"/><rect x="7" y="2" width="1" height="1" fill="#f04a22"/><rect x="8" y="2" width="1" height="1" fill="#000"/><rect x="0" y="3" width="1" height="1" fill="#000"/><rect x="1" y="3" width="1" height="1" fill="#d8301a"/><rect x="2" y="3" width="1" height="1" fill="#ffe0b0"/><rect x="3" y="3" width="1" height="1" fill="#d8301a"/><rect x="4" y="3" width="1" height="1" fill="#d8301a"/><rect x="5" y="3" width="1" height="1" fill="#d8301a"/><rect x="6" y="3" width="1" height="1" fill="#d8301a"/><rect x="7" y="3" width="1" height="1" fill="#d8301a"/><rect x="8" y="3" width="1" height="1" fill="#000"/><rect x="1" y="4" width="1" height="1" fill="#000"/><rect x="2" y="4" width="1" height="1" fill="#b8200e"/><rect x="3" y="4" width="1" height="1" fill="#b8200e"/><rect x="4" y="4" width="1" height="1" fill="#b8200e"/><rect x="5" y="4" width="1" height="1" fill="#b8200e"/><rect x="6" y="4" width="1" height="1" fill="#b8200e"/><rect x="7" y="4" width="1" height="1" fill="#000"/><rect x="2" y="5" width="1" height="1" fill="#000"/><rect x="3" y="5" width="1" height="1" fill="#8a1206"/><rect x="4" y="5" width="1" height="1" fill="#8a1206"/><rect x="5" y="5" width="1" height="1" fill="#8a1206"/><rect x="6" y="5" width="1" height="1" fill="#000"/><rect x="3" y="6" width="1" height="1" fill="#000"/><rect x="4" y="6" width="1" height="1" fill="#6a0e06"/><rect x="5" y="6" width="1" height="1" fill="#000"/><rect x="4" y="7" width="1" height="1" fill="#000"/></svg> by eduronqui</a>
       </aside>
     </div>
+    <div id="rotate"><p>Rotate your phone</p><small>DOOMED plays in landscape.</small></div>
+    <div id="install-hint" class="frame hidden"><span id="install-text"></span><button id="install-go" type="button" hidden>Install</button><button id="install-close" type="button">Close</button></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

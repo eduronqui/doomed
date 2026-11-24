@@ -84,6 +84,21 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 
 On a screen with buttons, the gold border marks your current difficulty and the white outline marks the selected button. The selection starts on the current difficulty, and the mouse moves it too. A held key does not repeat on these screens.
 
+### Touch controls (phones and tablets)
+
+The game turns on touch mode when the device has a touch screen as its main input. It plays in landscape. In portrait, a "Rotate your phone" screen covers the game and the game stops.
+
+| Touch | Action |
+| --- | --- |
+| Drag on the left half of the screen | Move. A stick appears under your thumb. The further you drag, the faster the Marine walks. The Marine looks where he walks. |
+| Drag on the right half of the screen | Aim. A stick appears under your thumb. The Marine keeps this direction after you let go, until you walk or aim again. |
+| Push the right stick to its edge (or beyond) | Fire, while you hold it there. The ring turns red. Like Space, the first push also uses what is in front of you (doors, secret walls, the exit switch). |
+| Pause (right end of the bottom bar) | Pause. The button then reads Resume. Tap it, or the pause screen, to resume. The game also pauses when you switch to another app. |
+| Weapon boxes in the side panel | Tap one to select that weapon |
+| Server Log (bottom bar) | Tap the bar to open or close the log. Closed, only the title shows. The latest message still appears in the centre of the screen. |
+
+The side panel is fixed on the right: map, health, armor, weapons and keycards. The log is a bar across the bottom. Opened, it covers the lower part of the game and does not pause it. The game remembers whether the log was open (localStorage). The first tap goes fullscreen and locks landscape on Android Chrome. On an iPhone, Safari cannot lock the orientation, so the rotate screen stays as the fallback. A hint explains "Add to Home Screen" (or shows an Install button on Android). The installed game opens fullscreen in landscape from the web manifest.
+
 The first difficulty pick on the title screen (click, Enter or Space) also starts the sound. Browsers block sound until you click or press a key.
 
 ## The Marine

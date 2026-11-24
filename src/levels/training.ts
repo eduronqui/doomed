@@ -19,17 +19,23 @@ export const TRAINING: LevelInfo = {
     {
       area: [1, 1, 12, 11],
       text: 'MOVE with W A S D. AIM with the mouse. Walk over items to pick them up. Walk into the door on the right, or press E next to it, to open it.',
+      touchText: 'MOVE: drag your left thumb on the left half of the screen. AIM: drag your right thumb on the right half. Walk over items to pick them up. Walk into the door on the right, or push the right stick to its edge next to it, to open it.',
     },
     {
       area: [13, 1, 28, 11],
       text: 'SHOOT: hold the left mouse button or the space bar. Kill the two Husks, or shoot a barrel to blow up what stands near it. Crates block bullets, so use them as cover. Or sneak up behind a Husk and stab it with the knife (press 1): a silent kill.',
+      touchText:
+        'SHOOT: drag the right half to aim. Push the stick to its edge to fire. Kill the two Husks, or shoot a barrel to blow up what stands near it. Crates block bullets, so use them as cover. Or sneak up behind a Husk and stab it with the knife (tap it in the weapon box): a silent kill.',
       clearText:
         'REST: the room is clear. Stand still and do not shoot. After 10 seconds you heal 1 HP every 2 seconds, up to 60 HP on Recruit and 30 HP on Veteran (no resting on Doomed). Then take the medikit to heal more, and the shotgun: press 3 (or turn the mouse wheel) to switch weapons.',
+      touchClearText:
+        'REST: the room is clear. Stand still and do not shoot. After 10 seconds you heal 1 HP every 2 seconds, up to 60 HP on Recruit and 30 HP on Veteran (no resting on Doomed). Then take the medikit to heal more, and the shotgun: tap a weapon box in the side panel to switch weapons.',
     },
     {
       area: [29, 1, 43, 11],
       text: 'FINAL: a Brute guards the exit. It is fast and hits hard, but you are faster. Back off while you shoot, and use the shotgun up close.',
       clearText: 'EXIT: press E at the red EXIT switch on the north wall to finish the training.',
+      touchClearText: 'EXIT: push the right stick to its edge at the red EXIT switch on the north wall to finish the training.',
     },
   ],
 };

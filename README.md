@@ -47,6 +47,9 @@ public/
   favicon.png         32x32 tab icon: the "D" from the logo (generated)
   favicon-dev.png     Green version of the tab icon; only `npm run dev` uses it (generated)
   apple-touch-icon.png  180x180 icon for phones and bookmarks (generated)
+  icon-192.png, icon-512.png  Icons for the web manifest (generated)
+  manifest.webmanifest  Lets phones install the game fullscreen in landscape
+  og.png              1200x630 link preview image (generated)
 public/assets/
   sprites.png         Sprite sheet with every sprite frame (generated)
   sprites.json        Phaser atlas (JSON hash) with the frame rectangles (generated)
@@ -125,7 +128,11 @@ src/
     screens.ts        Title, pause, death and victory screens
     logo.ts           Generated title logo
     progress.ts       localStorage flag that marks the training as done
-    storage.ts        Safe localStorage flags (training, music, sound)
+    storage.ts        Safe localStorage flags (training, music, sound, panel and log state)
+    touch.ts          Touch controls: floating move and aim sticks, buttons, fullscreen and landscape lock
+    stick.ts          Stick math (dead zone, strength, knob position)
+    collapse.ts       Collapsible panel and log
+    install.ts        Hint for Add to Home Screen
 tests/                Vitest tests for the simulation, the levels and the sprite sheet
 ```
 
@@ -160,6 +167,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?pos=x,y` | Start the player on map cell (x, y) |
 | `?level=n` | Start on level n (1 to 12), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
+| `?touch` | Turn on touch mode on a desktop browser, to test the phone layout and controls |
 | `?noMonster` | Remove every monster at the start, to look around a level in peace |
 
 Example: `http://localhost:5173/?autostart&god&pos=50,26` starts in the hell vault.

@@ -102,4 +102,6 @@ export const ICONS: { file: string; size: number; background: Rgb | null; palett
   { file: 'favicon.png', size: 32, background: null, palette: PALETTES.fire },
   { file: 'favicon-dev.png', size: 32, background: null, palette: PALETTES.slime },
   { file: 'apple-touch-icon.png', size: 180, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
+  { file: 'icon-192.png', size: 192, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
+  { file: 'icon-512.png', size: 512, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
 ];

@@ -7,6 +7,10 @@ import { AMMO_ORDER, WEAPON_ORDER } from './weapons';
 import { AMMO_ICON } from './ui/hud';
 import { Hud } from './ui/hud';
 import { Screens } from './ui/screens';
+import { TouchControls } from './ui/touch';
+import { bindCollapse } from './ui/collapse';
+import { mountInstallHint } from './ui/install';
+import { parseDevParams } from './render/devParams';
 
 class BootScene extends Phaser.Scene {
   constructor() {
@@ -21,7 +25,12 @@ class BootScene extends Phaser.Scene {
     const iconNames = [...WEAPON_ORDER.map((w) => key.weaponIcon(w)), ...AMMO_ORDER.map((a) => AMMO_ICON[a]), 'item_redkey', 'item_bluekey', 'item_yellowkey'];
     const canvases = new Map(iconNames.map((name) => [name, frameCanvas(this, name)]));
     const sfx = new Sfx();
-    const deps: GameDeps = { sfx, music: new Music(sfx), hud: new Hud(canvases), screens: new Screens(sfx) };
+    const touch = new TouchControls(import.meta.env.DEV && parseDevParams(window.location.search, 0).touch);
+    if (touch.isEnabled) {
+      bindCollapse(document.getElementById('console')!, document.getElementById('console-toggle')!, 'doomed.logCollapsed', true);
+      mountInstallHint();
+    }
+    const deps: GameDeps = { sfx, music: new Music(sfx), hud: new Hud(canvases), screens: new Screens(sfx), touch };
     this.scene.start('game', { deps });
   }
 }
