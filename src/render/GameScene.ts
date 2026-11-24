@@ -17,6 +17,7 @@ import type { Music } from './music';
 import { TILE, WALL_HEIGHT } from './art/tiles';
 import { Lighting, type Light } from './lighting';
 import { parseDevParams } from './devParams';
+import type { TouchControls } from '../ui/touch';
 import { RAISE, drawLowShadows, drawRaisedRow, rowHasHeight } from './heights';
 import { ATLAS, FLOOR_VARIANTS, WALL_VARIANTS, key } from './atlas';
 
@@ -34,12 +35,14 @@ const ACTOR_FOOT = FOOT_OFFSET;
 const GUN_HEIGHT_PX = 10;
 const STEALTH_EXPOSE_RANGE = 3;
 const DEATHS_BEFORE_DIFFICULTY_PICK = 3;
+const TOUCH_ASSIST_SCALE = 1.6;
 
 export interface GameDeps {
   sfx: Sfx;
   music: Music;
   hud: Hud;
   screens: Screens;
+  touch: TouchControls;
 }
 
 interface Fx {
@@ -173,6 +176,8 @@ export class GameScene extends Phaser.Scene {
       alertOnEntry: info.alertOnEntry,
       ambush: info.ambush,
       watchDoors: info.watchDoors,
+      playerHitScale: this.deps.touch.isEnabled ? TOUCH_ASSIST_SCALE : 1,
+      pickupScale: this.deps.touch.isEnabled ? TOUCH_ASSIST_SCALE : 1,
     });
     this.monsterViews.clear();
     this.itemViews.clear();
@@ -521,6 +526,15 @@ export class GameScene extends Phaser.Scene {
   // ---------- input ----------
 
   private setupInput(): void {
+    this.deps.hud.onWeaponTap = (slot) => {
+      if (slot === 'next') this.wheel += 1;
+      else this.slotQueued = slot;
+    };
+    const pauseWhenHidden = (): void => {
+      if (document.hidden && this.deps.touch.isEnabled && !this.paused) this.togglePause();
+    };
+    document.addEventListener('visibilitychange', pauseWhenHidden);
+    this.events.once('shutdown', () => document.removeEventListener('visibilitychange', pauseWhenHidden));
     const kb = this.input.keyboard!;
     this.keys = kb.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,E,SPACE,ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,M,N,ESC,P,R,Q') as Record<string, Phaser.Input.Keyboard.Key>;
     kb.addCapture('SPACE,UP,DOWN,LEFT,RIGHT');
@@ -593,7 +607,13 @@ export class GameScene extends Phaser.Scene {
     if (!tip) return;
     const [x0, y0, x1, y1] = tip.area;
     const clear = !w.monsters.some((m) => m.state !== 'dead' && m.x >= x0 && m.x < x1 + 1 && m.y >= y0 && m.y < y1 + 1);
-    this.deps.hud.setTip(clear && tip.clearText ? tip.clearText : tip.text, () => this.finishTraining());
+    const isTouch = this.deps.touch.isEnabled;
+    const text = clear && tip.clearText ? ((isTouch && tip.touchClearText) || tip.clearText) : (isTouch && tip.touchText) || tip.text;
+    this.deps.hud.setTip(text, () => this.finishTraining());
+  }
+
+  private isHoldingForTip(): boolean {
+    return this.deps.touch.isEnabled && this.world.status === 'playing' && this.deps.hud.isTipVisible;
   }
 
   private togglePause(): void {
@@ -628,8 +648,11 @@ export class GameScene extends Phaser.Scene {
     const cam = this.cameras.main;
     const ptr = this.input.activePointer;
     const wp = cam.getWorldPoint(ptr.x, ptr.y);
-    const moveX = (k.D.isDown || k.RIGHT.isDown ? 1 : 0) - (k.A.isDown || k.LEFT.isDown ? 1 : 0);
-    const moveY = (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0);
+    const touch = this.deps.touch.read();
+    const keyX = (k.D.isDown || k.RIGHT.isDown ? 1 : 0) - (k.A.isDown || k.LEFT.isDown ? 1 : 0);
+    const keyY = (k.S.isDown || k.DOWN.isDown ? 1 : 0) - (k.W.isDown || k.UP.isDown ? 1 : 0);
+    const moveX = keyX || touch.moveX;
+    const moveY = keyY || touch.moveY;
     const mouseFire = this.firing && ptr.leftButtonDown();
     const pointerMoved = ptr.x !== this.lastPointer.x || ptr.y !== this.lastPointer.y;
     this.lastPointer = { x: ptr.x, y: ptr.y };
@@ -637,7 +660,10 @@ export class GameScene extends Phaser.Scene {
     this.lastMove = { x: moveX, y: moveY };
     if (mouseFire || pointerMoved) this.aimByKeys = false;
     else if (moveChanged) this.aimByKeys = true;
-    if (this.aimByKeys && (moveX !== 0 || moveY !== 0)) this.keyAim = Math.atan2(moveY, moveX);
+    if (touch.isAiming) {
+      this.aimByKeys = true;
+      this.keyAim = touch.aimAngle;
+    } else if (this.aimByKeys && (moveX !== 0 || moveY !== 0)) this.keyAim = Math.atan2(moveY, moveX);
     const p = this.world.player;
     const input: Input = {
       ...IDLE_INPUT,
@@ -645,8 +671,8 @@ export class GameScene extends Phaser.Scene {
       moveY,
       aimX: this.aimByKeys ? p.x + Math.cos(this.keyAim) : wp.x / TILE,
       aimY: this.aimByKeys ? p.y + Math.sin(this.keyAim) : this.aimRow(wp.x, wp.y),
-      fire: mouseFire || k.SPACE.isDown,
-      use: this.useQueued,
+      fire: mouseFire || k.SPACE.isDown || touch.isFiring,
+      use: this.useQueued || touch.isUsing,
       weaponSlot: this.slotQueued,
       cycleWeapon: this.wheel,
     };
@@ -661,9 +687,13 @@ export class GameScene extends Phaser.Scene {
   update(_time: number, deltaMs: number): void {
     const dt = Math.min(deltaMs / 1000, 0.1);
     const w = this.world;
-    if (!this.paused && !this.deps.screens.visible) {
+    if (this.deps.touch.takePause()) this.togglePause();
+    this.deps.touch.showPaused(this.paused && this.started);
+    if (this.deps.touch.isEnabled) this.deps.touch.showUse(w.status === 'playing' && !this.paused ? w.usableAction() : null);
+    if (!this.paused && !this.deps.screens.visible && !this.deps.touch.isBlocked && !this.isHoldingForTip()) {
       w.update(dt, this.readInput());
     } else {
+      this.deps.touch.read();
       this.useQueued = false;
       this.slotQueued = null;
       this.wheel = 0;
@@ -1007,6 +1037,7 @@ export class GameScene extends Phaser.Scene {
     const g = this.gfx;
     const w = this.world;
     g.clear();
+    const line = Math.max(1, (1.5 * this.scale.displayScale.x) / ZOOM);
     for (const t of this.tracers) {
       const x1 = t.x1 * TILE;
       const y1 = t.y1 * TILE - GUN_HEIGHT_PX - this.lift(t.x1, t.y1 + ACTOR_FOOT);
@@ -1014,11 +1045,11 @@ export class GameScene extends Phaser.Scene {
       const y2 = t.y2 * TILE - GUN_HEIGHT_PX - this.lift(t.x2, t.y2);
       if (t.beam) {
         const fade = 1 - t.age / BEAM_LIFE;
-        g.lineStyle(3, 0x4ad0ff, 0.7 * fade).lineBetween(x1, y1, x2, y2);
-        g.lineStyle(1, 0xffffff, fade).lineBetween(x1, y1, x2, y2);
+        g.lineStyle(3 * line, 0x4ad0ff, 0.7 * fade).lineBetween(x1, y1, x2, y2);
+        g.lineStyle(line, 0xffffff, fade).lineBetween(x1, y1, x2, y2);
         continue;
       }
-      g.lineStyle(1, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
+      g.lineStyle(line, t.hostile ? 0xff9a40 : 0xfff0a0, 0.8 - t.age * 10);
       g.lineBetween(x1, y1, x2, y2);
     }
 

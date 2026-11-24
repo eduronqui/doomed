@@ -47,7 +47,10 @@ export class Hud {
   private log = $('log');
   private tip = $('tip');
   private tipText = '';
+  private dismissedTips = new Set<string>();
   private onSkip: (() => void) | null = null;
+  private panel = $('panel');
+  onWeaponTap: ((slot: number | 'next') => void) | null = null;
 
   constructor(icons: Map<string, HTMLCanvasElement>) {
     this.minimap = $<HTMLCanvasElement>('minimap');
@@ -55,6 +58,13 @@ export class Hud {
       if (e.button !== 0 || !this.onSkip) return;
       e.stopPropagation();
       this.onSkip();
+    });
+    $('tip-close').addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      e.stopPropagation();
+      this.dismissedTips.add(this.tipText);
+      this.tipText = '';
+      this.tip.classList.add('hidden');
     });
     window.addEventListener('keydown', (e) => {
       if (e.repeat || e.defaultPrevented || (e.code !== 'Enter' && e.code !== 'NumpadEnter')) return;
@@ -69,6 +79,7 @@ export class Hud {
       root.className = 'wslot locked';
       root.title = WEAPONS[id].name;
       root.append(this.icon(icons, `icon_${id}`));
+      root.addEventListener('pointerdown', () => this.onWeaponTap?.(this.panel.classList.contains('collapsed') ? 'next' : WEAPONS[id].slot));
       const num = document.createElement('span');
       num.className = 'num';
       num.textContent = String(WEAPONS[id].slot);
@@ -103,16 +114,24 @@ export class Hud {
     return img;
   }
 
+  get isTipVisible(): boolean {
+    return !this.tip.classList.contains('hidden');
+  }
+
   setTip(text: string | null, onSkip: (() => void) | null): void {
     this.onSkip = onSkip;
-    if (text === this.tipText) return;
-    this.tipText = text ?? '';
-    this.tip.classList.toggle('hidden', text === null);
-    $('tip-text').textContent = this.tipText;
+    const isVisible = text !== null && !this.dismissedTips.has(text);
+    const next = isVisible ? text : '';
+    if (next === this.tipText) return;
+    this.tipText = next;
+    this.tip.classList.toggle('hidden', !isVisible);
+    $('tip-text').textContent = next;
   }
 
   reset(world: World, levelTitle: string): void {
     this.cache.clear();
+    this.dismissedTips.clear();
+    this.tipText = '';
     this.log.replaceChildren();
     this.explored = new Uint8Array(world.grid.width * world.grid.height);
     this.minimap.width = world.grid.width * 3;

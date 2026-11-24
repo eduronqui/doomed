@@ -12,6 +12,10 @@ export default tseslint.config(
     },
   },
   {
+    files: ['public/**/*.js'],
+    languageOptions: { globals: { window: 'readonly', document: 'readonly', URLSearchParams: 'readonly' } },
+  },
+  {
     files: ['**/*.ts'],
     rules: {
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],

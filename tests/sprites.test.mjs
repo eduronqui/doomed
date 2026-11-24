@@ -6,8 +6,8 @@ import { ICONS, drawIcon } from '../src/render/art/favicon.ts';
 
 describe('sprite sheet', () => {
   const sheet = buildSheet();
-  const atlas = JSON.parse(readFileSync(new URL('../public/assets/sprites.json', import.meta.url), 'utf8'));
-  const png = decodePng(readFileSync(new URL('../public/assets/sprites.png', import.meta.url)));
+  const atlas = JSON.parse(readFileSync(new URL('../src/assets/sprites.json', import.meta.url), 'utf8'));
+  const png = decodePng(readFileSync(new URL('../src/assets/sprites.png', import.meta.url)));
 
   it('matches the art code (run `npm run sprites` after art changes)', () => {
     expect(atlas).toEqual(sheet.atlas);

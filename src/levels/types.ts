@@ -25,4 +25,6 @@ export interface Tip {
   area: [number, number, number, number];
   text: string;
   clearText?: string;
+  touchText?: string;
+  touchClearText?: string;
 }

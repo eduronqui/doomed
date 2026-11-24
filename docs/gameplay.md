@@ -19,6 +19,8 @@ The first time you play, the game starts with a short training level, "Training:
 - You start the training with 25 health, below the rest cap of Recruit and Veteran, so you can see resting heal you. On Doomed there is no resting, so use the medikit.
 - When you use the exit switch, the training shows the same victory tally as the other levels (par 1:30). Then "Continue to E1: Outpost Breach" (or R) starts E1 with a fresh loadout. Nothing from the training carries over.
 - The "Skip training (Enter)" button in the box, or Enter, ends the training at once and starts E1.
+- On a phone, the game stops while a hint is on screen, so you can read it in peace. The button reads "Continue" there. Tap it to hide the hint and carry on.
+- The "Hide" button next to Skip removes the current hint and keeps the training going. A hint you hid stays hidden for the rest of that run. The next hint (another room, or the box after you clear the room) shows again. A restart of the training shows all hints again. Enter skips the training only while the box is visible.
 - When you reach the training exit or skip the training, the game stores `doomed.trainingDone = 1` in the browser's localStorage. After that, new games start at E1. To see the training again, remove that key (browser developer tools, Application, Local Storage). If the browser blocks localStorage, the training shows on each new game.
 - If you die in the training, it restarts.
 
@@ -83,6 +85,25 @@ All numbers in this document are for Veteran. The side panel shows the difficult
 | R | On the death screen: restart the level. On the victory screen: continue to the next level (or play again after level 3) |
 
 On a screen with buttons, the gold border marks your current difficulty and the white outline marks the selected button. The selection starts on the current difficulty, and the mouse moves it too. A held key does not repeat on these screens.
+
+### Touch controls (phones and tablets)
+
+The game turns on touch mode when the device has a touch screen as its main input. It plays in landscape. In portrait, a "Rotate your phone" screen covers the game and the game stops.
+
+| Touch | Action |
+| --- | --- |
+| Drag on the left half of the screen | Move. A stick appears under your thumb. The Marine walks in the direction of the drag at the same speed as on the keyboard, however far you drag. The Marine looks where he walks. |
+| Drag on the right half of the screen | Aim. A stick appears under your thumb. The Marine keeps this direction after you let go, until you walk or aim again. |
+| Push the right stick to its edge (or beyond) | Fire, while you hold it there. The ring turns red. Like Space, the first push also uses what is in front of you. This is how you open a secret wall. |
+| USE (bottom right) | Shows only when the exit switch or a lever that is still off is within reach, labelled EXIT (red, like the exit sign) or PULL (cyan, like the lever). Tap it to use it, without firing. Doors open when you walk into them, and secret walls stay hidden, so they get no button. |
+| Pause (right end of the bottom bar) | Pause. The button then reads Resume. Tap it, or the pause screen, to resume. The game also pauses when you switch to another app. |
+| HUD (top of the right strip) | Open the full HUD. The open HUD has no button: tap anywhere outside it to close it. |
+| Weapon in the right strip | Tap to switch to the next weapon. In the open HUD, tap any weapon box to select it. |
+| Server Log (bottom bar) | Tap the bar to open or close the log. Closed, only the title shows. The latest message still appears in the centre of the screen. |
+
+A stick aims less precisely than a mouse, so your shots hit enemies in a larger area on a touch screen: the hit circle of every enemy is 60% wider (radius times 1.6) for the Sidearm, Pump Shotgun, Rotary Gun, Arc Rifle, Grenade Launcher and Rift Cannon. The flamer and the knife are unchanged. Enemy shots at you are unchanged. Items are also easier to pick up: you collect them from 60% farther away (reach 0.6 tiles becomes 0.96), the same factor as the larger hit area. This extra reach does not work through walls or across a ledge. Nothing changes on desktop.
+
+The HUD is a narrow strip on the right: health and armor numbers, the current weapon with its shots, and the keycards. The HUD button (or a tap on the health and armor area) opens the full HUD over the game: map, health, armor, all eight weapons and the keycards. The game does not resize and keeps running. The game remembers if you left it open (localStorage). It starts closed. The log is a bar across the bottom. Opened, it covers the lower part of the game and does not pause it. The game remembers whether the log was open (localStorage). The first tap goes fullscreen and locks landscape on Android Chrome. On an iPhone, Safari cannot lock the orientation, so the rotate screen stays as the fallback. A hint explains "Add to Home Screen" (or shows an Install button on Android). The installed game opens fullscreen in landscape from the web manifest.
 
 The first difficulty pick on the title screen (click, Enter or Space) also starts the sound. Browsers block sound until you click or press a key.
 

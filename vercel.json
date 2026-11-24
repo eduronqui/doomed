@@ -18,7 +18,7 @@
       ]
     },
     {
-      "source": "/assets/(index|phaser)-(.*)",
+      "source": "/assets/(index|phaser|sprites)-(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
