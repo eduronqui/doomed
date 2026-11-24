@@ -35,6 +35,7 @@ const ACTOR_FOOT = FOOT_OFFSET;
 const GUN_HEIGHT_PX = 10;
 const STEALTH_EXPOSE_RANGE = 3;
 const DEATHS_BEFORE_DIFFICULTY_PICK = 3;
+const TOUCH_ASSIST_SCALE = 1.6;
 
 export interface GameDeps {
   sfx: Sfx;
@@ -175,6 +176,8 @@ export class GameScene extends Phaser.Scene {
       alertOnEntry: info.alertOnEntry,
       ambush: info.ambush,
       watchDoors: info.watchDoors,
+      playerHitScale: this.deps.touch.isEnabled ? TOUCH_ASSIST_SCALE : 1,
+      pickupScale: this.deps.touch.isEnabled ? TOUCH_ASSIST_SCALE : 1,
     });
     this.monsterViews.clear();
     this.itemViews.clear();

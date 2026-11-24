@@ -767,3 +767,59 @@ describe('usableAction', () => {
     expect(w.usableAction()).toBeNull();
   });
 });
+
+describe('playerHitScale', () => {
+  const MAP = '#########\n#P.....h#\n#.......#\n#########';
+  const aimPastTarget = (_w: World): number => Math.atan2(0.45, 6);
+  type Probe = { hitscan(ox: number, oy: number, angle: number, range: number, shooter: null): { target: unknown } };
+
+  it('misses an enemy 0.45 tiles off the line with the normal hit area', () => {
+    const w = new World(parseLevel('t', MAP));
+    const hit = (w as unknown as Probe).hitscan(w.player.x, w.player.y, aimPastTarget(w), 20, null);
+    expect(hit.target).toBeNull();
+  });
+
+  it('hits the same shot with a bigger hit area', () => {
+    const w = new World(parseLevel('t', MAP), 1, undefined, undefined, { playerHitScale: 1.6 });
+    const hit = (w as unknown as Probe).hitscan(w.player.x, w.player.y, aimPastTarget(w), 20, null);
+    expect(hit.target).toBe(w.monsters[0]);
+  });
+
+  it('does not make enemy shots easier to land', () => {
+    const w = new World(parseLevel('t', MAP), 1, undefined, undefined, { playerHitScale: 1.6 });
+    const shooter = w.monsters[0];
+    const hit = (w as unknown as { hitscan(ox: number, oy: number, a: number, r: number, s: unknown): { target: unknown } }).hitscan(shooter.x, shooter.y, Math.PI + Math.atan2(0.5, 6), 20, shooter);
+    expect(hit.target).toBeNull();
+  });
+});
+
+describe('pickupScale', () => {
+  const near = (w: World): void => {
+    w.player.health = 50;
+    w.player.x = 1.5;
+    w.player.y = 1.5;
+    w.update(1 / 60, { ...IDLE_INPUT, aimX: 3, aimY: 1.5 });
+  };
+
+  it('does not reach an item 0.9 tiles away with the normal radius', () => {
+    const w = new World(parseLevel('t', '#######\n#P.m..#\n#######'));
+    w.items[0].x = 2.4;
+    near(w);
+    expect(w.player.health).toBe(50);
+  });
+
+  it('reaches the same item with a bigger radius', () => {
+    const w = new World(parseLevel('t', '#######\n#P.m..#\n#######'), 1, undefined, undefined, { pickupScale: 1.6 });
+    w.items[0].x = 2.4;
+    near(w);
+    expect(w.player.health).toBe(75);
+  });
+
+  it('does not reach through a wall', () => {
+    const w = new World(parseLevel('t', '#####\n#P#m#\n#####'), 1, undefined, undefined, { pickupScale: 4 });
+    w.player.health = 50;
+    w.player.x = 1.7;
+    w.update(1 / 60, { ...IDLE_INPUT, aimX: 3, aimY: 1.5 });
+    expect(w.player.health).toBe(50);
+  });
+});

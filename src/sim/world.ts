@@ -42,6 +42,8 @@ export interface WorldOptions {
   alertOnEntry?: MonsterKind[];
   ambush?: Ambush;
   watchDoors?: boolean;
+  playerHitScale?: number;
+  pickupScale?: number;
 }
 
 export interface Carry {
@@ -296,6 +298,8 @@ export class World {
   readonly revealedRooms = new Set<number>();
   private readonly enteredRooms = new Set<number>();
   private readonly alertOnEntry: ReadonlySet<MonsterKind>;
+  private readonly playerHitScale: number;
+  private readonly pickupScale: number;
   private doorRooms: { group: Door[]; rooms: number[] }[] = [];
   private stepTimer = 0;
   private ambush: { key: KeyColor; door: Door; monsters: Monster[]; sprung: boolean; closet: HiddenCloset } | null = null;
@@ -321,6 +325,8 @@ export class World {
 
   constructor(level: LevelData, seed = 1, difficulty: Difficulty = DEFAULT_DIFFICULTY, carry?: Carry, options: WorldOptions = {}) {
     this.alertOnEntry = new Set(options.alertOnEntry ?? []);
+    this.playerHitScale = options.playerHitScale ?? 1;
+    this.pickupScale = options.pickupScale ?? 1;
     this.difficulty = difficulty;
     this.level = level;
     this.grid = new Grid(level);
@@ -470,7 +476,7 @@ export class World {
     if (input.fire && p.cooldown <= 0) this.playerFire();
 
     for (const item of this.items) {
-      if (!item.taken && dist(p.x, p.y, item.x, item.y) < PICKUP_RADIUS) this.tryPickup(item);
+      if (!item.taken && this.isInPickupReach(item)) this.tryPickup(item);
     }
 
     const cx = Math.floor(p.x);
@@ -647,7 +653,7 @@ export class World {
     const end = this.grid.raycast(p.x, p.y, dx, dy, w.range).dist;
     for (const m of this.monsters) {
       if (m.state === 'dead') continue;
-      const t = rayCircle(p.x, p.y, dx, dy, m.x, m.y, m.r);
+      const t = rayCircle(p.x, p.y, dx, dy, m.x, m.y, m.r * this.playerHitScale);
       if (t < 0 || t > end) continue;
       this.effect('blood', m.x, m.y);
       this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true, p);
@@ -928,6 +934,13 @@ export class World {
       }
     }
     if (this.grid.openDoor(door)) this.sound('door', door.x + 0.5, door.y + 0.5);
+  }
+
+  private isInPickupReach(item: Item): boolean {
+    const p = this.player;
+    const d = dist(p.x, p.y, item.x, item.y);
+    if (d < PICKUP_RADIUS) return true;
+    return d < PICKUP_RADIUS * this.pickupScale && this.grid.canStep(p.x, p.y, item.x, item.y) && this.grid.lineOfFire(p.x, p.y, item.x, item.y);
   }
 
   private tryPickup(item: Item): void {
@@ -1649,7 +1662,7 @@ export class World {
     let target: HitResult['target'] = null;
     for (const m of this.monsters) {
       if (m === shooter || m.state === 'dead') continue;
-      const t = rayCircle(ox, oy, dx, dy, m.x, m.y, m.r);
+      const t = rayCircle(ox, oy, dx, dy, m.x, m.y, m.r * (shooter ? 1 : this.playerHitScale));
       if (t >= 0 && t < best) {
         best = t;
         target = m;
@@ -1711,7 +1724,7 @@ export class World {
   private projectileTarget(pr: Projectile): Player | Monster | Barrel | null {
     const p = this.player;
     if (!pr.fromPlayer && dist(pr.x, pr.y, p.x, p.y) < p.r + 0.15) return p;
-    const m = this.monsters.find((o) => o.id !== pr.ownerId && o.state !== 'dead' && dist(pr.x, pr.y, o.x, o.y) < o.r + 0.15);
+    const m = this.monsters.find((o) => o.id !== pr.ownerId && o.state !== 'dead' && dist(pr.x, pr.y, o.x, o.y) < o.r * (pr.fromPlayer ? this.playerHitScale : 1) + 0.15);
     if (m) return m;
     return this.barrels.find((o) => !o.exploded && dist(pr.x, pr.y, o.x, o.y) < o.r + 0.15) ?? null;
   }
