@@ -10,7 +10,6 @@ import { Screens } from './ui/screens';
 import { TouchControls } from './ui/touch';
 import { bindCollapse } from './ui/collapse';
 import { mountInstallHint } from './ui/install';
-import { parseDevParams } from './render/devParams';
 
 class BootScene extends Phaser.Scene {
   constructor() {
@@ -25,7 +24,7 @@ class BootScene extends Phaser.Scene {
     const iconNames = [...WEAPON_ORDER.map((w) => key.weaponIcon(w)), ...AMMO_ORDER.map((a) => AMMO_ICON[a]), 'item_redkey', 'item_bluekey', 'item_yellowkey'];
     const canvases = new Map(iconNames.map((name) => [name, frameCanvas(this, name)]));
     const sfx = new Sfx();
-    const touch = new TouchControls(import.meta.env.DEV && parseDevParams(window.location.search, 0).touch);
+    const touch = new TouchControls();
     if (touch.isEnabled) {
       bindCollapse(document.getElementById('console')!, document.getElementById('console-toggle')!, 'doomed.logCollapsed', true);
       mountInstallHint();

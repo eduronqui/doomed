@@ -49,6 +49,7 @@ public/
   apple-touch-icon.png  180x180 icon for phones and bookmarks (generated)
   icon-192.png, icon-512.png  Icons for the web manifest (generated)
   manifest.webmanifest  Lets phones install the game fullscreen in landscape
+  early.js            Tiny classic script that sets the touch and portrait classes before the game loads
   og.png              1200x630 link preview image (generated)
 public/assets/
   sprites.png         Sprite sheet with every sprite frame (generated)
@@ -167,7 +168,7 @@ In dev mode (`npm run dev`) only, these URL parameters help with testing:
 | `?pos=x,y` | Start the player on map cell (x, y) |
 | `?level=n` | Start on level n (1 to 12), or 0 for the training |
 | `?sight` | Show the enemy sight layer (view cones) |
-| `?touch` | Turn on touch mode on a desktop browser, to test the phone layout and controls |
+| `?touch` | Turn on touch mode on a desktop browser, to test the phone layout and controls (works on the live site too) |
 | `?noMonster` | Remove every monster at the start, to look around a level in peace |
 
 Example: `http://localhost:5173/?autostart&god&pos=50,26` starts in the hell vault.

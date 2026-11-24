@@ -50,16 +50,9 @@ export class TouchControls {
   private pauseButton: HTMLElement | null = null;
   private portrait = window.matchMedia('(orientation: portrait)');
 
-  constructor(isForced: boolean) {
-    this.isEnabled = isForced || window.matchMedia('(pointer: coarse)').matches;
+  constructor() {
+    this.isEnabled = document.documentElement.classList.contains('touch');
     if (!this.isEnabled) return;
-    const root = document.documentElement;
-    root.classList.add('touch');
-    const syncOrientation = (): void => {
-      root.classList.toggle('portrait', this.portrait.matches);
-    };
-    syncOrientation();
-    this.portrait.addEventListener('change', syncOrientation);
     this.buildLayer();
     this.pauseButton = document.getElementById('pause-btn')!;
     this.pauseButton.addEventListener('click', (e) => {
