@@ -1,13 +1,19 @@
 import { defineConfig, type Plugin } from 'vitest/config';
 
-const devFavicon: Plugin = {
-  name: 'dev-favicon',
+const DEV_ASSETS: [string, string][] = [
+  ['href="/favicon.png"', 'href="/favicon-dev.png"'],
+  ['href="/apple-touch-icon.png"', 'href="/apple-touch-icon-dev.png"'],
+  ['href="/manifest.webmanifest"', 'href="/manifest-dev.webmanifest"'],
+];
+
+const devAssets: Plugin = {
+  name: 'dev-assets',
   apply: 'serve',
-  transformIndexHtml: (html) => html.replace('href="/favicon.png"', 'href="/favicon-dev.png"'),
+  transformIndexHtml: (html) => DEV_ASSETS.reduce((out, [prod, dev]) => out.replace(prod, dev), html),
 };
 
 export default defineConfig({
-  plugins: [devFavicon],
+  plugins: [devAssets],
   server: {
     headers: {
       'X-Content-Type-Options': 'nosniff',

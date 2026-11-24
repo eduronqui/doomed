@@ -46,6 +46,8 @@ index.html            Page layout: game view, server log, side panel
 public/
   favicon.png         32x32 tab icon: the "D" from the logo (generated)
   favicon-dev.png     Green version of the tab icon; only `npm run dev` uses it (generated)
+  apple-touch-icon-dev.png, icon-192-dev.png, icon-512-dev.png, manifest-dev.webmanifest
+                      Green phone icons and manifest; `npm run dev` swaps them in (the first three are generated)
   apple-touch-icon.png  180x180 icon for phones and bookmarks (generated)
   icon-192.png, icon-512.png  Icons for the web manifest (generated)
   manifest.webmanifest  Lets phones install the game fullscreen in landscape

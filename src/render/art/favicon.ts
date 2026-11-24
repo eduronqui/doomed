@@ -104,4 +104,7 @@ export const ICONS: { file: string; size: number; background: Rgb | null; palett
   { file: 'apple-touch-icon.png', size: 180, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
   { file: 'icon-192.png', size: 192, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
   { file: 'icon-512.png', size: 512, background: [0x1a, 0x13, 0x10], palette: PALETTES.fire },
+  { file: 'apple-touch-icon-dev.png', size: 180, background: [0x10, 0x1a, 0x12], palette: PALETTES.slime },
+  { file: 'icon-192-dev.png', size: 192, background: [0x10, 0x1a, 0x12], palette: PALETTES.slime },
+  { file: 'icon-512-dev.png', size: 512, background: [0x10, 0x1a, 0x12], palette: PALETTES.slime },
 ];
