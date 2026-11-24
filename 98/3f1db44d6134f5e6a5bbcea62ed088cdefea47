@@ -1,0 +1,25 @@
+docs/gameplay.md
+  s_ce430adf87d846::t_d5c66a8b01c612 95
+src/ui/stick.ts
+  s_ce430adf87d846::t_dd85d615739d31 22-25
+src/ui/touch.ts
+  s_ce430adf87d846::t_9636f7257c77e8 2,79-80
+tests/stick.test.ts
+  s_ce430adf87d846::t_5a231b41d53a50 2,41-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "983f1db44d6134f5e6a5bbcea62ed088cdefea47",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
