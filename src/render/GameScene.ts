@@ -523,7 +523,10 @@ export class GameScene extends Phaser.Scene {
   // ---------- input ----------
 
   private setupInput(): void {
-    this.deps.hud.onWeaponTap = (slot) => (this.slotQueued = slot);
+    this.deps.hud.onWeaponTap = (slot) => {
+      if (slot === 'next') this.wheel += 1;
+      else this.slotQueued = slot;
+    };
     const pauseWhenHidden = (): void => {
       if (document.hidden && this.deps.touch.isEnabled && !this.paused) this.togglePause();
     };

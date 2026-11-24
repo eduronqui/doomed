@@ -637,6 +637,8 @@ html.touch body {
 
 html.touch {
   --panel-w: 190px;
+  --strip-w: 64px;
+  --bar-h: 28px;
 }
 
 html.touch,
@@ -653,8 +655,9 @@ html.touch canvas {
 }
 
 html.touch #app {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--panel-w);
+  grid-template-columns: minmax(0, 1fr) var(--strip-w);
   grid-template-rows: minmax(0, 1fr) auto;
   height: 100dvh;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -733,7 +736,7 @@ html.touch #console {
   grid-row: 2;
   position: relative;
   z-index: 20;
-  height: auto;
+  height: var(--bar-h);
 }
 
 html.touch #console header {
@@ -771,6 +774,81 @@ html.touch #panel {
   gap: 4px;
   padding-left: 4px;
   overflow: hidden;
+}
+
+html.touch #panel:not(.collapsed) {
+  position: absolute;
+  top: env(safe-area-inset-top);
+  right: env(safe-area-inset-right);
+  bottom: calc(var(--bar-h) + env(safe-area-inset-bottom));
+  z-index: 20;
+  width: var(--panel-w);
+}
+
+html.touch #panel-toggle {
+  display: block;
+  flex: none;
+  min-height: 34px;
+  padding: 3px 4px;
+  font: bold 10px Verdana, Tahoma, sans-serif;
+  color: var(--text);
+  text-align: center;
+  cursor: pointer;
+}
+
+html.touch #panel:not(.collapsed) #panel-toggle {
+  display: none;
+}
+
+html.touch #panel-toggle::before {
+  content: '< ';
+}
+
+html.touch #panel.collapsed > .frame:not(#panel-toggle):not(#panel-status):not(#panel-weapons):not(#panel-inventory) {
+  display: none;
+}
+
+html.touch #panel.collapsed .bar {
+  height: 14px;
+  margin: 2px 0;
+}
+
+html.touch #panel.collapsed .bar .label {
+  display: none;
+}
+
+html.touch #panel.collapsed .bar .value {
+  right: 0;
+  left: 0;
+  text-align: center;
+}
+
+html.touch #panel.collapsed #slots {
+  grid-template-columns: 1fr;
+}
+
+html.touch #panel.collapsed .wslot {
+  aspect-ratio: auto;
+  height: 40px;
+}
+
+html.touch #panel.collapsed .wslot:not(.active) {
+  display: none;
+}
+
+html.touch #panel.collapsed .inv {
+  justify-content: center;
+  gap: 3px;
+}
+
+html.touch #panel.collapsed .inv .slot {
+  width: 16px;
+  height: 16px;
+}
+
+html.touch #panel.collapsed .inv .slot img {
+  width: 12px;
+  height: 12px;
 }
 
 html.touch #panel-map {

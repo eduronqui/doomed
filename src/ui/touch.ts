@@ -59,8 +59,9 @@ export class TouchControls {
     if (!this.isEnabled) return;
     this.buildLayer();
     this.pauseButton = document.getElementById('pause-btn')!;
-    this.pauseButton.addEventListener('click', (e) => {
+    this.pauseButton.addEventListener('pointerdown', (e) => {
       e.stopPropagation();
+      e.preventDefault();
       this.isPauseQueued = true;
     });
     window.addEventListener('blur', () => {

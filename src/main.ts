@@ -26,6 +26,20 @@ class BootScene extends Phaser.Scene {
     const sfx = new Sfx();
     const touch = new TouchControls();
     if (touch.isEnabled) {
+      const panel = document.getElementById('panel')!;
+      const togglePanel = bindCollapse(panel, document.getElementById('panel-toggle')!, 'doomed.hudCollapsed', true);
+      document.addEventListener(
+        'pointerdown',
+        (e) => {
+          if (!panel.classList.contains('collapsed') && !panel.contains(e.target as Node)) togglePanel();
+        },
+        true,
+      );
+      for (const id of ['panel-status', 'panel-inventory']) {
+        document.getElementById(id)!.addEventListener('pointerdown', () => {
+          if (panel.classList.contains('collapsed')) togglePanel();
+        });
+      }
       bindCollapse(document.getElementById('console')!, document.getElementById('console-toggle')!, 'doomed.logCollapsed', true);
       mountInstallHint();
     }

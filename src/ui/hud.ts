@@ -49,7 +49,8 @@ export class Hud {
   private tipText = '';
   private dismissedTips = new Set<string>();
   private onSkip: (() => void) | null = null;
-  onWeaponTap: ((slot: number) => void) | null = null;
+  private panel = $('panel');
+  onWeaponTap: ((slot: number | 'next') => void) | null = null;
 
   constructor(icons: Map<string, HTMLCanvasElement>) {
     this.minimap = $<HTMLCanvasElement>('minimap');
@@ -78,7 +79,7 @@ export class Hud {
       root.className = 'wslot locked';
       root.title = WEAPONS[id].name;
       root.append(this.icon(icons, `icon_${id}`));
-      root.addEventListener('pointerdown', () => this.onWeaponTap?.(WEAPONS[id].slot));
+      root.addEventListener('pointerdown', () => this.onWeaponTap?.(this.panel.classList.contains('collapsed') ? 'next' : WEAPONS[id].slot));
       const num = document.createElement('span');
       num.className = 'num';
       num.textContent = String(WEAPONS[id].slot);
