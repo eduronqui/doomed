@@ -102,6 +102,7 @@ export class TouchControls {
       this.sticks.set(role, stick);
     }
     layer.append(this.createUseButton());
+    document.getElementById('tip-close')!.textContent = 'Continue';
     layer.addEventListener('pointerdown', (e) => this.onDown(e));
     layer.addEventListener('pointermove', (e) => this.onMove(e));
     for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) layer.addEventListener(type, (e) => this.release((e as PointerEvent).pointerId));

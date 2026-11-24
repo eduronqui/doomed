@@ -606,6 +606,10 @@ export class GameScene extends Phaser.Scene {
     this.deps.hud.setTip(text, () => this.finishTraining());
   }
 
+  private isHoldingForTip(): boolean {
+    return this.deps.touch.isEnabled && this.world.status === 'playing' && this.deps.hud.isTipVisible;
+  }
+
   private togglePause(): void {
     if (!this.started || this.ended) return;
     if (this.paused) {
@@ -680,7 +684,7 @@ export class GameScene extends Phaser.Scene {
     if (this.deps.touch.takePause()) this.togglePause();
     this.deps.touch.showPaused(this.paused && this.started);
     if (this.deps.touch.isEnabled) this.deps.touch.showUse(w.status === 'playing' && !this.paused ? w.usableAction() : null);
-    if (!this.paused && !this.deps.screens.visible && !this.deps.touch.isBlocked) {
+    if (!this.paused && !this.deps.screens.visible && !this.deps.touch.isBlocked && !this.isHoldingForTip()) {
       w.update(dt, this.readInput());
     } else {
       this.deps.touch.read();

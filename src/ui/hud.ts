@@ -113,6 +113,10 @@ export class Hud {
     return img;
   }
 
+  get isTipVisible(): boolean {
+    return !this.tip.classList.contains('hidden');
+  }
+
   setTip(text: string | null, onSkip: (() => void) | null): void {
     this.onSkip = onSkip;
     const isVisible = text !== null && !this.dismissedTips.has(text);
