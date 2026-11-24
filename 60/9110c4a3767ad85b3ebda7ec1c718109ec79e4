@@ -1,0 +1,25 @@
+README.md
+  s_ce430adf87d846::t_8df502e9929233 49-50
+public/manifest-dev.webmanifest
+  s_ce430adf87d846::t_34e0fff0fb7f36 1-16
+src/render/art/favicon.ts
+  s_ce430adf87d846::t_6aa7db6dbee9a1 107-109
+vite.config.ts
+  s_ce430adf87d846::t_b9d461c35c68e6 3-10,12,16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "609110c4a3767ad85b3ebda7ec1c718109ec79e4",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
