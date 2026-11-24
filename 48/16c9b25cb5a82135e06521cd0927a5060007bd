@@ -1,0 +1,31 @@
+README.md
+  s_ce430adf87d846::t_dc957dafdca3ac 52,171
+eslint.config.js
+  s_ce430adf87d846::t_cd4beb19b16a5b 14-17
+index.html
+  s_ce430adf87d846::t_3812a23b7348f5 12
+public/early.js
+  s_ce430adf87d846::t_ad953fab57e671 1-10
+src/main.ts
+  s_ce430adf87d846::t_d423c2a69ff810 27
+src/ui/touch.ts
+  s_ce430adf87d846::t_fb2960c68c18b4 53-54
+tests/devParams.test.ts
+  s_ce430adf87d846::t_1ef36ddce33c80 6,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4816c9b25cb5a82135e06521cd0927a5060007bd",
+  "prompts": {},
+  "sessions": {
+    "s_ce430adf87d846": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "411cc0f2-d6b7-469e-9c91-38de4767c9ea",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
