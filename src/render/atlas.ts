@@ -1,12 +1,14 @@
 import type Phaser from 'phaser';
+import imageUrl from '../assets/sprites.png?url';
+import dataUrl from '../assets/sprites.json?url';
 import type { DecoKind, ItemKind } from '../sim/defs';
 import type { WeaponId } from '../weapons';
 import type { DoorKind, FloorKind } from '../sim/level';
 import type { CharacterKind } from '../characters/art';
 
 export const ATLAS = 'sprites';
-export const ATLAS_IMAGE = 'assets/sprites.png';
-export const ATLAS_DATA = 'assets/sprites.json';
+export const ATLAS_IMAGE = imageUrl;
+export const ATLAS_DATA = dataUrl;
 
 export const FLOOR_VARIANTS = 3;
 export const WALL_VARIANTS: Record<'tech' | 'stone', number> = { tech: 4, stone: 3 };

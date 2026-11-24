@@ -2,7 +2,7 @@
 
 A fast top-down shooter with a demon-invasion theme. The view, pixel art and interface follow the style of classic tile-based online RPGs: a 3/4 oblique view, 32 px tiles, names and health bars above creatures, a minimap and a server log.
 
-All sprites are drawn in code and baked into one sprite sheet (`public/assets/sprites.png` with the atlas `public/assets/sprites.json`). All sound effects and the music of each level are synthesized at runtime with WebAudio. The project has no audio files.
+All sprites are drawn in code and baked into one sprite sheet (`src/assets/sprites.png` with the atlas `src/assets/sprites.json`). All sound effects and the music of each level are synthesized at runtime with WebAudio. The project has no audio files.
 
 **Play it:** https://doomed-nine.vercel.app/
 
@@ -23,7 +23,7 @@ All sprites are drawn in code and baked into one sprite sheet (`public/assets/sp
 | `npm run dev` | Start the dev server (Vite) |
 | `npm run build` | Type-check and build to `dist/` |
 | `npm run preview` | Serve the `dist/` build |
-| `npm run sprites` | Draw all sprites and write the sprite sheet to `public/assets/`, and the favicons to `public/` |
+| `npm run sprites` | Draw all sprites and write the sprite sheet to `src/assets/`, and the favicons to `public/` |
 | `npm run linter` | Type-check (`tsc --noEmit`) and run ESLint |
 | `npm test` | Run the Vitest tests |
 
@@ -51,15 +51,15 @@ public/
   manifest.webmanifest  Lets phones install the game fullscreen in landscape
   early.js            Tiny classic script that sets the touch and portrait classes before the game loads
   og.png              1200x630 link preview image (generated)
-public/assets/
-  sprites.png         Sprite sheet with every sprite frame (generated)
-  sprites.json        Phaser atlas (JSON hash) with the frame rectangles (generated)
 scripts/
   build-sprites.mjs   Builds the sprite sheet and the favicons from the art code (npm run sprites)
   png.mjs             Small PNG encoder and decoder (Node zlib, no dependencies)
 src/
   main.ts             Creates the Phaser game, the boot scene and the shared services
   style.css           Interface styles (stone panels, bars, slots, screens)
+  assets/
+    sprites.png       Sprite sheet with every sprite frame (generated). Vite adds a hash to the name, so phones cache it for a year
+    sprites.json      Phaser atlas (JSON hash) with the frame rectangles (generated, hashed the same way)
   sim/                Game rules. Pure TypeScript, no Phaser, fully testable
     defs.ts           Items, keycards, sounds, difficulties: tuning values
     level.ts          ASCII map parser, tile types, hazard damage
@@ -150,7 +150,7 @@ tests/                Vitest tests for the simulation, the levels and the sprite
 
 In short:
 
-- **Sprites** are drawn in code (`src/render/art/`, `src/characters/*.art.ts`) and baked into `public/assets/sprites.png` with `npm run sprites`. Commit the sheet after art changes. A test fails if it is out of date.
+- **Sprites** are drawn in code (`src/render/art/`, `src/characters/*.art.ts`) and baked into `src/assets/sprites.png` with `npm run sprites`. Commit the sheet after art changes. A test fails if it is out of date.
 - **Levels** are `src/levels/levelN.ts` (settings), `levelN.map.ts` (ASCII map) and `levelN.music.ts` (music track), listed in play order in `LEVELS`.
 - **Characters** are `src/characters/<name>.ts` (stats) and `<name>.art.ts` (sprites), registered in `MONSTERS` and `CHARACTER_ART`.
 - **Sounds** are synthesized cases in `Sfx.play()` (`src/render/sfx.ts`), named in `SoundId`.

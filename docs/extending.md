@@ -33,7 +33,7 @@ After every change:
 3. Run `npm test`.
 4. Run `npm run dev` and look at the change in the game.
 
-Commit the source files and, after `npm run sprites`, also `public/assets/sprites.png` and `public/assets/sprites.json`.
+Commit the source files and, after `npm run sprites`, also `src/assets/sprites.png` and `src/assets/sprites.json`.
 
 Dev mode helps you test a change fast. These URL parameters work only with `npm run dev`:
 
@@ -311,7 +311,7 @@ All sprites are drawn in code with the `Pix` class (`src/render/pixel.ts`) and b
 
 1. Art functions return a `Pix`: a pixel grid with colors and alpha.
 2. `buildArt()` in `src/render/art/catalog.ts` collects every sprite under its frame name.
-3. `npm run sprites` packs them into `public/assets/sprites.png` and writes the atlas `public/assets/sprites.json`.
+3. `npm run sprites` packs them into `src/assets/sprites.png` and writes the atlas `src/assets/sprites.json`.
 4. The game loads the sheet at boot and shows frames by name: `this.add.image(x, y, ATLAS, key.item('medkit'))` or `sprite.setFrame(...)`.
 5. `tests/sprites.test.mjs` fails if the committed sheet differs from the art code.
 

@@ -6,10 +6,10 @@ const server = await createServer({ server: { middlewareMode: true }, appType: '
 try {
   const { buildSheet } = await server.ssrLoadModule('/src/render/art/catalog.ts');
   const sheet = buildSheet();
-  mkdirSync('public/assets', { recursive: true });
-  writeFileSync('public/assets/sprites.png', encodePng(sheet.width, sheet.height, sheet.rgba));
-  writeFileSync('public/assets/sprites.json', `${JSON.stringify(sheet.atlas, null, 2)}\n`);
-  console.log(`Wrote public/assets/sprites.png (${sheet.width}x${sheet.height}, ${Object.keys(sheet.atlas.frames).length} frames)`);
+  mkdirSync('src/assets', { recursive: true });
+  writeFileSync('src/assets/sprites.png', encodePng(sheet.width, sheet.height, sheet.rgba));
+  writeFileSync('src/assets/sprites.json', `${JSON.stringify(sheet.atlas, null, 2)}\n`);
+  console.log(`Wrote src/assets/sprites.png (${sheet.width}x${sheet.height}, ${Object.keys(sheet.atlas.frames).length} frames)`);
   const { drawCard } = await server.ssrLoadModule('/src/render/art/card.ts');
   const card = drawCard();
   writeFileSync('public/og.png', encodePng(card.width, card.height, card.rgba));
