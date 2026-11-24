@@ -10,6 +10,10 @@ try {
   writeFileSync('public/assets/sprites.png', encodePng(sheet.width, sheet.height, sheet.rgba));
   writeFileSync('public/assets/sprites.json', `${JSON.stringify(sheet.atlas, null, 2)}\n`);
   console.log(`Wrote public/assets/sprites.png (${sheet.width}x${sheet.height}, ${Object.keys(sheet.atlas.frames).length} frames)`);
+  const { drawCard } = await server.ssrLoadModule('/src/render/art/card.ts');
+  const card = drawCard();
+  writeFileSync('public/og.png', encodePng(card.width, card.height, card.rgba));
+  console.log(`Wrote public/og.png (${card.width}x${card.height})`);
   const { ICONS, drawIcon } = await server.ssrLoadModule('/src/render/art/favicon.ts');
   for (const { file, size, background, palette } of ICONS) {
     const icon = drawIcon(size, background, palette);

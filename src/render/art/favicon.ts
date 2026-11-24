@@ -5,7 +5,7 @@ export interface Icon {
   rgba: Uint8Array;
 }
 
-type Rgb = [number, number, number];
+export type Rgb = [number, number, number];
 type Stops = [number, Rgb][];
 
 interface Palette {
@@ -13,7 +13,7 @@ interface Palette {
   depth: (t: number) => Rgb;
 }
 
-const FIRE: Stops = [
+export const FIRE: Stops = [
   [0, [0xff, 0xf3, 0xb0]],
   [0.18, [0xff, 0xc8, 0x40]],
   [0.5, [0xf0, 0x70, 0x1c]],
@@ -34,7 +34,7 @@ export const PALETTES = {
   slime: { face: SLIME, depth: (t: number): Rgb => [Math.round(20 - 12 * t), Math.round(90 - 60 * t), Math.round(18 - 12 * t)] },
 } satisfies Record<string, Palette>;
 
-function gradient(stops: Stops, t: number): Rgb {
+export function gradient(stops: Stops, t: number): Rgb {
   for (let i = 1; i < stops.length; i++) {
     const [t1, c1] = stops[i];
     if (t <= t1) {
