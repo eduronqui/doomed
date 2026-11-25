@@ -1,0 +1,27 @@
+docs/gameplay.md
+  s_703083095f6814::t_756628a609b591 635,685,710,760
+src/levels/level10.map.ts
+  s_703083095f6814::t_b4425d958f1482 14,34
+src/levels/level5.map.ts
+  s_703083095f6814::t_f1b6be2b82992e 8,24
+src/levels/level7.map.ts
+  s_703083095f6814::t_19834fc599cb7a 21,24
+src/levels/level8.map.ts
+  s_703083095f6814::t_6ad5d586fa0de8 19,23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1c1652fe32e8c2b64f1dff6e30802227603b04a5",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
