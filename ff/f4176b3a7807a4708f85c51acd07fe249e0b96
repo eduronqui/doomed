@@ -1,0 +1,29 @@
+docs/gameplay.md
+  s_703083095f6814::t_deb902866ef8fd 360-362
+src/characters/warden.ts
+  s_703083095f6814::t_bdd39fee27a63c 29
+src/sim/world.ts
+  s_703083095f6814::t_cea5c72eff3b6a 659,1736,1758
+src/weapons/rift.ts
+  s_703083095f6814::t_556c2a8c7765a1 17
+src/weapons/types.ts
+  s_703083095f6814::t_289c0be1b6f9d8 12
+tests/enemies.test.ts
+  s_703083095f6814::t_dad06e99850418 3,51-54,56,59-62,68-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fff4176b3a7807a4708f85c51acd07fe249e0b96",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
