@@ -571,7 +571,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Totals | |
 | --- | --- |
 | Enemies | 36: 7 Husks, 4 Shotgun Husks, 11 Fiends, 8 Brutes, 6 Shades |
-| Map items | 20 |
+| Map items | 23 |
 | Barrels | 4 |
 | Secrets | 1 |
 | Par time | 6:00 |
@@ -682,7 +682,7 @@ Enemies start facing the doors of their rooms.
 | Chapter | 3 |
 | Rooms | 8 and a secret |
 | Enemies | 35: 8 Husks, 5 Shotgun Husks, 6 Fiends, 2 Brutes, 2 Shades, 12 Stalkers |
-| Map items | 19 |
+| Map items | 21 |
 | Barrels | 0 |
 | Secrets | 1 |
 | Par time | 6:00 |

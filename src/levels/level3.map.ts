@@ -1,7 +1,7 @@
 export const LEVEL3_MAP = String.raw`
                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%E%%%%
                    %trrrrrrrrrtrrrtrrrrrrrrrt%rtrrrtr%
-                   %rrrrrrHrrrrrrrrrrrrrrrrrrJrrrbrrr%
+                   %rcrrrrHrrrrrrrrrrrrrrrrrrJrrrbrrr%
                    %rrfrrrrrr=======rrrrrrfrrJrrrrrrr%
                    %rrrrrrrrr=======rrrrrrrrrJrrrrrrr%
                    %rrrrrrrrrrrrrrrrrrrrrrrrr%%%%%%%%%
@@ -28,9 +28,9 @@ export const LEVEL3_MAP = String.raw`
 %rrr=========rrrrrYrrrrrrrrrrrhrrrrrrrrrrrrfrrDrrrrrrrrrfrrrrrr%
 %rrr=========rrrrrYrrrrrrrrroorrrrrrrrrrrrrrrr%rrrrrrrrrrrrrxrr%
 %rrr=========rrrrr%rrbrrrrrrrrrrrrrrr=======rr%rrrrrrrrrrrrrrrr%
-%rrr=========rrrrr%rrrrrrrrrrrrrmrrrr=======rr%rrrrrrrrrrrrrrrr%
+%rrr=========rrrrr%rrrrrrrrrrrrrmrrrr=======rr%rrrrrrrrrrrrrrrc%
 %rrr=========rrrmr%rrrrrhrrrrrrrrrrrr=======rr%====rr=======rrr%
-%rrrrrrrrrrrrrrrrr%rrrrrrrrrrfrhrrrrr=======rr%====rr=======rrr%
+%rrrrrrrrrrrrrrrrc%rrrrrrrrrrfrhrrrrr=======rr%====rr=======rrr%
 %rrrrrrzrrrrrrrrrr%rtrrrrrrrrrrrrrrhrrrrrrrrtr%rrrrrrrrrrrrrrrr%
 %rrfrrrrrrrcrrrrrr%xrrrrrrrrrrrrrrrrrrrrrrrrsr%rrrrrrrrrrrrrrfr%
 %rrrrrrrrrrrrrbrrr%%%%%%%%%%%%%DDD%%%%%%%%%%%%%rrrrrrrrrrrrrrrr%
