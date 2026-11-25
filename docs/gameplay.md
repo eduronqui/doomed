@@ -632,7 +632,7 @@ Enemies start facing the doors of their rooms.
 | Chapter | 2 |
 | Rooms | 7 and a secret |
 | Enemies | 30: 12 Husks, 5 Shotgun Husks, 5 Fiends, 1 Brute, 1 Shade, 6 Gunners |
-| Map items | 18 |
+| Map items | 20 |
 | Barrels | 1 |
 | Secrets | 1 |
 | Par time | 5:30 |
@@ -682,7 +682,7 @@ Enemies start facing the doors of their rooms.
 | Chapter | 3 |
 | Rooms | 8 and a secret |
 | Enemies | 35: 8 Husks, 5 Shotgun Husks, 6 Fiends, 2 Brutes, 2 Shades, 12 Stalkers |
-| Map items | 17 |
+| Map items | 19 |
 | Barrels | 0 |
 | Secrets | 1 |
 | Par time | 6:00 |
@@ -707,7 +707,7 @@ Enemies start facing the doors of their rooms.
 | Chapter | 3 |
 | Rooms | 9 and a secret |
 | Enemies | 37: 17 Husks, 3 Shotgun Husks, 4 Fiends, 2 Brutes, 2 Shades, 5 Gunners, 4 Stalkers |
-| Map items | 21 |
+| Map items | 23 |
 | Barrels | 0 |
 | Secrets | 1 |
 | Par time | 6:00 |
@@ -757,7 +757,7 @@ Enemies start facing the doors of their rooms.
 | Chapter | 4 |
 | Rooms | 8 and a secret |
 | Enemies | 39: 5 Husks, 3 Shotgun Husks, 3 Fiends, 2 Brutes, 1 Shade, 6 Gunners, 7 Stalkers, 4 Wardens, 8 Hollows |
-| Map items | 18 |
+| Map items | 20 |
 | Barrels | 0 |
 | Secrets | 1 |
 | Par time | 6:30 |
