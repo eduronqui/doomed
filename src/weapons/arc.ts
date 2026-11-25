@@ -10,7 +10,7 @@ export const ARC: WeaponDef = {
   cooldown: 0.3,
   pellets: 1,
   spread: 0.01,
-  damage: [16, 24],
+  damage: [18, 26],
   range: 24,
   sound: 'arc',
   noise: true,

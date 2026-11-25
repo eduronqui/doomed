@@ -157,7 +157,7 @@ When your health reaches 0, you die. The level music stops. After 1.4 seconds th
 | 4 | Rotary Gun | 1 bullet | 5 to 15 | 1 | 0.11 s | 22 tiles | loud |
 | 5 | Grenade Launcher | 1 grenade | 10 to 20 on a direct hit, plus a blast | 1 | 0.80 s | 14 tiles of flight | loud |
 | 6 | Flamer | 1 fuel | 2 to 4, plus burning | cone | 0.09 s | 3.4 tiles | loud |
-| 7 | Arc Rifle | 1 cell | 16 to 24 to every enemy in the line | beam | 0.30 s | 24 tiles | loud |
+| 7 | Arc Rifle | 1 cell | 18 to 26 to every enemy in the line | beam | 0.30 s | 24 tiles | loud |
 | 8 | Rift Cannon | 20 cells | 40 to 60 on a direct hit, plus a big blast | 1 | 1.50 s | 30 tiles of flight | loud |
 
 - Aim at the head or the body of an enemy. The line of aim goes through the cursor at gun height, so shots at the legs miss.

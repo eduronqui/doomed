@@ -70,7 +70,7 @@ describe('Warden', () => {
   });
 
   it('does not block the arc rifle beam', () => {
-    expect(hit(Math.PI, 'arc')).toBeGreaterThanOrEqual(16);
+    expect(hit(Math.PI, 'arc')).toBeGreaterThanOrEqual(18);
   });
 
   it('does not block the rift cannon direct hit or blast', () => {
@@ -80,6 +80,29 @@ describe('Warden', () => {
 
   it('turns slower than 60 degrees per second', () => {
     expect(WARDEN.turnSpeed).toBeLessThan(Math.PI / 3);
+  });
+});
+
+describe('Arc rifle', () => {
+  const carry: Carry = { health: 100, armor: 0, ammo: { bullets: 0, shells: 0, grenades: 0, fuel: 0, cells: 50 }, weapons: ['knife', 'arc'], weapon: 'arc' };
+  const sturdy = 100000;
+  const fireAlongRow = (row: string): number[] => {
+    const w = new World(parseLevel('t', `############\n${row}\n############`), 1, DIFFICULTIES[1], carry);
+    for (const m of w.monsters) m.hp = sturdy;
+    w.update(1 / 60, { ...IDLE_INPUT, fire: true, aimX: w.monsters[0].x, aimY: w.monsters[0].y });
+    return w.monsters.map((m) => sturdy - m.hp);
+  };
+
+  it('hits every enemy in the line', () => {
+    const [near, far] = fireAlongRow('#P...h...h.#');
+    expect(near).toBeGreaterThanOrEqual(18);
+    expect(far).toBeGreaterThanOrEqual(18);
+  });
+
+  it('stops at the first wall', () => {
+    const [near, behindWall] = fireAlongRow('#P...h.#.h.#');
+    expect(near).toBeGreaterThanOrEqual(18);
+    expect(behindWall).toBe(0);
   });
 });
 
