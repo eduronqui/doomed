@@ -1,0 +1,21 @@
+src/sim/level.ts
+  s_703083095f6814::t_7c0411ec67bd4b 117-118,126-128
+tests/level.test.ts
+  s_703083095f6814::t_71b77a8e8e2e75 198-216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "796603c47cb3d307e675110aa06c9d31904f5075",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
