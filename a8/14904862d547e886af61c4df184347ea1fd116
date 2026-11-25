@@ -1,0 +1,23 @@
+docs/gameplay.md
+  s_703083095f6814::t_54868f4d93cac4 574,685
+src/levels/level3.map.ts
+  s_703083095f6814::t_24c33596e00796 4,31,33
+src/levels/level7.map.ts
+  s_703083095f6814::t_62d02dd69c5d75 15,37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a814904862d547e886af61c4df184347ea1fd116",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
