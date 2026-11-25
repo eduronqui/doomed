@@ -1,0 +1,21 @@
+docs/gameplay.md
+  s_703083095f6814::t_7eefd191ee5392 160
+tests/enemies.test.ts
+  s_703083095f6814::t_ac9194e32bbb28 73,86-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9f6f4ef37be78679a8e9bb6dd86f3c241adb8eed",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
