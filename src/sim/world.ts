@@ -656,7 +656,7 @@ export class World {
       const t = rayCircle(p.x, p.y, dx, dy, m.x, m.y, m.r * this.playerHitScale);
       if (t < 0 || t > end) continue;
       this.effect('blood', m.x, m.y);
-      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true, p);
+      this.damageMonster(m, this.rng.int(w.damage[0], w.damage[1]), true);
     }
     for (const b of this.barrels) {
       if (b.exploded) continue;
@@ -1733,7 +1733,7 @@ export class World {
     pr.alive = false;
     const dmg = this.rng.int(pr.damage[0], pr.damage[1]);
     if (target === this.player) this.hurtPlayerByEnemy(dmg);
-    else if (target && isMonster(target)) this.damageMonster(target, dmg, pr.fromPlayer, { x: pr.x - pr.vx * 0.05, y: pr.y - pr.vy * 0.05 });
+    else if (target && isMonster(target)) this.damageMonster(target, dmg, pr.fromPlayer, pr.blast?.piercesShield ? null : { x: pr.x - pr.vx * 0.05, y: pr.y - pr.vy * 0.05 });
     else if (target && isBarrel(target)) this.damageBarrel(target, dmg);
     if (pr.blast) {
       this.blast(pr.x, pr.y, pr.blast, pr.fromPlayer, pr.look === 'orb' ? 'riftblast' : 'explosion');
@@ -1755,7 +1755,7 @@ export class World {
     for (const m of this.monsters) {
       if (m.state === 'dead') continue;
       const dmg = hurt(m.x, m.y);
-      if (dmg > 0) this.damageMonster(m, dmg, byPlayer, { x, y });
+      if (dmg > 0) this.damageMonster(m, dmg, byPlayer, b.piercesShield ? null : { x, y });
     }
     for (const o of this.barrels) {
       if (o === source) continue;

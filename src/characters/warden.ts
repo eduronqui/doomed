@@ -26,6 +26,6 @@ export const WARDEN: MonsterDef = {
   stealth: false,
   lookEvery: [2, 5],
   lookSwing: Math.PI * 0.6,
-  turnSpeed: 1.6,
+  turnSpeed: 1,
   frontArmor: 0.8,
 };

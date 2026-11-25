@@ -357,9 +357,9 @@ A lean, dark violet demon with claws and spikes. It is the fastest enemy.
 
 A steel-gray Brute in armor with a large shield.
 
-- **Trait: front shield.** Damage that comes from the front (a 120° arc) is cut by 80%. Burning ignores the shield.
-- The shield turns slowly, at about 90° per second. Circle the Warden to hit it from the side or the back, or backstab it while it is calm.
-- The arc rifle hits it from any angle you can reach, and it hits everything behind it in the same line.
+- **Trait: front shield.** Damage that comes from the front (a 120° arc) is cut by 80%. Burning, the arc rifle beam and the rift cannon (direct hit and blast) ignore the shield.
+- The shield turns slowly, at about 57° per second. Circle the Warden to hit it from the side or the back, or backstab it while it is calm.
+- The arc rifle beam and the rift cannon pass through the shield at full damage. The beam also hits everything behind it in the same line.
 
 ### Hollow
 

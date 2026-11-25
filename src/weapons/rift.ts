@@ -14,5 +14,5 @@ export const RIFT: WeaponDef = {
   range: 30,
   sound: 'rift',
   noise: true,
-  projectile: { look: 'orb', speed: 6, overCover: false, blast: { radius: 4.5, damage: 300, hurtsPlayer: false } },
+  projectile: { look: 'orb', speed: 6, overCover: false, blast: { radius: 4.5, damage: 300, hurtsPlayer: false, piercesShield: true } },
 };

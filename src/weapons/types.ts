@@ -9,6 +9,7 @@ export interface Blast {
   radius: number;
   damage: number;
   hurtsPlayer: boolean;
+  piercesShield?: boolean;
 }
 
 export interface ProjectileSpec {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { parseLevel } from '../src/sim/level';
+import { WARDEN } from '../src/characters/warden';
 import { DIFFICULTIES } from '../src/sim/defs';
 import { IDLE_INPUT, World, type Carry, type Input, type Monster } from '../src/sim/world';
 
@@ -47,21 +48,38 @@ describe('Stalker', () => {
 });
 
 describe('Warden', () => {
-  const carry: Carry = { health: 100, armor: 0, ammo: { bullets: 0, shells: 0, grenades: 0, fuel: 0, cells: 50 }, weapons: ['knife', 'pistol', 'arc'], weapon: 'arc' };
-  const hit = (shieldAngle: number): number => {
-    const w = new World(parseLevel('t', '##########\n#P....w..#\n##########'), 1, DIFFICULTIES[1], carry);
+  const carry: Carry = { health: 100, armor: 0, ammo: { bullets: 50, shells: 0, grenades: 0, fuel: 0, cells: 50 }, weapons: ['knife', 'pistol', 'arc', 'rift'], weapon: 'pistol' };
+  const sturdy = 100000;
+  const hit = (shieldAngle: number, weapon: Carry['weapon'] = 'pistol'): number => {
+    const w = new World(parseLevel('t', '##########\n#P....w..#\n##########'), 1, DIFFICULTIES[1], { ...carry, weapon });
     const warden = w.monsters[0];
+    warden.hp = sturdy;
     warden.shieldAngle = shieldAngle;
     warden.angle = shieldAngle;
-    w.update(1 / 60, { ...IDLE_INPUT, fire: true, aimX: warden.x, aimY: warden.y });
-    return warden.def.hp - warden.hp;
+    const aim = { aimX: warden.x, aimY: warden.y };
+    w.update(1 / 60, { ...IDLE_INPUT, ...aim, fire: true });
+    for (let t = 0; t < 2; t += 1 / 60) w.update(1 / 60, { ...IDLE_INPUT, ...aim });
+    return sturdy - warden.hp;
   };
 
   it('blocks most damage from the front, but not from behind', () => {
     const front = hit(Math.PI);
     const back = hit(0);
-    expect(back).toBeGreaterThanOrEqual(16);
-    expect(front).toBeLessThanOrEqual(5);
+    expect(back).toBeGreaterThanOrEqual(5);
+    expect(front).toBeLessThanOrEqual(3);
+  });
+
+  it('does not block the arc rifle beam', () => {
+    expect(hit(Math.PI, 'arc')).toBeGreaterThanOrEqual(16);
+  });
+
+  it('does not block the rift cannon direct hit or blast', () => {
+    const front = hit(Math.PI, 'rift');
+    expect(front).toBeGreaterThanOrEqual(300);
+  });
+
+  it('turns slower than 60 degrees per second', () => {
+    expect(WARDEN.turnSpeed).toBeLessThan(Math.PI / 3);
   });
 });
 
