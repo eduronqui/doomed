@@ -195,6 +195,25 @@ describe('parseLevel', () => {
     expect(lvl.tiles[2 * 5 + 2].floor).toBe('concrete');
   });
 
+  it('gives every tile of a wide hidden door the wall kind of the wall around it', () => {
+    const lvl = parseLevel('t', '%%%%%%%%\n%......%\n%%XXX%%%\n%......%\n%%%%%%%%');
+    const kinds = [2, 3, 4].map((x) => lvl.tiles[2 * 8 + x].wall);
+    expect(kinds).toEqual(['stone', 'stone', 'stone']);
+  });
+
+  it('draws no hidden door in a different wall kind than its neighbours in any level', () => {
+    for (const info of ALL_LEVELS) {
+      const lvl = info.load();
+      lvl.tiles.forEach((t, i) => {
+        if (t.door !== 'secret' && t.door !== 'trap') return;
+        for (const n of [i + 1, i + lvl.width]) {
+          const next = lvl.tiles[n];
+          if (next?.door === 'secret' || next?.door === 'trap') expect(next.wall, `${info.title} tile ${i}`).toBe(t.wall);
+        }
+      });
+    }
+  });
+
   it('reads colored doors, keycards and shades', () => {
     const lvl = parseLevel('t', '#######\n#PjyBg#\n###Y###');
     expect(lvl.spawns.map((s) => s.kind)).toEqual(['player', 'bluekey', 'yellowkey', 'shade']);

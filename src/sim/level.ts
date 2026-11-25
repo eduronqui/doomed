@@ -114,6 +114,8 @@ function floorTile(floor: FloorKind, secretId = -1): Tile {
 export const STAIR_HEIGHT = 0.5;
 const HEIGHT_CHARS: Record<string, number> = { '1': 1, '/': STAIR_HEIGHT };
 
+const HIDDEN_DOOR_CHARS = 'XT';
+
 function wallOfNeighbours(rows: string[], x: number, y: number): WallKind {
   for (const [dx, dy] of [
     [0, -1],
@@ -121,7 +123,9 @@ function wallOfNeighbours(rows: string[], x: number, y: number): WallKind {
     [-1, 0],
     [1, 0],
   ]) {
-    const c = rows[y + dy]?.[x + dx];
+    let step = 1;
+    while (HIDDEN_DOOR_CHARS.includes(rows[y + dy * step]?.[x + dx * step] ?? ' ')) step++;
+    const c = rows[y + dy * step]?.[x + dx * step];
     if (c === '%') return 'stone';
     if (c === '#') return 'tech';
   }
