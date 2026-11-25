@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { ALL_LEVELS } from '../src/levels';
+import { DIFFICULTIES } from '../src/sim/defs';
 import { parseLevel, type DoorKind, type LevelData } from '../src/sim/level';
+import { World } from '../src/sim/world';
 
 const KEY_OF: Record<string, DoorKind> = { redkey: 'red', bluekey: 'blue', yellowkey: 'yellow' };
 const SOLID_DECOS = ['crate'];
@@ -219,5 +221,33 @@ describe('parseLevel', () => {
     expect(lvl.spawns.map((s) => s.kind)).toEqual(['player', 'bluekey', 'yellowkey', 'shade']);
     expect(lvl.tiles[1 * 7 + 4].door).toBe('blue');
     expect(lvl.tiles[2 * 7 + 3].door).toBe('yellow');
+  });
+});
+
+describe('Key ambush', () => {
+  const MAX_ANGLE_OFF_DOOR = (60 * Math.PI) / 180;
+
+  it.each(ALL_LEVELS.filter((info) => info.ambush).map((info) => [info.title, info] as const))('%s: the trap key sits in front of the trap door', (_title, info) => {
+    const level = info.load();
+    const world = new World(level, 1, DIFFICULTIES[1], undefined, { ambush: info.ambush, alertOnEntry: info.alertOnEntry, watchDoors: info.watchDoors });
+    const closet = world.hiddenCloset()!;
+    const doors = level.tiles.flatMap((t, i) => (t.door === 'trap' ? [{ x: i % level.width, y: Math.floor(i / level.width) }] : []));
+    const isHorizontal = new Set(doors.map((d) => d.y)).size === 1;
+    const sides = isHorizontal ? [[0, -1], [0, 1]] : [[-1, 0], [1, 0]];
+    const [nx, ny] = sides.find(([dx, dy]) => {
+      const i = (doors[0].y + dy) * level.width + doors[0].x + dx;
+      return level.tiles[i].type === 'floor' && !closet.cells.has(i);
+    })!;
+    const centerX = doors.reduce((sum, d) => sum + d.x + 0.5, 0) / doors.length;
+    const centerY = doors.reduce((sum, d) => sum + d.y + 0.5, 0) / doors.length;
+    const keys = level.spawns.filter((s) => s.kind === `${info.ambush!.key}key`);
+    expect(keys.length).toBeGreaterThan(0);
+    for (const key of keys) {
+      const toKeyX = key.x - centerX;
+      const toKeyY = key.y - centerY;
+      const angle = Math.acos((toKeyX * nx + toKeyY * ny) / Math.hypot(toKeyX, toKeyY));
+      expect(angle).toBeLessThanOrEqual(MAX_ANGLE_OFF_DOOR);
+      expect(world.grid.lineOfFire(key.x, key.y, centerX + nx, centerY + ny)).toBe(true);
+    }
   });
 });
