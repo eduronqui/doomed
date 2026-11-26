@@ -823,3 +823,79 @@ describe('pickupScale', () => {
     expect(w.player.health).toBe(50);
   });
 });
+
+describe('Exit closet emergency medikit', () => {
+  const closetMap = '##E##\n#.m.#\n#...#\n#DDD#\n#.h.#\n#.P.#\n#####';
+
+  function revealed(health: number): { w: World; item: World['items'][number] } {
+    const w = new World(parseLevel('t', closetMap));
+    w.player.health = health;
+    const item = w.items[0];
+    for (const room of w.grid.roomsAt(item.x, item.y)) w.revealedRooms.add(room);
+    w.update(1 / 60, IDLE_INPUT);
+    return { w, item };
+  }
+
+  function standOn(w: World, item: World['items'][number]): void {
+    w.player.x = item.x;
+    w.player.y = item.y;
+    w.update(1 / 60, IDLE_INPUT);
+  }
+
+  it('appears and can be taken when the closet is revealed with health below 25', () => {
+    const { w, item } = revealed(24);
+    expect(w.isItemAvailable(item)).toBe(true);
+    standOn(w, item);
+    expect(item.taken).toBe(true);
+    expect(w.player.health).toBe(49);
+  });
+
+  it('stays hidden and untaken when the closet is revealed with 25 health or more', () => {
+    const { w, item } = revealed(25);
+    expect(w.isItemAvailable(item)).toBe(false);
+    standOn(w, item);
+    expect(item.taken).toBe(false);
+    expect(w.player.health).toBe(25);
+  });
+
+  it('keeps the decision it took at reveal time', () => {
+    const { w, item } = revealed(60);
+    w.player.health = 10;
+    w.update(1 / 60, IDLE_INPUT);
+    expect(w.isItemAvailable(item)).toBe(false);
+  });
+
+  it('stays available after the decision even if health rises again', () => {
+    const { w, item } = revealed(10);
+    w.player.health = 90;
+    w.update(1 / 60, IDLE_INPUT);
+    expect(w.isItemAvailable(item)).toBe(true);
+  });
+
+  it('does not count in the items total, and does not count when taken', () => {
+    const { w, item } = revealed(10);
+    expect(w.stats.totalItems).toBe(0);
+    standOn(w, item);
+    expect(w.stats.items).toBe(0);
+  });
+});
+
+describe('Exit switch', () => {
+  const sharedWallMap = '#####\n#.P.#\n##E##\n#...#\n#.h.#\n#####';
+
+  it('cannot be used from the room behind its wall', () => {
+    const w = new World(parseLevel('t', sharedWallMap));
+    w.player.x = 2.5;
+    w.player.y = 1.5;
+    w.player.angle = Math.PI / 2;
+    expect(w.usableAction()).toBeNull();
+  });
+
+  it('can be used from the room in front of it', () => {
+    const w = new World(parseLevel('t', sharedWallMap));
+    w.player.x = 2.5;
+    w.player.y = 3.5;
+    w.player.angle = -Math.PI / 2;
+    expect(w.usableAction()).toBe('exit');
+  });
+});

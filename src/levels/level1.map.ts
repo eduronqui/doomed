@@ -33,11 +33,11 @@ export const LEVEL1_MAP = String.raw`
     #?????????X,,,,,,,,,,,oo,,,,,+# %rhr=====rr======rrrrrrrrrr%
     #???cc????X,,,,,,,,,,,,,,,,,,,# %rrrrrrrrrrrrrrrrrrr=====rr%
     #?????????X,,,,,CC,,,,,,,,,,,,# %%%%%%%%%%%rxbrrrrrr=====rr%
-    #?v?????l?#,,,,,C,,,,,,,,,,f,,# %%%%%E%%%%%rrrrrrrrr=====rr%
-    #?????????#,,,,,,,,,,,,,,,,,,,# %::t:::t::%rrrrrrrrr=====rr%
-    ###########,,,b,,,,,f,,,,,,,,,# %:::::::::Drrrrrzrrrrrrrrrr%
-              #,,,,,,,,,,,,,CC,,,,# %:::::::::Drrrrrfrrrrrrrrr+%
-              #,,,,,,,,,,,,,,,,,,,# %::::b::::Drrrrrrrrrrrrrrr+%
+    #?v?????l?#,,,,,C,,,,,,,,,,f,,# %%E%%%%%%%%rrrrrrrrr=====rr%
+    #?????????#,,,,,,,,,,,,,,,,,,,# %:::%::t::%rrrrrrrrr=====rr%
+    ###########,,,b,,,,,f,,,,,,,,,# %::m%:::::Drrrrrzrrrrrrrrrr%
+              #,,,,,,,,,,,,,CC,,,,# %:::%:::::Drrrrrfrrrrrrrrr+%
+              #,,,,,,,,,,,,,,,,,,,# %%D%%b::::Drrrrrrrrrrrrrrr+%
               #,sGs,,,,,,,,h,,,,m,# %:x:::::f:%rrrrrrrrbrrrrrtr%
               #l,,,,,,,,,,,,,,,,,l# %z::::::::%rmrrrrrrrrrrrrrr%
               ##################### %%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -12,5 +12,5 @@ export const LEVEL2: LevelInfo = {
   par: 300,
   music: LEVEL2_MUSIC,
   ambush: { key: 'blue', groups: { recruit: 'hhff', veteran: 'hhffHb', doomed: 'hhffHbg' } },
-  load: () => parseLevel('Toxin Refinery', LEVEL2_MAP, undefined, [{ at: [11, 30], gates: [[14, 36]] }]),
+  load: () => parseLevel('Toxin Refinery', LEVEL2_MAP, undefined, [{ at: [11, 34], gates: [[14, 40]] }]),
 };

@@ -872,7 +872,7 @@ export class GameScene extends Phaser.Scene {
         this.tweens.killTweensOf(img);
         img.destroy();
         this.itemViews.delete(it.id);
-      } else if (img) img.setVisible(w.isRevealedAt(it.x, it.y));
+      } else if (img) img.setVisible(w.isItemAvailable(it) && w.isRevealedAt(it.x, it.y));
     }
 
     const frame3 = Math.floor(this.animClock / 0.3) % 3;

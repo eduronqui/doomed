@@ -1,7 +1,11 @@
 export const LEVEL3_MAP = String.raw`
-                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%E%%%%
-                   %trrrrrrrrrtrrrtrrrrrrrrrt%rtrrrtr%
-                   %rcrrrrHrrrrrrrrrrrrrrrrrrJrrrbrrr%
+                                               %%E%%
+                                               %rrr%
+                                               %rrm%
+                                               %rrr%
+                   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%D%%%%
+                   %trrrrrrrrrtrrrtrrrrrrrrrt%rtbrrtr%
+                   %rcrrrrHrrrrrrrrrrrrrrrrrrJrrrrrrr%
                    %rrfrrrrrr=======rrrrrrfrrJrrrrrrr%
                    %rrrrrrrrr=======rrrrrrrrrJrrrrrrr%
                    %rrrrrrrrrrrrrrrrrrrrrrrrr%%%%%%%%%

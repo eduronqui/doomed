@@ -25,14 +25,14 @@ export const LEVEL7_MAP = String.raw`
                     %trrrrrrrrrrrr%         %rrrrrrrrr%
                     %rrrrrrrrrrrfr%         %rrSrrrrrr%
                     %rrSrrrrrrrrrr%         %rrrrrrrrr%
-                    %rrrrryrrrrrrr%         %rrrrrrrrr%
-                    %rrrrrrrr%%%%%%         %rrrrrrbrr%
-                    %rrrrrrrrTrrrr%         %rhrrrrrrr%
-                    %rrrrrrrrTrrrr%         %trrrrrrrm%
-                    %rhrrHrrrTrrrr%%%%%E%%%%%%%%YYY%%%%
-                    %rrrrrrrrTrrrr%trrrrrrrrrrrrrrrrrt%
+                    %rrrrryrrrrrrr%  %%E%%  %rrrrrrrrr%
+                    %rrrrrrrr%%%%%%  %rrr%  %rrrrrrbrr%
+                    %rrrrrrrrTrrrr%  %rrm%  %rhrrrrrrr%
+                    %rrrrrrrrTrrrr%  %rrr%  %trrrrrrrm%
+                    %rhrrHrrrTrrrr%%%%%D%%%%%%%%YYY%%%%
+                    %rrrrrrrrTrrrr%trrrrSrrrrrrrrrrrrt%
                     %%%%%%%%%%%%%%%rrrrrrrrrrrrrrrrrrr%
-                                  %rrrrSrrrgrrrrrrrrrr%
+                                  %rrrrrrrrgrrrrrrrrrr%
                                   %rrrrrrrrrrrrrrrfrrr%
                                   %rrrrrrrrrrrrrrrrrrs%
                                   %rrrrrrrrrrbrrrrrrrr%

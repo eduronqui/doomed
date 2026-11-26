@@ -4,7 +4,7 @@ This document describes every game rule in DOOMED. All numbers come from the cod
 
 ## Goal
 
-The episode has twelve levels. Each level from 4 to 11 brings one new weapon or one new enemy, and level 12 ends the episode with a boss. Each level has one exit switch. It always sits on the top wall of a room, and at least one monster always guards it, close to it in the same room. Find it and use it. Enemies, locked doors and hazards are in your way. Every level starts in a safe room: a door stands between the start and the first enemy. When you use the switch, a tally shows your kills, items, secrets and time. Then you continue to the next level.
+The episode has twelve levels. Each level from 4 to 11 brings one new weapon or one new enemy, and level 12 ends the episode with a boss. Each level has one exit switch. From level 1 to level 11, the switch sits on the back wall of a small exit closet, behind a door. At least one monster always guards that door, close to it, in the room in front of it. Find the closet and use the switch. In level 12 and in the training, the switch sits on the top wall of a room, and a monster guards it in the same room. Enemies, locked doors and hazards are in your way. Every level starts in a safe room: a door stands between the start and the first enemy. When you use the switch, a tally shows your kills, items, secrets and time. Then you continue to the next level.
 
 ## Training (first run only)
 
@@ -191,7 +191,7 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Item | Effect |
 | --- | --- |
 | Stimpack | +10 health, up to 100 |
-| Medikit | +25 health, up to 100 |
+| Medikit | +25 health, up to 100. The medikit in an exit closet is an emergency medikit (see Exit closet). |
 | Vital sphere | +100 health, up to 200 |
 | Combat vest | Sets armor to 100 |
 | Clip of bullets | +10 bullets (+5 if a Husk dropped it) |
@@ -207,7 +207,7 @@ You pick up an item when you walk over it. Stimpacks and medikits stay on the fl
 | Rift cannon | Gives the rift cannon and 160 cells (eight shots) |
 | Red, blue or yellow keycard | Opens doors of the same color in this level |
 
-The "Items" stat counts the items placed in the map. Items that enemies drop do not count: ammo from Husks and Shotgun Husks, and stimpacks from Brutes and Shades.
+The "Items" stat counts the items placed in the map. Items that enemies drop do not count: ammo from Husks and Shotgun Husks, and stimpacks from Brutes and Shades. The emergency medikit of an exit closet does not count either.
 
 ## Enemies
 
@@ -409,6 +409,14 @@ A debug layer that shows the view cones of enemies on screen. It is off, and pla
 - Some rooms join through an open passage instead of a door.
 - If you walk into the edge of a doorway, you slide into the opening. Walls and doors stop you at your feet, so you can stand close to a north wall.
 
+### Exit closet
+
+In levels 1 to 11, the exit switch is in a closet that is 3 tiles wide and 3 tiles deep. It has one normal door, 1 tile wide, in line with the switch, and no monster inside. The guards of the exit stand in the room in front of the door. Enemies cannot open doors, so the closet is a safe place once its door has closed, if no enemy follows you in. You can rest in it, as long as you are below the rest cap of your difficulty.
+
+- You can use the exit switch only from the front, on the side of the closet. You cannot use it through its back wall from a room behind it.
+- **Emergency medikit.** Each exit closet holds one medikit. The game decides if it exists at the moment you reveal the closet, which happens when you open its door. If your health is below 25 at that moment, the medikit shows and you can take it. If your health is 25 or more, the medikit never shows in that run of the level. The decision does not change after that.
+- The emergency medikit does not count in the "Items" stat, and it gives +25 health like every medikit.
+
 ### Key ambush
 
 Each level has one trap door. It looks exactly like a plain wall, with no scratches. Behind it, a closed room holds a group of enemies. Until the door opens, the door looks like wall. If rooms surround the closet, the whole closet looks like a solid block of wall, on screen and on the minimap. If the closet is outside the rooms, it stays unknown area, as dark as the void, until the door opens. The trap door is as wide as that room, so nothing stays hidden inside when it opens.
@@ -520,7 +528,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Storage room and its corridor (south of the courtyard) | 3 Husks, 2 Fiends, 1 Brute | **Pump shotgun** and 2 boxes of shells (south-west corner), medikit, stimpack, clip, 2 barrels, crates for cover |
 | Secret room (west of the storage room) | none | **Rotary gun**, **vital sphere**, 2 clips |
 | Hell vault (behind the red door, south of the lab) | 1 Husk, 1 Shotgun Husk, 3 Fiends, 3 Brutes | Medikit, 2 stimpacks, box of shells, clip, lava pools |
-| Exit chamber (south-west corner of the hell vault) | 1 Fiend, 1 Brute | **Exit switch** on the north wall |
+| Exit chamber (south-west corner of the hell vault) | 1 Fiend, 1 Brute | **Exit closet** on the north wall, with the exit switch and an emergency medikit |
 
 ### Route
 
@@ -553,7 +561,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Control room (west) | 2 Husks, 1 Fiend, 1 Shade | **Pump shotgun**, combat vest, clip, crates |
 | Secret storage (north of the control room) | none | **Vital sphere**, combat vest, 2 boxes of shells |
 | Settling basins (east, behind the blue door) | 3 Shotgun Husks, 2 Fiends, 3 Brutes, 1 Shade | 2 medikits, box of shells, clip, 2 barrels, slime basins |
-| Exit room (north-east) | 2 Fiends, 1 Brute | 2 stimpacks, **exit switch** on the north wall |
+| Exit room (north-east) | 2 Fiends, 1 Brute | 2 stimpacks, **exit closet** on the north wall, with the exit switch and an emergency medikit |
 
 ### Route
 
@@ -586,7 +594,7 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 | Secret chamber (south of the east wing) | none | **Vital sphere**, combat vest, box of shells |
 | West wing (behind the yellow door) | 2 Husks, 2 Fiends, 3 Brutes, 1 Shade | **Red keycard** inside a lava moat (north-west), medikit, stimpack, box of shells, clip, 2 barrels |
 | Sanctum (north, behind the red door) | 1 Husk, 1 Shotgun Husk, 4 Fiends, 2 Brutes, 2 Shades | 2 medikits, box of shells, braziers |
-| End room (off the north-east corner of the sanctum) | 1 Brute | **Exit switch** on the north wall, 2 braziers |
+| End room (off the north-east corner of the sanctum) | 1 Brute | **Exit closet** on the north wall, with the exit switch and an emergency medikit |
 
 ### Route
 

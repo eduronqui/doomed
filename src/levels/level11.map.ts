@@ -1,8 +1,12 @@
 export const LEVEL11_MAP = String.raw`
-          %%%%%%%%E%%%%%%%%   %%%%%K%%%%%   %%%%%%%%%%%%%%%
-          %trrrrrrrrrrrrrt%   %,,,,,,,,e%   %rrrrrrrr%rrrr%
+                %%E%%
+                %rrr%
+                %rrm%
+                %rrr%
+          %%%%%%%%D%%%%%%%%   %%%%%K%%%%%   %%%%%%%%%%%%%%%
+          %trrrrrrrwrrrrrt%   %,,,,,,,,e%   %rrrrrrrr%rrrr%
           %rMrrrrrrrrrrrSr%   %,,,,,,,,,%   %rrrrrrrr%rrrr%
-          %rrrrrrrwrrrrrrr%   %,M,,,,,,,%   %rrwrrrrr%rrrr%
+          %rrrrrrrrrrrrrrr%   %,M,,,,,,,%   %rrwrrrrr%rrrr%
   %%%%%%%%%rrrrrrrrrrrrrrr%   %,,,,,,,S,%   %rrrrrrrr%TTTT%
   %t,,,,,,%rrrrrrrrrrrrrrr%   %,,,,,,,,,%   %rrrrrrrrrrrrr%
   %,h,,,,,%rrrrrrrrrrrrVrr%%%%%%%%,,,%%%%%%%%rrrrrrrrrrrrr%

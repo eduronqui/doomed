@@ -2,7 +2,7 @@ import { DECO_POSTS, ITEM_NAMES, SOLID_DECOS, type Ambush, DEFAULT_DIFFICULTY, t
 import { MARINE, MONSTERS, type MonsterDef, type MonsterKind, type ShotSpec } from '../characters';
 import { FALLBACK_ORDER, MAX_AMMO, WEAPONS, WEAPON_ORDER, type AmmoType, type Blast, type ProjectileLook, type WeaponDef, type WeaponId } from '../weapons';
 import { FOOT_OFFSET, Grid, reachUp, type Door } from './grid';
-import { FLOOR_HAZARD, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
+import { FLOOR_HAZARD, exitClosetCells, monsterOfChar, type DoorKind, type FloorKind, type LevelData, type WallKind } from './level';
 import { findPath } from './pathfind';
 import { Rng } from './rng';
 import { clamp, dirFromAngle, dist, type Dir, type Vec } from './types';
@@ -144,6 +144,8 @@ export interface Item {
   y: number;
   taken: boolean;
   dropped: boolean;
+  emergency?: boolean;
+  available?: boolean;
 }
 
 export interface Deco {
@@ -254,6 +256,7 @@ const PICKUP_AMMO: Partial<Record<ItemKind, [AmmoType, number]>> = {
 };
 const WEAPON_PICKUP_AMMO: Record<WeaponId, number> = { knife: 0, pistol: 10, shotgun: 8, rotary: 20, launcher: 6, flamer: 60, arc: 40, rift: 160 };
 const MAX_STEP = 1 / 30;
+export const EMERGENCY_HEALTH = 25;
 export const REST_DELAY = 10;
 const CLOSE_SENSE = 1.5;
 const BACK_ARC = (120 * Math.PI) / 180;
@@ -385,11 +388,16 @@ export class World {
     this.checkGates();
     if (options.watchDoors) this.watchDoors();
 
+    const closet = exitClosetCells(level);
+    for (const item of this.items) {
+      if (item.kind === 'medkit' && closet.has(this.grid.index(Math.floor(item.x), Math.floor(item.y)))) item.emergency = true;
+    }
+
     this.stats = {
       kills: 0,
       totalKills: this.monsters.length,
       items: 0,
-      totalItems: this.items.length,
+      totalItems: this.items.filter((item) => !item.emergency).length,
       secrets: 0,
       totalSecrets: level.secretCount,
     };
@@ -729,7 +737,7 @@ export class World {
       for (let cx = Math.floor(p.x) - 1; cx <= Math.floor(p.x) + 1; cx++) {
         const t = this.grid.tile(cx, cy);
         if (!t || (t.type !== 'door' && t.type !== 'exit' && t.switchId < 0)) continue;
-        if (t.switchId >= 0 && cy >= Math.floor(p.y)) continue;
+        if ((t.switchId >= 0 || t.type === 'exit') && cy >= Math.floor(p.y)) continue;
         const d = dist(p.x, p.y, cx + 0.5, cy + 0.5);
         if (d > 1.5) continue;
         const dot = ((cx + 0.5 - p.x) * cos + (cy + 0.5 - p.y) * sin) / d;
@@ -943,10 +951,15 @@ export class World {
     return d < PICKUP_RADIUS * this.pickupScale && this.grid.canStep(p.x, p.y, item.x, item.y) && this.grid.lineOfFire(p.x, p.y, item.x, item.y);
   }
 
+  isItemAvailable(item: Item): boolean {
+    return !item.emergency || item.available === true;
+  }
+
   private tryPickup(item: Item): void {
     const p = this.player;
     let sound: SoundId = 'pickup';
     if (this.god && GOD_SKIPS.has(item.kind)) return;
+    if (!this.isItemAvailable(item)) return;
     switch (item.kind) {
       case 'stimpack':
       case 'medkit':
@@ -995,7 +1008,7 @@ export class World {
         break;
     }
     item.taken = true;
-    if (!item.dropped) this.stats.items++;
+    if (!item.dropped && !item.emergency) this.stats.items++;
     this.message(`You picked up ${ITEM_NAMES[item.kind]}.`, 'pickup');
     this.sound(sound, item.x, item.y);
   }
@@ -1279,6 +1292,9 @@ export class World {
     }
     for (const { group, rooms } of this.doorRooms) {
       if (group[0].openness > 0.3 && rooms.some((r) => here.includes(r))) for (const r of rooms) this.revealedRooms.add(r);
+    }
+    for (const item of this.items) {
+      if (item.emergency && item.available === undefined && this.isRevealedAt(item.x, item.y)) item.available = this.player.health < EMERGENCY_HEALTH;
     }
   }
 

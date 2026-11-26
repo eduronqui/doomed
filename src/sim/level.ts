@@ -181,7 +181,7 @@ export function parseLevel(name: string, map: string, heightMap?: string, switch
     const below = tiles[i + width];
     if (!below || below.type !== 'floor') throw new Error(`Exit switch at ${ex},${ey} must sit on a top wall, with floor below it`);
     if (!hasGuard(tiles, spawns, width, height, ex, ey + 1)) {
-      throw new Error(`Exit switch at ${ex},${ey} needs a monster within ${EXIT_GUARD_RADIUS} tiles in the same room to guard it`);
+      throw new Error(`Exit switch at ${ex},${ey} needs a monster within ${EXIT_GUARD_RADIUS} tiles, in its room or the room in front of its door, to guard it`);
     }
   });
 
@@ -245,9 +245,9 @@ function applyHeights(name: string, tiles: Tile[], width: number, height: number
 export const EXIT_GUARD_RADIUS = 5;
 const MONSTER_KINDS: ReadonlySet<SpawnKind> = new Set<SpawnKind>(['husk', 'shotgunner', 'fiend', 'brute', 'shade', 'gunner', 'stalker', 'warden', 'hollow', 'gatekeeper']);
 
-function hasGuard(tiles: Tile[], spawns: Spawn[], width: number, height: number, fx: number, fy: number): boolean {
-  const room = new Set<number>([fy * width + fx]);
-  const stack = [fy * width + fx];
+function floodFrom(tiles: Tile[], width: number, height: number, start: number, canCross: (t: Tile) => boolean): Set<number> {
+  const seen = new Set<number>([start]);
+  const stack = [start];
   while (stack.length) {
     const cur = stack.pop()!;
     const cx = cur % width;
@@ -259,15 +259,30 @@ function hasGuard(tiles: Tile[], spawns: Spawn[], width: number, height: number,
       [cx, cy - 1],
     ]) {
       const ni = ny * width + nx;
-      if (nx < 0 || ny < 0 || nx >= width || ny >= height || room.has(ni) || tiles[ni].type !== 'floor') continue;
-      room.add(ni);
+      if (nx < 0 || ny < 0 || nx >= width || ny >= height || seen.has(ni) || !canCross(tiles[ni])) continue;
+      seen.add(ni);
       stack.push(ni);
     }
   }
+  return seen;
+}
+
+export const EXIT_CLOSET_CELLS = 9;
+
+export function exitClosetCells(level: Pick<LevelData, 'tiles' | 'width' | 'height'>): Set<number> {
+  const { tiles, width, height } = level;
+  const exit = tiles.findIndex((t) => t.type === 'exit');
+  if (exit < 0 || tiles[exit + width]?.type !== 'floor') return new Set();
+  const room = floodFrom(tiles, width, height, exit + width, (t) => t.type === 'floor');
+  return room.size <= EXIT_CLOSET_CELLS ? room : new Set();
+}
+
+function hasGuard(tiles: Tile[], spawns: Spawn[], width: number, height: number, fx: number, fy: number): boolean {
+  const area = floodFrom(tiles, width, height, fy * width + fx, (t) => t.type === 'floor' || (t.type === 'door' && t.door === 'normal'));
   return spawns.some(
     (s) =>
       MONSTER_KINDS.has(s.kind) &&
-      room.has(Math.floor(s.y) * width + Math.floor(s.x)) &&
+      area.has(Math.floor(s.y) * width + Math.floor(s.x)) &&
       Math.hypot(s.x - (fx + 0.5), s.y - (fy + 0.5)) <= EXIT_GUARD_RADIUS,
   );
 }

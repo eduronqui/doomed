@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { ALL_LEVELS } from '../src/levels';
 import { DIFFICULTIES } from '../src/sim/defs';
-import { parseLevel, type DoorKind, type LevelData } from '../src/sim/level';
+import { exitClosetCells, parseLevel, type DoorKind, type LevelData } from '../src/sim/level';
 import { World } from '../src/sim/world';
 
 const KEY_OF: Record<string, DoorKind> = { redkey: 'red', bluekey: 'blue', yellowkey: 'yellow' };
 const SOLID_DECOS = ['crate'];
+const MONSTER_KINDS_FOR_TEST: Record<string, true> = { husk: true, shotgunner: true, fiend: true, brute: true, shade: true, gunner: true, stalker: true, warden: true, hollow: true, gatekeeper: true };
 
 function gateCells(level: LevelData, from: [number, number]): number[] {
   const start = from[1] * level.width + from[0];
@@ -154,7 +155,7 @@ describe.each(ALL_LEVELS.map((info) => [info.title, info] as const))('%s', (_tit
   });
 
   it('needs the keys to reach the exit, and collecting them in order is enough', () => {
-    const exitNeighbours = [exitIdx + level.width, exitIdx - level.width, exitIdx + 1, exitIdx - 1];
+    const exitNeighbours = [exitIdx + level.width];
     if (lockedColors.size > 0) {
       const none = reachable(level, player, new Set());
       expect(exitNeighbours.some((n) => none.has(n))).toBe(false);
@@ -180,10 +181,11 @@ describe('parseLevel', () => {
     expect(() => parseLevel('bottom', '#####\n#.h.#\n#.P.#\n##E##')).toThrow(/top wall/);
   });
 
-  it('requires a monster guarding the exit switch in the same room', () => {
+  it('requires a monster guarding the exit switch, in its room or in front of its door', () => {
     expect(() => parseLevel('none', '##E##\n#.P.#\n#####')).toThrow(/guard/);
     expect(() => parseLevel('far', '##E##\n#.P.#\n#...#\n#...#\n#...#\n#...#\n#...#\n#.b.#\n#####')).toThrow(/guard/);
-    expect(() => parseLevel('behind a door', '##E##\n#.P.#\n##D##\n#.f.#\n#####')).toThrow(/guard/);
+    expect(() => parseLevel('behind a locked door', '##E##\n#.P.#\n##R##\n#.f.#\n#####')).toThrow(/guard/);
+    expect(() => parseLevel('in front of a door', '##E##\n#...#\n##D##\n#.f.#\n#####')).not.toThrow();
     expect(() => parseLevel('guarded', '##E##\n#.P.#\n#...#\n#.g.#\n#####')).not.toThrow();
   });
 
@@ -249,5 +251,28 @@ describe('Key ambush', () => {
       expect(angle).toBeLessThanOrEqual(MAX_ANGLE_OFF_DOOR);
       expect(world.grid.lineOfFire(key.x, key.y, centerX + nx, centerY + ny)).toBe(true);
     }
+  });
+});
+
+describe('Exit closet', () => {
+  it.each(ALL_LEVELS.filter((info) => info.id >= 1 && info.id <= 11).map((info) => [info.title, info] as const))('%s: the exit switch sits in a 3 by 3 closet with one door in line with it, and an emergency medikit', (_title, info) => {
+    const level = info.load();
+    const cells = [...exitClosetCells(level)];
+    const xs = cells.map((i) => i % level.width);
+    const ys = cells.map((i) => Math.floor(i / level.width));
+    const exitIndex = level.tiles.findIndex((t) => t.type === 'exit');
+    const exitX = exitIndex % level.width;
+    expect(Math.max(...xs) - Math.min(...xs) + 1).toBe(3);
+    expect(Math.max(...ys) - Math.min(...ys) + 1).toBe(3);
+    expect(cells).toHaveLength(9);
+    const inside = new Set(cells);
+    const at = (s: { x: number; y: number }): number => Math.floor(s.y) * level.width + Math.floor(s.x);
+    expect(level.spawns.filter((s) => s.kind in MONSTER_KINDS_FOR_TEST && inside.has(at(s)))).toEqual([]);
+    expect(level.spawns.filter((s) => s.kind === 'medkit' && inside.has(at(s)))).toHaveLength(1);
+    const doors = [...new Set(cells.flatMap((i) => [i + 1, i - 1, i + level.width, i - level.width]).filter((n) => level.tiles[n].type === 'door'))];
+    expect(doors.map((n) => level.tiles[n].door)).toEqual(['normal']);
+    expect(doors[0] % level.width).toBe(exitX);
+    expect(Math.floor(doors[0] / level.width)).toBe(Math.max(...ys) + 1);
+    for (const i of cells) expect(level.tiles[i].height).toBe(0);
   });
 });
