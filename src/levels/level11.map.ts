@@ -18,13 +18,13 @@ export const LEVEL11_MAP = String.raw`
   %,,,,,h,%rrrrrrrrrrrrrwr%rrrr%%rrrrr%%rrrr%rrrrrrrrrrrMr%
   %,,,,,,,%rrSrrrrrrrrrrrr%rrrr%%rrrrr%%rrrr%rwrrrVrrrrrrr%
   %%%DD%%%%rrrrrrrrrrfrrrr%rgrrrrrrbrrrrrrrr%rrrrrrrrrrrrr%%%%%
-  %trrrrrr%rrrrrrrrrrrrrHr%rrrrrrrrrrrrrrrrr%rrrr=====rrrr%???%
-  %rrrrrmr%rrrrrrrrrrrrrrr%rrrrrrrrrrrrrrrrrrrrrr=====rrrr%?v?%
-  %rrrrrrrDrrrrr=====rrrrrRrrrrrrrrrrrrrSrrrrrrrrrrrrrrrrr%???%
-  %rrPrrrrDrrrrr=====rrrrrRrrrSrrrrVrrrrrrrrrrrrrrrrrrrrrrX?e?%
-  %rrrrrrrDrrrrr=====rVrrrRrrrrrrrrrrrrrrrrr%rrrrrrrfrrrre%???%
-  %rrrrrrr%rrrrr=====rrrrr%rrrrrrrrrrrrrrrrr%rrrrrrrrrrrrr%??e%
-  %rrrrrrt%mrrrr=====rrrrr%rrrrrrrrnrrrrrrrr%Hrrrrrrrrrrrr%???%
+  %trrrrrr%rrrrrrrrrrrrrHr%rrrrrrrrrrrrrrrrr%rrrr=====rrrr%ddd%
+  %rrrrrmr%rrrrrrrrrrrrrrr%rrrrrrrrrrrrrrrrrrrrrr=====rrrr%dvd%
+  %rrrrrrrDrrrrr=====rrrrrRrrrrrrrrrrrrrSrrrrrrrrrrrrrrrrr%ddd%
+  %rrPrrrrDrrrrr=====rrrrrRrrrSrrrrVrrrrrrrrrrrrrrrrrrrrrrXded%
+  %rrrrrrrDrrrrr=====rVrrrRrrrrrrrrrrrrrrrrr%rrrrrrrfrrrre%ddd%
+  %rrrrrrr%rrrrr=====rrrrr%rrrrrrrrrrrrrrrrr%rrrrrrrrrrrrr%dde%
+  %rrrrrrt%mrrrr=====rrrrr%rrrrrrrrnrrrrrrrr%Hrrrrrrrrrrrr%ddd%
   %%%%%%%%%rrrrrrrrrrrrrrr%rrrrrrrrrrrrrrrrr%rrrrrrrrrVrrr%%%%%
           %rrrrrrrrrrrrrrr%rrrr%%rrrrr%%rrrr%rrrrrrrrrrrrr%
           %rrrhrrrrrrrrrrr%rrrr%%rrrrr%%rrrr%rrSrrrrrrrrrh%
