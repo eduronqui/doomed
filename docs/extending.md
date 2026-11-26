@@ -158,7 +158,7 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 | `B` | Blue door (blue keycard) | `~` | Toxic slime (5 damage/s) |
 | `Y` | Yellow door (yellow keycard) | `=` | Lava (10 damage/s) |
 | `X` | Secret wall (opens with E) | `?` | Metal floor in a secret area |
-| `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | | |
+| `T` | Trap door (looks like wall; only the level's `ambush` key opens it) | `d` | Rock floor in a secret area |
 | `J` | Gate (cyan; only its lever opens it) | `K` | Lever (part of a top wall, floor below) |
 | `U` | Rift seal (violet; breaks when every boss on the level is dead; the level needs a boss) | | |
 | `E` | Exit switch (part of a wall) | space | Void outside the level |
@@ -190,11 +190,12 @@ A map is an ASCII grid. One character is one tile (32 px). Rows may have differe
 
 ### Rules
 
-- An entity cell takes the floor of the cell to its left. Put a floor tile left of each entity to choose its floor.
+- An entity cell takes the floor of the cell to its left. Put a floor tile left of each entity to choose its floor. If the left cell is not floor, the entity takes the floor of the cell to its right, below or above it, but never slime or lava.
 - Adjacent door cells of the same kind form one door group. A group opens and closes as one piece and draws as one sprite. Make doors as wide as the corridor.
-- Connected `?` cells form one secret area. It counts as found when the player steps in.
+- Connected `?` and `d` cells form one secret area. It counts as found when the player steps in.
 - The exit switch must sit on a top wall: the cell below it must be floor. Its face then shows toward the player.
-- A monster must guard the exit switch: it spawns in the same room as the floor cell in front of the switch, at most 5 tiles away (`EXIT_GUARD_RADIUS` in `src/sim/level.ts`).
+- A monster must guard the exit switch: it spawns in the same room as the floor cell in front of the switch, or in the room in front of that room's normal door, at most 5 tiles away (`EXIT_GUARD_RADIUS` in `src/sim/level.ts`).
+- In levels 1 to 11, the exit switch sits in a closet 3 tiles wide and 3 tiles deep, with no monster inside, one normal door tile in line with the switch, and one medikit (the emergency medikit, see `exitClosetCells` in `src/sim/level.ts`). The switch has its own wall, with no other room behind it.
 - Walls must enclose every floor, door and exit cell. No walkable cell may touch the void.
 - Each keycard must be reachable without its own door, and the exit must need the keycards of the locked doors.
 

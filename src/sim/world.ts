@@ -263,6 +263,7 @@ const BACK_ARC = (120 * Math.PI) / 180;
 const ENEMY_AIM_ERROR = 0.14;
 const DROPPED_AMMO = 5;
 export const ALERT_SIGHT = 1.5;
+export const LOSS_GRACE = 2;
 
 function angleDiff(a: number, b: number): number {
   return Math.atan2(Math.sin(a - b), Math.cos(a - b));
@@ -1320,6 +1321,10 @@ export class World {
   }
 
   private chaseUnseen(m: Monster, dt: number): void {
+    if (m.lostTime <= LOSS_GRACE) {
+      this.navigate(m, this.player.x, this.player.y, dt, 1);
+      return;
+    }
     switch (m.def.lost) {
       case 'hold':
         m.state = 'hold';

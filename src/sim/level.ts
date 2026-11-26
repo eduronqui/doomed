@@ -39,6 +39,8 @@ export interface SwitchLink {
   gates: [number, number][];
 }
 
+const SECRET_FLOOR_CHARS = '?d';
+
 const FLOORS: Record<string, FloorKind> = {
   '.': 'metal',
   ',': 'concrete',
@@ -47,6 +49,7 @@ const FLOORS: Record<string, FloorKind> = {
   '~': 'slime',
   '=': 'lava',
   '?': 'metal',
+  d: 'rock',
 };
 
 const SPAWNS: Record<string, SpawnKind> = {
@@ -141,6 +144,7 @@ export function parseLevel(name: string, map: string, heightMap?: string, switch
   const height = rows.length;
   const width = Math.max(...rows.map((r) => r.length));
   const tiles: Tile[] = [];
+  const noFloorToCopy: number[] = [];
   const spawns: Spawn[] = [];
 
   for (let y = 0; y < height; y++) {
@@ -162,15 +166,21 @@ export function parseLevel(name: string, map: string, heightMap?: string, switch
           switchId: -1,
         };
       } else if (c === 'E') tile = { type: 'exit', floor: 'metal', wall: wallOfNeighbours(rows, x, y), door: null, secretId: -1, height: 0, switchId: -1 };
-      else if (FLOORS[c]) tile = floorTile(FLOORS[c], c === '?' ? 0 : -1);
+      else if (FLOORS[c]) tile = floorTile(FLOORS[c], SECRET_FLOOR_CHARS.includes(c) ? 0 : -1);
       else if (SPAWNS[c]) {
         const left = x > 0 ? tiles[y * width + x - 1] : undefined;
-        tile = left && left.type === 'floor' ? floorTile(left.floor, left.secretId) : floorTile('metal');
+        if (left && left.type === 'floor') tile = floorTile(left.floor, left.secretId);
+        else {
+          tile = floorTile('metal');
+          noFloorToCopy.push(y * width + x);
+        }
         spawns.push({ kind: SPAWNS[c], x: x + 0.5, y: y + 0.5 });
       } else throw new Error(`Unknown map char '${c}' at ${x},${y}`);
       tiles.push(tile);
     }
   }
+
+  copyFloorFromNeighbours(tiles, width, noFloorToCopy);
 
   if (heightMap) applyHeights(name, tiles, width, height, heightMap.split('\n').filter((r, i, all) => !(r === '' && (i === 0 || i === all.length - 1))));
 
@@ -244,6 +254,21 @@ function applyHeights(name: string, tiles: Tile[], width: number, height: number
 
 export const EXIT_GUARD_RADIUS = 5;
 const MONSTER_KINDS: ReadonlySet<SpawnKind> = new Set<SpawnKind>(['husk', 'shotgunner', 'fiend', 'brute', 'shade', 'gunner', 'stalker', 'warden', 'hollow', 'gatekeeper']);
+
+function copyFloorFromNeighbours(tiles: Tile[], width: number, pending: number[]): void {
+  const waiting = new Set(pending);
+  let changed = true;
+  while (changed && waiting.size > 0) {
+    changed = false;
+    for (const i of waiting) {
+      const from = [i + 1, i + width, i - width].find((n) => tiles[n]?.type === 'floor' && FLOOR_HAZARD[tiles[n].floor] === 0 && !waiting.has(n));
+      if (from === undefined) continue;
+      tiles[i].floor = tiles[from].floor;
+      waiting.delete(i);
+      changed = true;
+    }
+  }
+}
 
 function floodFrom(tiles: Tile[], width: number, height: number, start: number, canCross: (t: Tile) => boolean): Set<number> {
   const seen = new Set<number>([start]);

@@ -218,6 +218,24 @@ describe('parseLevel', () => {
     }
   });
 
+  it('gives a spawn next to a wall the floor of its other neighbours instead of the default metal', () => {
+    const lvl = parseLevel('t', '#####\n#t,,#\n#rrr#\n#####');
+    expect(lvl.tiles[1 * 5 + 1].floor).toBe('concrete');
+  });
+
+  it('does not copy a hazard floor onto a spawn', () => {
+    const lvl = parseLevel('t', '####\n#c=#\n####');
+    expect(lvl.tiles[1 * 4 + 1].floor).toBe('metal');
+  });
+
+  it('reads d as a secret floor made of rock', () => {
+    const lvl = parseLevel('t', '#####\n#dc.#\n#####');
+    expect(lvl.tiles[1 * 5 + 1].floor).toBe('rock');
+    expect(lvl.tiles[1 * 5 + 1].secretId).toBe(0);
+    expect(lvl.tiles[1 * 5 + 2].floor).toBe('rock');
+    expect(lvl.tiles[1 * 5 + 2].secretId).toBe(0);
+  });
+
   it('reads colored doors, keycards and shades', () => {
     const lvl = parseLevel('t', '#######\n#PjyBg#\n###Y###');
     expect(lvl.spawns.map((s) => s.kind)).toEqual(['player', 'bluekey', 'yellowkey', 'shade']);

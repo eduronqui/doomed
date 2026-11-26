@@ -3,7 +3,7 @@ import { LEVELS } from '../src/levels';
 import { parseLevel } from '../src/sim/level';
 import { MONSTERS } from '../src/characters';
 import { DIFFICULTIES } from '../src/sim/defs';
-import { IDLE_INPUT, World, type Input } from '../src/sim/world';
+import { IDLE_INPUT, LOSS_GRACE, World, type Input } from '../src/sim/world';
 import { MAX_AMMO, WEAPON_ORDER, type WeaponId } from '../src/weapons';
 
 function run(world: World, seconds: number, input: Partial<Input> = {}): void {
@@ -220,6 +220,8 @@ describe('World', () => {
     it('husks give up and wander around', () => {
       const { w, m } = setup('h');
       run(w, 1);
+      expect(m.state).toBe('chase');
+      run(w, LOSS_GRACE);
       expect(m.state).toBe('wander');
       const seen = new Set<string>();
       for (let i = 0; i < 10; i++) {
@@ -231,9 +233,10 @@ describe('World', () => {
 
     it('fiends stop and hold position', () => {
       const { w, m } = setup('f');
-      const start = { x: m.x, y: m.y };
-      run(w, 3);
+      run(w, LOSS_GRACE + 1);
       expect(m.state).toBe('hold');
+      const start = { x: m.x, y: m.y };
+      run(w, 2);
       expect({ x: m.x, y: m.y }).toEqual(start);
       w.player.x = 7.5;
       w.player.y = 2.5;
@@ -253,7 +256,7 @@ describe('World', () => {
     });
   });
 
-  it('makes a fiend lose track when a crate is between it and the player', () => {
+  it('makes a fiend lose sight of the player when a crate is between them, and keeps it chasing during the grace period', () => {
     const w = new World(parseLevel('t', '###########\n#.........#\n#P...C...f#\n#.........#\n###########'), 3);
     const fiend = w.monsters[0];
     w.player.y = 1.5;
@@ -261,8 +264,9 @@ describe('World', () => {
     fiend.state = 'chase';
     fiend.angle = Math.PI;
     w.player.y = 2.5;
-    run(w, 1, { aimX: 1.5, aimY: 0 });
-    expect(fiend.state).toBe('hold');
+    run(w, 0.5, { aimX: 1.5, aimY: 0 });
+    expect(fiend.seesPlayer).toBe(false);
+    expect(fiend.state).toBe('chase');
   });
 
   it('lets a holding fiend that faces away look around and find the player again', () => {

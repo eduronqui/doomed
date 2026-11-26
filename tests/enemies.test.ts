@@ -186,3 +186,25 @@ describe('Gatekeeper', () => {
     expect(w.projectiles.length).toBeGreaterThanOrEqual(12);
   });
 });
+
+describe('Losing sight behind a pillar', () => {
+  const pillarRoom = '############\n#P....#....#\n#.....#..f.#\n#.....#....#\n#..........#\n############';
+
+  it('keeps a Fiend chasing for a short while instead of stopping at once', () => {
+    const w = tough(new World(parseLevel('t', pillarRoom), 2));
+    const fiend = w.monsters[0];
+    hunt(fiend);
+    run(w, 1, { aimX: 1.5, aimY: 1.5 });
+    expect(fiend.state).toBe('chase');
+    expect(fiend.seesPlayer).toBe(false);
+  });
+
+  it('still gives up after the grace period when it never sees the player again', () => {
+    const closed = '############\n#P....#....#\n#.....#..f.#\n#.....#....#\n#.....#....#\n############';
+    const w = tough(new World(parseLevel('t', closed), 2));
+    const fiend = w.monsters[0];
+    hunt(fiend);
+    run(w, 4, { aimX: 1.5, aimY: 1.5 });
+    expect(fiend.state).toBe('hold');
+  });
+});

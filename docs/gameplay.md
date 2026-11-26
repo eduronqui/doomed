@@ -231,7 +231,10 @@ All enemies show their name and a health bar above them. The name color changes 
 | Sight range, calm | 6 tiles | 6 tiles | 8 tiles | 5 tiles | 6 tiles |
 | Sight range, hunting | 9 tiles | 9 tiles | 12 tiles | 7.5 tiles | 9 tiles |
 | Crates block its sight | no | no | **yes** | no | no |
-| After it loses sight of you | Goes to where it last saw you, then wanders | Same as the Husk | Stops and holds | Tracks you for 6 s, then goes home | Tracks you for 8 s, then goes home |
+| After it loses sight of you (after the first 2 s) | Goes to where it last saw you, then wanders | Same as the Husk | Stops and holds | Tracks you for 6 s, then goes home | Tracks you for 8 s, then goes home |
+
+For the first 2 seconds after any hunting enemy loses sight of you, it keeps following your real position. This stops a pillar or a corner from ending a chase at once. After that, the behavior in the row above applies.
+
 | Drops | Clip (5 bullets) | Shells (5 shells) | nothing | Stimpack | Stimpack |
 | First appears in | Level 1 | Level 1 | Level 1 | Level 1 | Level 2 |
 
