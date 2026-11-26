@@ -4,36 +4,36 @@ export const LEVEL12_MAP = String.raw`
                           %rrrrrhr%
                           %rrrrrrr%
                   %%%%%%%%%%%UUU%%%%%%%%%%%
-                  %trrrrrrrrrrrrrrrrrrrrrt%
-                  %rrrrrrrrrrrrrrrrrrrrrrr%
-                  %r=rrrrrrrrrwrrrrrrrrr=r%
-                  %r=rrrrrVrrrrrrrrrrrrr=r%
-  %%%%%%%         %r=rrrrrrrrrrrrrrrrrrr=r%
-  %?????%         %r=rHrrrrrrrrrrrrrrwrr=r%
-  %??v??%         %r=rrrrrrrrrZrrrrrrrrr=r%
-  %?n?e?%         %r=rrrrrrrrrrrrrrrrrrr=r%
-  %?????%         %r=rrrrrrrrrrrrrrrrrrr=r%
+                  %%%%%%%rrtrrrrrtrr%%%%%%%
+                  %%%%%%rrrrrrrrrrrrr%%%%%%
+                  %%%%%trrrrrrwrrrrrrt%%%%%
+                  %%%%rrrrVrrrrrrrrrrrr%%%%
+  %%%%%%%         %%%trrrrrrrrrrrrrrrrrt%%%
+  %ddddd%         %%=rHrrrrrrrrrrrrrrwrr=%%
+  %ddvdd%         %r=rrrrrrrrrZrrrrrrrrr=r%
+  %dnded%         %r=rrrrrtrrrrrrrtrrrrr=r%
+  %ddddd%         %r=rrrrrrrrrrrrrrrrrrr=r%
 %%%%%X%%%%%%      %r=rrr%%rrrrrrrrr%%rrr=r%
 %trrrrrrrrt%      %r=rrr%%rrrrrrrrr%%rrr=r%
 %rmmrrreeer%      %r=rrrrrrrrrrrfrrrrrrr=r%
-%rrrrrrrrrr%%%%%%%%rrrrrrrrrrrrrrrrrrrrrrr%
+%rrrrrrrrrr%%%%%%%%rrrrrrrrrrrtrrrrrrrrrrr%
 %rrrrrrrrrrDrrrrrrDrrrrrrrrSrrrrrrrrrrrrrr%
 %rrPrrrrrarDrrrrrrDrrrrrrrrrrrrrrrrrrrrrrr%
-%rrrrrrrrrrDrrrrrrDrrrrrrrrrrrrrrrrrrhrrrr%
+%rrrrrrrrrrDrrrrrrDrrrrrrrtrrrrrrrtrrhrrrr%
 %rrrrrrrrrr%%%%%%%%rrrSrrrrrrrrrrrrrrrrrrr%
 %rnnrrreeer%      %rrrrrrrrrrrrrrSrrrrrrrr%
-%trrrrrrrrt%      %rrrrrrrrrrrrrrrrrrrrrrr%
+%trrrrrrrrt%      %rrrrrrrrrrrtrrrrrrrrrrr%
 %%%%%%%%%%%%      %r=rrrrrrrrgrrrrrrrrrr=r%
                   %r=rrr%%rrrrrrrrr%%rrr=r%
                   %r=rrr%%rrrrrrrrr%%rrr=r%
                   %r=rrrrrrrrrrrrrrrrrrr=r%
-                  %r=rrrrrrrrrrhrrrrrrrr=r%
+                  %r=rrrrrtrrrrhrrtrrrrr=r%
                   %r=rrwrrrrrrrrrrrrrrrr=r%
-                  %r=rrrrrrrMrrrrrMrrrVr=r%
-                  %r=rrrrrrrrrrrrrrrrrrr=r%
-                  %r=rrrrrrrrrrrrrrrrrrr=r%
-                  %r=rrrrrrrrrrrrrrrrrrr=r%
-                  %rrrrrrrrrrrrrrrrrrrrrrr%
-                  %trrrrrrrrrrrrrrrrrrrrrt%
+                  %%=rrrrrrrMrrrrrMrrrVr=%%
+                  %%%trrrrrrrrrrrrrrrrrt%%%
+                  %%%%rrrrrrrrrrrrrrrrr%%%%
+                  %%%%%trrrrrrrrrrrrrt%%%%%
+                  %%%%%%rrrrrrrrrrrrr%%%%%%
+                  %%%%%%%rrtrrrrrtrr%%%%%%%
                   %%%%%%%%%%%%%%%%%%%%%%%%%
 `;

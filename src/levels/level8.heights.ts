@@ -7,9 +7,9 @@ export const LEVEL8_HEIGHTS = String.raw`
 
 
 
-                           111
-                           111
-                           111
+                             1
+                            11
+                            11
                            111
                            111
                            111

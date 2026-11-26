@@ -2,25 +2,25 @@ export const LEVEL7_MAP = String.raw`
             %%%%%%%%%
             %???????%
   %%%%%%%%%%%??a?n??%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %trrrrrrrr%?????s?%trrrrrrrrrrrrrrrrrrhrrr%rrrrrrm%
-  %rrrrrr+rr%%%%X%%%%rrrsrrrfrrrrrrrrrhrrrHr%rgrrrrr%
-  %rrrrrrrrrDrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%rrrrrrr%
+  %trrrrrrr%%?????s?%%%rrrrrrrrrrrrrrrrrh%%%%rrrrrrm%
+  %rrrrrr+rr%%%%X%%%%%rrsrrrfrrrrrrrrrhrrrH%%rgrrrrr%
+  %rrrrrrrrrDrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr%%rrrrrrr%
   %rrrPrrrrrDrrrrhrrrrrrrrrrrrrr%%rrrrrrrrrr%rrrjrrr%
   %rrrrrrrrrDrrrrrrrrrrrr%%rrrrr%%rrrrrrrrrr%rrrrrrr%
   %rcrrrrrrr%%%%%%%%%rrrr%%rrrrrrrrrrrrrrrrrDrrrrrSr%
-  %rrrrrrrrt%       %rrrrrrrrrrrrrrrrrrrrrrrDrrrrrrr%
+  %%rrrrrrr%%       %rrrrrrrrrrrrrrrrrrrrrrrDrrrrrrr%
   %%%%%%%%%%%       %rrrrrrrrrSrrrrrrrrrrrrr%%%%%%%%%%%
-                    %rrrrrrrrrrrrrrrr%%rrrrr%urrrrrrrn%
-        %%%%%%%K%%%%%rSrrrrrrrrrrrrrr%%rrrrr%rrrrrrrrr%
-        %trrrrrrrrrt%rrrrrrrrrrnrrrrrrrrrrrr%rsrrrrrrr%
+                    %rrrrrr%%rrrrrrrr%%rrrrr%%urrrr%%%%
+        %%%%%%%K%%%%%rSrrrr%%rrrrrrrr%%rrrrr%rrrrrrrn%%
+        %trrrrrrrrrt%rrrrrrrrrrnrrrrrrrrrrrr%rsrrrrrr%%
         %rrrrrrrrrrr%rrrrrrrrrrrrrrrSrrrrrrrBrrrrrSrrr%
         %rrrrrrrrrrrrrrrrrr%%rrrrrrrrrrrrrrrBrrrrrrrrr%
         %rrrSrrrrrrrrrrrrrr%%rrrrrr%%rrrrrrrBrrrrrrrrr%
         %rrrrrrrrrrrrrrrrrrrrrrrrrr%%rrrrrrr%rrrrrrrrr%
         %rrrrrrrrrrr%rrrSrrrrrrrrrrrrrrrhrrr%rrrrfrrrr%
         %mrrrrrrrhrr%rrrrrrrrrrrrSrrrrrrrrrr%rrrrrrrrr%
-        %rfrrrurrrrr%rrrrrrrrrfrrrrrrrrrrrHr%rrrrrrrHr%
-        %rrrrrrrrrrr%trrrrrrrrrrrrrrrrrrrmrt%rrrrrrrrr%
+        %rfrrrurrrrr%rrrrrrr%%frrrrrrrrrrrHr%rrrrrrrHr%
+        %rrrrrrrrrrr%trrrrrr%%rrrrrrrrrrrmrt%rrrrrrrrr%
         %%%%%%%%%%%%%%%%%%JJJ%%%%%%%%%%%%%%%%rmrrrrrrr%
                     %trrrrrrrrrrrr%         %rrrrrrrrr%
                     %rrrrrrrrrrrfr%         %rrSrrrrrr%
@@ -28,17 +28,17 @@ export const LEVEL7_MAP = String.raw`
                     %rrrrryrrrrrrr%  %%E%%  %rrrrrrrrr%
                     %rrrrrrrr%%%%%%  %rrr%  %rrrrrrbrr%
                     %rrrrrrrrTrrrr%  %rrm%  %rhrrrrrrr%
-                    %rrrrrrrrTrrrr%  %rrr%  %trrrrrrrm%
+                    %rrrrrrrrTrrrr%  %rrr%  %%rrrrrrm%%
                     %rhrrHrrrTrrrr%%%%%D%%%%%%%%YYY%%%%
-                    %rrrrrrrrTrrrr%trrrrSrrrrrrrrrrrrt%
-                    %%%%%%%%%%%%%%%rrrrrrrrrrrrrrrrrrr%
+                    %rrrrrrrrTrrrr%%%rrrSrrrrrrrrrrrr%%
+                    %%%%%%%%%%%%%%%%rrrrrrrrrrrrrrrrrr%
                                   %rrrrrrrrgrrrrrrrrrr%
                                   %rrrrrrrrrrrrrrrfrrr%
                                   %rrrrrrrrrrrrrrrrrrs%
                                   %rrrrrrrrrrbrrrrrrrr%
-                                  %rrrrrrrrrrrrrrrrrrr%
-                                  %rHrrrrrrrrrrSrrrrhr%
-                                  %mrrrrrrrrrrrrrrrrrs%
+                                  %rrrrrrrrrrrrrrrrrr%%
+                                  %%HrrrrrrrrrrSrrrrh%%
+                                  %%%mrrrrrrrrrrrrs%%%%
                                   %%%%%%%%%%%%%%%%%%%%%
 
 `;
