@@ -68,7 +68,8 @@ export function drawIcon(size: number, background: Rgb | null, palette: Palette 
   const depth = Math.max(1, Math.round(size * 0.07));
   const edge = Math.max(1, Math.round(size / 32));
   const box = size - pad * 2 - depth - edge * 2;
-  const ox = pad + edge;
+  const nudge = background ? Math.round(size * 0.025) : 0;
+  const ox = pad + edge + nudge;
   const oy = pad + edge;
   const filled = (x: number, y: number): boolean => glyph[y]?.[x] === '#';
   const cells: [number, number, number, number, number, number][] = [];
