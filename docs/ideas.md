@@ -7,13 +7,14 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Achievements](#achievements) | Under discussion, not built |
 | [Stealth enemy behaviors](#stealth-enemy-behaviors) | Under discussion, not built |
 | [Enemies that break habits](#enemies-that-break-habits) | Under discussion, not built |
+| [A silent weapon](#a-silent-weapon) | Under discussion, not built |
+| [Secrets with a puzzle](#secrets-with-a-puzzle) | Under discussion, not built |
+| [Set pieces](#set-pieces) | Under discussion, not built |
+| [Progress saving](#progress-saving) | Under discussion, not built |
 | [Level select](#level-select) | Under discussion, not built |
 | [Best-run records](#best-run-records) | Under discussion, not built |
-| [Screen shake and hit stop](#screen-shake-and-hit-stop) | Under discussion, not built |
-| [Positional enemy footsteps](#positional-enemy-footsteps) | Under discussion, not built |
 | [Minimum loadout at level start](#minimum-loadout-at-level-start) | Under discussion, not built |
 | [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Under discussion, not built |
-| [Mobile play](#mobile-play) | Under discussion, not built |
 
 ### Discarded
 
@@ -77,7 +78,7 @@ Make the game more engaging. Players stay engaged when they see a next goal, get
 1. **Rewards.** Cosmetic unlocks (Marine armor colors, a gold knife) give each achievement a purpose, but add art work. Without rewards the feature stays simpler.
 2. **Difficulty.** Proposal: achievements count on Recruit too, except the ones about difficulty (Iron Marine, Doomed).
 3. **Training.** Proposal: the training level does not count.
-4. **Size.** About 15 to 20 achievements for 3 levels. More feels like a checklist.
+4. **Size.** About 15 to 20 achievements for the 12 levels. More feels like a checklist.
 
 ## Stealth enemy behaviors
 
@@ -93,6 +94,44 @@ Goal: one new rule per level keeps the levels fresh.
 - **Flanker.** A fast Husk that does not run straight at you. It moves around you to attack from the side.
 - **Door Brute.** A Brute that can open doors. Then a closed door is no longer always safe.
 
+## A silent weapon
+
+Goal: give stealth a tool, so that the backstab is not the only quiet kill.
+
+- A suppressed weapon or a crossbow. Its shots make no noise, so they do not wake sleeping enemies or alert the ones nearby.
+- Low damage and little ammo, so it does not replace the pistol or the shotgun. It rewards a careful player.
+- Works with the [stealth enemy behaviors](#stealth-enemy-behaviors): sleeping enemies and corpse discovery.
+- Open points: which level gives it, and whether a headshot-style bonus on an unaware enemy is too strong.
+
+## Secrets with a puzzle
+
+Goal: make secrets a surprise, not only a hidden door and a small room.
+
+- **Timed door.** A lever opens a secret door for a few seconds. The player must reach it in time.
+- **Lever order.** Two or three levers in a room open the secret only in the right order. The map shows a hint.
+- **Shortcut secret.** The secret opens a loop to a key room or the exit. It counts as a secret and saves time on a second run.
+- Secrets keep counting in the end-of-level stats, like today.
+
+## Set pieces
+
+Goal: one memorable moment in the levels that do not have one yet. The level 12 arena is the model.
+
+- **Room that closes behind you.** Seal doors (`U`) already exist. A room can lock when the player enters, and open when the monsters are dead.
+- **Lights out.** The lamps in a room go dark after a trigger, and the player fights with the flashlight and the muzzle flash.
+- **Collapsing floor.** A bridge or a ledge over lava falls after the player crosses it, so there is no way back.
+- Keep it to one per level, and show a draft before building a batch.
+
+## Progress saving
+
+Goal: a player who closes the tab can come back to the same place.
+
+- Today the game stores only the training flag in `localStorage`.
+- Save the furthest level, the difficulty, and the carry loadout (health, armor, ammo, weapons) as it was when that level started.
+- The title screen shows "Continue" next to "New game".
+- Reuse the carry rules from [Minimum loadout at level start](#minimum-loadout-at-level-start), so a saved start is never a dead end.
+- No accounts and no server. A new game replaces the save after a confirm.
+- Level select and best-run records build on this data.
+
 ## Level select
 
 Goal: make replays easy.
@@ -106,21 +145,6 @@ Goal: give a reason to replay.
 
 - Store the best time and the best kill percentage per level and per difficulty in `localStorage`.
 - The tally screen shows "New record!" when you beat one.
-
-## Screen shake and hit stop
-
-Goal: give each hit more weight for little code.
-
-- A small screen shake on the shotgun and on explosions.
-- A short freeze (hit stop) on a backstab.
-- Keep both small, and maybe add an option to turn them off.
-
-## Positional enemy footsteps
-
-Goal: hear an enemy before you see it.
-
-- Nearby enemies make footstep sounds, panned left or right and quieter with distance.
-- Each kind can have its own step sound, so you know a Brute from a Husk.
 
 ## Minimum loadout at level start
 
@@ -255,63 +279,3 @@ Only connections between different networks (and the TURN relay) need the intern
 | Signaling server and TURN (optional) | Small to medium, plus hosting |
 
 First step: **2 players with copy-paste signaling, co-op first**. No server and no new packages, and it tests the hardest part, the multi-player `World`, on the existing levels. Versus comes after, on the same network code, with its own arena map and rules.
-
-## Mobile play
-
-Goal: play DOOMED on phones and tablets in the browser, with touch controls, without a separate app.
-
-### Controls
-
-- **Twin virtual sticks.** The left thumb moves the Marine. The right thumb aims, and holding it past a small dead zone fires. This matches the keyboard and mouse model: move and aim are separate, and the facing rule (whichever moved last) carries over.
-- **Buttons** near the right thumb: use (doors, switches), next weapon, and pause. Weapon slots 1 to 4 as a small row at the top.
-- **Light aim assist** on touch only: shots bend a few degrees toward the nearest visible enemy in the aim cone. A thumb is less precise than a mouse. No assist with a mouse.
-- **Stealth still works:** the left stick has no walk speed, the same as the keyboard. Quiet floors, not slow steps, decide the noise.
-- **Menus:** the screen buttons already react to pointer events, so taps work. Make them at least 44 px tall.
-
-### Screen and layout
-
-- **Landscape only.** Ask the player to turn the phone, and try `screen.orientation.lock('landscape')` in fullscreen (Android only; iOS ignores it).
-- **Fullscreen** on the first tap, where the browser allows it.
-- **Small screens:** hide the side panel and the Server Log. Show a compact HUD over the game: health, armor, ammo, keycards, and a small minimap in a corner.
-- **No page gestures:** `touch-action: none` on the game area, no pinch zoom, no pull-to-refresh, no text selection, no long-press menu.
-- **Safe areas:** keep the HUD and sticks clear of notches and rounded corners (`env(safe-area-inset-*)`).
-
-### Performance
-
-- Cap the device pixel ratio for the canvas (for example at 2), and test the lighting overlay, which is the most expensive part of a frame.
-- Pause the game and the music when the tab is hidden (`visibilitychange`), so a call or a home-button press does not get the Marine killed.
-- Target: 60 fps on a mid-range phone from the last few years.
-
-### Audio and feedback
-
-- Sound already starts on the first tap, because the difficulty pick unlocks WebAudio.
-- Short vibration on damage with `navigator.vibrate` where supported (Android). iOS Safari does not support it, so it is a bonus, never the only feedback.
-
-### Optional: install as an app (PWA)
-
-- A web app manifest and the existing touch icon let players add DOOMED to the home screen, with its own window and no browser bar.
-- A service worker can cache the game for offline play, since it makes no network requests. The Content Security Policy already allows same-origin files, so no change is needed for the manifest.
-
-### Testing
-
-- Chrome DevTools device mode for layout and touch events.
-- Real phones on the home network with `npm run dev -- --host`.
-- iOS Safari needs real-device testing: fullscreen, audio unlock and orientation behave differently there.
-- Vercel preview deployments for testing over HTTPS on any phone.
-
-### Open points
-
-1. **Twin sticks or tap-to-move?** Twin sticks keep the shooter feel. Tap-to-move is easier but loses strafing and dodging.
-2. **Aim assist strength,** and whether it is on by default or a setting.
-3. **Minimum device:** which phones must run at 60 fps.
-
-### Size
-
-| Step | Size |
-| --- | --- |
-| Touch input (sticks, buttons) mapped onto the existing `Input` | Medium |
-| Compact mobile HUD and layout, fullscreen, orientation | Medium |
-| Aim assist with tests | Small |
-| Performance tuning on real devices | Small to medium |
-| PWA manifest and offline cache (optional) | Small |
-
