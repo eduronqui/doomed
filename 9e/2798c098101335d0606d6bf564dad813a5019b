@@ -1,0 +1,19 @@
+src/levels/level10.map.ts
+  s_703083095f6814::t_6df765e8884fb9 3,7-8,11-14,17-20,23,25,27-29,31-32,37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9e2798c098101335d0606d6bf564dad813a5019b",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
