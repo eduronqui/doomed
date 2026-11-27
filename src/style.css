@@ -122,6 +122,50 @@ body {
   transition: none;
 }
 
+#scoreboard,
+#respawn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+  font-weight: bold;
+  color: #f4f0e8;
+  text-shadow:
+    1px 1px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000;
+}
+
+#scoreboard {
+  top: 8px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+#scoreboard .frags {
+  display: inline-block;
+  min-width: 1.6em;
+  font-size: 22px;
+}
+
+#respawn {
+  top: 38%;
+  font-size: 20px;
+}
+
+#respawn b {
+  display: block;
+  font: bold 48px/1 Impact, 'Arial Black', sans-serif;
+  color: #d8381c;
+}
+
+#scoreboard.hidden,
+#respawn.hidden {
+  display: none;
+}
+
 #tip {
   position: absolute;
   top: 10px;

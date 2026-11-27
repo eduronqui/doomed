@@ -9,6 +9,7 @@ All sprites are drawn in code and baked into one sprite sheet (`src/assets/sprit
 - Game rules, enemies, weapons, items and walkthroughs of all twelve levels: [docs/gameplay.md](docs/gameplay.md)
 - How to add levels, characters, sprites, sounds, music and more: [docs/extending.md](docs/extending.md)
 - Ideas and plans under discussion (not built yet): [docs/ideas.md](docs/ideas.md)
+- Multiplayer status, plans and design notes: [docs/multiplayer.md](docs/multiplayer.md)
 
 ## Requirements
 
@@ -25,7 +26,7 @@ All sprites are drawn in code and baked into one sprite sheet (`src/assets/sprit
 | `npm run preview` | Serve the `dist/` build |
 | `npm run sprites` | Draw all sprites and write the sprite sheet to `src/assets/`, and the favicons to `public/` |
 | `npm run dev:worker` | Run the Cloudflare Worker (signaling server) locally on port 8787. `npm run dev` sends `/signal` there, so run both for versus |
-| `npm run deploy` | Build and deploy the game and the Worker to Cloudflare (`wrangler deploy`) |
+| `npm run deploy` | Build and deploy the game and the Worker to Cloudflare (`wrangler deploy`). The version tag is the short SHA of the last commit, with `-dirty` when there are uncommitted changes |
 | `npm run types:worker` | Write `worker-configuration.d.ts` again after a change to `wrangler.jsonc` |
 | `npm run linter` | Type-check the game and the Worker (`tsc --noEmit`) and run ESLint |
 | `npm test` | Run the Vitest tests |
@@ -225,7 +226,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 The game and the signaling server deploy together as one Worker (free plan).
 
 1. Log in once: `npx wrangler login`.
-2. Run `npm run deploy`. It builds `dist/` and runs `wrangler deploy`. The first deploy creates the Room Durable Object.
+2. Run `npm run deploy`. It builds `dist/` and runs `wrangler deploy`, tagged with the short SHA of the last commit. The first deploy creates the Room Durable Object.
 3. The game is live at `https://doomed.<your-subdomain>.workers.dev`.
 
 To deploy on every push instead, connect the repository in the Cloudflare dashboard (Workers and Pages, Import a repository) with the build command `npm run build` and the deploy command `npx wrangler deploy`.

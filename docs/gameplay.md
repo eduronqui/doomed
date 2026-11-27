@@ -535,8 +535,8 @@ Playing online shares your IP address with the other player, with the DOOMED ser
 
 **Rules**
 - The host's Marine is **green**, the guest's Marine is **blue**. Name labels use the same colors.
-- First to **10 frags** wins. The score shows in the side panel under the map.
-- You start and respawn with 100 health, no armor, the knife, the sidearm and 40 bullets. A dead Marine respawns after 2.5 seconds at the start point farthest from the other player.
+- First to **10 frags** wins. The score shows at the top of the screen, with each name and frag count in its team color, and also in the side panel under the map.
+- You start and respawn with 100 health, no armor, the knife, the sidearm and 40 bullets. A dead Marine respawns after 2.5 seconds at the start point farthest from the other player. While you wait, a countdown shows "Respawn in 3, 2, 1".
 - Weapons work as in the episode; armor absorbs a third of the damage. You cannot hurt yourself.
 - Items come back after they are taken: medkits, stimpacks, clips and shells after 15 seconds, the armor after 30, the shotgun after 20 and the rotary gun after 30. The arena has 2 medkits and 4 stimpacks.
 - Esc opens a menu to keep playing or leave the match. The match does not pause.

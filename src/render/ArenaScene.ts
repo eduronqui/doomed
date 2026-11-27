@@ -251,6 +251,7 @@ export class ArenaScene extends Phaser.Scene {
   private connectionLost(): void {
     if (this.ended) return;
     this.ended = true;
+    this.deps.hud.setRespawn(null);
     this.deps.music.stop();
     this.deps.screens.notice('CONNECTION LOST', 'The other player left or the link dropped.', 'Back to title', () => window.location.reload());
   }
@@ -328,10 +329,14 @@ export class ArenaScene extends Phaser.Scene {
   private updateScore(): void {
     const [a, b] = this.world.players;
     this.deps.hud.setTitle(`${a.name} ${a.frags} : ${b.frags} ${b.name}`);
+    this.deps.hud.setScore([a, b].map((p) => ({ name: p.name, frags: p.frags, color: TEAM_COLOR[p.slot] })));
+    const me = this.world.players[this.local];
+    this.deps.hud.setRespawn(!me.alive && !this.ended && this.world.status !== 'over' ? Math.max(1, Math.ceil(me.respawn)) : null);
   }
 
   private showResult(): void {
     this.ended = true;
+    this.deps.hud.setRespawn(null);
     this.deps.music.stop();
     const winner = this.world.winner === null ? null : this.world.players[this.world.winner];
     const [a, b] = this.world.players;

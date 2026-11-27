@@ -67,6 +67,8 @@ export class Hud {
   private centerTimer = 0;
   private hurt = $('hurt');
   private center = $('center-msg');
+  private scoreboard = $('scoreboard');
+  private respawn = $('respawn');
   private log = $('log');
   private tip = $('tip');
   private tipText = '';
@@ -153,6 +155,8 @@ export class Hud {
 
   reset(world: { grid: Grid }, levelTitle: string): void {
     this.cache.clear();
+    this.scoreboard.classList.add('hidden');
+    this.respawn.classList.add('hidden');
     this.dismissedTips.clear();
     this.tipText = '';
     this.log.replaceChildren();
@@ -176,6 +180,36 @@ export class Hud {
 
   setTitle(text: string): void {
     $('level-name').textContent = text;
+  }
+
+  setScore(sides: { name: string; frags: number; color: string }[] | null): void {
+    const key = sides ? sides.map((s) => `${s.name}|${s.frags}|${s.color}`).join('/') : '';
+    if (this.cache.get('score') === key) return;
+    this.cache.set('score', key);
+    this.scoreboard.classList.toggle('hidden', !sides);
+    if (!sides) return;
+    const part = (s: { name: string; frags: number; color: string }, nameFirst: boolean): HTMLElement[] => {
+      const name = document.createElement('span');
+      name.textContent = s.name;
+      name.style.color = s.color;
+      const frags = document.createElement('span');
+      frags.className = 'frags';
+      frags.textContent = String(s.frags);
+      frags.style.color = s.color;
+      return nameFirst ? [name, frags] : [frags, name];
+    };
+    this.scoreboard.replaceChildren(...part(sides[0], true), document.createTextNode(' : '), ...part(sides[1], false));
+  }
+
+  setRespawn(seconds: number | null): void {
+    const key = seconds === null ? '' : String(seconds);
+    if (this.cache.get('respawn') === key) return;
+    this.cache.set('respawn', key);
+    this.respawn.classList.toggle('hidden', seconds === null);
+    if (seconds === null) return;
+    const count = document.createElement('b');
+    count.textContent = String(seconds);
+    this.respawn.replaceChildren(document.createTextNode('Respawn in'), count);
   }
 
   update(world: HudView, dt: number): void {

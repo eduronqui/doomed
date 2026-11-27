@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "dev:worker": "mkdir -p dist && wrangler dev --port 8787",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "npm run build && wrangler deploy --tag \"$(git rev-parse --short HEAD)$(git diff --quiet HEAD || echo -dirty)\"",
     "types:worker": "wrangler types",
     "sprites": "node scripts/build-sprites.mjs",
     "linter": "tsc --noEmit && tsc --noEmit -p worker && eslint .",
