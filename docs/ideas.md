@@ -136,7 +136,10 @@ Goal: a player who closes the tab can come back to the same place.
 
 Goal: make replays easy.
 
-- After the first full clear of the episode, the title screen shows a level select.
+- The level picker stays hidden until the player has cleared all 12 levels once. Before that, the only way to a level is to play the levels in order.
+- The `hasCompleted` flag in `localStorage` (key `doomed.hasCompleted`) controls the picker. The game already sets it when the player clears level 12. It is built, and nothing reads it yet. The picker shows only when `hasCompleted()` is true. The flag stays after a save is deleted, so the picker stays available for good.
+- The picker shows on the menu, next to "Continue" and "New game", for example as "Select level".
+- A level started from the picker uses the fresh starting loadout of that level, not a carried one. Open point: the difficulty, either chosen in the picker or taken from the last game.
 - It also makes achievement hunting easier.
 
 ## Best-run records
