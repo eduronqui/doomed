@@ -1,0 +1,23 @@
+README.md
+  s_703083095f6814::t_91271980d5681c 247,256
+docs/multiplayer.md
+  s_703083095f6814::t_916dd4b9e9565c 126
+src/net/signal.ts
+  s_703083095f6814::t_40410dcd65349c 125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "422ce65c03722793e0d2a0231e8a6d71aafde433",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
