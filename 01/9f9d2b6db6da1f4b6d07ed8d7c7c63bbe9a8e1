@@ -1,0 +1,61 @@
+docs/ideas.md
+  s_e549dc79ddcbfe::t_459e92e0f9a1fd 16,159-160
+src/characters/marine.art.ts
+  s_e549dc79ddcbfe::t_5c0536e82275f1 21-33
+src/levels/arena.map.ts
+  s_e549dc79ddcbfe::t_073d0304c419b6 1-26
+src/levels/arena.ts
+  s_e549dc79ddcbfe::t_3d0af4ab63a2cf 1-10
+src/main.ts
+  s_e549dc79ddcbfe::t_aee0fef1c51cf8 5,65
+src/net/handshake.ts
+  s_e549dc79ddcbfe::t_90f72c6fcff058 1-22
+src/net/localLink.ts
+  s_e549dc79ddcbfe::t_5e2edec60ca611 1-52
+src/net/protocol.ts
+  s_e549dc79ddcbfe::t_53be896e72393e 1-148
+src/render/ArenaScene.ts
+  s_e549dc79ddcbfe::t_d14aeb37885810 1-423
+src/render/GameScene.ts
+  s_e549dc79ddcbfe::t_30c5351fa53d08 22-24,32,34-36,38,81,248-252,277,279,281,296-342
+src/render/art/catalog.ts
+  s_e549dc79ddcbfe::t_64bc87832e4d68 10,60-61
+src/render/atlas.ts
+  s_e549dc79ddcbfe::t_77f0509aafef10 29-30
+src/render/devParams.ts
+  s_e549dc79ddcbfe::t_1462d727aa0aa0 10,26
+src/sim/arena.ts
+  s_e549dc79ddcbfe::t_e90edce363cc30 1-148,150-169,171-459
+src/sim/types.ts
+  s_e549dc79ddcbfe::t_18bff06d1352d9 23-37
+src/sim/world.ts
+  s_e549dc79ddcbfe::t_34bae1991c8cb6 8
+src/style.css
+  s_e549dc79ddcbfe::t_b310931aeadddf 597,1003-1038
+src/ui/hud.ts
+  s_e549dc79ddcbfe::t_c7e75afb35d911 3-4,5-20,22-26,154,177-181,234
+src/ui/screens.ts
+  s_e549dc79ddcbfe::t_3bd59ca45c5ba3 6,10-18,53,68,77,82,98,147,152-275
+tests/arena.test.ts
+  s_e549dc79ddcbfe::t_933d4a9dc98fa3 1-88
+tests/devParams.test.ts
+  s_e549dc79ddcbfe::t_e4ed66a70e7657 15
+tests/protocol.test.ts
+  s_e549dc79ddcbfe::t_eb6e63c63ddde3 1-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "019f9d2b6db6da1f4b6d07ed8d7c7c63bbe9a8e1",
+  "prompts": {},
+  "sessions": {
+    "s_e549dc79ddcbfe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "78d00ec6-3c54-494e-8709-d3b445f9fc36",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
