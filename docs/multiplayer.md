@@ -123,7 +123,7 @@ Goal of the whole multiplayer work: 2 to 4 players in two modes, on the same net
 
 - **Signaling (built):** a Cloudflare Worker with one Durable Object per room. The host gets a 6-letter code, the guest types it, and the room relays the offer, the answer and the ICE candidates. The room uses the WebSocket Hibernation API, closes after 5 minutes or when a player leaves, and fits in the free plan. The first version used copy-paste codes with no server.
 - **STUN (built):** Cloudflare's free STUN server.
-- **TURN (built):** needed for roughly 10 to 20% of connections, and for most mobile data. When a guest joins, the Worker asks Cloudflare for credentials for each player (2 hours) and sends them in the `joined` and `peer` messages. The key stays in Worker secrets. Free up to 1,000 GB per month.
+- **TURN (built):** needed for roughly 10 to 20% of connections, and for most mobile data. When a guest joins, the Worker asks Cloudflare for credentials for each player (30 minutes, enough for a match; the browser needs them, so they cannot be hidden from it) and sends them in the `joined` and `peer` messages. The key stays in Worker secrets. Free up to 1,000 GB per month.
 
 ### Game changes
 

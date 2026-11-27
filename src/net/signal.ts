@@ -122,7 +122,7 @@ const ICE_URL = /^(stun|turn|turns):[A-Za-z0-9.\-:?=&_]+$/;
 const ICE_SERVERS_MAX = 4;
 const ICE_URLS_MAX = 8;
 const ICE_TEXT_MAX = 256;
-export const TURN_TTL_SECONDS = 2 * 60 * 60;
+export const TURN_TTL_SECONDS = 30 * 60;
 
 function iceText(value: unknown): string | undefined | null {
   if (value === undefined) return undefined;

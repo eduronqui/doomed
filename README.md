@@ -244,7 +244,7 @@ Without TURN, players behind strict networks (most mobile data, some offices) ca
    ```
 3. Run `npm run deploy` again.
 
-When a guest joins a room, the Worker asks Cloudflare for separate credentials for the host and the guest. They expire after 2 hours. Without the secrets (for example in local dev), versus uses STUN only.
+When a guest joins a room, the Worker asks Cloudflare for separate credentials for the host and the guest. They expire after 30 minutes, enough for a match, so stolen credentials are worth little. They cannot be hidden from the browser: WebRTC needs them there. Without the secrets (for example in local dev), versus uses STUN only.
 
 **Cost control.** TURN is free up to 1,000 GB per month and then costs $0.05 per GB. To stop TURN at once, run `npx wrangler secret delete TURN_KEY_TOKEN` or revoke the key in the dashboard. Check Realtime usage in the dashboard from time to time. Stay on the Workers Free plan: its limits block requests instead of billing them.
 
@@ -253,7 +253,7 @@ When a guest joins a room, the Worker asks Cloudflare for separate credentials f
 - `index.html` sets a Content Security Policy: scripts from the same origin only, no plugins, no form targets.
 - On Cloudflare, `public/_headers` also sends the policy as an HTTP header, with `frame-ancestors 'none'`, HSTS, `nosniff`, `Referrer-Policy` and `Permissions-Policy`. `vercel.json` sends the same headers on Vercel.
 - The interface writes dynamic text with `textContent`, never with `innerHTML`.
-- The episode makes no network requests. Only versus connects to the signaling server (`/signal` on the same site) and to Cloudflare's STUN server. The Worker accepts only WebSocket requests from the same site (or localhost in dev), checks every message, limits size and count, and never logs the connection data. Rooms close after 5 minutes or when a player leaves. One address can open or join at most 20 rooms in 10 minutes (the Limiter stores a hash of the address in memory only). TURN credentials go only to the two players of a room, live 2 hours, and the TURN key stays in Worker secrets.
+- The episode makes no network requests. Only versus connects to the signaling server (`/signal` on the same site) and to Cloudflare's STUN server. The Worker accepts only WebSocket requests from the same site (or localhost in dev), checks every message, limits size and count, and never logs the connection data. Rooms close after 5 minutes or when a player leaves. One address can open or join at most 20 rooms in 10 minutes (the Limiter stores a hash of the address in memory only). TURN credentials go only to the two players of a room, live 30 minutes, and the TURN key stays in Worker secrets.
 - `localStorage` holds the training flag, the saved game, the music and sound choices, and the panel and log state.
 
 ## License
