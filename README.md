@@ -9,6 +9,7 @@ All sprites are drawn in code and baked into one sprite sheet (`src/assets/sprit
 - Game rules, enemies, weapons, items and walkthroughs of all twelve levels: [docs/gameplay.md](docs/gameplay.md)
 - How to add levels, characters, sprites, sounds, music and more: [docs/extending.md](docs/extending.md)
 - Ideas and plans under discussion (not built yet): [docs/ideas.md](docs/ideas.md)
+- Refactor plan to prepare main for versus: [docs/refactor.md](docs/refactor.md)
 
 ## Requirements
 
