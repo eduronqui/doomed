@@ -1,0 +1,43 @@
+README.md
+  s_703083095f6814::t_1c5a35470c11b5 156-158,233-247,254
+docs/gameplay.md
+  s_703083095f6814::t_ee6d4e6a7a2b25 530,534
+docs/ideas.md
+  s_703083095f6814::t_b10462ebcc4405 16,159,179
+src/net/peer.ts
+  s_703083095f6814::t_bfef8c87e3840e 1,7,100-103,126-128,132,140
+src/net/signal.ts
+  s_703083095f6814::t_38dff235e05414 6-7,22-27,30-31,56-61,107,121-149,170
+tests/signal.test.ts
+  s_703083095f6814::t_7823d7cf586ba6 4-5,15,18,109-110,147-202
+worker-configuration.d.ts
+  s_703083095f6814::t_35e17806bc0e82 2,6,11
+worker/env.d.ts
+  s_703083095f6814::t_9000bcb9eb5b07 1-4
+worker/index.ts
+  s_703083095f6814::t_760d56ccb5f412 1,4,12-26,37
+worker/limiter.ts
+  s_703083095f6814::t_c891a5550a7608 1-12
+worker/room.ts
+  s_703083095f6814::t_ea0629f7e0d684 2,52,57-63
+worker/turn.ts
+  s_703083095f6814::t_b3adb4d6d3d0e0 1-40
+wrangler.jsonc
+  s_703083095f6814::t_1e5f13f8478580 8-11,13-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "babe18d271dcabdad27066165e5ba8d1e270f97a",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
