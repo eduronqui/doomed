@@ -31,10 +31,19 @@ const GUEST_SLOT: Slot = 1;
 const FX_FRAMES = 3;
 const FX_TIME = 0.065;
 
+const HURT_TINT = 0xff9090;
+const LAYER_GAP = 0.01;
+
 interface MarineView {
   sprite: Phaser.GameObjects.Image;
+  team: Phaser.GameObjects.Image;
   label: Phaser.GameObjects.Text;
   muzzle: Phaser.GameObjects.Image;
+}
+
+export function multiplyColor(a: number, b: number): number {
+  const ch = (shift: number): number => Math.round((((a >> shift) & 0xff) * ((b >> shift) & 0xff)) / 255);
+  return (ch(16) << 16) | (ch(8) << 8) | ch(0);
 }
 
 export function scoreLine(players: readonly { name: string; frags: number }[]): string {
@@ -169,7 +178,8 @@ export class ArenaScene extends Phaser.Scene {
   }
 
   private makeMarine(p: ArenaPlayer): MarineView {
-    const sprite = this.add.image(p.x * TILE, (p.y + ACTOR_FOOT) * TILE, ATLAS, key.marine('pistol', 's', 0, teamOf(p.slot).id)).setOrigin(0.5, 30 / 32);
+    const sprite = this.add.image(p.x * TILE, (p.y + ACTOR_FOOT) * TILE, ATLAS, key.marineLayer('base', 'pistol', 's', 0)).setOrigin(0.5, 30 / 32);
+    const team = this.add.image(sprite.x, sprite.y, ATLAS, key.marineLayer('team', 'pistol', 's', 0)).setOrigin(0.5, 30 / 32).setTint(teamOf(p.slot).tint);
     const label = this.add
       .text(0, 0, p.name, {
         fontFamily: 'Verdana, Tahoma, sans-serif',
@@ -183,7 +193,7 @@ export class ArenaScene extends Phaser.Scene {
       .setOrigin(0.5, 1)
       .setDepth(NAME_DEPTH);
     const muzzle = this.add.image(0, 0, ATLAS, key.fx('muzzle', 0)).setVisible(false).setBlendMode(Phaser.BlendModes.ADD);
-    return { sprite, label, muzzle };
+    return { sprite, team, label, muzzle };
   }
 
   // ---------- input ----------
@@ -389,18 +399,32 @@ export class ArenaScene extends Phaser.Scene {
     w.players.forEach((p, i) => {
       const v = this.views[i];
       if (!p.alive) {
-        v.sprite.setFrame(key.marineCorpse(teamOf(p.slot).id)).setOrigin(0.5, 0.7).setDepth(CORPSE_DEPTH + p.y);
+        v.sprite.setFrame(key.marineCorpseLayer('base')).setOrigin(0.5, 0.7).setDepth(CORPSE_DEPTH + p.y).setTint(0xffffff);
+        v.team
+          .setFrame(key.marineCorpseLayer('team'))
+          .setOrigin(0.5, 0.7)
+          .setPosition(v.sprite.x, v.sprite.y)
+          .setDepth(CORPSE_DEPTH + p.y + LAYER_GAP)
+          .setTint(teamOf(p.slot).tint);
         v.label.setVisible(false);
         v.muzzle.setVisible(false);
         return;
       }
       const frame = p.attackTime > 0 ? 3 : !p.moving ? 0 : Math.floor(p.walkTime / 0.16) % 2 === 0 ? 1 : 2;
+      const hurt = p.hurtTime > 0.2;
+      const depth = (p.y + ACTOR_FOOT) * TILE;
       v.sprite
-        .setFrame(key.marine(p.weapon, p.dir, frame, teamOf(p.slot).id))
+        .setFrame(key.marineLayer('base', p.weapon, p.dir, frame))
         .setOrigin(0.5, 30 / 32)
-        .setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE)
-        .setDepth((p.y + ACTOR_FOOT) * TILE)
-        .setTint(p.hurtTime > 0.2 ? 0xff9090 : 0xffffff);
+        .setPosition(p.x * TILE, depth)
+        .setDepth(depth)
+        .setTint(hurt ? HURT_TINT : 0xffffff);
+      v.team
+        .setFrame(key.marineLayer('team', p.weapon, p.dir, frame))
+        .setOrigin(0.5, 30 / 32)
+        .setPosition(p.x * TILE, depth)
+        .setDepth(depth + LAYER_GAP)
+        .setTint(hurt ? multiplyColor(teamOf(p.slot).tint, HURT_TINT) : teamOf(p.slot).tint);
       v.label.setVisible(true).setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE - 31);
       if (p.flash > 0) {
         v.muzzle

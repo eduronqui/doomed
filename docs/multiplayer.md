@@ -14,6 +14,7 @@ Plans and design notes for multiplayer. The rules of the built versus mode are i
 | Frag count on screen and respawn countdown | Built |
 | Player count in one place (`src/sim/players.ts`); the rules work for any number of players | Built |
 | [More players in versus (up to 4)](#more-players-in-versus-up-to-4) | Planned, next |
+| [Merge into main](#merging-versus-into-main): Cloudflare hosting for main, one Marine look everywhere | Planned |
 | Client-side prediction and interpolation | Not built |
 | Co-op in the episode | Not built |
 
@@ -52,7 +53,7 @@ Goal: 3 or 4 players in one versus match, free-for-all, with the same host-autho
 
 ### Game rules (`src/sim/arena.ts`)
 
-Done: `src/sim/players.ts` holds `MIN_PLAYERS`, `MAX_PLAYERS`, the slot check and the `TEAMS` table (color and sprite per slot). `ArenaWorld` takes a list of names. Shots hit the nearest player on the line, melee hits the nearest player in reach, and a respawn picks the start farthest from the nearest living player. Tests already play 3-player matches in the simulation. To allow 4 players, raise `MAX_PLAYERS` and add two `TEAMS` entries (and their outfits).
+Done: `src/sim/players.ts` holds `MIN_PLAYERS`, `MAX_PLAYERS`, the slot check and the `TEAMS` table (tint and label color per slot). `ArenaWorld` takes a list of names. Shots hit the nearest player on the line, melee hits the nearest player in reach, and a respawn picks the start farthest from the nearest living player. Tests already play 3-player matches in the simulation. To allow 4 players, raise `MAX_PLAYERS` and add two `TEAMS` entries with a tint each.
 
 Still to do:
 - **Leaving:** a player who leaves is removed from the snapshot. Their frags stay on the final score.
@@ -61,7 +62,7 @@ Still to do:
 ### Content and art
 
 - **Map:** The Pit has 2 starts and is built for 1 against 1. Draw a larger arena by hand with 4 starts, loops and several routes. Show a draft before building. Until then, test 3 players in The Pit with 2 extra starts.
-- **Colors:** green (host), blue, red and yellow. Each color adds a full Marine set to the sprite sheet (every weapon, direction and frame, plus a corpse), so the sheet grows. The art code already makes the blue set from an outfit, so a new color is a new outfit.
+- **Colors (done):** a team color is a tint in `TEAMS`, not a sprite set. Versus draws each Marine as two images: a base layer (skin, visor, boots, belt, weapon) and a gray team layer (body, legs, helmet, pads) tinted with the team color. The art code splits the green Marine into both layers by drawing it a second time with probe colors and keeping the pixels that change. So red and yellow cost no art and no sprite sheet space: add `{ id: 'red', tint: 0xd6463c, color: '#ff5a4a' }`. Pick tints about as bright as green (`0x6fa056`) and blue (`0x5c83cb`), so the shading looks the same. The episode Marine keeps its baked green sprite.
 - **Screen:** the scoreboard at the top becomes a short list sorted by frags. Name labels, tracers and the side panel use the 4 colors.
 
 ### Protocol and security
@@ -102,6 +103,34 @@ A Durable Object could run `ArenaWorld` itself, with every player on a WebSocket
 - **Gains:** no TURN, no failed connections, no host advantage.
 - **Costs:** a bit more delay, and much more Durable Object traffic. A rough estimate: inputs at 30 per second from 4 players use the free 100,000 requests per day in about 25 matches. Fewer inputs per second allow more.
 - Not chosen for now. It is a good fit if public matches with strangers ever matter, because the host cannot cheat.
+
+## Merging versus into main
+
+Versus lives on the `versus-multiplayer` branch. `main` stays on Vercel until the merge. Steps for the merge:
+
+### Hosting
+
+- `main` moves from Vercel to Cloudflare, because versus needs the `/signal` route of the Worker on the same site.
+- The Worker keeps the name `doomed`. If versus was deployed as `doomed-versus` in the meantime, delete that Worker after the merge (`npx wrangler delete doomed-versus`).
+- Put the TURN secrets on the `doomed` Worker again if it does not have them: `npx wrangler secret put TURN_KEY_ID` and `npx wrangler secret put TURN_KEY_TOKEN`.
+- Disconnect the Vercel project, or the old site keeps deploying `main` without versus.
+- Saves do not carry over from the Vercel domain to the Cloudflare domain. Mention it in the release notes.
+
+### One Marine look everywhere
+
+Goal: the episode and versus draw the Marine the same way, so it looks and feels the same everywhere.
+
+- Today the sprite sheet holds three Marine sets: the baked green Marine for the episode, and the base and team layers for versus.
+- At the merge, the episode also draws the player as the base layer plus the team layer, tinted with the green team color (`TEAMS[0].tint`).
+- Then remove the baked green set (`actor_marine-...` and `corpse_marine`, 129 frames) from the art catalog and the sprite sheet.
+- Every effect on the player in `GameScene` must apply to both images: the hurt flash, stealth or see-through looks, the muzzle flash depth, and the corpse.
+- Check: a test that the green tint rebuilds the green Marine already exists (`tests/marineLayers.test.ts`). Also compare episode screenshots before and after.
+
+### Before the merge
+
+- Rebase `versus-multiplayer` onto `main` (never merge `main` into it).
+- Run the linter, the tests and `npm run sprites` (the sprite sheet must match the art code).
+- Play one episode level and one versus match on the deployed site.
 
 ## Design notes
 

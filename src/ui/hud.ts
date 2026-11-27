@@ -159,6 +159,7 @@ export class Hud {
     this.respawn.classList.add('hidden');
     this.dismissedTips.clear();
     this.tipText = '';
+    this.tip.classList.add('hidden');
     this.log.replaceChildren();
     this.explored = new Uint8Array(world.grid.width * world.grid.height);
     this.minimap.width = world.grid.width * 3;

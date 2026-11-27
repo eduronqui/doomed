@@ -2,8 +2,8 @@ export const MIN_PLAYERS = 2;
 export const MAX_PLAYERS = 2;
 
 export const TEAMS = [
-  { id: 'green', color: '#30d030', sprite: 'marine' },
-  { id: 'blue', color: '#4a9aff', sprite: 'marine-blue' },
+  { id: 'green', tint: 0x6fa056, color: '#30d030' },
+  { id: 'blue', tint: 0x5c83cb, color: '#4a9aff' },
 ] as const;
 
 export type Team = (typeof TEAMS)[number];
@@ -20,8 +20,4 @@ export function teamOf(slot: Slot): Team {
   const team = TEAMS[slot];
   if (!team) throw new Error(`No team color for player slot ${slot}`);
   return team;
-}
-
-export function teamById(id: TeamId): Team {
-  return TEAMS.find((t) => t.id === id)!;
 }

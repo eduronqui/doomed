@@ -1,11 +1,12 @@
 import type Phaser from 'phaser';
-import { teamById, type TeamId } from '../sim/players';
 import imageUrl from '../assets/sprites.png?url';
 import dataUrl from '../assets/sprites.json?url';
 import type { DecoKind, ItemKind } from '../sim/defs';
 import type { WeaponId } from '../weapons';
 import type { DoorKind, FloorKind } from '../sim/level';
 import type { CharacterKind } from '../characters/art';
+
+export type MarineLayer = 'base' | 'team';
 
 export const ATLAS = 'sprites';
 export const ATLAS_IMAGE = imageUrl;
@@ -27,8 +28,9 @@ export const key = {
   exit: (wall: 'tech' | 'stone', on: boolean): string => `exit_${wall}_${on ? 'on' : 'off'}`,
   switch: (wall: 'tech' | 'stone', on: boolean): string => `switch_${wall}_${on ? 'on' : 'off'}`,
   actor: (k: string, dir: string, frame: number): string => `actor_${k}_${dir}_${frame}`,
-  marine: (w: WeaponId, dir: string, frame: number, team: TeamId = 'green'): string => `actor_${teamById(team).sprite}-${w}_${dir}_${frame}`,
-  marineCorpse: (team: TeamId): string => `corpse_${teamById(team).sprite}`,
+  marine: (w: WeaponId, dir: string, frame: number): string => `actor_marine-${w}_${dir}_${frame}`,
+  marineLayer: (layer: MarineLayer, w: WeaponId, dir: string, frame: number): string => `actor_marine-${layer}-${w}_${dir}_${frame}`,
+  marineCorpseLayer: (layer: MarineLayer): string => `corpse_marine-${layer}`,
   corpse: (k: CharacterKind): string => `corpse_${k}`,
   item: (k: ItemKind): string => `item_${k}`,
   deco: (k: DecoKind, frame: number): string => `deco_${k}_${frame}`,

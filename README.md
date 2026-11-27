@@ -74,7 +74,7 @@ src/
     pathfind.ts       A* path search (8 directions, no corner cutting)
     world.ts          The simulation: player, monster AI, combat, pickups, events
     arena.ts          Versus simulation: a list of Marines, frags, respawns, item respawns, snapshots
-    players.ts        Player count in one place: MIN_PLAYERS, MAX_PLAYERS, slots and the team colors and sprites
+    players.ts        Player count in one place: MIN_PLAYERS, MAX_PLAYERS, slots, and each team's tint and label color
     rng.ts            Seeded random numbers
     types.ts          Small shared types and helpers
   characters/         Everything about each character, one name per character
@@ -217,6 +217,7 @@ Dev mode also sets `window.__doomed` to `{ world, scene }` for inspection in the
 - `music.test.ts`: every track is whole bars with matching parts, each level has its own track, and the pattern parser.
 - `puzzles.test.ts`: levers open their gates for good, gates refuse the player and monsters and point to their lever, link errors, enemies that face the doors, and the boss seal that breaks when the boss dies.
 - `sprites.test.mjs`: the committed sprite sheet and favicons match the art code, and no frames overlap.
+- `marineLayers.test.ts`: the versus Marine splits into a base layer and a gray team layer that cover each frame exactly once, and the green tint rebuilds the green Marine.
 - `arena.test.ts`: the versus arena: teams and spawns, frags and respawns, the frag limit, armor, medical aid coming back, and a host snapshot copied to the guest.
 - `signal.test.ts`: room codes (format and cleaning of typed codes), who may join a room, strict checks on every signaling message, the origin check and the signaling URL.
 - `protocol.test.ts`: player names (length, markup, control characters), and the checks on client and host messages: size, types, value ranges and unknown events.

@@ -2240,7 +2240,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_e_0": {
+    "actor_marine-base-arc_e_0": {
       "frame": {
         "x": 727,
         "y": 448,
@@ -2260,7 +2260,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_e_1": {
+    "actor_marine-base-arc_e_1": {
       "frame": {
         "x": 760,
         "y": 448,
@@ -2280,7 +2280,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_e_2": {
+    "actor_marine-base-arc_e_2": {
       "frame": {
         "x": 793,
         "y": 448,
@@ -2300,7 +2300,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_e_3": {
+    "actor_marine-base-arc_e_3": {
       "frame": {
         "x": 826,
         "y": 448,
@@ -2320,7 +2320,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_n_0": {
+    "actor_marine-base-arc_n_0": {
       "frame": {
         "x": 859,
         "y": 448,
@@ -2340,7 +2340,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_n_1": {
+    "actor_marine-base-arc_n_1": {
       "frame": {
         "x": 892,
         "y": 448,
@@ -2360,7 +2360,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_n_2": {
+    "actor_marine-base-arc_n_2": {
       "frame": {
         "x": 925,
         "y": 448,
@@ -2380,7 +2380,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_n_3": {
+    "actor_marine-base-arc_n_3": {
       "frame": {
         "x": 958,
         "y": 448,
@@ -2400,7 +2400,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_s_0": {
+    "actor_marine-base-arc_s_0": {
       "frame": {
         "x": 991,
         "y": 448,
@@ -2420,7 +2420,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_s_1": {
+    "actor_marine-base-arc_s_1": {
       "frame": {
         "x": 1,
         "y": 481,
@@ -2440,7 +2440,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_s_2": {
+    "actor_marine-base-arc_s_2": {
       "frame": {
         "x": 34,
         "y": 481,
@@ -2460,7 +2460,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_s_3": {
+    "actor_marine-base-arc_s_3": {
       "frame": {
         "x": 67,
         "y": 481,
@@ -2480,7 +2480,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_w_0": {
+    "actor_marine-base-arc_w_0": {
       "frame": {
         "x": 100,
         "y": 481,
@@ -2500,7 +2500,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_w_1": {
+    "actor_marine-base-arc_w_1": {
       "frame": {
         "x": 133,
         "y": 481,
@@ -2520,7 +2520,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_w_2": {
+    "actor_marine-base-arc_w_2": {
       "frame": {
         "x": 166,
         "y": 481,
@@ -2540,7 +2540,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-arc_w_3": {
+    "actor_marine-base-arc_w_3": {
       "frame": {
         "x": 199,
         "y": 481,
@@ -2560,7 +2560,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_e_0": {
+    "actor_marine-base-flamer_e_0": {
       "frame": {
         "x": 232,
         "y": 481,
@@ -2580,7 +2580,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_e_1": {
+    "actor_marine-base-flamer_e_1": {
       "frame": {
         "x": 265,
         "y": 481,
@@ -2600,7 +2600,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_e_2": {
+    "actor_marine-base-flamer_e_2": {
       "frame": {
         "x": 298,
         "y": 481,
@@ -2620,7 +2620,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_e_3": {
+    "actor_marine-base-flamer_e_3": {
       "frame": {
         "x": 331,
         "y": 481,
@@ -2640,7 +2640,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_n_0": {
+    "actor_marine-base-flamer_n_0": {
       "frame": {
         "x": 364,
         "y": 481,
@@ -2660,7 +2660,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_n_1": {
+    "actor_marine-base-flamer_n_1": {
       "frame": {
         "x": 397,
         "y": 481,
@@ -2680,7 +2680,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_n_2": {
+    "actor_marine-base-flamer_n_2": {
       "frame": {
         "x": 430,
         "y": 481,
@@ -2700,7 +2700,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_n_3": {
+    "actor_marine-base-flamer_n_3": {
       "frame": {
         "x": 463,
         "y": 481,
@@ -2720,7 +2720,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_s_0": {
+    "actor_marine-base-flamer_s_0": {
       "frame": {
         "x": 496,
         "y": 481,
@@ -2740,7 +2740,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_s_1": {
+    "actor_marine-base-flamer_s_1": {
       "frame": {
         "x": 529,
         "y": 481,
@@ -2760,7 +2760,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_s_2": {
+    "actor_marine-base-flamer_s_2": {
       "frame": {
         "x": 562,
         "y": 481,
@@ -2780,7 +2780,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_s_3": {
+    "actor_marine-base-flamer_s_3": {
       "frame": {
         "x": 595,
         "y": 481,
@@ -2800,7 +2800,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_w_0": {
+    "actor_marine-base-flamer_w_0": {
       "frame": {
         "x": 628,
         "y": 481,
@@ -2820,7 +2820,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_w_1": {
+    "actor_marine-base-flamer_w_1": {
       "frame": {
         "x": 661,
         "y": 481,
@@ -2840,7 +2840,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_w_2": {
+    "actor_marine-base-flamer_w_2": {
       "frame": {
         "x": 694,
         "y": 481,
@@ -2860,7 +2860,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-flamer_w_3": {
+    "actor_marine-base-flamer_w_3": {
       "frame": {
         "x": 727,
         "y": 481,
@@ -2880,7 +2880,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_e_0": {
+    "actor_marine-base-knife_e_0": {
       "frame": {
         "x": 760,
         "y": 481,
@@ -2900,7 +2900,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_e_1": {
+    "actor_marine-base-knife_e_1": {
       "frame": {
         "x": 793,
         "y": 481,
@@ -2920,7 +2920,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_e_2": {
+    "actor_marine-base-knife_e_2": {
       "frame": {
         "x": 826,
         "y": 481,
@@ -2940,7 +2940,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_e_3": {
+    "actor_marine-base-knife_e_3": {
       "frame": {
         "x": 859,
         "y": 481,
@@ -2960,7 +2960,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_n_0": {
+    "actor_marine-base-knife_n_0": {
       "frame": {
         "x": 892,
         "y": 481,
@@ -2980,7 +2980,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_n_1": {
+    "actor_marine-base-knife_n_1": {
       "frame": {
         "x": 925,
         "y": 481,
@@ -3000,7 +3000,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_n_2": {
+    "actor_marine-base-knife_n_2": {
       "frame": {
         "x": 958,
         "y": 481,
@@ -3020,7 +3020,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_n_3": {
+    "actor_marine-base-knife_n_3": {
       "frame": {
         "x": 991,
         "y": 481,
@@ -3040,7 +3040,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_s_0": {
+    "actor_marine-base-knife_s_0": {
       "frame": {
         "x": 1,
         "y": 514,
@@ -3060,7 +3060,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_s_1": {
+    "actor_marine-base-knife_s_1": {
       "frame": {
         "x": 34,
         "y": 514,
@@ -3080,7 +3080,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_s_2": {
+    "actor_marine-base-knife_s_2": {
       "frame": {
         "x": 67,
         "y": 514,
@@ -3100,7 +3100,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_s_3": {
+    "actor_marine-base-knife_s_3": {
       "frame": {
         "x": 100,
         "y": 514,
@@ -3120,7 +3120,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_w_0": {
+    "actor_marine-base-knife_w_0": {
       "frame": {
         "x": 133,
         "y": 514,
@@ -3140,7 +3140,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_w_1": {
+    "actor_marine-base-knife_w_1": {
       "frame": {
         "x": 166,
         "y": 514,
@@ -3160,7 +3160,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_w_2": {
+    "actor_marine-base-knife_w_2": {
       "frame": {
         "x": 199,
         "y": 514,
@@ -3180,7 +3180,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-knife_w_3": {
+    "actor_marine-base-knife_w_3": {
       "frame": {
         "x": 232,
         "y": 514,
@@ -3200,7 +3200,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_e_0": {
+    "actor_marine-base-launcher_e_0": {
       "frame": {
         "x": 265,
         "y": 514,
@@ -3220,7 +3220,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_e_1": {
+    "actor_marine-base-launcher_e_1": {
       "frame": {
         "x": 298,
         "y": 514,
@@ -3240,7 +3240,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_e_2": {
+    "actor_marine-base-launcher_e_2": {
       "frame": {
         "x": 331,
         "y": 514,
@@ -3260,7 +3260,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_e_3": {
+    "actor_marine-base-launcher_e_3": {
       "frame": {
         "x": 364,
         "y": 514,
@@ -3280,7 +3280,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_n_0": {
+    "actor_marine-base-launcher_n_0": {
       "frame": {
         "x": 397,
         "y": 514,
@@ -3300,7 +3300,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_n_1": {
+    "actor_marine-base-launcher_n_1": {
       "frame": {
         "x": 430,
         "y": 514,
@@ -3320,7 +3320,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_n_2": {
+    "actor_marine-base-launcher_n_2": {
       "frame": {
         "x": 463,
         "y": 514,
@@ -3340,7 +3340,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_n_3": {
+    "actor_marine-base-launcher_n_3": {
       "frame": {
         "x": 496,
         "y": 514,
@@ -3360,7 +3360,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_s_0": {
+    "actor_marine-base-launcher_s_0": {
       "frame": {
         "x": 529,
         "y": 514,
@@ -3380,7 +3380,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_s_1": {
+    "actor_marine-base-launcher_s_1": {
       "frame": {
         "x": 562,
         "y": 514,
@@ -3400,7 +3400,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_s_2": {
+    "actor_marine-base-launcher_s_2": {
       "frame": {
         "x": 595,
         "y": 514,
@@ -3420,7 +3420,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_s_3": {
+    "actor_marine-base-launcher_s_3": {
       "frame": {
         "x": 628,
         "y": 514,
@@ -3440,7 +3440,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_w_0": {
+    "actor_marine-base-launcher_w_0": {
       "frame": {
         "x": 661,
         "y": 514,
@@ -3460,7 +3460,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_w_1": {
+    "actor_marine-base-launcher_w_1": {
       "frame": {
         "x": 694,
         "y": 514,
@@ -3480,7 +3480,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_w_2": {
+    "actor_marine-base-launcher_w_2": {
       "frame": {
         "x": 727,
         "y": 514,
@@ -3500,7 +3500,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-launcher_w_3": {
+    "actor_marine-base-launcher_w_3": {
       "frame": {
         "x": 760,
         "y": 514,
@@ -3520,7 +3520,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_e_0": {
+    "actor_marine-base-pistol_e_0": {
       "frame": {
         "x": 793,
         "y": 514,
@@ -3540,7 +3540,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_e_1": {
+    "actor_marine-base-pistol_e_1": {
       "frame": {
         "x": 826,
         "y": 514,
@@ -3560,7 +3560,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_e_2": {
+    "actor_marine-base-pistol_e_2": {
       "frame": {
         "x": 859,
         "y": 514,
@@ -3580,7 +3580,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_e_3": {
+    "actor_marine-base-pistol_e_3": {
       "frame": {
         "x": 892,
         "y": 514,
@@ -3600,7 +3600,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_n_0": {
+    "actor_marine-base-pistol_n_0": {
       "frame": {
         "x": 925,
         "y": 514,
@@ -3620,7 +3620,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_n_1": {
+    "actor_marine-base-pistol_n_1": {
       "frame": {
         "x": 958,
         "y": 514,
@@ -3640,7 +3640,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_n_2": {
+    "actor_marine-base-pistol_n_2": {
       "frame": {
         "x": 991,
         "y": 514,
@@ -3660,7 +3660,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_n_3": {
+    "actor_marine-base-pistol_n_3": {
       "frame": {
         "x": 1,
         "y": 547,
@@ -3680,7 +3680,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_s_0": {
+    "actor_marine-base-pistol_s_0": {
       "frame": {
         "x": 34,
         "y": 547,
@@ -3700,7 +3700,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_s_1": {
+    "actor_marine-base-pistol_s_1": {
       "frame": {
         "x": 67,
         "y": 547,
@@ -3720,7 +3720,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_s_2": {
+    "actor_marine-base-pistol_s_2": {
       "frame": {
         "x": 100,
         "y": 547,
@@ -3740,7 +3740,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_s_3": {
+    "actor_marine-base-pistol_s_3": {
       "frame": {
         "x": 133,
         "y": 547,
@@ -3760,7 +3760,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_w_0": {
+    "actor_marine-base-pistol_w_0": {
       "frame": {
         "x": 166,
         "y": 547,
@@ -3780,7 +3780,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_w_1": {
+    "actor_marine-base-pistol_w_1": {
       "frame": {
         "x": 199,
         "y": 547,
@@ -3800,7 +3800,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_w_2": {
+    "actor_marine-base-pistol_w_2": {
       "frame": {
         "x": 232,
         "y": 547,
@@ -3820,7 +3820,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-pistol_w_3": {
+    "actor_marine-base-pistol_w_3": {
       "frame": {
         "x": 265,
         "y": 547,
@@ -3840,7 +3840,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_e_0": {
+    "actor_marine-base-rift_e_0": {
       "frame": {
         "x": 298,
         "y": 547,
@@ -3860,7 +3860,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_e_1": {
+    "actor_marine-base-rift_e_1": {
       "frame": {
         "x": 331,
         "y": 547,
@@ -3880,7 +3880,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_e_2": {
+    "actor_marine-base-rift_e_2": {
       "frame": {
         "x": 364,
         "y": 547,
@@ -3900,7 +3900,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_e_3": {
+    "actor_marine-base-rift_e_3": {
       "frame": {
         "x": 397,
         "y": 547,
@@ -3920,7 +3920,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_n_0": {
+    "actor_marine-base-rift_n_0": {
       "frame": {
         "x": 430,
         "y": 547,
@@ -3940,7 +3940,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_n_1": {
+    "actor_marine-base-rift_n_1": {
       "frame": {
         "x": 463,
         "y": 547,
@@ -3960,7 +3960,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_n_2": {
+    "actor_marine-base-rift_n_2": {
       "frame": {
         "x": 496,
         "y": 547,
@@ -3980,7 +3980,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_n_3": {
+    "actor_marine-base-rift_n_3": {
       "frame": {
         "x": 529,
         "y": 547,
@@ -4000,7 +4000,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_s_0": {
+    "actor_marine-base-rift_s_0": {
       "frame": {
         "x": 562,
         "y": 547,
@@ -4020,7 +4020,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_s_1": {
+    "actor_marine-base-rift_s_1": {
       "frame": {
         "x": 595,
         "y": 547,
@@ -4040,7 +4040,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_s_2": {
+    "actor_marine-base-rift_s_2": {
       "frame": {
         "x": 628,
         "y": 547,
@@ -4060,7 +4060,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_s_3": {
+    "actor_marine-base-rift_s_3": {
       "frame": {
         "x": 661,
         "y": 547,
@@ -4080,7 +4080,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_w_0": {
+    "actor_marine-base-rift_w_0": {
       "frame": {
         "x": 694,
         "y": 547,
@@ -4100,7 +4100,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_w_1": {
+    "actor_marine-base-rift_w_1": {
       "frame": {
         "x": 727,
         "y": 547,
@@ -4120,7 +4120,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_w_2": {
+    "actor_marine-base-rift_w_2": {
       "frame": {
         "x": 760,
         "y": 547,
@@ -4140,7 +4140,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rift_w_3": {
+    "actor_marine-base-rift_w_3": {
       "frame": {
         "x": 793,
         "y": 547,
@@ -4160,7 +4160,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_e_0": {
+    "actor_marine-base-rotary_e_0": {
       "frame": {
         "x": 826,
         "y": 547,
@@ -4180,7 +4180,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_e_1": {
+    "actor_marine-base-rotary_e_1": {
       "frame": {
         "x": 859,
         "y": 547,
@@ -4200,7 +4200,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_e_2": {
+    "actor_marine-base-rotary_e_2": {
       "frame": {
         "x": 892,
         "y": 547,
@@ -4220,7 +4220,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_e_3": {
+    "actor_marine-base-rotary_e_3": {
       "frame": {
         "x": 925,
         "y": 547,
@@ -4240,7 +4240,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_n_0": {
+    "actor_marine-base-rotary_n_0": {
       "frame": {
         "x": 958,
         "y": 547,
@@ -4260,7 +4260,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_n_1": {
+    "actor_marine-base-rotary_n_1": {
       "frame": {
         "x": 991,
         "y": 547,
@@ -4280,7 +4280,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_n_2": {
+    "actor_marine-base-rotary_n_2": {
       "frame": {
         "x": 1,
         "y": 580,
@@ -4300,7 +4300,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_n_3": {
+    "actor_marine-base-rotary_n_3": {
       "frame": {
         "x": 34,
         "y": 580,
@@ -4320,7 +4320,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_s_0": {
+    "actor_marine-base-rotary_s_0": {
       "frame": {
         "x": 67,
         "y": 580,
@@ -4340,7 +4340,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_s_1": {
+    "actor_marine-base-rotary_s_1": {
       "frame": {
         "x": 100,
         "y": 580,
@@ -4360,7 +4360,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_s_2": {
+    "actor_marine-base-rotary_s_2": {
       "frame": {
         "x": 133,
         "y": 580,
@@ -4380,7 +4380,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_s_3": {
+    "actor_marine-base-rotary_s_3": {
       "frame": {
         "x": 166,
         "y": 580,
@@ -4400,7 +4400,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_w_0": {
+    "actor_marine-base-rotary_w_0": {
       "frame": {
         "x": 199,
         "y": 580,
@@ -4420,7 +4420,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_w_1": {
+    "actor_marine-base-rotary_w_1": {
       "frame": {
         "x": 232,
         "y": 580,
@@ -4440,7 +4440,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_w_2": {
+    "actor_marine-base-rotary_w_2": {
       "frame": {
         "x": 265,
         "y": 580,
@@ -4460,7 +4460,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-rotary_w_3": {
+    "actor_marine-base-rotary_w_3": {
       "frame": {
         "x": 298,
         "y": 580,
@@ -4480,7 +4480,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_e_0": {
+    "actor_marine-base-shotgun_e_0": {
       "frame": {
         "x": 331,
         "y": 580,
@@ -4500,7 +4500,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_e_1": {
+    "actor_marine-base-shotgun_e_1": {
       "frame": {
         "x": 364,
         "y": 580,
@@ -4520,7 +4520,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_e_2": {
+    "actor_marine-base-shotgun_e_2": {
       "frame": {
         "x": 397,
         "y": 580,
@@ -4540,7 +4540,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_e_3": {
+    "actor_marine-base-shotgun_e_3": {
       "frame": {
         "x": 430,
         "y": 580,
@@ -4560,7 +4560,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_n_0": {
+    "actor_marine-base-shotgun_n_0": {
       "frame": {
         "x": 463,
         "y": 580,
@@ -4580,7 +4580,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_n_1": {
+    "actor_marine-base-shotgun_n_1": {
       "frame": {
         "x": 496,
         "y": 580,
@@ -4600,7 +4600,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_n_2": {
+    "actor_marine-base-shotgun_n_2": {
       "frame": {
         "x": 529,
         "y": 580,
@@ -4620,7 +4620,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_n_3": {
+    "actor_marine-base-shotgun_n_3": {
       "frame": {
         "x": 562,
         "y": 580,
@@ -4640,7 +4640,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_s_0": {
+    "actor_marine-base-shotgun_s_0": {
       "frame": {
         "x": 595,
         "y": 580,
@@ -4660,7 +4660,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_s_1": {
+    "actor_marine-base-shotgun_s_1": {
       "frame": {
         "x": 628,
         "y": 580,
@@ -4680,7 +4680,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_s_2": {
+    "actor_marine-base-shotgun_s_2": {
       "frame": {
         "x": 661,
         "y": 580,
@@ -4700,7 +4700,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_s_3": {
+    "actor_marine-base-shotgun_s_3": {
       "frame": {
         "x": 694,
         "y": 580,
@@ -4720,7 +4720,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_w_0": {
+    "actor_marine-base-shotgun_w_0": {
       "frame": {
         "x": 727,
         "y": 580,
@@ -4740,7 +4740,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_w_1": {
+    "actor_marine-base-shotgun_w_1": {
       "frame": {
         "x": 760,
         "y": 580,
@@ -4760,7 +4760,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_w_2": {
+    "actor_marine-base-shotgun_w_2": {
       "frame": {
         "x": 793,
         "y": 580,
@@ -4780,7 +4780,7 @@
         "h": 32
       }
     },
-    "actor_marine-blue-shotgun_w_3": {
+    "actor_marine-base-shotgun_w_3": {
       "frame": {
         "x": 826,
         "y": 580,
@@ -7040,10 +7040,2570 @@
         "h": 32
       }
     },
-    "actor_shade_e_0": {
+    "actor_marine-team-arc_e_0": {
       "frame": {
         "x": 463,
         "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_e_1": {
+      "frame": {
+        "x": 496,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_e_2": {
+      "frame": {
+        "x": 529,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_e_3": {
+      "frame": {
+        "x": 562,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_n_0": {
+      "frame": {
+        "x": 595,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_n_1": {
+      "frame": {
+        "x": 628,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_n_2": {
+      "frame": {
+        "x": 661,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_n_3": {
+      "frame": {
+        "x": 694,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_s_0": {
+      "frame": {
+        "x": 727,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_s_1": {
+      "frame": {
+        "x": 760,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_s_2": {
+      "frame": {
+        "x": 793,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_s_3": {
+      "frame": {
+        "x": 826,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_w_0": {
+      "frame": {
+        "x": 859,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_w_1": {
+      "frame": {
+        "x": 892,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_w_2": {
+      "frame": {
+        "x": 925,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-arc_w_3": {
+      "frame": {
+        "x": 958,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_e_0": {
+      "frame": {
+        "x": 991,
+        "y": 712,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_e_1": {
+      "frame": {
+        "x": 1,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_e_2": {
+      "frame": {
+        "x": 34,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_e_3": {
+      "frame": {
+        "x": 67,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_n_0": {
+      "frame": {
+        "x": 100,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_n_1": {
+      "frame": {
+        "x": 133,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_n_2": {
+      "frame": {
+        "x": 166,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_n_3": {
+      "frame": {
+        "x": 199,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_s_0": {
+      "frame": {
+        "x": 232,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_s_1": {
+      "frame": {
+        "x": 265,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_s_2": {
+      "frame": {
+        "x": 298,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_s_3": {
+      "frame": {
+        "x": 331,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_w_0": {
+      "frame": {
+        "x": 364,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_w_1": {
+      "frame": {
+        "x": 397,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_w_2": {
+      "frame": {
+        "x": 430,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-flamer_w_3": {
+      "frame": {
+        "x": 463,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_e_0": {
+      "frame": {
+        "x": 496,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_e_1": {
+      "frame": {
+        "x": 529,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_e_2": {
+      "frame": {
+        "x": 562,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_e_3": {
+      "frame": {
+        "x": 595,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_n_0": {
+      "frame": {
+        "x": 628,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_n_1": {
+      "frame": {
+        "x": 661,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_n_2": {
+      "frame": {
+        "x": 694,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_n_3": {
+      "frame": {
+        "x": 727,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_s_0": {
+      "frame": {
+        "x": 760,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_s_1": {
+      "frame": {
+        "x": 793,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_s_2": {
+      "frame": {
+        "x": 826,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_s_3": {
+      "frame": {
+        "x": 859,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_w_0": {
+      "frame": {
+        "x": 892,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_w_1": {
+      "frame": {
+        "x": 925,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_w_2": {
+      "frame": {
+        "x": 958,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-knife_w_3": {
+      "frame": {
+        "x": 991,
+        "y": 745,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_e_0": {
+      "frame": {
+        "x": 1,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_e_1": {
+      "frame": {
+        "x": 34,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_e_2": {
+      "frame": {
+        "x": 67,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_e_3": {
+      "frame": {
+        "x": 100,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_n_0": {
+      "frame": {
+        "x": 133,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_n_1": {
+      "frame": {
+        "x": 166,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_n_2": {
+      "frame": {
+        "x": 199,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_n_3": {
+      "frame": {
+        "x": 232,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_s_0": {
+      "frame": {
+        "x": 265,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_s_1": {
+      "frame": {
+        "x": 298,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_s_2": {
+      "frame": {
+        "x": 331,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_s_3": {
+      "frame": {
+        "x": 364,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_w_0": {
+      "frame": {
+        "x": 397,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_w_1": {
+      "frame": {
+        "x": 430,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_w_2": {
+      "frame": {
+        "x": 463,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-launcher_w_3": {
+      "frame": {
+        "x": 496,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_e_0": {
+      "frame": {
+        "x": 529,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_e_1": {
+      "frame": {
+        "x": 562,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_e_2": {
+      "frame": {
+        "x": 595,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_e_3": {
+      "frame": {
+        "x": 628,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_n_0": {
+      "frame": {
+        "x": 661,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_n_1": {
+      "frame": {
+        "x": 694,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_n_2": {
+      "frame": {
+        "x": 727,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_n_3": {
+      "frame": {
+        "x": 760,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_s_0": {
+      "frame": {
+        "x": 793,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_s_1": {
+      "frame": {
+        "x": 826,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_s_2": {
+      "frame": {
+        "x": 859,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_s_3": {
+      "frame": {
+        "x": 892,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_w_0": {
+      "frame": {
+        "x": 925,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_w_1": {
+      "frame": {
+        "x": 958,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_w_2": {
+      "frame": {
+        "x": 991,
+        "y": 778,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-pistol_w_3": {
+      "frame": {
+        "x": 1,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_e_0": {
+      "frame": {
+        "x": 34,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_e_1": {
+      "frame": {
+        "x": 67,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_e_2": {
+      "frame": {
+        "x": 100,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_e_3": {
+      "frame": {
+        "x": 133,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_n_0": {
+      "frame": {
+        "x": 166,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_n_1": {
+      "frame": {
+        "x": 199,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_n_2": {
+      "frame": {
+        "x": 232,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_n_3": {
+      "frame": {
+        "x": 265,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_s_0": {
+      "frame": {
+        "x": 298,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_s_1": {
+      "frame": {
+        "x": 331,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_s_2": {
+      "frame": {
+        "x": 364,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_s_3": {
+      "frame": {
+        "x": 397,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_w_0": {
+      "frame": {
+        "x": 430,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_w_1": {
+      "frame": {
+        "x": 463,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_w_2": {
+      "frame": {
+        "x": 496,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rift_w_3": {
+      "frame": {
+        "x": 529,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_e_0": {
+      "frame": {
+        "x": 562,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_e_1": {
+      "frame": {
+        "x": 595,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_e_2": {
+      "frame": {
+        "x": 628,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_e_3": {
+      "frame": {
+        "x": 661,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_n_0": {
+      "frame": {
+        "x": 694,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_n_1": {
+      "frame": {
+        "x": 727,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_n_2": {
+      "frame": {
+        "x": 760,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_n_3": {
+      "frame": {
+        "x": 793,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_s_0": {
+      "frame": {
+        "x": 826,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_s_1": {
+      "frame": {
+        "x": 859,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_s_2": {
+      "frame": {
+        "x": 892,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_s_3": {
+      "frame": {
+        "x": 925,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_w_0": {
+      "frame": {
+        "x": 958,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_w_1": {
+      "frame": {
+        "x": 991,
+        "y": 811,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_w_2": {
+      "frame": {
+        "x": 1,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-rotary_w_3": {
+      "frame": {
+        "x": 34,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_e_0": {
+      "frame": {
+        "x": 67,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_e_1": {
+      "frame": {
+        "x": 100,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_e_2": {
+      "frame": {
+        "x": 133,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_e_3": {
+      "frame": {
+        "x": 166,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_n_0": {
+      "frame": {
+        "x": 199,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_n_1": {
+      "frame": {
+        "x": 232,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_n_2": {
+      "frame": {
+        "x": 265,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_n_3": {
+      "frame": {
+        "x": 298,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_s_0": {
+      "frame": {
+        "x": 331,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_s_1": {
+      "frame": {
+        "x": 364,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_s_2": {
+      "frame": {
+        "x": 397,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_s_3": {
+      "frame": {
+        "x": 430,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_w_0": {
+      "frame": {
+        "x": 463,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_w_1": {
+      "frame": {
+        "x": 496,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_w_2": {
+      "frame": {
+        "x": 529,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_marine-team-shotgun_w_3": {
+      "frame": {
+        "x": 562,
+        "y": 844,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "actor_shade_e_0": {
+      "frame": {
+        "x": 595,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7062,8 +9622,8 @@
     },
     "actor_shade_e_1": {
       "frame": {
-        "x": 496,
-        "y": 712,
+        "x": 628,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7082,8 +9642,8 @@
     },
     "actor_shade_e_2": {
       "frame": {
-        "x": 529,
-        "y": 712,
+        "x": 661,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7102,8 +9662,8 @@
     },
     "actor_shade_e_3": {
       "frame": {
-        "x": 562,
-        "y": 712,
+        "x": 694,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7122,8 +9682,8 @@
     },
     "actor_shade_n_0": {
       "frame": {
-        "x": 595,
-        "y": 712,
+        "x": 727,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7142,8 +9702,8 @@
     },
     "actor_shade_n_1": {
       "frame": {
-        "x": 628,
-        "y": 712,
+        "x": 760,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7162,8 +9722,8 @@
     },
     "actor_shade_n_2": {
       "frame": {
-        "x": 661,
-        "y": 712,
+        "x": 793,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7182,8 +9742,8 @@
     },
     "actor_shade_n_3": {
       "frame": {
-        "x": 694,
-        "y": 712,
+        "x": 826,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7202,8 +9762,8 @@
     },
     "actor_shade_s_0": {
       "frame": {
-        "x": 727,
-        "y": 712,
+        "x": 859,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7222,8 +9782,8 @@
     },
     "actor_shade_s_1": {
       "frame": {
-        "x": 760,
-        "y": 712,
+        "x": 892,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7242,8 +9802,8 @@
     },
     "actor_shade_s_2": {
       "frame": {
-        "x": 793,
-        "y": 712,
+        "x": 925,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7262,8 +9822,8 @@
     },
     "actor_shade_s_3": {
       "frame": {
-        "x": 826,
-        "y": 712,
+        "x": 958,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7282,8 +9842,8 @@
     },
     "actor_shade_w_0": {
       "frame": {
-        "x": 859,
-        "y": 712,
+        "x": 991,
+        "y": 844,
         "w": 32,
         "h": 32
       },
@@ -7302,8 +9862,8 @@
     },
     "actor_shade_w_1": {
       "frame": {
-        "x": 892,
-        "y": 712,
+        "x": 1,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7322,8 +9882,8 @@
     },
     "actor_shade_w_2": {
       "frame": {
-        "x": 925,
-        "y": 712,
+        "x": 34,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7342,8 +9902,8 @@
     },
     "actor_shade_w_3": {
       "frame": {
-        "x": 958,
-        "y": 712,
+        "x": 67,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7362,8 +9922,8 @@
     },
     "actor_shotgunner_e_0": {
       "frame": {
-        "x": 991,
-        "y": 712,
+        "x": 100,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7382,8 +9942,8 @@
     },
     "actor_shotgunner_e_1": {
       "frame": {
-        "x": 1,
-        "y": 745,
+        "x": 133,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7402,8 +9962,8 @@
     },
     "actor_shotgunner_e_2": {
       "frame": {
-        "x": 34,
-        "y": 745,
+        "x": 166,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7422,8 +9982,8 @@
     },
     "actor_shotgunner_e_3": {
       "frame": {
-        "x": 67,
-        "y": 745,
+        "x": 199,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7442,8 +10002,8 @@
     },
     "actor_shotgunner_n_0": {
       "frame": {
-        "x": 100,
-        "y": 745,
+        "x": 232,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7462,8 +10022,8 @@
     },
     "actor_shotgunner_n_1": {
       "frame": {
-        "x": 133,
-        "y": 745,
+        "x": 265,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7482,8 +10042,8 @@
     },
     "actor_shotgunner_n_2": {
       "frame": {
-        "x": 166,
-        "y": 745,
+        "x": 298,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7502,8 +10062,8 @@
     },
     "actor_shotgunner_n_3": {
       "frame": {
-        "x": 199,
-        "y": 745,
+        "x": 331,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7522,8 +10082,8 @@
     },
     "actor_shotgunner_s_0": {
       "frame": {
-        "x": 232,
-        "y": 745,
+        "x": 364,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7542,8 +10102,8 @@
     },
     "actor_shotgunner_s_1": {
       "frame": {
-        "x": 265,
-        "y": 745,
+        "x": 397,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7562,8 +10122,8 @@
     },
     "actor_shotgunner_s_2": {
       "frame": {
-        "x": 298,
-        "y": 745,
+        "x": 430,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7582,8 +10142,8 @@
     },
     "actor_shotgunner_s_3": {
       "frame": {
-        "x": 331,
-        "y": 745,
+        "x": 463,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7602,8 +10162,8 @@
     },
     "actor_shotgunner_w_0": {
       "frame": {
-        "x": 364,
-        "y": 745,
+        "x": 496,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7622,8 +10182,8 @@
     },
     "actor_shotgunner_w_1": {
       "frame": {
-        "x": 397,
-        "y": 745,
+        "x": 529,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7642,8 +10202,8 @@
     },
     "actor_shotgunner_w_2": {
       "frame": {
-        "x": 430,
-        "y": 745,
+        "x": 562,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7662,8 +10222,8 @@
     },
     "actor_shotgunner_w_3": {
       "frame": {
-        "x": 463,
-        "y": 745,
+        "x": 595,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7682,8 +10242,8 @@
     },
     "actor_stalker_e_0": {
       "frame": {
-        "x": 496,
-        "y": 745,
+        "x": 628,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7702,8 +10262,8 @@
     },
     "actor_stalker_e_1": {
       "frame": {
-        "x": 529,
-        "y": 745,
+        "x": 661,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7722,8 +10282,8 @@
     },
     "actor_stalker_e_2": {
       "frame": {
-        "x": 562,
-        "y": 745,
+        "x": 694,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7742,8 +10302,8 @@
     },
     "actor_stalker_e_3": {
       "frame": {
-        "x": 595,
-        "y": 745,
+        "x": 727,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7762,8 +10322,8 @@
     },
     "actor_stalker_n_0": {
       "frame": {
-        "x": 628,
-        "y": 745,
+        "x": 760,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7782,8 +10342,8 @@
     },
     "actor_stalker_n_1": {
       "frame": {
-        "x": 661,
-        "y": 745,
+        "x": 793,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7802,8 +10362,8 @@
     },
     "actor_stalker_n_2": {
       "frame": {
-        "x": 694,
-        "y": 745,
+        "x": 826,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7822,8 +10382,8 @@
     },
     "actor_stalker_n_3": {
       "frame": {
-        "x": 727,
-        "y": 745,
+        "x": 859,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7842,8 +10402,8 @@
     },
     "actor_stalker_s_0": {
       "frame": {
-        "x": 760,
-        "y": 745,
+        "x": 892,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7862,8 +10422,8 @@
     },
     "actor_stalker_s_1": {
       "frame": {
-        "x": 793,
-        "y": 745,
+        "x": 925,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7882,8 +10442,8 @@
     },
     "actor_stalker_s_2": {
       "frame": {
-        "x": 826,
-        "y": 745,
+        "x": 958,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7902,8 +10462,8 @@
     },
     "actor_stalker_s_3": {
       "frame": {
-        "x": 859,
-        "y": 745,
+        "x": 991,
+        "y": 877,
         "w": 32,
         "h": 32
       },
@@ -7922,8 +10482,8 @@
     },
     "actor_stalker_w_0": {
       "frame": {
-        "x": 892,
-        "y": 745,
+        "x": 1,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -7942,8 +10502,8 @@
     },
     "actor_stalker_w_1": {
       "frame": {
-        "x": 925,
-        "y": 745,
+        "x": 34,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -7962,8 +10522,8 @@
     },
     "actor_stalker_w_2": {
       "frame": {
-        "x": 958,
-        "y": 745,
+        "x": 67,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -7982,8 +10542,8 @@
     },
     "actor_stalker_w_3": {
       "frame": {
-        "x": 991,
-        "y": 745,
+        "x": 100,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8002,8 +10562,8 @@
     },
     "actor_warden_e_0": {
       "frame": {
-        "x": 1,
-        "y": 778,
+        "x": 133,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8022,8 +10582,8 @@
     },
     "actor_warden_e_1": {
       "frame": {
-        "x": 34,
-        "y": 778,
+        "x": 166,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8042,8 +10602,8 @@
     },
     "actor_warden_e_2": {
       "frame": {
-        "x": 67,
-        "y": 778,
+        "x": 199,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8062,8 +10622,8 @@
     },
     "actor_warden_e_3": {
       "frame": {
-        "x": 100,
-        "y": 778,
+        "x": 232,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8082,8 +10642,8 @@
     },
     "actor_warden_n_0": {
       "frame": {
-        "x": 133,
-        "y": 778,
+        "x": 265,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8102,8 +10662,8 @@
     },
     "actor_warden_n_1": {
       "frame": {
-        "x": 166,
-        "y": 778,
+        "x": 298,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8122,8 +10682,8 @@
     },
     "actor_warden_n_2": {
       "frame": {
-        "x": 199,
-        "y": 778,
+        "x": 331,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8142,8 +10702,8 @@
     },
     "actor_warden_n_3": {
       "frame": {
-        "x": 232,
-        "y": 778,
+        "x": 364,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8162,8 +10722,8 @@
     },
     "actor_warden_s_0": {
       "frame": {
-        "x": 265,
-        "y": 778,
+        "x": 397,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8182,8 +10742,8 @@
     },
     "actor_warden_s_1": {
       "frame": {
-        "x": 298,
-        "y": 778,
+        "x": 430,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8202,8 +10762,8 @@
     },
     "actor_warden_s_2": {
       "frame": {
-        "x": 331,
-        "y": 778,
+        "x": 463,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8222,8 +10782,8 @@
     },
     "actor_warden_s_3": {
       "frame": {
-        "x": 364,
-        "y": 778,
+        "x": 496,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8242,8 +10802,8 @@
     },
     "actor_warden_w_0": {
       "frame": {
-        "x": 397,
-        "y": 778,
+        "x": 529,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8262,8 +10822,8 @@
     },
     "actor_warden_w_1": {
       "frame": {
-        "x": 430,
-        "y": 778,
+        "x": 562,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8282,8 +10842,8 @@
     },
     "actor_warden_w_2": {
       "frame": {
-        "x": 463,
-        "y": 778,
+        "x": 595,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8302,8 +10862,8 @@
     },
     "actor_warden_w_3": {
       "frame": {
-        "x": 496,
-        "y": 778,
+        "x": 628,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8382,8 +10942,8 @@
     },
     "corpse_brute": {
       "frame": {
-        "x": 529,
-        "y": 778,
+        "x": 661,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8402,8 +10962,8 @@
     },
     "corpse_fiend": {
       "frame": {
-        "x": 562,
-        "y": 778,
+        "x": 694,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8442,8 +11002,8 @@
     },
     "corpse_gunner": {
       "frame": {
-        "x": 595,
-        "y": 778,
+        "x": 727,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8462,8 +11022,8 @@
     },
     "corpse_hollow": {
       "frame": {
-        "x": 628,
-        "y": 778,
+        "x": 760,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8482,8 +11042,8 @@
     },
     "corpse_husk": {
       "frame": {
-        "x": 661,
-        "y": 778,
+        "x": 793,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8502,8 +11062,8 @@
     },
     "corpse_marine": {
       "frame": {
-        "x": 694,
-        "y": 778,
+        "x": 826,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8520,10 +11080,30 @@
         "h": 32
       }
     },
-    "corpse_marine-blue": {
+    "corpse_marine-base": {
       "frame": {
-        "x": 727,
-        "y": 778,
+        "x": 859,
+        "y": 910,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
+      }
+    },
+    "corpse_marine-team": {
+      "frame": {
+        "x": 892,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8542,8 +11122,8 @@
     },
     "corpse_shade": {
       "frame": {
-        "x": 760,
-        "y": 778,
+        "x": 925,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8562,8 +11142,8 @@
     },
     "corpse_shotgunner": {
       "frame": {
-        "x": 793,
-        "y": 778,
+        "x": 958,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8582,8 +11162,8 @@
     },
     "corpse_stalker": {
       "frame": {
-        "x": 826,
-        "y": 778,
+        "x": 991,
+        "y": 910,
         "w": 32,
         "h": 32
       },
@@ -8602,8 +11182,8 @@
     },
     "corpse_warden": {
       "frame": {
-        "x": 859,
-        "y": 778,
+        "x": 1,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -8622,8 +11202,8 @@
     },
     "deco_body_0": {
       "frame": {
-        "x": 892,
-        "y": 778,
+        "x": 34,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -8722,8 +11302,8 @@
     },
     "deco_gore_0": {
       "frame": {
-        "x": 925,
-        "y": 778,
+        "x": 67,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9382,8 +11962,8 @@
     },
     "floor_concrete_0": {
       "frame": {
-        "x": 958,
-        "y": 778,
+        "x": 100,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9402,8 +11982,8 @@
     },
     "floor_concrete_1": {
       "frame": {
-        "x": 991,
-        "y": 778,
+        "x": 133,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9422,8 +12002,8 @@
     },
     "floor_concrete_2": {
       "frame": {
-        "x": 1,
-        "y": 811,
+        "x": 166,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9442,8 +12022,8 @@
     },
     "floor_grate_0": {
       "frame": {
-        "x": 34,
-        "y": 811,
+        "x": 199,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9462,8 +12042,8 @@
     },
     "floor_grate_1": {
       "frame": {
-        "x": 67,
-        "y": 811,
+        "x": 232,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9482,8 +12062,8 @@
     },
     "floor_grate_2": {
       "frame": {
-        "x": 100,
-        "y": 811,
+        "x": 265,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9502,8 +12082,8 @@
     },
     "floor_lava_0": {
       "frame": {
-        "x": 133,
-        "y": 811,
+        "x": 298,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9522,8 +12102,8 @@
     },
     "floor_lava_1": {
       "frame": {
-        "x": 166,
-        "y": 811,
+        "x": 331,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9542,8 +12122,8 @@
     },
     "floor_lava_2": {
       "frame": {
-        "x": 199,
-        "y": 811,
+        "x": 364,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9562,8 +12142,8 @@
     },
     "floor_metal_0": {
       "frame": {
-        "x": 232,
-        "y": 811,
+        "x": 397,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9582,8 +12162,8 @@
     },
     "floor_metal_1": {
       "frame": {
-        "x": 265,
-        "y": 811,
+        "x": 430,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9602,8 +12182,8 @@
     },
     "floor_metal_2": {
       "frame": {
-        "x": 298,
-        "y": 811,
+        "x": 463,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9622,8 +12202,8 @@
     },
     "floor_rock_0": {
       "frame": {
-        "x": 331,
-        "y": 811,
+        "x": 496,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9642,8 +12222,8 @@
     },
     "floor_rock_1": {
       "frame": {
-        "x": 364,
-        "y": 811,
+        "x": 529,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9662,8 +12242,8 @@
     },
     "floor_rock_2": {
       "frame": {
-        "x": 397,
-        "y": 811,
+        "x": 562,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9682,8 +12262,8 @@
     },
     "floor_slime_0": {
       "frame": {
-        "x": 430,
-        "y": 811,
+        "x": 595,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9702,8 +12282,8 @@
     },
     "floor_slime_1": {
       "frame": {
-        "x": 463,
-        "y": 811,
+        "x": 628,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9722,8 +12302,8 @@
     },
     "floor_slime_2": {
       "frame": {
-        "x": 496,
-        "y": 811,
+        "x": 661,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -9742,8 +12322,8 @@
     },
     "fx_blood_0": {
       "frame": {
-        "x": 913,
-        "y": 844,
+        "x": 76,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -9762,8 +12342,8 @@
     },
     "fx_blood_1": {
       "frame": {
-        "x": 930,
-        "y": 844,
+        "x": 93,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -9782,8 +12362,8 @@
     },
     "fx_blood_2": {
       "frame": {
-        "x": 947,
-        "y": 844,
+        "x": 110,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -9802,8 +12382,8 @@
     },
     "fx_bolt_0": {
       "frame": {
-        "x": 964,
-        "y": 844,
+        "x": 127,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -9822,8 +12402,8 @@
     },
     "fx_bolt_1": {
       "frame": {
-        "x": 981,
-        "y": 844,
+        "x": 144,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -9842,8 +12422,8 @@
     },
     "fx_burst_0": {
       "frame": {
-        "x": 763,
-        "y": 844,
+        "x": 928,
+        "y": 976,
         "w": 24,
         "h": 24
       },
@@ -9862,8 +12442,8 @@
     },
     "fx_burst_1": {
       "frame": {
-        "x": 788,
-        "y": 844,
+        "x": 953,
+        "y": 976,
         "w": 24,
         "h": 24
       },
@@ -9882,8 +12462,8 @@
     },
     "fx_burst_2": {
       "frame": {
-        "x": 813,
-        "y": 844,
+        "x": 978,
+        "y": 976,
         "w": 24,
         "h": 24
       },
@@ -9902,8 +12482,8 @@
     },
     "fx_burst_3": {
       "frame": {
-        "x": 838,
-        "y": 844,
+        "x": 1,
+        "y": 1009,
         "w": 24,
         "h": 24
       },
@@ -10002,8 +12582,8 @@
     },
     "fx_fireball_0": {
       "frame": {
-        "x": 998,
-        "y": 844,
+        "x": 161,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10022,8 +12602,8 @@
     },
     "fx_fireball_1": {
       "frame": {
-        "x": 1,
-        "y": 877,
+        "x": 178,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10042,8 +12622,8 @@
     },
     "fx_flame_0": {
       "frame": {
-        "x": 18,
-        "y": 877,
+        "x": 195,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10062,8 +12642,8 @@
     },
     "fx_flame_1": {
       "frame": {
-        "x": 35,
-        "y": 877,
+        "x": 212,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10082,8 +12662,8 @@
     },
     "fx_flame_2": {
       "frame": {
-        "x": 52,
-        "y": 877,
+        "x": 229,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10102,8 +12682,8 @@
     },
     "fx_grenade_0": {
       "frame": {
-        "x": 69,
-        "y": 877,
+        "x": 246,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10122,8 +12702,8 @@
     },
     "fx_grenade_1": {
       "frame": {
-        "x": 86,
-        "y": 877,
+        "x": 263,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10142,8 +12722,8 @@
     },
     "fx_muzzle_0": {
       "frame": {
-        "x": 103,
-        "y": 877,
+        "x": 280,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10162,8 +12742,8 @@
     },
     "fx_orb_0": {
       "frame": {
-        "x": 863,
-        "y": 844,
+        "x": 26,
+        "y": 1009,
         "w": 24,
         "h": 24
       },
@@ -10182,8 +12762,8 @@
     },
     "fx_orb_1": {
       "frame": {
-        "x": 888,
-        "y": 844,
+        "x": 51,
+        "y": 1009,
         "w": 24,
         "h": 24
       },
@@ -10202,8 +12782,8 @@
     },
     "fx_puff_0": {
       "frame": {
-        "x": 120,
-        "y": 877,
+        "x": 297,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10222,8 +12802,8 @@
     },
     "fx_puff_1": {
       "frame": {
-        "x": 137,
-        "y": 877,
+        "x": 314,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10242,8 +12822,8 @@
     },
     "fx_puff_2": {
       "frame": {
-        "x": 154,
-        "y": 877,
+        "x": 331,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10362,8 +12942,8 @@
     },
     "fx_wisp_0": {
       "frame": {
-        "x": 171,
-        "y": 877,
+        "x": 348,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10382,8 +12962,8 @@
     },
     "fx_wisp_1": {
       "frame": {
-        "x": 188,
-        "y": 877,
+        "x": 365,
+        "y": 1009,
         "w": 16,
         "h": 16
       },
@@ -10402,8 +12982,8 @@
     },
     "icon_arc": {
       "frame": {
-        "x": 529,
-        "y": 811,
+        "x": 694,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10422,8 +13002,8 @@
     },
     "icon_flamer": {
       "frame": {
-        "x": 562,
-        "y": 811,
+        "x": 727,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10442,8 +13022,8 @@
     },
     "icon_knife": {
       "frame": {
-        "x": 595,
-        "y": 811,
+        "x": 760,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10462,8 +13042,8 @@
     },
     "icon_launcher": {
       "frame": {
-        "x": 628,
-        "y": 811,
+        "x": 793,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10482,8 +13062,8 @@
     },
     "icon_pistol": {
       "frame": {
-        "x": 661,
-        "y": 811,
+        "x": 826,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10502,8 +13082,8 @@
     },
     "icon_rift": {
       "frame": {
-        "x": 694,
-        "y": 811,
+        "x": 859,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10522,8 +13102,8 @@
     },
     "icon_rotary": {
       "frame": {
-        "x": 727,
-        "y": 811,
+        "x": 892,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10542,8 +13122,8 @@
     },
     "icon_shotgun": {
       "frame": {
-        "x": 760,
-        "y": 811,
+        "x": 925,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10562,8 +13142,8 @@
     },
     "item_arc": {
       "frame": {
-        "x": 793,
-        "y": 811,
+        "x": 958,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10582,8 +13162,8 @@
     },
     "item_armor": {
       "frame": {
-        "x": 826,
-        "y": 811,
+        "x": 991,
+        "y": 943,
         "w": 32,
         "h": 32
       },
@@ -10602,8 +13182,8 @@
     },
     "item_bluekey": {
       "frame": {
-        "x": 859,
-        "y": 811,
+        "x": 1,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10622,8 +13202,8 @@
     },
     "item_cells": {
       "frame": {
-        "x": 892,
-        "y": 811,
+        "x": 34,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10642,8 +13222,8 @@
     },
     "item_clip": {
       "frame": {
-        "x": 925,
-        "y": 811,
+        "x": 67,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10662,8 +13242,8 @@
     },
     "item_flamer": {
       "frame": {
-        "x": 958,
-        "y": 811,
+        "x": 100,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10682,8 +13262,8 @@
     },
     "item_fuel": {
       "frame": {
-        "x": 991,
-        "y": 811,
+        "x": 133,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10702,8 +13282,8 @@
     },
     "item_grenades": {
       "frame": {
-        "x": 1,
-        "y": 844,
+        "x": 166,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10722,8 +13302,8 @@
     },
     "item_launcher": {
       "frame": {
-        "x": 34,
-        "y": 844,
+        "x": 199,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10742,8 +13322,8 @@
     },
     "item_medkit": {
       "frame": {
-        "x": 67,
-        "y": 844,
+        "x": 232,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10762,8 +13342,8 @@
     },
     "item_redkey": {
       "frame": {
-        "x": 100,
-        "y": 844,
+        "x": 265,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10782,8 +13362,8 @@
     },
     "item_rift": {
       "frame": {
-        "x": 133,
-        "y": 844,
+        "x": 298,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10802,8 +13382,8 @@
     },
     "item_rotary": {
       "frame": {
-        "x": 166,
-        "y": 844,
+        "x": 331,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10822,8 +13402,8 @@
     },
     "item_shells": {
       "frame": {
-        "x": 199,
-        "y": 844,
+        "x": 364,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10842,8 +13422,8 @@
     },
     "item_shotgun": {
       "frame": {
-        "x": 232,
-        "y": 844,
+        "x": 397,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10862,8 +13442,8 @@
     },
     "item_sphere": {
       "frame": {
-        "x": 265,
-        "y": 844,
+        "x": 430,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10882,8 +13462,8 @@
     },
     "item_stimpack": {
       "frame": {
-        "x": 298,
-        "y": 844,
+        "x": 463,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10902,8 +13482,8 @@
     },
     "item_yellowkey": {
       "frame": {
-        "x": 331,
-        "y": 844,
+        "x": 496,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -10922,8 +13502,8 @@
     },
     "ledge_rim_h": {
       "frame": {
-        "x": 603,
-        "y": 877,
+        "x": 780,
+        "y": 1009,
         "w": 32,
         "h": 2
       },
@@ -10942,8 +13522,8 @@
     },
     "ledge_rim_v": {
       "frame": {
-        "x": 760,
-        "y": 844,
+        "x": 925,
+        "y": 976,
         "w": 2,
         "h": 32
       },
@@ -10962,8 +13542,8 @@
     },
     "ledge_side": {
       "frame": {
-        "x": 601,
-        "y": 877,
+        "x": 778,
+        "y": 1009,
         "w": 1,
         "h": 12
       },
@@ -10982,8 +13562,8 @@
     },
     "raised_face_concrete_0": {
       "frame": {
-        "x": 205,
-        "y": 877,
+        "x": 382,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11002,8 +13582,8 @@
     },
     "raised_face_concrete_1": {
       "frame": {
-        "x": 238,
-        "y": 877,
+        "x": 415,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11022,8 +13602,8 @@
     },
     "raised_face_concrete_2": {
       "frame": {
-        "x": 271,
-        "y": 877,
+        "x": 448,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11042,8 +13622,8 @@
     },
     "raised_face_grate_0": {
       "frame": {
-        "x": 304,
-        "y": 877,
+        "x": 481,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11062,8 +13642,8 @@
     },
     "raised_face_grate_1": {
       "frame": {
-        "x": 337,
-        "y": 877,
+        "x": 514,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11082,8 +13662,8 @@
     },
     "raised_face_grate_2": {
       "frame": {
-        "x": 370,
-        "y": 877,
+        "x": 547,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11102,8 +13682,8 @@
     },
     "raised_face_metal_0": {
       "frame": {
-        "x": 403,
-        "y": 877,
+        "x": 580,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11122,8 +13702,8 @@
     },
     "raised_face_metal_1": {
       "frame": {
-        "x": 436,
-        "y": 877,
+        "x": 613,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11142,8 +13722,8 @@
     },
     "raised_face_metal_2": {
       "frame": {
-        "x": 469,
-        "y": 877,
+        "x": 646,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11162,8 +13742,8 @@
     },
     "raised_face_rock_0": {
       "frame": {
-        "x": 502,
-        "y": 877,
+        "x": 679,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11182,8 +13762,8 @@
     },
     "raised_face_rock_1": {
       "frame": {
-        "x": 535,
-        "y": 877,
+        "x": 712,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11202,8 +13782,8 @@
     },
     "raised_face_rock_2": {
       "frame": {
-        "x": 568,
-        "y": 877,
+        "x": 745,
+        "y": 1009,
         "w": 32,
         "h": 12
       },
@@ -11222,8 +13802,8 @@
     },
     "raised_top_concrete_0": {
       "frame": {
-        "x": 364,
-        "y": 844,
+        "x": 529,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11242,8 +13822,8 @@
     },
     "raised_top_concrete_1": {
       "frame": {
-        "x": 397,
-        "y": 844,
+        "x": 562,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11262,8 +13842,8 @@
     },
     "raised_top_concrete_2": {
       "frame": {
-        "x": 430,
-        "y": 844,
+        "x": 595,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11282,8 +13862,8 @@
     },
     "raised_top_grate_0": {
       "frame": {
-        "x": 463,
-        "y": 844,
+        "x": 628,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11302,8 +13882,8 @@
     },
     "raised_top_grate_1": {
       "frame": {
-        "x": 496,
-        "y": 844,
+        "x": 661,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11322,8 +13902,8 @@
     },
     "raised_top_grate_2": {
       "frame": {
-        "x": 529,
-        "y": 844,
+        "x": 694,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11342,8 +13922,8 @@
     },
     "raised_top_metal_0": {
       "frame": {
-        "x": 562,
-        "y": 844,
+        "x": 727,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11362,8 +13942,8 @@
     },
     "raised_top_metal_1": {
       "frame": {
-        "x": 595,
-        "y": 844,
+        "x": 760,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11382,8 +13962,8 @@
     },
     "raised_top_metal_2": {
       "frame": {
-        "x": 628,
-        "y": 844,
+        "x": 793,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11402,8 +13982,8 @@
     },
     "raised_top_rock_0": {
       "frame": {
-        "x": 661,
-        "y": 844,
+        "x": 826,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11422,8 +14002,8 @@
     },
     "raised_top_rock_1": {
       "frame": {
-        "x": 694,
-        "y": 844,
+        "x": 859,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11442,8 +14022,8 @@
     },
     "raised_top_rock_2": {
       "frame": {
-        "x": 727,
-        "y": 844,
+        "x": 892,
+        "y": 976,
         "w": 32,
         "h": 32
       },
@@ -11927,7 +14507,7 @@
     "format": "RGBA8888",
     "size": {
       "w": 1024,
-      "h": 894
+      "h": 1034
     },
     "scale": "1"
   }

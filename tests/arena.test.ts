@@ -91,8 +91,12 @@ describe('arena', () => {
 describe('player count in one place', () => {
   it('has a team color and sprite for every allowed player', () => {
     expect(TEAMS.length).toBeGreaterThanOrEqual(MAX_PLAYERS);
-    for (let slot = 0; slot < MAX_PLAYERS; slot++) expect(teamOf(slot).color).toMatch(/^#[0-9a-f]{6}$/);
-    expect(new Set(TEAMS.map((t) => t.sprite)).size).toBe(TEAMS.length);
+    for (let slot = 0; slot < MAX_PLAYERS; slot++) {
+      expect(teamOf(slot).color).toMatch(/^#[0-9a-f]{6}$/);
+      expect(teamOf(slot).tint).toBeGreaterThan(0);
+      expect(teamOf(slot).tint).toBeLessThanOrEqual(0xffffff);
+    }
+    expect(new Set(TEAMS.map((t) => t.tint)).size).toBe(TEAMS.length);
   });
 
   it('accepts only whole slots inside the match size', () => {
