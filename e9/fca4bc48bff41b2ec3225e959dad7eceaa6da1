@@ -1,0 +1,29 @@
+docs/gameplay.md
+  s_703083095f6814::t_04c58d2835f380 538-539
+index.html
+  s_703083095f6814::t_c38c35194bfcc1 44-45
+package.json
+  s_703083095f6814::t_3b04aa1d38ce37 11
+src/render/ArenaScene.ts
+  s_703083095f6814::t_27de96a21a7d15 254,332-334,339
+src/style.css
+  s_703083095f6814::t_83bde3353c1b9e 125-168
+src/ui/hud.ts
+  s_703083095f6814::t_83b7cad399d91d 70-71,158-159,185-214
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e9fca4bc48bff41b2ec3225e959dad7eceaa6da1",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
