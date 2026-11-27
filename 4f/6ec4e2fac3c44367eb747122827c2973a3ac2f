@@ -1,0 +1,21 @@
+README.md
+  s_703083095f6814::t_59bb82d8222153 12
+docs/refactor.md
+  s_703083095f6814::t_61326deffda64c 1-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4f6ec4e2fac3c44367eb747122827c2973a3ac2f",
+  "prompts": {},
+  "sessions": {
+    "s_703083095f6814": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b31f124-bcd6-4da1-8931-8af6b68d91d5",
+        "model": "unknown"
+      },
+      "human_author": "Edu Ronqui <edu.ronqui@gmail.com>"
+    }
+  }
+}
