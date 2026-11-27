@@ -3,6 +3,8 @@ export const ROOM_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
 export const SIGNAL_MESSAGE_MAX = 16 * 1024;
 export const SIGNALS_PER_SOCKET_MAX = 200;
 export const ROOM_LIFETIME_MS = 5 * 60 * 1000;
+export const ROOM_ACTIONS_PER_WINDOW = 20;
+export const RATE_WINDOW_MS = 10 * 60 * 1000;
 const SDP_MAX = 12 * 1024;
 const CANDIDATE_MAX = 512;
 const MID_MAX = 32;
@@ -17,10 +19,16 @@ export type SignalData =
 
 export type ClientSignal = { t: 'signal'; data: SignalData };
 
+export interface IceServer {
+  urls: string[];
+  username?: string;
+  credential?: string;
+}
+
 export type ServerSignal =
   | { t: 'hosted'; code: string }
-  | { t: 'joined' }
-  | { t: 'peer' }
+  | { t: 'joined'; iceServers: IceServer[] }
+  | { t: 'peer'; iceServers: IceServer[] }
   | { t: 'signal'; data: SignalData }
   | { t: 'left' }
   | { t: 'error'; reason: SignalError };
@@ -43,6 +51,12 @@ export function admit(role: SignalRole, present: readonly SignalRole[]): 'ok' | 
   if (role === 'host') return present.includes('host') ? 'taken' : 'ok';
   if (!present.includes('host')) return 'not-found';
   return present.includes('guest') ? 'full' : 'ok';
+}
+
+export function takeAction(times: readonly number[], now: number): { allowed: boolean; times: number[] } {
+  const recent = times.filter((t) => now - t < RATE_WINDOW_MS);
+  if (recent.length >= ROOM_ACTIONS_PER_WINDOW) return { allowed: false, times: recent };
+  return { allowed: true, times: [...recent, now] };
 }
 
 export function otherRole(role: SignalRole): SignalRole {
@@ -90,6 +104,7 @@ export function parseServerSignal(raw: unknown): ServerSignal | null {
     }
     case 'joined':
     case 'peer':
+      return { t: m.t, iceServers: parseIceServers(m.iceServers ?? []) ?? [] };
     case 'left':
       return { t: m.t };
     case 'signal': {
@@ -101,6 +116,35 @@ export function parseServerSignal(raw: unknown): ServerSignal | null {
     default:
       return null;
   }
+}
+
+const ICE_URL = /^(stun|turn|turns):[A-Za-z0-9.\-:?=&_]+$/;
+const ICE_SERVERS_MAX = 4;
+const ICE_URLS_MAX = 8;
+const ICE_TEXT_MAX = 256;
+export const TURN_TTL_SECONDS = 2 * 60 * 60;
+
+function iceText(value: unknown): string | undefined | null {
+  if (value === undefined) return undefined;
+  return typeof value === 'string' && value.length <= ICE_TEXT_MAX ? value : null;
+}
+
+export function parseIceServers(raw: unknown): IceServer[] | null {
+  const list = Array.isArray(raw) ? raw : raw !== null && typeof raw === 'object' ? [raw] : null;
+  if (!list || list.length > ICE_SERVERS_MAX) return null;
+  const out: IceServer[] = [];
+  for (const item of list) {
+    if (item === null || typeof item !== 'object' || Array.isArray(item)) return null;
+    const entry = item as Record<string, unknown>;
+    const urls = typeof entry.urls === 'string' ? [entry.urls] : entry.urls;
+    if (!Array.isArray(urls) || urls.length === 0 || urls.length > ICE_URLS_MAX) return null;
+    if (!urls.every((u) => typeof u === 'string' && u.length <= ICE_TEXT_MAX && ICE_URL.test(u))) return null;
+    const username = iceText(entry.username);
+    const credential = iceText(entry.credential);
+    if (username === null || credential === null) return null;
+    out.push({ urls: urls as string[], ...(username !== undefined && { username }), ...(credential !== undefined && { credential }) });
+  }
+  return out;
 }
 
 export function encodeSignal(message: ClientSignal | ServerSignal): string {
@@ -123,6 +167,6 @@ export const SIGNAL_ERROR_TEXT: Record<SignalError, string> = {
   'not-found': 'Room not found. Check the code.',
   full: 'Room is full.',
   'bad-request': 'The server did not accept the request.',
-  'too-many': 'Too many messages. Try again.',
+  'too-many': 'Too many tries. Wait a few minutes and try again.',
   unreachable: 'Could not reach the server.',
 };

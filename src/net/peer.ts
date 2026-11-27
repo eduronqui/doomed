@@ -1,10 +1,10 @@
-import { SIGNAL_ERROR_TEXT, encodeSignal, parseServerSignal, type ServerSignal, type SignalData, type SignalRole } from './signal';
+import { SIGNAL_ERROR_TEXT, encodeSignal, parseServerSignal, type IceServer, type ServerSignal, type SignalData, type SignalRole } from './signal';
 
 const ICE_SERVERS: RTCIceServer[] = [{ urls: 'stun:stun.cloudflare.com:3478' }];
 const CONNECT_TIMEOUT_MS = 20000;
 const SIGNAL_LINGER_MS = 3000;
 const NO_CONNECTION = 'Could not connect to the other player. A strict network can block direct connections.';
-const PEER_LEFT = 'The other player left.';
+const PEER_LEFT: Record<SignalRole, string> = { host: 'The other player could not connect, or left.', guest: 'The host left.' };
 
 export interface Link {
   onMessage: (data: string) => void;
@@ -97,6 +97,10 @@ export class PeerLink implements Link {
     this.close();
   }
 
+  private useServers(servers: IceServer[]): void {
+    if (servers.length > 0) this.pc.setConfiguration({ iceServers: [...ICE_SERVERS, ...servers] });
+  }
+
   private connected(): boolean {
     return this.pc.connectionState === 'connected';
   }
@@ -119,10 +123,13 @@ export class PeerLink implements Link {
         this.waiting = null;
         return;
       case 'joined':
-        if (this.role === 'guest') this.settle('');
+        if (this.role !== 'guest') return;
+        this.useServers(message.iceServers);
+        this.settle('');
         return;
       case 'peer':
         if (this.role !== 'host') return;
+        this.useServers(message.iceServers);
         this.settle('');
         await this.pc.setLocalDescription(await this.pc.createOffer());
         this.signal({ kind: 'offer', sdp: this.pc.localDescription!.sdp });
@@ -130,7 +137,7 @@ export class PeerLink implements Link {
       case 'signal':
         return this.handleSignal(message.data);
       case 'left':
-        return this.connected() ? undefined : this.fail(PEER_LEFT);
+        return this.connected() ? undefined : this.fail(PEER_LEFT[this.role]);
       case 'error':
         return this.fail(SIGNAL_ERROR_TEXT[message.reason]);
     }

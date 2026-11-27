@@ -527,11 +527,11 @@ Pick **Versus** on the start menu to fight one other player in the arena **The P
 3. The guest picks **Join a match**, types the code and picks **Join** (or presses Enter). Small letters, spaces and dashes are fine.
 4. The match starts on both screens as soon as the browsers connect.
 
-Errors: "Room not found" (wrong code, or the room closed), "Room is full" (the room already has a guest), "Could not reach the server", "The other player left", and "Could not connect to the other player" when the browsers cannot reach each other within 20 seconds.
+Errors: "Room not found" (wrong code, or the room closed), "Room is full" (the room already has a guest), "Could not reach the server", "Too many tries" (more than 20 rooms or joins from one address in 10 minutes), "The host left", "The other player could not connect, or left" (on the host), and "Could not connect to the other player" when the browsers cannot reach each other within 20 seconds.
 
 A room closes when a player leaves, and after 5 minutes. The server only passes the connection setup between the two browsers; the game data goes directly between them.
 
-Playing online shares your IP address with the other player, with the DOOMED server, and with Cloudflare's STUN server that helps the browsers find each other. Some strict home or office routers block direct connections; then the two browsers cannot connect (a relay server is not part of this version).
+Playing online shares your IP address with the other player, with the DOOMED server, and with Cloudflare's STUN server that helps the browsers find each other. When a direct connection is not possible (most mobile data, strict home or office routers), the game sends the match through Cloudflare's TURN relay. Then the other player does not see your address.
 
 **Rules**
 - The host's Marine is **green**, the guest's Marine is **blue**. Name labels use the same colors.

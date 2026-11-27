@@ -13,7 +13,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Level select](#level-select) | Under discussion, not built |
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Minimum loadout at level start](#minimum-loadout-at-level-start) | Under discussion, not built |
-| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Versus built (2 players, 6-letter room codes on a Cloudflare Worker). Co-op, TURN relay and prediction not built |
+| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Versus built (2 players, 6-letter room codes on a Cloudflare Worker, TURN relay). Co-op and prediction not built |
 
 ### Discarded
 
@@ -156,7 +156,7 @@ Problem: health, armor, ammo and weapons carry over to the next level, and a res
 
 ## Multiplayer over WebRTC
 
-**Built so far:** 2-player versus in its own arena (see [gameplay.md](gameplay.md#versus-2-players)): host-authoritative `ArenaWorld`, a WebRTC data channel set up through a signaling server (a Cloudflare Worker with one Durable Object per 6-letter room code, trickle ICE, Cloudflare STUN), strict message checks on both the game and the server, names up to 12 characters, green host and blue guest. Not built yet: co-op, TURN, client-side prediction and interpolation, more than 2 players.
+**Built so far:** 2-player versus in its own arena (see [gameplay.md](gameplay.md#versus-2-players)): host-authoritative `ArenaWorld`, a WebRTC data channel set up through a signaling server (a Cloudflare Worker with one Durable Object per 6-letter room code, trickle ICE, Cloudflare STUN), strict message checks on both the game and the server, names up to 12 characters, green host and blue guest. TURN relay with short-lived credentials per player and a per-address limit on rooms. Not built yet: co-op, client-side prediction and interpolation, more than 2 players.
 
 Goal: 2 to 4 players in two modes, on the same network code:
 
@@ -176,7 +176,7 @@ Goal: 2 to 4 players in two modes, on the same network code:
 
 - **Signaling (built):** a Cloudflare Worker with one Durable Object per room. The host gets a 6-letter code, the guest types it, and the room relays the offer, the answer and the ICE candidates. The room uses the WebSocket Hibernation API, closes after 5 minutes or when a player leaves, and fits in the free plan. The first version used copy-paste codes with no server.
 - **STUN (built):** Cloudflare's free STUN server.
-- **TURN (next):** needed for roughly 10 to 20% of connections. Cloudflare's TURN service has a free monthly amount. A `/turn` route on the Worker would hand out short-lived credentials, so they never go in the game bundle.
+- **TURN (built):** needed for roughly 10 to 20% of connections. When a guest joins, the Worker asks Cloudflare for credentials for each player (2 hours) and sends them in the `joined` and `peer` messages. The key stays in Worker secrets. Free up to 1,000 GB per month.
 
 ### Game changes
 

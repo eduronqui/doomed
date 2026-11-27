@@ -1,4 +1,5 @@
 import { DurableObject } from 'cloudflare:workers';
+import { turnServers } from './turn';
 import { ROOM_LIFETIME_MS, SIGNALS_PER_SOCKET_MAX, admit, encodeSignal, otherRole, parseClientSignal, type ServerSignal, type SignalError, type SignalRole } from '../src/net/signal';
 
 interface Attachment {
@@ -48,10 +49,16 @@ export class Room extends DurableObject<Env> {
       send(server, { t: 'hosted', code });
       await this.ctx.storage.setAlarm(Date.now() + ROOM_LIFETIME_MS);
     } else {
-      send(server, { t: 'joined' });
-      send(this.socket('host'), { t: 'peer' });
+      await this.introduce(server);
     }
     return new Response(null, { status: 101, webSocket: client });
+  }
+
+  private async introduce(guest: WebSocket): Promise<void> {
+    const [host, own] = await Promise.all([turnServers(this.env), turnServers(this.env)]);
+    console.log(`turn host: ${host.status}; turn guest: ${own.status}`);
+    send(guest, { t: 'joined', iceServers: own.servers });
+    send(this.socket('host'), { t: 'peer', iceServers: host.servers });
   }
 
   async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer): Promise<void> {

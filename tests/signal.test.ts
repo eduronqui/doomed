@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { signalUrl } from '../src/net/peer';
 import {
+  RATE_WINDOW_MS,
+  ROOM_ACTIONS_PER_WINDOW,
   ROOM_CODE_ALPHABET,
   ROOM_CODE_LENGTH,
   SIGNAL_MESSAGE_MAX,
@@ -10,8 +12,10 @@ import {
   isAllowedOrigin,
   otherRole,
   parseClientSignal,
+  parseIceServers,
   parseServerSignal,
   randomCode,
+  takeAction,
 } from '../src/net/signal';
 
 describe('room codes', () => {
@@ -102,8 +106,8 @@ describe('signal messages from a browser', () => {
 describe('signal messages from the server', () => {
   it('reads every message type', () => {
     expect(parseServerSignal(encodeSignal({ t: 'hosted', code: 'KMTQRB' }))).toEqual({ t: 'hosted', code: 'KMTQRB' });
-    expect(parseServerSignal(encodeSignal({ t: 'joined' }))).toEqual({ t: 'joined' });
-    expect(parseServerSignal(encodeSignal({ t: 'peer' }))).toEqual({ t: 'peer' });
+    expect(parseServerSignal(encodeSignal({ t: 'joined', iceServers: [] }))).toEqual({ t: 'joined', iceServers: [] });
+    expect(parseServerSignal(encodeSignal({ t: 'peer', iceServers: [] }))).toEqual({ t: 'peer', iceServers: [] });
     expect(parseServerSignal(encodeSignal({ t: 'left' }))).toEqual({ t: 'left' });
     expect(parseServerSignal(encodeSignal({ t: 'error', reason: 'full' }))).toEqual({ t: 'error', reason: 'full' });
     expect(parseServerSignal(encodeSignal({ t: 'signal', data: { kind: 'answer', sdp: 'v=0' } }))).toEqual({ t: 'signal', data: { kind: 'answer', sdp: 'v=0' } });
@@ -138,5 +142,61 @@ describe('signal URL', () => {
   it('uses wss on https and ws on http, on the same host', () => {
     expect(signalUrl('host', null, { protocol: 'https:', host: 'doomed.example.workers.dev' })).toBe('wss://doomed.example.workers.dev/signal/host');
     expect(signalUrl('guest', 'KMTQRB', { protocol: 'http:', host: 'localhost:5173' })).toBe('ws://localhost:5173/signal/join?code=KMTQRB');
+  });
+});
+
+describe('TURN servers from the server', () => {
+  const turn = { urls: ['turn:turn.cloudflare.com:3478?transport=udp', 'turns:turn.cloudflare.com:5349?transport=tcp'], username: 'u1', credential: 'c1' };
+  const stun = { urls: 'stun:stun.cloudflare.com:3478' };
+
+  it('reads the list Cloudflare returns, as an array or as one object', () => {
+    expect(parseIceServers([stun, turn])).toEqual([{ urls: ['stun:stun.cloudflare.com:3478'] }, turn]);
+    expect(parseIceServers(turn)).toEqual([turn]);
+  });
+
+  it('passes the servers to the host and the guest in peer and joined', () => {
+    expect(parseServerSignal(JSON.stringify({ t: 'peer', iceServers: [turn] }))).toEqual({ t: 'peer', iceServers: [turn] });
+    expect(parseServerSignal(JSON.stringify({ t: 'joined', iceServers: [turn] }))).toEqual({ t: 'joined', iceServers: [turn] });
+  });
+
+  it('uses no TURN servers when the field is missing or bad, and still connects with STUN', () => {
+    expect(parseServerSignal(JSON.stringify({ t: 'joined' }))).toEqual({ t: 'joined', iceServers: [] });
+    expect(parseServerSignal(JSON.stringify({ t: 'peer', iceServers: [{ urls: 'http://evil.example' }] }))).toEqual({ t: 'peer', iceServers: [] });
+  });
+
+  it('rejects other schemes, odd characters, long values and too many entries', () => {
+    expect(parseIceServers([{ urls: 'https://turn.example' }])).toBeNull();
+    expect(parseIceServers([{ urls: 'turn:host"onerror' }])).toBeNull();
+    expect(parseIceServers([{ urls: [] }])).toBeNull();
+    expect(parseIceServers([{ urls: 'turn:a', username: 'x'.repeat(300) }])).toBeNull();
+    expect(parseIceServers([{ urls: 'turn:a', credential: 5 }])).toBeNull();
+    expect(parseIceServers(Array.from({ length: 5 }, () => stun))).toBeNull();
+    expect(parseIceServers('turn:a')).toBeNull();
+    expect(parseIceServers(null)).toBeNull();
+  });
+
+  it('copies only the known fields', () => {
+    expect(parseIceServers([{ ...turn, credentialType: 'password', extra: 1 }])).toEqual([turn]);
+  });
+});
+
+describe('limit on rooms and joins per address', () => {
+  it(`allows ${ROOM_ACTIONS_PER_WINDOW} tries in the window, then refuses`, () => {
+    let times: number[] = [];
+    for (let i = 0; i < ROOM_ACTIONS_PER_WINDOW; i++) {
+      const r = takeAction(times, 1000 + i);
+      expect(r.allowed).toBe(true);
+      times = r.times;
+    }
+    expect(takeAction(times, 2000).allowed).toBe(false);
+  });
+
+  it('allows tries again when the old ones leave the window', () => {
+    const full = Array.from({ length: ROOM_ACTIONS_PER_WINDOW }, (_, i) => i);
+    expect(takeAction(full, RATE_WINDOW_MS - 1).allowed).toBe(false);
+    expect(takeAction(full, RATE_WINDOW_MS + 5).allowed).toBe(true);
+    const later = takeAction(full, RATE_WINDOW_MS + 100);
+    expect(later.allowed).toBe(true);
+    expect(later.times).toHaveLength(1);
   });
 });
