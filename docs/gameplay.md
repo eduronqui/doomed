@@ -51,7 +51,7 @@ The twelve levels form four chapters of three levels. From chapter 2 (E4) on, en
 
 - Every time a level starts, the game saves the level, the difficulty and your loadout at that moment (health, armor, ammo, weapons and selected weapon) in the browser's localStorage, under `doomed.save`. The training level does not save.
 - If you quit in the middle of a level, you restart that level from the beginning with the loadout you had when it began. Keys, kills and your position are not saved.
-- When the game loads, a menu shows. "New game" is always there and opens the title screen with the difficulty choice. "Continue" shows only when a save exists. It restarts the saved level at once, with the saved difficulty and loadout. Starting a new game replaces the save when the first level starts.
+- When the game loads, a menu shows. "New game" is always there and opens the title screen with the difficulty choice. "Versus" is always there too (see [Versus](#versus-2-players)). "Continue" shows only when a save exists. It restarts the saved level at once, with the saved difficulty and loadout. Starting a new game replaces the save when the first level starts.
 - Clearing level 12 deletes the save.
 - The game ignores a save that is damaged, from another version, or points to a level that does not exist. If the browser blocks localStorage, nothing is saved and only "New game" shows.
 - With the dev URL parameters `level`, `pos`, `god`, `arsenal` or `noMonster`, the game does not save, so testing does not replace your real save.
@@ -519,15 +519,19 @@ When you use the exit switch, the victory screen counts up each stat one by one:
 
 ## Versus (2 players)
 
-Pick **Versus** on the title screen to fight one other player in the arena **The Pit**. There is no chat.
+Pick **Versus** on the start menu to fight one other player in the arena **The Pit**. There is no chat.
 
-**Connecting** (no server, the browsers connect directly over WebRTC):
-1. Both players type a name, up to 12 characters. Markup and control characters are removed; an empty name becomes "Marine".
-2. The host picks **Host a match**, copies the code (about 140 characters, one line) and sends it to the guest by any chat or mail.
-3. The guest picks **Join a match**, pastes the code, picks **Create my reply** and sends the reply code back.
-4. The host pastes the reply code and picks **Connect**. The match starts on both screens.
+**Connecting** (a small server sets up the match, then the browsers connect directly over WebRTC):
+1. Both players type a name, up to 12 characters. The name is required: Host a match and Join a match stay on the screen and ask for a name until it has at least one letter or digit. Markup and control characters are removed.
+2. The host picks **Host a match** and gets a room code of 6 letters, for example `KMTQRB`. The code never uses I or O. **Copy the code** puts it on the clipboard. The host tells the code to the guest by any chat or by voice.
+3. The guest picks **Join a match**, types the code and picks **Join** (or presses Enter). Small letters, spaces and dashes are fine.
+4. The match starts on both screens as soon as the browsers connect.
 
-Playing online shares your IP address with the other player, and with a public STUN server that helps the browsers find each other. Some strict home or office routers block direct connections; then the two browsers cannot connect (a relay server is not part of this first version).
+Errors: "Room not found" (wrong code, or the room closed), "Room is full" (the room already has a guest), "Could not reach the server", "The other player left", and "Could not connect to the other player" when the browsers cannot reach each other within 20 seconds.
+
+A room closes when a player leaves, and after 5 minutes. The server only passes the connection setup between the two browsers; the game data goes directly between them.
+
+Playing online shares your IP address with the other player, with the DOOMED server, and with Cloudflare's STUN server that helps the browsers find each other. Some strict home or office routers block direct connections; then the two browsers cannot connect (a relay server is not part of this version).
 
 **Rules**
 - The host's Marine is **green**, the guest's Marine is **blue**. Name labels use the same colors.

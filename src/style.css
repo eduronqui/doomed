@@ -1000,8 +1000,7 @@ html.touch #rotate p {
   }
 }
 
-#screen .lobby-input,
-#screen .lobby-code {
+#screen .lobby-input {
   display: block;
   width: 100%;
   max-width: 360px;
@@ -1014,14 +1013,23 @@ html.touch #rotate p {
   user-select: text;
 }
 
-#screen .lobby-code {
-  font: 10px ui-monospace, Menlo, monospace;
-  resize: none;
-  word-break: break-all;
+#screen .lobby-room {
+  margin: 8px auto;
+  font: bold 44px/1 ui-monospace, Menlo, monospace;
+  letter-spacing: 10px;
+  color: var(--gold);
+  user-select: all;
 }
 
-#screen .lobby-input:focus,
-#screen .lobby-code:focus {
+#screen .lobby-room-input {
+  max-width: 220px;
+  font: bold 28px ui-monospace, Menlo, monospace;
+  letter-spacing: 8px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#screen .lobby-input:focus {
   outline: 1px solid var(--gold);
 }
 

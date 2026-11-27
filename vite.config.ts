@@ -15,6 +15,9 @@ const devAssets: Plugin = {
 export default defineConfig({
   plugins: [devAssets],
   server: {
+    proxy: {
+      '/signal': { target: 'http://localhost:8787', ws: true },
+    },
     headers: {
       'X-Content-Type-Options': 'nosniff',
     },

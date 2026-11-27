@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DEFAULT_NAME, NAME_MAX, encode, parseClientMessage, parseHostMessage, sanitizeName } from '../src/net/protocol';
+import { DEFAULT_NAME, NAME_MAX, encode, isValidName, parseClientMessage, parseHostMessage, sanitizeName } from '../src/net/protocol';
 
 describe('player names', () => {
   it('trims, strips markup and control characters and keeps 12 characters', () => {
@@ -13,6 +13,17 @@ describe('player names', () => {
     expect(sanitizeName('')).toBe(DEFAULT_NAME);
     expect(sanitizeName('<<>>')).toBe(DEFAULT_NAME);
     expect(sanitizeName(42)).toBe(DEFAULT_NAME);
+  });
+
+  it('requires a name with at least one letter or digit before hosting or joining', () => {
+    expect(isValidName('Edu')).toBe(true);
+    expect(isValidName(' 7 ')).toBe(true);
+    expect(isValidName('Zoë')).toBe(true);
+    expect(isValidName('')).toBe(false);
+    expect(isValidName('   ')).toBe(false);
+    expect(isValidName('<<>>')).toBe(false);
+    expect(isValidName('-_.!?')).toBe(false);
+    expect(isValidName(42)).toBe(false);
   });
 });
 

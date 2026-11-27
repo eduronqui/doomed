@@ -7,8 +7,11 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "dev:worker": "mkdir -p dist && wrangler dev --port 8787",
+    "deploy": "npm run build && wrangler deploy",
+    "types:worker": "wrangler types",
     "sprites": "node scripts/build-sprites.mjs",
-    "linter": "tsc --noEmit && eslint .",
+    "linter": "tsc --noEmit && tsc --noEmit -p worker && eslint .",
     "test": "vitest run"
   },
   "type": "module",
@@ -21,7 +24,8 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.73.0",
     "vite": "^8.3.8",
-    "vitest": "^5.1.1"
+    "vitest": "^5.1.1",
+    "wrangler": "^4.169.0"
   },
   "private": true,
   "engines": {

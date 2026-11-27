@@ -265,7 +265,6 @@ export class GameScene extends Phaser.Scene {
             this.deps.sfx.unlock();
             this.restart(d);
           },
-          () => this.openVersus(),
         );
       const save = loadGame(LEVELS.length);
       const savedDifficulty = save && DIFFICULTIES.find((d) => d.id === save.difficulty);
@@ -278,6 +277,7 @@ export class GameScene extends Phaser.Scene {
           this.restart(savedDifficulty, save.level, save.carry);
         },
         showTitle,
+        () => this.openVersus(),
       );
     }
   }
@@ -307,21 +307,21 @@ export class GameScene extends Phaser.Scene {
       this.scene.start('arena', { deps: this.deps, link: l, role, names });
     };
     this.deps.screens.versus({
-      host: async (name) => {
-        const made = await PeerLink.host();
+      host: (name, onFail) => {
+        link?.close();
+        const made = PeerLink.host(window.location);
         link = made.link;
+        made.link.onFail = onFail;
         hostHandshake(made.link, name, (names) => start(made.link, 'host', names));
-        return made.offerCode;
+        return made.code;
       },
-      connect: async (answer) => {
-        if (!link) throw new Error('Create your code first.');
-        await link.acceptAnswer(answer);
-      },
-      join: async (name, offer) => {
-        const made = await PeerLink.join(offer);
+      join: (name, code, onFail) => {
+        link?.close();
+        const made = PeerLink.join(code, window.location);
         link = made.link;
+        made.link.onFail = onFail;
         guestHandshake(made.link, name, (names) => start(made.link, 'guest', names));
-        return made.answerCode;
+        return made.joined;
       },
       back: () => {
         link?.close();

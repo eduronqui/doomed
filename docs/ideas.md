@@ -13,7 +13,7 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [Level select](#level-select) | Under discussion, not built |
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Minimum loadout at level start](#minimum-loadout-at-level-start) | Under discussion, not built |
-| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Versus built (2 players, copy-paste codes). Co-op, TURN relay and prediction not built |
+| [Multiplayer over WebRTC](#multiplayer-over-webrtc) | Versus built (2 players, 6-letter room codes on a Cloudflare Worker). Co-op, TURN relay and prediction not built |
 
 ### Discarded
 
@@ -156,7 +156,7 @@ Problem: health, armor, ammo and weapons carry over to the next level, and a res
 
 ## Multiplayer over WebRTC
 
-**Built so far:** 2-player versus in its own arena (see [gameplay.md](gameplay.md#versus-2-players)): host-authoritative `ArenaWorld`, a WebRTC data channel with copy-paste codes, strict message checks, names up to 12 characters, green host and blue guest. Not built yet: co-op, a signaling server, TURN, client-side prediction and interpolation, more than 2 players.
+**Built so far:** 2-player versus in its own arena (see [gameplay.md](gameplay.md#versus-2-players)): host-authoritative `ArenaWorld`, a WebRTC data channel set up through a signaling server (a Cloudflare Worker with one Durable Object per 6-letter room code, trickle ICE, Cloudflare STUN), strict message checks on both the game and the server, names up to 12 characters, green host and blue guest. Not built yet: co-op, TURN, client-side prediction and interpolation, more than 2 players.
 
 Goal: 2 to 4 players in two modes, on the same network code:
 
@@ -174,12 +174,9 @@ Goal: 2 to 4 players in two modes, on the same network code:
 
 ### Connecting the players
 
-- **Signaling** (exchange of the connection offer and answer). Vercel cannot hold the open WebSocket connections that signaling usually uses. Options:
-  1. Copy and paste codes between players. No server, free, fine for friends. **First step.**
-  2. A small WebSocket service (Cloudflare Workers, Fly.io or similar).
-  3. A hosted service (PeerJS, Firebase). This adds a dependency, so ask before installing.
-- **STUN:** free public servers.
-- **TURN:** needed for roughly 10 to 20% of connections. It costs money (Cloudflare, Twilio) or a self-hosted server.
+- **Signaling (built):** a Cloudflare Worker with one Durable Object per room. The host gets a 6-letter code, the guest types it, and the room relays the offer, the answer and the ICE candidates. The room uses the WebSocket Hibernation API, closes after 5 minutes or when a player leaves, and fits in the free plan. The first version used copy-paste codes with no server.
+- **STUN (built):** Cloudflare's free STUN server.
+- **TURN (next):** needed for roughly 10 to 20% of connections. Cloudflare's TURN service has a free monthly amount. A `/turn` route on the Worker would hand out short-lived credentials, so they never go in the game bundle.
 
 ### Game changes
 
@@ -225,7 +222,7 @@ The design is host-authoritative. In co-op the risk to the game itself is low; i
 **4. Privacy: IP addresses.**
 - WebRTC shows each player's public IP address to the other players. Modern browsers hide local network addresses behind random `.local` names.
 - Tell players in the lobby. Offer a relay-only mode (`iceTransportPolicy: 'relay'`) that sends all traffic through TURN, so peers never see each other's address. It costs more TURN traffic.
-- Copy-paste codes contain the IP address. Players should not post them in public channels.
+- Room codes do not contain the IP address, but anyone with the code can join the room while it is open. Players should not post codes in public channels.
 
 **5. Signaling and TURN servers** (only when we add them).
 - HTTPS and WSS only. The signaling exchange carries the keys that WebRTC's built-in encryption (DTLS) depends on, so anyone who can change it can read or change all game traffic.

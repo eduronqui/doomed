@@ -26,10 +26,18 @@ const SOUNDS: ReadonlySet<SoundId> = new Set<SoundId>([
 export type ClientMessage = { t: 'hello'; name: string } | { t: 'input'; input: Input };
 export type HostMessage = { t: 'start'; names: [string, string] } | { t: 'snap'; snap: ArenaSnapshot };
 
-export function sanitizeName(raw: unknown): string {
-  if (typeof raw !== 'string') return DEFAULT_NAME;
+function cleanName(raw: unknown): string {
+  if (typeof raw !== 'string') return '';
   const clean = [...raw.normalize('NFC')].filter((ch) => /[\p{L}\p{N}\p{Zs}\-_.'!?]/u.test(ch)).join('').replace(/\s+/g, ' ').trim();
-  const name = [...clean].slice(0, NAME_MAX).join('').trim();
+  return [...clean].slice(0, NAME_MAX).join('').trim();
+}
+
+export function isValidName(raw: unknown): boolean {
+  return /[\p{L}\p{N}]/u.test(cleanName(raw));
+}
+
+export function sanitizeName(raw: unknown): string {
+  const name = cleanName(raw);
   return name.length > 0 ? name : DEFAULT_NAME;
 }
 

@@ -3,18 +3,18 @@ import type { Difficulty, DifficultyId } from '../sim/defs';
 import type { Stats } from '../sim/world';
 import { formatTime } from './hud';
 import { drawLogo } from './logo';
-import { NAME_MAX } from '../net/protocol';
+import { NAME_MAX, isValidName } from '../net/protocol';
+import { ROOM_CODE_LENGTH, cleanCode } from '../net/signal';
 
 type Pick = (d: Difficulty) => void;
 
 export interface VersusApi {
-  host(name: string): Promise<string>;
-  connect(answer: string): Promise<void>;
-  join(name: string, offer: string): Promise<string>;
+  host(name: string, onFail: (message: string) => void): Promise<string>;
+  join(name: string, code: string, onFail: (message: string) => void): Promise<void>;
   back(): void;
 }
 
-const PRIVACY = 'Playing online shares your IP address with the other player and with a public STUN server (Google) that helps the two browsers find each other. Only send codes to people you trust.';
+const PRIVACY = 'Playing online shares your IP address with the other player, with the DOOMED server that sets up the match, and with a public STUN server (Cloudflare) that helps the two browsers find each other. Only give your code to people you trust.';
 
 interface Counter {
   label: string;
@@ -144,18 +144,12 @@ export class Screens {
     return box;
   }
 
-  title(levelTitle: string, briefing: string, list: Difficulty[], current: DifficultyId, onPick: Pick, onVersus?: () => void): void {
+  title(levelTitle: string, briefing: string, list: Difficulty[], current: DifficultyId, onPick: Pick): void {
     const logo = drawLogo();
     logo.className = 'logo';
     logo.setAttribute('role', 'img');
     logo.setAttribute('aria-label', 'DOOMED');
-    const parts = [logo, el('h3', levelTitle), el('p', briefing), this.picker('Choose your difficulty', list, current, onPick)];
-    if (onVersus) {
-      const box = el('div', undefined, 'picker');
-      box.append(el('div', 'Or fight another player', 'picker-title'), this.choice('Versus', 'Two players online. First to 10 frags wins.', 'diff', onVersus));
-      parts.push(box);
-    }
-    this.show(parts, null);
+    this.show([logo, el('h3', levelTitle), el('p', briefing), this.picker('Choose your difficulty', list, current, onPick)], null);
   }
 
   notice(title: string, text: string, button: string, action: () => void): void {
@@ -178,111 +172,116 @@ export class Screens {
     input.value = name;
     input.autocomplete = 'off';
     input.spellcheck = false;
+    const status = el('p', '', 'lobby-status');
+    const named = (next: (api: VersusApi, name: string) => void) => (): void => {
+      if (!isValidName(input.value)) {
+        status.textContent = 'Type your name first.';
+        input.focus();
+        return;
+      }
+      this.hide();
+      next(api, input.value);
+    };
+    input.addEventListener('input', () => (status.textContent = ''));
     const box = el('div', undefined, 'picker');
     box.append(
-      this.choice('Host a match', 'Create a code and send it to the other player.', 'diff current', () => void this.versusHost(api, input.value)),
-      this.choice('Join a match', 'Paste the code the host sent you.', 'diff', () => this.versusJoin(api, input.value)),
-      this.choice('Back', 'Return to the title screen.', 'diff', api.back),
+      this.choice('Host a match', 'Get a code to give to the other player.', 'diff current', named((a, n) => this.versusHost(a, n)), true),
+      this.choice('Join a match', 'Type the code the host gave you.', 'diff', named((a, n) => this.versusJoin(a, n)), true),
+      this.choice('Back', 'Return to the menu.', 'diff', api.back),
     );
-    this.show([el('h1', 'VERSUS'), el('p', 'Two Marines, one arena. The host plays green, the guest plays blue.'), el('div', `Name (up to ${NAME_MAX} characters)`, 'picker-title'), input, box, el('p', PRIVACY, 'lobby-note')], null);
+    this.show([el('h1', 'VERSUS'), el('p', 'Two Marines, one arena. The host plays green, the guest plays blue.'), el('div', `Name (up to ${NAME_MAX} characters)`, 'picker-title'), input, status, box, el('p', PRIVACY, 'lobby-note')], null);
     input.focus();
   }
 
-  private codeBox(value: string, readOnly: boolean, placeholder: string): HTMLTextAreaElement {
-    const area = el('textarea', undefined, 'lobby-code');
-    area.readOnly = readOnly;
-    area.value = value;
-    area.placeholder = placeholder;
-    area.rows = 3;
-    area.spellcheck = false;
-    return area;
+  private versusFailed(api: VersusApi, name: string, title: string, message: string): void {
+    this.notice(title, message, 'Back', () => this.versus(api, name));
   }
 
-  private copyButton(area: HTMLTextAreaElement, status: HTMLElement): HTMLButtonElement {
-    return this.choice(
-      'Copy my code',
-      'Send it to the other player by chat or mail.',
-      'diff',
-      () => {
-        area.select();
-        navigator.clipboard?.writeText(area.value).then(
-          () => (status.textContent = 'Code copied.'),
-          () => (status.textContent = 'Select the code and copy it by hand.'),
-        );
-      },
-      true,
-    );
-  }
-
-  private async versusHost(api: VersusApi, name: string): Promise<void> {
-    const status = el('p', 'Creating your code...', 'lobby-status');
-    this.show([el('h1', 'HOST'), status], null);
-    let offer: string;
-    try {
-      offer = await api.host(name);
-    } catch {
-      this.notice('HOST', 'The browser could not create a connection.', 'Back', () => this.versus(api, name));
-      return;
-    }
-    const mine = this.codeBox(offer, true, '');
-    const reply = this.codeBox('', false, "Paste the guest's reply code here");
-    status.textContent = '1. Send your code to the guest. 2. Paste their reply code. 3. Connect.';
-    const box = el('div', undefined, 'picker');
-    box.append(
-      this.copyButton(mine, status),
-      this.choice(
-        'Connect',
-        'Start the match with the reply code.',
-        'diff current',
-        () => {
-          status.textContent = 'Connecting...';
-          api.connect(reply.value).catch((e: unknown) => (status.textContent = e instanceof Error ? e.message : 'The reply code is not valid.'));
-        },
-        true,
-      ),
-      this.choice('Back', 'Cancel and return.', 'diff', api.back),
-    );
-    this.show([el('h1', 'HOST'), el('div', 'Your code', 'picker-title'), mine, el('div', 'Reply code', 'picker-title'), reply, box, status], null);
+  private versusHost(api: VersusApi, name: string): void {
+    const status = el('p', 'Opening a room...', 'lobby-status');
+    const back = el('div', undefined, 'picker');
+    back.append(this.choice('Back', 'Close the room and return.', 'diff current', api.back));
+    this.show([el('h1', 'HOST'), status, back], null);
+    const fail = (message: string): void => {
+      if (this.root.contains(status)) this.versusFailed(api, name, 'HOST', message);
+    };
+    api.host(name, fail).then((code) => {
+      if (!this.root.contains(status)) return;
+      const shown = el('div', code, 'lobby-room');
+      const box = el('div', undefined, 'picker');
+      box.append(
+        this.choice(
+          'Copy the code',
+          'Give it to the other player by chat or voice.',
+          'diff',
+          () => {
+            navigator.clipboard?.writeText(code).then(
+              () => (status.textContent = 'Code copied. Waiting for the other player...'),
+              () => (status.textContent = 'Copy the code by hand. Waiting for the other player...'),
+            );
+          },
+          true,
+        ),
+        this.choice('Back', 'Close the room and return.', 'diff current', api.back),
+      );
+      status.textContent = 'Waiting for the other player... The match starts when they join.';
+      this.show([el('h1', 'HOST'), el('div', 'Your room code', 'picker-title'), shown, status, box], null);
+    }, (e: unknown) => fail(e instanceof Error ? e.message : 'Could not open a room.'));
   }
 
   private versusJoin(api: VersusApi, name: string): void {
-    const offer = this.codeBox('', false, "Paste the host's code here");
-    const status = el('p', 'Paste the code the host sent you, then create your reply.', 'lobby-status');
-    const box = el('div', undefined, 'picker');
-    box.append(
-      this.choice(
-        'Create my reply',
-        'Makes the code to send back to the host.',
-        'diff current',
+    const input = el('input', undefined, 'lobby-input lobby-room-input');
+    input.type = 'text';
+    input.maxLength = ROOM_CODE_LENGTH + 4;
+    input.placeholder = 'ABCDEF';
+    input.autocomplete = 'off';
+    input.autocapitalize = 'characters';
+    input.spellcheck = false;
+    const status = el('p', `Type the ${ROOM_CODE_LENGTH}-letter code the host gave you.`, 'lobby-status');
+    const fail = (message: string): void => {
+      if (this.root.contains(status)) this.versusFailed(api, name, 'JOIN', message);
+    };
+    let busy = false;
+    const join = (): void => {
+      const code = cleanCode(input.value);
+      if (!code) {
+        status.textContent = `The code has ${ROOM_CODE_LENGTH} letters.`;
+        return;
+      }
+      if (busy) return;
+      busy = true;
+      status.textContent = 'Joining the room...';
+      api.join(name, code, fail).then(
         () => {
-          status.textContent = 'Creating your reply...';
-          api.join(name, offer.value).then(
-            (answer) => {
-              const mine = this.codeBox(answer, true, '');
-              const wait = el('p', 'Send this reply code to the host. The match starts when the host connects.', 'lobby-status');
-              const back = el('div', undefined, 'picker');
-              back.append(this.copyButton(mine, wait), this.choice('Back', 'Cancel and return.', 'diff', api.back));
-              this.show([el('h1', 'JOIN'), el('div', 'Your reply code', 'picker-title'), mine, back, wait], null);
-            },
-            (e: unknown) => (status.textContent = e instanceof Error ? e.message : 'The code is not valid.'),
-          );
+          if (this.root.contains(status)) status.textContent = 'Connecting to the host...';
         },
-        true,
-      ),
-      this.choice('Back', 'Cancel and return.', 'diff', api.back),
-    );
-    this.show([el('h1', 'JOIN'), el('div', "Host's code", 'picker-title'), offer, box, status], null);
-    offer.focus();
+        (e: unknown) => {
+          busy = false;
+          if (this.root.contains(status)) status.textContent = e instanceof Error ? e.message : 'Could not join the room.';
+        },
+      );
+    };
+    input.addEventListener('input', () => (input.value = input.value.toUpperCase()));
+    input.addEventListener('keydown', (e) => {
+      if (e.code === 'Enter' || e.code === 'NumpadEnter') join();
+    });
+    const box = el('div', undefined, 'picker');
+    box.append(this.choice('Join', 'Connect to the host.', 'diff current', join, true), this.choice('Back', 'Return.', 'diff', api.back));
+    this.show([el('h1', 'JOIN'), el('div', 'Room code', 'picker-title'), input, box, status], null);
+    input.focus();
   }
 
-  mainMenu(save: { blurb: string } | null, onContinue: () => void, onNew: () => void): void {
+  mainMenu(save: { blurb: string } | null, onContinue: () => void, onNew: () => void, onVersus: () => void): void {
     const logo = drawLogo();
     logo.className = 'logo';
     logo.setAttribute('role', 'img');
     logo.setAttribute('aria-label', 'DOOMED');
     const box = el('div', undefined, 'picker');
     if (save) box.append(this.choice('Continue', save.blurb, 'diff current', onContinue));
-    box.append(this.choice('New game', save ? 'Replaces your saved game when the level starts.' : 'Start the episode.', save ? 'diff' : 'diff current', onNew));
+    box.append(
+      this.choice('New game', save ? 'Replaces your saved game when the level starts.' : 'Start the episode.', save ? 'diff' : 'diff current', onNew),
+      this.choice('Versus', 'Two players online. First to 10 frags wins.', 'diff', onVersus),
+    );
     this.show([logo, box], null);
   }
 
