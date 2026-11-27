@@ -10,7 +10,6 @@ Ideas under discussion. Nothing in this file is built yet. When an idea is built
 | [A silent weapon](#a-silent-weapon) | Under discussion, not built |
 | [Secrets with a puzzle](#secrets-with-a-puzzle) | Under discussion, not built |
 | [Set pieces](#set-pieces) | Under discussion, not built |
-| [Progress saving](#progress-saving) | Under discussion, not built |
 | [Level select](#level-select) | Under discussion, not built |
 | [Best-run records](#best-run-records) | Under discussion, not built |
 | [Minimum loadout at level start](#minimum-loadout-at-level-start) | Under discussion, not built |
@@ -71,7 +70,7 @@ Make the game more engaging. Players stay engaged when they see a next goal, get
 
 - A `src/achievements/` module that listens to the world events and to the end-of-level stats. Pure TypeScript, testable like the simulation.
 - Some events need more detail, for example what killed a monster (the player, a barrel, another monster).
-- Progress stays in `localStorage`, like the training flag. No accounts and no server.
+- Progress stays in `localStorage`, like the training flag and the saved game. No accounts and no server.
 
 ### Open points
 
@@ -121,23 +120,12 @@ Goal: one memorable moment in the levels that do not have one yet. The level 12 
 - **Collapsing floor.** A bridge or a ledge over lava falls after the player crosses it, so there is no way back.
 - Keep it to one per level, and show a draft before building a batch.
 
-## Progress saving
-
-Goal: a player who closes the tab can come back to the same place.
-
-- Today the game stores only the training flag in `localStorage`.
-- Save the furthest level, the difficulty, and the carry loadout (health, armor, ammo, weapons) as it was when that level started.
-- The title screen shows "Continue" next to "New game".
-- Reuse the carry rules from [Minimum loadout at level start](#minimum-loadout-at-level-start), so a saved start is never a dead end.
-- No accounts and no server. A new game replaces the save after a confirm.
-- Level select and best-run records build on this data.
-
 ## Level select
 
 Goal: make replays easy.
 
 - The level picker stays hidden until the player has cleared all 12 levels once. Before that, the only way to a level is to play the levels in order.
-- The `hasCompleted` flag in `localStorage` (key `doomed.hasCompleted`) controls the picker. The game already sets it when the player clears level 12. It is built, and nothing reads it yet. The picker shows only when `hasCompleted()` is true. The flag stays after a save is deleted, so the picker stays available for good.
+- The picker needs a `hasCompleted` flag in `localStorage` (key `doomed.hasCompleted`), set when the player clears level 12. It is not built yet. The picker shows only when the flag is true. The flag is separate from the saved game, which the game deletes after level 12, so the picker stays available for good.
 - The picker shows on the menu, next to "Continue" and "New game", for example as "Select level".
 - A level started from the picker uses the fresh starting loadout of that level, not a carried one. Open point: the difficulty, either chosen in the picker or taken from the last game.
 - It also makes achievement hunting easier.

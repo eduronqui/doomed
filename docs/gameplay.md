@@ -47,6 +47,15 @@ The twelve levels form four chapters of three levels. From chapter 2 (E4) on, en
 - When you die, the level restarts with the loadout you had when you entered it. Level 1 always starts with 100 health, the knife, the sidearm and the start bullets of your difficulty (60, 40 or 20).
 - After level 12, the victory screen offers to play the episode again from level 1, with any difficulty.
 
+### Saving and the menu
+
+- Every time a level starts, the game saves the level, the difficulty and your loadout at that moment (health, armor, ammo, weapons and selected weapon) in the browser's localStorage, under `doomed.save`. The training level does not save.
+- If you quit in the middle of a level, you restart that level from the beginning with the loadout you had when it began. Keys, kills and your position are not saved.
+- When the game loads, a menu shows. "New game" is always there and opens the title screen with the difficulty choice. "Continue" shows only when a save exists. It restarts the saved level at once, with the saved difficulty and loadout. Starting a new game replaces the save when the first level starts.
+- Clearing level 12 deletes the save.
+- The game ignores a save that is damaged, from another version, or points to a level that does not exist. If the browser blocks localStorage, nothing is saved and only "New game" shows.
+- With the dev URL parameters `level`, `pos`, `god`, `arsenal` or `noMonster`, the game does not save, so testing does not replace your real save.
+
 ## Difficulty
 
 Pick a difficulty on the title screen before you start. The victory screen after the last level lets you pick again. The death screen lets you pick again only from your 3rd death in a row on the same level. R restarts with the same difficulty.

@@ -128,10 +128,10 @@ src/
     tracks.ts         Track type, pattern parser and validation
   ui/
     hud.ts            Side panel, minimap, server log, center messages
-    screens.ts        Title, pause, death and victory screens
+    screens.ts        Menu, title, pause, death and victory screens
     logo.ts           Generated title logo
-    progress.ts       localStorage flag that marks the training as done
-    storage.ts        Safe localStorage flags (training, music, sound, panel and log state)
+    progress.ts       Training flag and the saved game (level, difficulty, loadout) in localStorage
+    storage.ts        Safe localStorage access (flags and text: training, save, music, sound, panel and log state)
     touch.ts          Touch controls: floating move and aim sticks, buttons, fullscreen and landscape lock
     stick.ts          Stick math (dead zone, strength, knob position)
     collapse.ts       Collapsible panel and log

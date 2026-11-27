@@ -14,3 +14,27 @@ export function writeFlag(key: string, on: boolean): void {
     return;
   }
 }
+
+export function readText(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+export function writeText(key: string, value: string): void {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    return;
+  }
+}
+
+export function removeItem(key: string): void {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    return;
+  }
+}

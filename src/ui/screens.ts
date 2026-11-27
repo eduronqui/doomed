@@ -139,6 +139,17 @@ export class Screens {
     this.show([logo, el('h3', levelTitle), el('p', briefing), this.picker('Choose your difficulty', list, current, onPick)], null);
   }
 
+  mainMenu(save: { blurb: string } | null, onContinue: () => void, onNew: () => void): void {
+    const logo = drawLogo();
+    logo.className = 'logo';
+    logo.setAttribute('role', 'img');
+    logo.setAttribute('aria-label', 'DOOMED');
+    const box = el('div', undefined, 'picker');
+    if (save) box.append(this.choice('Continue', save.blurb, 'diff current', onContinue));
+    box.append(this.choice('New game', save ? 'Replaces your saved game when the level starts.' : 'Start the episode.', save ? 'diff' : 'diff current', onNew));
+    this.show([logo, box], null);
+  }
+
   paused(onResume: () => void): void {
     this.show([el('h1', 'PAUSED'), el('p', 'The demons wait for you.'), el('div', 'Click or press Enter, Space or Esc to resume', 'prompt')], () => {
       this.hide();

@@ -3,7 +3,7 @@ import { MARINE } from '../characters';
 import type { CharacterKind } from '../characters/art';
 import { LEVELS, TRAINING_INDEX, levelInfo } from '../levels';
 import { DEATH_MUSIC } from '../levels/death.music';
-import { isTrainingDone, markTrainingDone } from '../ui/progress';
+import { clearGame, isTrainingDone, loadGame, markTrainingDone, saveGame } from '../ui/progress';
 import { DEFAULT_DIFFICULTY, DIFFICULTIES, type DecoKind, type Difficulty } from '../sim/defs';
 import { FOOT_OFFSET, type Door } from '../sim/grid';
 import { looksLikeWall, type Tile } from '../sim/level';
@@ -142,6 +142,7 @@ export class GameScene extends Phaser.Scene {
   private deathLevel = -1;
   private deathCount = 0;
   private started = false;
+  private saveEnabled = true;
   private difficulty: Difficulty = DEFAULT_DIFFICULTY;
   private firing = false;
   private aimByKeys = false;
@@ -219,6 +220,7 @@ export class GameScene extends Phaser.Scene {
     this.deps.hud.reset(this.world, `${info.title} (${this.difficulty.name})`);
     if (import.meta.env.DEV) {
       const dev = parseDevParams(window.location.search, LEVELS.length);
+      if (dev.level !== null || dev.arsenal || dev.god || dev.noMonster || dev.pos) this.saveEnabled = false;
       if (dev.autostart) {
         this.started = true;
         this.unlockAudioOnFirstInput();
@@ -245,10 +247,23 @@ export class GameScene extends Phaser.Scene {
     if (this.started) this.beginPlay();
     else {
       this.paused = true;
-      this.deps.screens.title(info.title, info.briefing, DIFFICULTIES, this.difficulty.id, (d) => {
-        this.deps.sfx.unlock();
-        this.restart(d);
-      });
+      const showTitle = (): void =>
+        this.deps.screens.title(info.title, info.briefing, DIFFICULTIES, this.difficulty.id, (d) => {
+          this.deps.sfx.unlock();
+          this.restart(d);
+        });
+      const save = loadGame(LEVELS.length);
+      const savedDifficulty = save && DIFFICULTIES.find((d) => d.id === save.difficulty);
+      const blurb = save && savedDifficulty ? `${LEVELS[save.level].title}, ${savedDifficulty.name}. You restart the level with the loadout you had when it began.` : '';
+      this.deps.screens.mainMenu(
+        save && savedDifficulty ? { blurb } : null,
+        () => {
+          if (!save || !savedDifficulty) return;
+          this.deps.sfx.unlock();
+          this.restart(savedDifficulty, save.level, save.carry);
+        },
+        showTitle,
+      );
     }
   }
 
@@ -269,6 +284,7 @@ export class GameScene extends Phaser.Scene {
     this.deps.music.play(levelInfo(this.levelIndex).music);
     const info = levelInfo(this.levelIndex);
     this.deps.hud.message(info.startMessage ? `Welcome to ${info.title}. ${info.startMessage}` : `Welcome to ${info.title}.`, 'info', 0);
+    if (this.saveEnabled && !info.training) saveGame({ level: this.levelIndex, difficulty: this.difficulty.id, carry: this.world.carry() });
   }
 
   // ---------- construction ----------
@@ -718,6 +734,7 @@ export class GameScene extends Phaser.Scene {
           this.deathLevel = -1;
           this.deathCount = 0;
           if (info.training) markTrainingDone();
+          else if (!nextInfo) clearGame();
           const next = info.training
             ? { title: nextInfo.title, onContinue: () => this.finishTraining(), blurb: 'The deployment starts with a fresh loadout.' }
             : nextInfo
