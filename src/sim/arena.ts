@@ -5,10 +5,10 @@ import { Grid } from './grid';
 import type { LevelData } from './level';
 import { Rng } from './rng';
 import { angleDiff, clamp, dirFromAngle, dist, rayCircle, type Dir } from './types';
-import type { Input } from './world';
+import { MIN_PLAYERS, type Slot } from './players';
+import { IDLE_INPUT, type Input } from './world';
 
-export type Team = 'green' | 'blue';
-export type Slot = 0 | 1;
+export type { Slot } from './players';
 
 export const FRAG_LIMIT = 10;
 export const RESPAWN_TIME = 2.5;
@@ -22,7 +22,6 @@ const ARENA_ITEMS: ReadonlySet<ItemKind> = new Set<ItemKind>(['stimpack', 'medki
 
 export interface ArenaPlayer {
   slot: Slot;
-  team: Team;
   name: string;
   x: number;
   y: number;
@@ -93,14 +92,14 @@ export interface ArenaSnapshot {
   time: number;
   status: ArenaStatus;
   winner: Slot | null;
-  players: [PlayerState, PlayerState];
+  players: PlayerState[];
   items: boolean[];
   events: ArenaEvent[];
 }
 
 export class ArenaWorld {
   readonly grid: Grid;
-  readonly players: [ArenaPlayer, ArenaPlayer];
+  readonly players: readonly ArenaPlayer[];
   readonly items: ArenaItem[] = [];
   readonly decos: ArenaDeco[] = [];
   readonly spawns: { x: number; y: number }[];
@@ -112,11 +111,12 @@ export class ArenaWorld {
   private rng: Rng;
   private posts: { x: number; y: number; r: number }[] = [];
 
-  constructor(level: LevelData, names: [string, string], seed = 1) {
+  constructor(level: LevelData, names: readonly string[], seed = 1) {
     this.grid = new Grid(level);
     this.rng = new Rng(seed);
     this.spawns = level.spawns.filter((s) => s.kind === 'player').map((s) => ({ x: s.x, y: s.y }));
-    if (this.spawns.length < 2) throw new Error(`Arena ${level.name} needs at least two player starts`);
+    if (names.length < MIN_PLAYERS) throw new Error(`A match needs at least ${MIN_PLAYERS} players`);
+    if (this.spawns.length < names.length) throw new Error(`Arena ${level.name} needs at least ${names.length} player starts`);
     let id = 1;
     for (const s of level.spawns) {
       if (s.kind in ITEM_NAMES && ARENA_ITEMS.has(s.kind as ItemKind)) this.items.push({ id: id++, kind: s.kind as ItemKind, x: s.x, y: s.y, respawn: 0 });
@@ -131,13 +131,12 @@ export class ArenaWorld {
       }
     }
     for (let r = 0; r < this.grid.rooms.length; r++) if (this.grid.rooms[r] >= 0) this.revealedRooms.add(this.grid.rooms[r]);
-    this.players = [this.makePlayer(0, 'green', names[0], this.spawns[0]), this.makePlayer(1, 'blue', names[1], this.spawns[1])];
+    this.players = names.map((name, slot) => this.makePlayer(slot, name, this.spawns[slot]));
   }
 
-  private makePlayer(slot: Slot, team: Team, name: string, at: { x: number; y: number }): ArenaPlayer {
+  private makePlayer(slot: Slot, name: string, at: { x: number; y: number }): ArenaPlayer {
     const p: ArenaPlayer = {
       slot,
-      team,
       name,
       x: at.x,
       y: at.y,
@@ -207,7 +206,7 @@ export class ArenaWorld {
       time: this.time,
       status: this.status,
       winner: this.winner,
-      players: [state(this.players[0]), state(this.players[1])],
+      players: this.players.map(state),
       items: this.items.map((i) => i.respawn === 0),
       events,
     };
@@ -219,6 +218,7 @@ export class ArenaWorld {
     this.winner = snap.winner;
     snap.players.forEach((s, i) => {
       const p = this.players[i];
+      if (!p) return;
       Object.assign(p, {
         x: s.x,
         y: s.y,
@@ -250,11 +250,11 @@ export class ArenaWorld {
     return out;
   }
 
-  update(dt: number, inputs: [Input, Input]): void {
+  update(dt: number, inputs: readonly Input[]): void {
     if (this.status !== 'playing') return;
     this.time += dt;
     for (const item of this.items) if (item.respawn > 0) item.respawn = Math.max(0, item.respawn - dt);
-    for (const p of this.players) this.updatePlayer(p, dt, inputs[p.slot]);
+    for (const p of this.players) this.updatePlayer(p, dt, inputs[p.slot] ?? IDLE_INPUT);
   }
 
   private updatePlayer(p: ArenaPlayer, dt: number, input: Input): void {
@@ -293,9 +293,20 @@ export class ArenaWorld {
     if (input.fire && p.cooldown <= 0) this.fire(p);
   }
 
+  others(p: ArenaPlayer): ArenaPlayer[] {
+    return this.players.filter((o) => o !== p);
+  }
+
+  nearestOther(p: ArenaPlayer, x = p.x, y = p.y): ArenaPlayer | null {
+    const living = this.others(p).filter((o) => o.alive);
+    const pool = living.length > 0 ? living : this.others(p);
+    let best: ArenaPlayer | null = null;
+    for (const o of pool) if (!best || dist(x, y, o.x, o.y) < dist(x, y, best.x, best.y)) best = o;
+    return best;
+  }
+
   private pushOut(p: ArenaPlayer): void {
-    const other = this.players[p.slot === 0 ? 1 : 0];
-    const solids = [...this.posts, ...(other.alive ? [other] : [])];
+    const solids = [...this.posts, ...this.others(p).filter((o) => o.alive)];
     for (const o of solids) {
       const dx = p.x - o.x;
       const dy = p.y - o.y;
@@ -333,35 +344,44 @@ export class ArenaWorld {
     p.attackTime = 0.15;
     if (w.ammo) p.ammo[w.ammo]--;
     this.sound(w.sound, p.x, p.y);
-    const other = this.players[p.slot === 0 ? 1 : 0];
+    const targets = this.others(p).filter((o) => o.alive);
     if (w.ammo === null) {
-      const reach = dist(p.x, p.y, other.x, other.y) - other.r;
-      const ahead = Math.abs(angleDiff(Math.atan2(other.y - p.y, other.x - p.x), p.angle)) < MELEE_ARC;
-      if (other.alive && reach <= w.range && ahead && this.grid.lineOfSight(p.x, p.y, other.x, other.y)) {
-        this.effect('blood', other.x, other.y);
-        this.damage(other, this.rng.int(w.damage[0], w.damage[1]), p);
+      const reach = (o: ArenaPlayer): number => dist(p.x, p.y, o.x, o.y) - o.r;
+      const inReach = targets.filter(
+        (o) => reach(o) <= w.range && Math.abs(angleDiff(Math.atan2(o.y - p.y, o.x - p.x), p.angle)) < MELEE_ARC && this.grid.lineOfSight(p.x, p.y, o.x, o.y),
+      );
+      const victim = inReach.sort((a, b) => reach(a) - reach(b))[0];
+      if (victim) {
+        this.effect('blood', victim.x, victim.y);
+        this.damage(victim, this.rng.int(w.damage[0], w.damage[1]), p);
       }
       return;
     }
     p.flash = 0.06;
-    let total = 0;
+    const totals = new Map<ArenaPlayer, number>();
     for (let i = 0; i < w.pellets; i++) {
       const a = p.angle + this.rng.range(-w.spread, w.spread);
       const dx = Math.cos(a);
       const dy = Math.sin(a);
       const wall = this.grid.raycast(p.x, p.y, dx, dy, w.range);
-      const t = other.alive ? rayCircle(p.x, p.y, dx, dy, other.x, other.y, other.r) : -1;
-      const hit = t >= 0 && t < wall.dist;
-      const end = hit ? t : wall.dist;
+      let victim: ArenaPlayer | null = null;
+      let end = wall.dist;
+      for (const o of targets) {
+        const t = rayCircle(p.x, p.y, dx, dy, o.x, o.y, o.r);
+        if (t >= 0 && t < end) {
+          end = t;
+          victim = o;
+        }
+      }
       const ex = p.x + dx * end;
       const ey = p.y + dy * end;
       this.events.push({ type: 'tracer', x1: p.x + dx * 0.4, y1: p.y + dy * 0.4, x2: ex, y2: ey, slot: p.slot });
-      if (hit) {
-        total += this.rng.int(w.damage[0], w.damage[1]);
+      if (victim) {
+        totals.set(victim, (totals.get(victim) ?? 0) + this.rng.int(w.damage[0], w.damage[1]));
         this.effect('blood', ex, ey);
       } else if (wall.hit) this.effect('puff', ex, ey);
     }
-    if (total > 0) this.damage(other, total, p);
+    for (const [victim, total] of totals) this.damage(victim, total, p);
   }
 
   private damage(target: ArenaPlayer, amount: number, attacker: ArenaPlayer): void {
@@ -394,8 +414,11 @@ export class ArenaWorld {
   }
 
   private respawnPlayer(p: ArenaPlayer): void {
-    const other = this.players[p.slot === 0 ? 1 : 0];
-    const spot = [...this.spawns].sort((a, b) => dist(b.x, b.y, other.x, other.y) - dist(a.x, a.y, other.x, other.y))[0];
+    const room = (s: { x: number; y: number }): number => {
+      const near = this.nearestOther(p, s.x, s.y);
+      return near ? dist(s.x, s.y, near.x, near.y) : 0;
+    };
+    const spot = [...this.spawns].sort((a, b) => room(b) - room(a))[0];
     p.x = spot.x;
     p.y = spot.y;
     this.resetLoadout(p);

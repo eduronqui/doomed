@@ -12,6 +12,7 @@ Plans and design notes for multiplayer. The rules of the built versus mode are i
 | STUN (Cloudflare) and TURN relay with short-lived credentials per player | Built |
 | Limit of 20 rooms or joins per address in 10 minutes | Built |
 | Frag count on screen and respawn countdown | Built |
+| Player count in one place (`src/sim/players.ts`); the rules work for any number of players | Built |
 | [More players in versus (up to 4)](#more-players-in-versus-up-to-4) | Planned, next |
 | Client-side prediction and interpolation | Not built |
 | Co-op in the episode | Not built |
@@ -51,9 +52,9 @@ Goal: 3 or 4 players in one versus match, free-for-all, with the same host-autho
 
 ### Game rules (`src/sim/arena.ts`)
 
-- `Slot` grows from `0 | 1` to `0 | 1 | 2 | 3`. The name pair becomes a list of 2 to 4 names.
-- Hits, frags, pickups and respawns work against all other players instead of "the other player".
-- **Respawn point:** the start point farthest from the nearest living player.
+Done: `src/sim/players.ts` holds `MIN_PLAYERS`, `MAX_PLAYERS`, the slot check and the `TEAMS` table (color and sprite per slot). `ArenaWorld` takes a list of names. Shots hit the nearest player on the line, melee hits the nearest player in reach, and a respawn picks the start farthest from the nearest living player. Tests already play 3-player matches in the simulation. To allow 4 players, raise `MAX_PLAYERS` and add two `TEAMS` entries (and their outfits).
+
+Still to do:
 - **Leaving:** a player who leaves is removed from the snapshot. Their frags stay on the final score.
 - The frag limit stays 10. Open point: lower it to 8 for 4 players, if matches feel long.
 

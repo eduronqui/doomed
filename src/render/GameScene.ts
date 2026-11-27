@@ -299,7 +299,7 @@ export class GameScene extends Phaser.Scene {
     kb.enabled = false;
     kb.disableGlobalCapture();
     let link: PeerLink | null = null;
-    const start = (l: Link, role: Role, names: [string, string]): void => {
+    const start = (l: Link, role: Role, names: string[]): void => {
       kb.enabled = true;
       kb.enableGlobalCapture();
       this.deps.screens.hide();
@@ -333,7 +333,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private startLocalVersus(link: Link, role: 'host' | 'join'): void {
-    const go = (names: [string, string]): void => {
+    const go = (names: string[]): void => {
       this.scene.start('arena', { deps: this.deps, link, role: role === 'host' ? 'host' : 'guest', names });
     };
     if (role === 'host') hostHandshake(link, 'Host', go);

@@ -73,7 +73,8 @@ src/
     grid.ts           Tiles, doors and door groups, rooms, collision, raycasts
     pathfind.ts       A* path search (8 directions, no corner cutting)
     world.ts          The simulation: player, monster AI, combat, pickups, events
-    arena.ts          Versus simulation: two Marines, frags, respawns, item respawns, snapshots
+    arena.ts          Versus simulation: a list of Marines, frags, respawns, item respawns, snapshots
+    players.ts        Player count in one place: MIN_PLAYERS, MAX_PLAYERS, slots and the team colors and sprites
     rng.ts            Seeded random numbers
     types.ts          Small shared types and helpers
   characters/         Everything about each character, one name per character

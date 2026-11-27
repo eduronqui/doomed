@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ARENA } from '../levels/arena';
-import { ArenaWorld, type ArenaEvent, type ArenaPlayer, type Slot } from '../sim/arena';
+import { ArenaWorld, FRAG_LIMIT, type ArenaEvent, type ArenaPlayer } from '../sim/arena';
+import { HOST_SLOT, teamOf, type Slot } from '../sim/players';
 import { IDLE_INPUT, type Input } from '../sim/world';
 import { dist } from '../sim/types';
 import { encode, parseClientMessage, parseHostMessage } from '../net/protocol';
@@ -17,7 +18,7 @@ export interface ArenaInit {
   deps: GameDeps;
   link: Link;
   role: Role;
-  names: [string, string];
+  names: string[];
 }
 
 const SNAPSHOT_EVERY = 0.05;
@@ -26,7 +27,7 @@ const MAX_PENDING_EVENTS = 200;
 const RATE_WINDOW = 1;
 const RATE_SOFT = 120;
 const RATE_HARD = 600;
-const TEAM_COLOR = ['#30d030', '#4a9aff'] as const;
+const GUEST_SLOT: Slot = 1;
 const FX_FRAMES = 3;
 const FX_TIME = 0.065;
 
@@ -36,13 +37,21 @@ interface MarineView {
   muzzle: Phaser.GameObjects.Image;
 }
 
+export function scoreLine(players: readonly { name: string; frags: number }[]): string {
+  if (players.length === 2) return `${players[0].name} ${players[0].frags} : ${players[1].frags} ${players[1].name}`;
+  return [...players]
+    .sort((a, b) => b.frags - a.frags)
+    .map((p) => `${p.name} ${p.frags}`)
+    .join(', ');
+}
+
 export class ArenaScene extends Phaser.Scene {
   private deps!: GameDeps;
   private link!: Link;
   private role: Role = 'host';
-  private names: [string, string] = ['Marine', 'Marine'];
+  private names: string[] = [];
   private world!: ArenaWorld;
-  private local: Slot = 0;
+  private local: Slot = HOST_SLOT;
   private views: MarineView[] = [];
   private itemViews: Phaser.GameObjects.Image[] = [];
   private fx: { sprite: Phaser.GameObjects.Image; name: 'blood' | 'puff'; age: number }[] = [];
@@ -54,7 +63,8 @@ export class ArenaScene extends Phaser.Scene {
   private firing = false;
   private wheel = 0;
   private slotQueued: number | null = null;
-  private remoteInput: Input = IDLE_INPUT;
+  private remoteInputs: Input[] = [];
+  private outgoing: Input = IDLE_INPUT;
   private pending: ArenaEvent[] = [];
   private sendTimer = 0;
   private rate = { window: 0, count: 0 };
@@ -70,7 +80,7 @@ export class ArenaScene extends Phaser.Scene {
     this.link = data.link;
     this.role = data.role;
     this.names = data.names;
-    this.local = data.role === 'host' ? 0 : 1;
+    this.local = data.role === 'host' ? HOST_SLOT : GUEST_SLOT;
   }
 
   create(): void {
@@ -83,7 +93,8 @@ export class ArenaScene extends Phaser.Scene {
     this.pending = [];
     this.ended = false;
     this.menuOpen = false;
-    this.remoteInput = IDLE_INPUT;
+    this.remoteInputs = [];
+    this.outgoing = IDLE_INPUT;
 
     this.buildMap();
     for (const p of this.world.players) this.views.push(this.makeMarine(p));
@@ -103,7 +114,7 @@ export class ArenaScene extends Phaser.Scene {
     this.deps.hud.setTip(null, null);
     this.updateScore();
     this.deps.music.play(ARENA.music);
-    this.deps.hud.message(`${this.names[0]} (green) vs ${this.names[1]} (blue). First to 10 frags wins.`, 'info', 0);
+    this.deps.hud.message(`${this.names.map((n, slot) => `${n} (${teamOf(slot).id})`).join(' vs ')}. First to ${FRAG_LIMIT} frags wins.`, 'info', 0);
 
     if (import.meta.env.DEV) (window as unknown as { __arena: unknown }).__arena = { world: this.world, scene: this };
     this.link.onMessage = (raw) => (this.role === 'host' ? this.onClientMessage(raw) : this.onHostMessage(raw));
@@ -158,13 +169,13 @@ export class ArenaScene extends Phaser.Scene {
   }
 
   private makeMarine(p: ArenaPlayer): MarineView {
-    const sprite = this.add.image(p.x * TILE, (p.y + ACTOR_FOOT) * TILE, ATLAS, key.marine('pistol', 's', 0, p.team)).setOrigin(0.5, 30 / 32);
+    const sprite = this.add.image(p.x * TILE, (p.y + ACTOR_FOOT) * TILE, ATLAS, key.marine('pistol', 's', 0, teamOf(p.slot).id)).setOrigin(0.5, 30 / 32);
     const label = this.add
       .text(0, 0, p.name, {
         fontFamily: 'Verdana, Tahoma, sans-serif',
         fontSize: '9px',
         fontStyle: 'bold',
-        color: TEAM_COLOR[p.slot],
+        color: teamOf(p.slot).color,
         stroke: '#000000',
         strokeThickness: 2,
         resolution: 2,
@@ -230,11 +241,11 @@ export class ArenaScene extends Phaser.Scene {
       return;
     }
     if (this.rate.count > RATE_SOFT) return;
-    const guest = this.world.players[1];
+    const guest = this.world.players[GUEST_SLOT];
     const msg = parseClientMessage(raw, guest);
     if (msg?.t !== 'input') return;
-    const prev = this.remoteInput;
-    this.remoteInput = {
+    const prev = this.remoteInputs[GUEST_SLOT] ?? IDLE_INPUT;
+    this.remoteInputs[GUEST_SLOT] = {
       ...msg.input,
       weaponSlot: msg.input.weaponSlot ?? prev.weaponSlot,
       cycleWeapon: msg.input.cycleWeapon || prev.cycleWeapon,
@@ -242,7 +253,7 @@ export class ArenaScene extends Phaser.Scene {
   }
 
   private onHostMessage(raw: string): void {
-    const msg = parseHostMessage(raw, this.world.items.length);
+    const msg = parseHostMessage(raw, this.world.items.length, this.world.players.length);
     if (msg?.t !== 'snap') return;
     this.world.applySnapshot(msg.snap);
     for (const e of msg.snap.events) this.handleEvent(e);
@@ -280,8 +291,11 @@ export class ArenaScene extends Phaser.Scene {
     const own = this.readInput();
     this.sendTimer += dt;
     if (this.role === 'host') {
-      this.world.update(dt, [own, this.remoteInput]);
-      this.remoteInput = { ...this.remoteInput, weaponSlot: null, cycleWeapon: 0 };
+      this.world.update(
+        dt,
+        this.world.players.map((p) => (p.slot === this.local ? own : (this.remoteInputs[p.slot] ?? IDLE_INPUT))),
+      );
+      this.remoteInputs = this.remoteInputs.map((input) => ({ ...input, weaponSlot: null, cycleWeapon: 0 }));
       const events = this.world.drainEvents();
       for (const e of events) this.handleEvent(e);
       this.pending.push(...events);
@@ -292,15 +306,15 @@ export class ArenaScene extends Phaser.Scene {
         this.link.send(encode({ t: 'snap', snap: this.world.snapshot(batch) }));
       }
     } else {
-      this.remoteInput = {
+      this.outgoing = {
         ...own,
-        weaponSlot: own.weaponSlot ?? this.remoteInput.weaponSlot,
-        cycleWeapon: own.cycleWeapon || this.remoteInput.cycleWeapon,
+        weaponSlot: own.weaponSlot ?? this.outgoing.weaponSlot,
+        cycleWeapon: own.cycleWeapon || this.outgoing.cycleWeapon,
       };
       if (this.sendTimer >= INPUT_EVERY) {
         this.sendTimer = 0;
-        this.link.send(encode({ t: 'input', input: this.remoteInput }));
-        this.remoteInput = IDLE_INPUT;
+        this.link.send(encode({ t: 'input', input: this.outgoing }));
+        this.outgoing = IDLE_INPUT;
       }
     }
 
@@ -327,9 +341,9 @@ export class ArenaScene extends Phaser.Scene {
   }
 
   private updateScore(): void {
-    const [a, b] = this.world.players;
-    this.deps.hud.setTitle(`${a.name} ${a.frags} : ${b.frags} ${b.name}`);
-    this.deps.hud.setScore([a, b].map((p) => ({ name: p.name, frags: p.frags, color: TEAM_COLOR[p.slot] })));
+    const players = this.world.players;
+    this.deps.hud.setTitle(scoreLine(players));
+    this.deps.hud.setScore(players.map((p) => ({ name: p.name, frags: p.frags, color: teamOf(p.slot).color })));
     const me = this.world.players[this.local];
     this.deps.hud.setRespawn(!me.alive && !this.ended && this.world.status !== 'over' ? Math.max(1, Math.ceil(me.respawn)) : null);
   }
@@ -339,9 +353,8 @@ export class ArenaScene extends Phaser.Scene {
     this.deps.hud.setRespawn(null);
     this.deps.music.stop();
     const winner = this.world.winner === null ? null : this.world.players[this.world.winner];
-    const [a, b] = this.world.players;
     const title = winner ? `${winner.name.toUpperCase()} WINS` : 'MATCH OVER';
-    this.deps.screens.notice(title, `${a.name} ${a.frags} : ${b.frags} ${b.name}`, 'Back to title', () => {
+    this.deps.screens.notice(title, scoreLine(this.world.players), 'Back to title', () => {
       this.link.close();
       window.location.reload();
     });
@@ -376,14 +389,14 @@ export class ArenaScene extends Phaser.Scene {
     w.players.forEach((p, i) => {
       const v = this.views[i];
       if (!p.alive) {
-        v.sprite.setFrame(key.marineCorpse(p.team)).setOrigin(0.5, 0.7).setDepth(CORPSE_DEPTH + p.y);
+        v.sprite.setFrame(key.marineCorpse(teamOf(p.slot).id)).setOrigin(0.5, 0.7).setDepth(CORPSE_DEPTH + p.y);
         v.label.setVisible(false);
         v.muzzle.setVisible(false);
         return;
       }
       const frame = p.attackTime > 0 ? 3 : !p.moving ? 0 : Math.floor(p.walkTime / 0.16) % 2 === 0 ? 1 : 2;
       v.sprite
-        .setFrame(key.marine(p.weapon, p.dir, frame, p.team))
+        .setFrame(key.marine(p.weapon, p.dir, frame, teamOf(p.slot).id))
         .setOrigin(0.5, 30 / 32)
         .setPosition(p.x * TILE, (p.y + ACTOR_FOOT) * TILE)
         .setDepth((p.y + ACTOR_FOOT) * TILE)
@@ -419,9 +432,10 @@ export class ArenaScene extends Phaser.Scene {
       g.lineBetween(t.x1 * TILE, t.y1 * TILE - GUN_HEIGHT_PX, t.x2 * TILE, t.y2 * TILE - GUN_HEIGHT_PX);
     }
     const me = this.world.players[this.local];
-    const other = this.world.players[this.local === 0 ? 1 : 0];
     const lights: Light[] = [{ x: me.x, y: me.y, r: me.flash > 0 ? 7.5 : 5.2, a: 0.95, color: [255, 220, 160], glow: me.flash > 0 ? 0.25 : 0 }];
-    if (other.alive) lights.push({ x: other.x, y: other.y, r: other.flash > 0 ? 6 : 3, a: 0.8, color: [255, 220, 160], glow: other.flash > 0 ? 0.25 : 0 });
+    for (const other of this.world.others(me)) {
+      if (other.alive) lights.push({ x: other.x, y: other.y, r: other.flash > 0 ? 6 : 3, a: 0.8, color: [255, 220, 160], glow: other.flash > 0 ? 0.25 : 0 });
+    }
     lights.push(...this.staticLights);
     this.lighting.render(this.cameras.main.worldView, lights, this.world.time);
   }

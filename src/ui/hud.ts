@@ -198,7 +198,12 @@ export class Hud {
       frags.style.color = s.color;
       return nameFirst ? [name, frags] : [frags, name];
     };
-    this.scoreboard.replaceChildren(...part(sides[0], true), document.createTextNode(' : '), ...part(sides[1], false));
+    if (sides.length === 2) {
+      this.scoreboard.replaceChildren(...part(sides[0], true), document.createTextNode(' : '), ...part(sides[1], false));
+      return;
+    }
+    const ranked = [...sides].sort((a, b) => b.frags - a.frags);
+    this.scoreboard.replaceChildren(...ranked.flatMap((s, i) => [...(i > 0 ? [document.createTextNode('   ')] : []), ...part(s, true)]));
   }
 
   setRespawn(seconds: number | null): void {

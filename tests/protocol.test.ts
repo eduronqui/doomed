@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { MAX_PLAYERS, MIN_PLAYERS } from '../src/sim/players';
 import { DEFAULT_NAME, NAME_MAX, encode, isValidName, parseClientMessage, parseHostMessage, sanitizeName } from '../src/net/protocol';
 
 describe('player names', () => {
@@ -55,14 +56,14 @@ describe('host messages', () => {
     JSON.stringify({ t: 'snap', snap: { time: 1, status: 'playing', winner: null, players: [player, player], items: [true], events: [], ...over } });
 
   it('accepts a valid snapshot', () => {
-    expect(parseHostMessage(snap(), 1)?.t).toBe('snap');
+    expect(parseHostMessage(snap(), 1, 2)?.t).toBe('snap');
   });
 
   it('rejects a wrong item count, bad players or too many events', () => {
-    expect(parseHostMessage(snap({ items: [true, false] }), 1)).toBeNull();
-    expect(parseHostMessage(snap({ players: [player] }), 1)).toBeNull();
-    expect(parseHostMessage(snap({ players: [{ ...player, weapon: 'bfg' }, player] }), 1)).toBeNull();
-    expect(parseHostMessage(snap({ events: Array.from({ length: 201 }, () => ({ type: 'effect', effect: 'puff', x: 1, y: 1 })) }), 1)).toBeNull();
+    expect(parseHostMessage(snap({ items: [true, false] }), 1, 2)).toBeNull();
+    expect(parseHostMessage(snap({ players: [player] }), 1, 2)).toBeNull();
+    expect(parseHostMessage(snap({ players: [{ ...player, weapon: 'bfg' }, player] }), 1, 2)).toBeNull();
+    expect(parseHostMessage(snap({ events: Array.from({ length: 201 }, () => ({ type: 'effect', effect: 'puff', x: 1, y: 1 })) }), 1, 2)).toBeNull();
   });
 
   it('drops unknown events and cleans message text', () => {
@@ -71,7 +72,23 @@ describe('host messages', () => {
       { type: 'message', slot: null, text: 'hi\u0000‮there' },
       { type: 'script', code: 'alert(1)' },
     ];
-    const msg = parseHostMessage(snap({ events }), 1);
+    const msg = parseHostMessage(snap({ events }), 1, 2);
     expect(msg?.t === 'snap' && msg.snap.events).toEqual([{ type: 'message', slot: null, text: 'hithere' }]);
+  });
+
+  it('checks slots and player counts against the match size', () => {
+    const tracer = (slot: number) => ({ type: 'tracer', x1: 1, y1: 1, x2: 2, y2: 2, slot });
+    const msg = parseHostMessage(snap({ events: [tracer(1), tracer(2), tracer(-1), tracer(0.5)] }), 1, 2);
+    expect(msg?.t === 'snap' && msg.snap.events.map((e) => (e.type === 'tracer' ? e.slot : null))).toEqual([1]);
+    expect(parseHostMessage(snap({ winner: 2 }), 1, 2)).toBeNull();
+    expect(parseHostMessage(snap({ players: [player, player, player] }), 1, 2)).toBeNull();
+    expect(parseHostMessage(snap({ players: [player, player, player], winner: 2 }), 1, 3)?.t).toBe('snap');
+  });
+
+  it(`accepts a start message with ${MIN_PLAYERS} to ${MAX_PLAYERS} names only`, () => {
+    const start = (names: unknown[]) => parseHostMessage(JSON.stringify({ t: 'start', names }), 0, 0);
+    expect(start(['A', 'B'])).toEqual({ t: 'start', names: ['A', 'B'] });
+    expect(start(['A'])).toBeNull();
+    expect(start(Array.from({ length: MAX_PLAYERS + 1 }, (_, i) => `P${i}`))).toBeNull();
   });
 });

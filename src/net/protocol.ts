@@ -1,6 +1,7 @@
 import { WEAPON_ORDER, type WeaponId } from '../weapons';
 import type { SoundId } from '../sim/defs';
-import type { ArenaEvent, ArenaSnapshot, PlayerState, Slot } from '../sim/arena';
+import type { ArenaEvent, ArenaSnapshot, PlayerState } from '../sim/arena';
+import { MAX_PLAYERS, MIN_PLAYERS, isSlot } from '../sim/players';
 import type { Input } from '../sim/world';
 
 export const NAME_MAX = 12;
@@ -24,7 +25,7 @@ const SOUNDS: ReadonlySet<SoundId> = new Set<SoundId>([
 ]);
 
 export type ClientMessage = { t: 'hello'; name: string } | { t: 'input'; input: Input };
-export type HostMessage = { t: 'start'; names: [string, string] } | { t: 'snap'; snap: ArenaSnapshot };
+export type HostMessage = { t: 'start'; names: string[] } | { t: 'snap'; snap: ArenaSnapshot };
 
 function cleanName(raw: unknown): string {
   if (typeof raw !== 'string') return '';
@@ -54,7 +55,6 @@ function parseObject(raw: unknown, max: number): Record<string, unknown> | null 
 const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
 const isBool = (v: unknown): v is boolean => typeof v === 'boolean';
 const isWeapon = (v: unknown): v is WeaponId => typeof v === 'string' && (WEAPON_ORDER as readonly string[]).includes(v);
-const isSlot = (v: unknown): v is Slot => v === 0 || v === 1;
 const axis = (v: unknown): number => (v === -1 || v === 0 || v === 1 ? v : 0);
 
 export function encode(message: ClientMessage | HostMessage): string {
@@ -112,20 +112,20 @@ function parsePlayer(v: unknown): PlayerState | null {
   };
 }
 
-function parseEvent(v: unknown): ArenaEvent | null {
+function parseEvent(v: unknown, playerCount: number): ArenaEvent | null {
   if (typeof v !== 'object' || v === null) return null;
   const e = v as Record<string, unknown>;
   switch (e.type) {
     case 'sound':
       return typeof e.sound === 'string' && SOUNDS.has(e.sound as SoundId) && isNum(e.x) && isNum(e.y) ? { type: 'sound', sound: e.sound as SoundId, x: e.x, y: e.y } : null;
     case 'tracer':
-      return isNum(e.x1) && isNum(e.y1) && isNum(e.x2) && isNum(e.y2) && isSlot(e.slot) ? { type: 'tracer', x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, slot: e.slot } : null;
+      return isNum(e.x1) && isNum(e.y1) && isNum(e.x2) && isNum(e.y2) && isSlot(e.slot, playerCount) ? { type: 'tracer', x1: e.x1, y1: e.y1, x2: e.x2, y2: e.y2, slot: e.slot } : null;
     case 'damage':
-      return isNum(e.x) && isNum(e.y) && isNum(e.amount) && isSlot(e.slot) ? { type: 'damage', x: e.x, y: e.y, amount: Math.round(e.amount), slot: e.slot } : null;
+      return isNum(e.x) && isNum(e.y) && isNum(e.amount) && isSlot(e.slot, playerCount) ? { type: 'damage', x: e.x, y: e.y, amount: Math.round(e.amount), slot: e.slot } : null;
     case 'effect':
       return (e.effect === 'blood' || e.effect === 'puff') && isNum(e.x) && isNum(e.y) ? { type: 'effect', effect: e.effect, x: e.x, y: e.y } : null;
     case 'message':
-      return (e.slot === null || isSlot(e.slot)) && typeof e.text === 'string'
+      return (e.slot === null || isSlot(e.slot, playerCount)) && typeof e.text === 'string'
         ? { type: 'message', slot: e.slot, text: [...e.text.replace(/[\p{Cc}\p{Cf}]/gu, '')].slice(0, MESSAGE_TEXT_MAX).join('') }
         : null;
     default:
@@ -133,24 +133,24 @@ function parseEvent(v: unknown): ArenaEvent | null {
   }
 }
 
-export function parseHostMessage(raw: unknown, itemCount: number): HostMessage | null {
+export function parseHostMessage(raw: unknown, itemCount: number, playerCount: number): HostMessage | null {
   const m = parseObject(raw, HOST_MESSAGE_MAX);
   if (!m) return null;
   if (m.t === 'start') {
-    if (!Array.isArray(m.names) || m.names.length !== 2) return null;
-    return { t: 'start', names: [sanitizeName(m.names[0]), sanitizeName(m.names[1])] };
+    if (!Array.isArray(m.names) || m.names.length < MIN_PLAYERS || m.names.length > MAX_PLAYERS) return null;
+    return { t: 'start', names: m.names.map(sanitizeName) };
   }
   if (m.t !== 'snap' || typeof m.snap !== 'object' || m.snap === null) return null;
   const s = m.snap as Record<string, unknown>;
-  if (!isNum(s.time) || (s.status !== 'playing' && s.status !== 'over') || !(s.winner === null || isSlot(s.winner))) return null;
-  if (!Array.isArray(s.players) || s.players.length !== 2) return null;
+  if (!isNum(s.time) || (s.status !== 'playing' && s.status !== 'over') || !(s.winner === null || isSlot(s.winner, playerCount))) return null;
+  if (!Array.isArray(s.players) || s.players.length !== playerCount) return null;
   const players = s.players.map(parsePlayer);
   if (players.some((p) => p === null)) return null;
   if (!Array.isArray(s.items) || s.items.length !== itemCount || !s.items.every(isBool)) return null;
   if (!Array.isArray(s.events) || s.events.length > MAX_EVENTS) return null;
-  const events = s.events.map(parseEvent).filter((e): e is ArenaEvent => e !== null);
+  const events = s.events.map((e) => parseEvent(e, playerCount)).filter((e): e is ArenaEvent => e !== null);
   return {
     t: 'snap',
-    snap: { time: s.time, status: s.status, winner: s.winner, players: players as [PlayerState, PlayerState], items: s.items as boolean[], events },
+    snap: { time: s.time, status: s.status, winner: s.winner, players: players as PlayerState[], items: s.items as boolean[], events },
   };
 }

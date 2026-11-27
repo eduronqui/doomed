@@ -1,4 +1,5 @@
 import type Phaser from 'phaser';
+import { teamById, type TeamId } from '../sim/players';
 import imageUrl from '../assets/sprites.png?url';
 import dataUrl from '../assets/sprites.json?url';
 import type { DecoKind, ItemKind } from '../sim/defs';
@@ -26,8 +27,8 @@ export const key = {
   exit: (wall: 'tech' | 'stone', on: boolean): string => `exit_${wall}_${on ? 'on' : 'off'}`,
   switch: (wall: 'tech' | 'stone', on: boolean): string => `switch_${wall}_${on ? 'on' : 'off'}`,
   actor: (k: string, dir: string, frame: number): string => `actor_${k}_${dir}_${frame}`,
-  marine: (w: WeaponId, dir: string, frame: number, team: 'green' | 'blue' = 'green'): string => `actor_marine${team === 'blue' ? '-blue' : ''}-${w}_${dir}_${frame}`,
-  marineCorpse: (team: 'green' | 'blue'): string => (team === 'blue' ? 'corpse_marine-blue' : 'corpse_marine'),
+  marine: (w: WeaponId, dir: string, frame: number, team: TeamId = 'green'): string => `actor_${teamById(team).sprite}-${w}_${dir}_${frame}`,
+  marineCorpse: (team: TeamId): string => `corpse_${teamById(team).sprite}`,
   corpse: (k: CharacterKind): string => `corpse_${k}`,
   item: (k: ItemKind): string => `item_${k}`,
   deco: (k: DecoKind, frame: number): string => `deco_${k}_${frame}`,

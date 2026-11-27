@@ -1,5 +1,6 @@
 import type { CharacterArt } from './art';
 import { humanoid, humanoidCorpse, type Outfit } from './humanoid.art';
+import { teamById, type TeamId } from '../sim/players';
 
 const MARINE_OUTFIT: Outfit = {
   skin: 0xd8a47a,
@@ -26,12 +27,15 @@ const BLUE_OUTFIT: Outfit = {
   pad: 0x6a92d0,
 };
 
-export const MARINE_BLUE_ART: CharacterArt = {
-  frame: (dir, frame, held = 'pistol') => humanoid({ ...BLUE_OUTFIT, weapon: held }, dir, frame, 'marine-blue'),
-  corpse: () => humanoidCorpse('marine-blue', BLUE_OUTFIT.body, BLUE_OUTFIT.skin, (q) => q.rect(14, 16, 9, 2, 0x2c2e33)),
-};
+const TEAM_OUTFITS: Record<TeamId, Outfit> = { green: MARINE_OUTFIT, blue: BLUE_OUTFIT };
 
-export const MARINE_ART: CharacterArt = {
-  frame: (dir, frame, held = 'pistol') => humanoid({ ...MARINE_OUTFIT, weapon: held }, dir, frame, 'marine'),
-  corpse: () => humanoidCorpse('marine', MARINE_OUTFIT.body, MARINE_OUTFIT.skin, (q) => q.rect(14, 16, 9, 2, 0x2c2e33)),
-};
+export function marineArt(team: TeamId): CharacterArt {
+  const outfit = TEAM_OUTFITS[team];
+  const name = teamById(team).sprite;
+  return {
+    frame: (dir, frame, held = 'pistol') => humanoid({ ...outfit, weapon: held }, dir, frame, name),
+    corpse: () => humanoidCorpse(name, outfit.body, outfit.skin, (q) => q.rect(14, 16, 9, 2, 0x2c2e33)),
+  };
+}
+
+export const MARINE_ART: CharacterArt = marineArt('green');
